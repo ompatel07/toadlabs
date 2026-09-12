@@ -248,43 +248,46 @@
   }
 
   /* ---------------------------------------------------------------------
-     MOTION CONTROL
+     MOTION POLICY
 
-     Animations are declared unconditionally and switched off here, rather
-     than each one being wrapped in a no-preference query. That gives one
-     place to reason about, and makes a user override possible:
+     "Reduce motion" does not mean "no animation". WCAG 2.3.3 and the OS
+     setting are about motion that can trigger a vestibular response — large
+     translations, parallax, continuous autoplay, spinning. Opacity fades,
+     colour changes and small nudges are not that, and stripping them makes a
+     site feel broken rather than considered.
 
-       data-motion="on"   force motion on, even if the OS says reduce
-       data-motion="off"  force motion off
-       (absent)           follow the OS setting
+     So there are two tiers:
 
-     The override exists because "reduce" is often set OS-wide and forgotten,
-     and a visitor should be able to opt back in for one site. The OS setting
-     is still the default — we never silently ignore it.
+       TIER 1  always runs — opacity, colour, and transforms under ~10px
+       TIER 2  gated       — autoplay loops, parallax, drift, large scroll
+                             transforms, skew, scale
+
+     Tier 2 effects opt in by adding `motion-rich`. Everything else keeps
+     working for everyone, which is why there is no longer a toggle: the
+     default is already the full experience for anyone who has not asked their
+     OS to calm things down.
      --------------------------------------------------------------------- */
   @media (prefers-reduced-motion: reduce) {
-    html:not([data-motion="on"]) {
+    html {
       scroll-behavior: auto;
     }
-    html:not([data-motion="on"]) *,
-    html:not([data-motion="on"]) *::before,
-    html:not([data-motion="on"]) *::after {
-      /* `animation: none`, not a zeroed duration: a view-timeline animation
-         ignores duration, so zeroing it would leave scroll-driven reveals
-         stuck at opacity 0 and hide the page. */
-      animation: none !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
 
-  html[data-motion="off"] {
-    scroll-behavior: auto;
-  }
-  html[data-motion="off"] *,
-  html[data-motion="off"] *::before,
-  html[data-motion="off"] *::after {
-    animation: none !important;
-    transition-duration: 0.01ms !important;
+    /* Tier 2 only. */
+    .motion-rich,
+    .motion-rich::before,
+    .motion-rich::after {
+      animation: none !important;
+      transform: none !important;
+      transition: none !important;
+    }
+
+    /* Long transitions get shortened rather than removed, so state changes
+       still read as changes. */
+    *,
+    *::before,
+    *::after {
+      transition-duration: min(var(--tw-duration, 200ms), 200ms);
+    }
   }
 }
 
@@ -724,6 +727,52 @@
     opacity: 1;
   }
 
+  /* --- Liquid button fill -------------------------------------------------
+     The fill sweeps up from the bottom on hover instead of the colour simply
+     swapping. Painted by a pseudo-element that scales on the Y axis, so it is
+     a composited transform rather than a repaint, and the label sits above it
+     on its own layer. */
+  .btn-liquid {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .btn-liquid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-liquid:hover::before,
+  .btn-liquid:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  /* Ink button fills lime; lime button fills ink. Each keeps a text colour
+     that clears 4.5:1 against the colour arriving underneath it. */
+  .btn-liquid-ink::before {
+    background: var(--lime);
+  }
+
+  .btn-liquid-ink:hover,
+  .btn-liquid-ink:focus-visible {
+    color: var(--ink);
+  }
+
+  .btn-liquid-lime::before {
+    background: var(--ink);
+  }
+
+  .btn-liquid-lime:hover,
+  .btn-liquid-lime:focus-visible {
+    color: #ffffff;
+  }
+
   /* --- Sticky stacking cards ----------------------------------------------
      Each card sticks a little lower than the one before, so they pile up as
      you scroll and the earlier ones stay visible as a deck edge rather than
@@ -1146,32 +1195,45 @@
 }
 
 @layer utilities {
-  /* Looping animations must be stopped outright rather than sped up: the
-     global switch sets animation-duration to ~0, which would snap a marquee
-     straight to its end position instead of holding it still. */
+  /* Tier 2: continuous loops and large transforms. These are the ones that can
+     trigger a vestibular response, so they are the ones the OS setting stops.
+     Listed explicitly rather than blanket-disabled, because zeroing a
+     duration would snap a marquee to its end position instead of holding it
+     still. */
   @media (prefers-reduced-motion: reduce) {
-    html:not([data-motion="on"]) :is(
-        .animate-marquee,
-        .animate-marquee-reverse,
-        .animate-drift,
-        .animate-drift-slow,
-        .animate-hero-float
-      ),
-    html:not([data-motion="on"]) .hero-glow::before {
+    .animate-marquee,
+    .animate-marquee-reverse,
+    .animate-drift,
+    .animate-drift-slow,
+    .animate-hero-float,
+    .aurora-blob,
+    .velocity-skew,
+    .hero-glow::before,
+    .slab-bloom::after {
+      animation: none !important;
+      transform: none !important;
+    }
+
+    /* Split text and card stacking keep their fade but drop the movement, so
+       the reveal still reads without anything sliding across the screen. */
+    .split-char {
+      animation-name: split-fade !important;
+    }
+
+    .stack-item > * {
       animation: none !important;
       transform: none !important;
     }
   }
 
-  html[data-motion="off"] :is(
-      .animate-marquee,
-      .animate-marquee-reverse,
-      .animate-drift,
-      .animate-drift-slow,
-      .animate-hero-float
-    ),
-  html[data-motion="off"] .hero-glow::before {
-    animation: none !important;
-    transform: none !important;
+  /* Opacity-only variant of the split reveal. */
+  @keyframes split-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 }
+

@@ -15,9 +15,9 @@ const actionVariants = cva(
     variants: {
       variant: {
         /** Solid black pill. The default call to action. */
-        primary: "bg-ink text-white hover:bg-[#242720]",
+        primary: "btn-liquid btn-liquid-ink bg-ink text-white",
         /** Lime pill with ink text — the highlight action. */
-        lime: "bg-lime text-ink hover:bg-[#d3f95c]",
+        lime: "btn-liquid btn-liquid-lime bg-lime text-ink",
         /** Quiet pill on the canvas. */
         ghost:
           "border border-[rgba(11,12,10,0.14)] bg-transparent text-ink hover:border-[rgba(11,12,10,0.3)] hover:bg-white/60",

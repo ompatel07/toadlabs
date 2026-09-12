@@ -7,7 +7,6 @@ import { Menu, X } from "lucide-react";
 import { mainNav, siteConfig } from "@/config/site";
 import { Wordmark } from "@/components/brand/wordmark";
 import { ActionLink } from "@/components/ui-brand/action";
-import { MotionToggle } from "@/components/ui-brand/motion-toggle";
 import { cn } from "@/lib/utils";
 
 /** Floating glass pill that sticks to the top of the viewport. */
@@ -70,7 +69,6 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-1.5">
-            <MotionToggle />
             <ActionLink
               href="/contact"
               size="sm"

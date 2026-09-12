@@ -4,6 +4,7 @@ import { hero } from "@/config/home";
 import { siteConfig } from "@/config/site";
 import { WavyWordmark } from "@/components/brand/wavy-wordmark";
 import { HeroObjectInteractive } from "@/components/brand/hero-object-interactive";
+import { ParticleNetwork } from "@/components/brand/particle-network";
 import { cn } from "@/lib/utils";
 
 /**
@@ -58,8 +59,12 @@ function HeroCard({
 export function Hero() {
   return (
     <section className="bg-grid relative flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-x-clip pb-6 md:h-[calc(100svh-var(--header-h))] md:min-h-0">
+      {/* Node network behind the composition. A network graph is the right
+          motif for a studio that builds and tests systems — and it responds to
+          the pointer, so the hero is something you can push around. */}
+      <ParticleNetwork className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
       {/* Meta row */}
-      <div className="container-tl flex shrink-0 items-start justify-between gap-4 pt-3">
+      <div className="container-tl relative z-10 flex shrink-0 items-start justify-between gap-4 pt-3">
         <span className="glass-pill text-ink inline-flex items-center gap-2 px-3.5 py-2 t-xs font-medium">
           <span
             aria-hidden="true"
@@ -73,7 +78,7 @@ export function Hero() {
       </div>
 
       {/* Stage */}
-      <div className="relative flex min-h-0 flex-1 flex-col items-center md:block">
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center md:block">
         {/* Layer 1: wordmark, pinned to the top of the stage. */}
         <h1 className="mt-2 w-[92vw] md:absolute md:top-0 md:left-1/2 md:mt-0 md:-translate-x-1/2">
           <span className="sr-only">Toad Labs</span>
@@ -111,7 +116,7 @@ export function Hero() {
       </div>
 
       {/* Closing row */}
-      <div className="container-tl mt-6 flex shrink-0 flex-col gap-4 sm:flex-row sm:items-end sm:justify-between md:mt-4">
+      <div className="container-tl relative z-10 mt-6 flex shrink-0 flex-col gap-4 sm:flex-row sm:items-end sm:justify-between md:mt-4">
         <div className="max-w-xl">
           <p className="font-display text-ink type-h2 leading-[1.2] font-semibold text-balance">
             {hero.statement}
