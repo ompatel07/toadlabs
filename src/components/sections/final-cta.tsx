@@ -2,6 +2,7 @@ import { ArrowRight, MessageCircle } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/config/site";
 import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
+import { Magnetic } from "@/components/ui-brand/magnetic";
 
 interface FinalCtaProps {
   title?: string;
@@ -42,10 +43,12 @@ export function FinalCta({
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <ActionLink href="/contact" variant="lime" size="lg">
-                  {primaryLabel}
-                  <ArrowRight className="size-4" aria-hidden="true" />
-                </ActionLink>
+                <Magnetic>
+                  <ActionLink href="/contact" variant="lime" size="lg">
+                    {primaryLabel}
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </ActionLink>
+                </Magnetic>
 
                 <a
                   href={whatsappUrl}

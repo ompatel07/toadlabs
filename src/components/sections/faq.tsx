@@ -1,7 +1,9 @@
 "use client";
 
+import { MessageCircleQuestion } from "lucide-react";
 import { faqs } from "@/config/home";
-import { Section, SectionHeading } from "@/components/layout/section";
+import { Section } from "@/components/layout/section";
+import { ActionLink } from "@/components/ui-brand/action";
 import {
   Accordion,
   AccordionContent,
@@ -11,13 +13,29 @@ import {
 
 export function Faq() {
   return (
-    <Section>
-      <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
-        <SectionHeading
-          eyebrow="FAQ"
-          title="Questions we get asked"
-          description="If yours is not here, ask it on the call — we would rather answer it before you sign anything."
-        />
+    <Section className="relative overflow-hidden">
+      <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr] lg:gap-14">
+        {/* Sticky coral panel — the page's warm counterweight to all the
+            greens, and it keeps the CTA in view while the list is read. */}
+        <div className="bg-coral text-ink flex h-fit flex-col gap-5 rounded-[2rem] p-8 lg:sticky lg:top-28">
+          <span className="bg-ink/10 inline-flex size-12 items-center justify-center rounded-2xl">
+            <MessageCircleQuestion
+              className="size-6"
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+          </span>
+          <h2 className="font-display text-[1.75rem] leading-[1.05] font-bold tracking-[-0.03em] md:text-[2.25rem]">
+            Questions we get asked
+          </h2>
+          <p className="text-ink/80 text-[0.9375rem]">
+            If yours is not here, ask it on the call — we would rather answer it
+            before you sign anything.
+          </p>
+          <ActionLink href="/contact" variant="primary" className="mt-1 w-fit">
+            Ask us directly
+          </ActionLink>
+        </div>
 
         <Accordion
           multiple={false}

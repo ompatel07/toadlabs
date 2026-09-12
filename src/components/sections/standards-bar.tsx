@@ -1,49 +1,64 @@
 import { standards } from "@/config/trust";
-import { Reveal } from "@/components/motion/reveal";
 
 /**
- * The standards our work is measured against.
+ * The standards our work is measured against — as a deep teal band.
  *
  * This is the honest substitute for a client-logo wall. Every entry is a public
  * methodology anyone can look up, and the framing is "we test against", never
- * "accredited by" — naming a standard describes our process; showing its logo
- * would imply an endorsement we do not have.
+ * "accredited by": naming a standard describes our process, whereas showing its
+ * logo would imply an endorsement we do not have.
+ *
+ * White on teal is 9.39:1; lime on teal is 7.24:1.
  */
 export function StandardsBar() {
   return (
-    <section className="relative overflow-hidden border-y border-[rgba(11,12,10,0.1)] bg-white/50">
-      <div className="blob-accent -top-40 left-[8%] h-80 w-80" aria-hidden="true" />
+    <section className="section-dense relative">
+      <div className="container-tl">
+        <div className="bg-teal on-dark relative overflow-hidden rounded-[2rem] p-8 text-white md:p-12 lg:p-14">
+          {/* Bioluminescent bloom. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-32 -bottom-40 size-[460px] rounded-full opacity-50 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(69,224,208,0.45) 0%, rgba(199,242,60,0.18) 45%, rgba(14,79,74,0) 72%)",
+            }}
+          />
 
-      <div className="container-tl relative py-14">
-        <div className="flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between">
-          <h2 className="font-display text-ink text-[1.375rem] font-bold tracking-[-0.03em] md:text-[1.75rem]">
-            We test against published standards
-          </h2>
-          <p className="text-ink-soft max-w-md text-[0.9375rem]">
-            So coverage is something you can check, not something you have to
-            take on trust.
-          </p>
-        </div>
+          <div className="relative flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="label-mono text-cyan">Methodology</p>
+              <h2 className="font-display mt-3 max-w-xl text-[1.625rem] font-bold tracking-[-0.03em] md:text-[2.25rem]">
+                We test against published standards
+              </h2>
+            </div>
+            <p className="max-w-sm text-[0.9375rem] text-white/70">
+              So coverage is something you can check, rather than something you
+              have to take on trust.
+            </p>
+          </div>
 
-        <ul className="mt-8 grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-          {standards.map((standard, index) => (
-            <Reveal as="li" key={standard.name} index={index}>
-              <div className="border-t border-[rgba(11,12,10,0.14)] pt-3">
-                <p className="font-display text-ink text-[0.9375rem] font-bold tracking-[-0.02em]">
+          <ul className="relative mt-10 grid gap-x-6 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+            {standards.map((standard) => (
+              <li
+                key={standard.name}
+                className="border-t border-white/25 pt-3.5"
+              >
+                <p className="font-display text-lime text-[0.9375rem] font-bold tracking-[-0.02em]">
                   {standard.name}
                 </p>
-                <p className="text-ink-soft mt-1 text-[0.8125rem] leading-snug">
+                <p className="mt-1 text-[0.8125rem] leading-snug text-white/65">
                   {standard.scope}
                 </p>
-              </div>
-            </Reveal>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
 
-        <p className="text-ink-soft mt-8 text-[0.8125rem]">
-          Named methodologies describe how we work. They are not certifications,
-          and we do not claim accreditation we do not hold.
-        </p>
+          <p className="relative mt-9 text-[0.8125rem] text-white/55">
+            Named methodologies describe how we work. They are not
+            certifications, and we do not claim accreditation we do not hold.
+          </p>
+        </div>
       </div>
     </section>
   );

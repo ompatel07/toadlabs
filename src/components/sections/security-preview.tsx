@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { securityServices } from "@/config/security";
 import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
+import { DecodeText } from "@/components/brand/decode-text";
 
 /**
  * Cybersecurity capability band for the home page.
@@ -29,10 +30,13 @@ export function SecurityPreview() {
             <div className="relative grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
               <div className="flex flex-col gap-5">
                 <p className="label-mono text-lime">Cybersecurity</p>
+                {/* The heading resolves from scrambled glyphs on scroll — the
+                    idea of decoding, without reaching for matrix rain. The
+                    accessible copy never scrambles. */}
                 <h2 className="text-h2 text-white">
-                  We break what we build.
+                  <DecodeText text="We break what we build." />
                   <br />
-                  And what you built.
+                  <DecodeText text="And what you built." duration={1100} />
                 </h2>
                 <p className="text-[1.0625rem] text-white/70">
                   Offensive testing run by the same engineers who ship

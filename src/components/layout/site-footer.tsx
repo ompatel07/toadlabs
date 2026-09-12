@@ -69,7 +69,18 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="text-ink-soft mt-14 flex flex-col gap-2 border-t border-[rgba(11,12,10,0.1)] pt-8 text-sm sm:flex-row sm:items-center sm:justify-between">
+        {/* Oversized wordmark sign-off in the hero's display face. Clipped at
+            the baseline so it reads as a printed edge rather than a heading. */}
+        <div
+          aria-hidden="true"
+          className="mt-16 -mb-4 overflow-hidden md:mt-20 md:-mb-8"
+        >
+          <p className="numeral text-ink/8 text-center text-[clamp(3.5rem,15vw,13rem)] leading-[0.8] whitespace-nowrap select-none">
+            TOAD LABS.
+          </p>
+        </div>
+
+        <div className="text-ink-soft mt-10 flex flex-col gap-2 border-t border-[rgba(11,12,10,0.1)] pt-8 text-sm sm:flex-row sm:items-center sm:justify-between">
           <p>
             &copy; {year} {siteConfig.name}. All rights reserved.
           </p>

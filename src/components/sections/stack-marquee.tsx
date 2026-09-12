@@ -7,12 +7,12 @@ import { techStack } from "@/config/home";
 import { cn } from "@/lib/utils";
 
 /**
- * Tech stack marquee.
+ * Tech stack marquee — an angled lime band across the page.
  *
- *  - the real list is in the DOM once and read normally; the visual duplicate
- *    is aria-hidden so nothing is announced twice
- *  - CSS pauses the loop on hover and focus-within
- *  - an explicit control satisfies WCAG 2.2.2 — hover alone does not
+ * Accessibility, unchanged from the plainer version:
+ *  - the real list is in the DOM once; the visual duplicate is aria-hidden
+ *  - CSS pauses on hover and focus-within
+ *  - an explicit control satisfies WCAG 2.2.2; hover alone does not
  *  - under reduced motion it renders static and the control is withdrawn
  */
 export function StackMarquee() {
@@ -20,14 +20,15 @@ export function StackMarquee() {
   const [paused, setPaused] = useState(false);
 
   const isAnimated = !reduceMotion;
-  const isRunning = isAnimated && !paused;
 
   return (
+    // overflow-x-clip is load-bearing: the band is rotated and over-scaled, so
+    // its bounding box is wider than the viewport even though it looks correct.
     <section
       aria-labelledby="stack-heading"
-      className="section-dense overflow-hidden"
+      className="relative overflow-x-clip py-16 md:py-24"
     >
-      <div className="container-tl mb-7 flex items-center justify-between gap-4">
+      <div className="container-tl mb-6 flex items-center justify-between gap-4">
         <h2 id="stack-heading" className="label-mono text-ink-soft">
           What we build with
         </h2>
@@ -59,42 +60,43 @@ export function StackMarquee() {
           </ul>
         </div>
       ) : (
-        <div className="marquee-viewport relative flex overflow-hidden">
-          <ul
-            className={cn(
-              "animate-marquee flex shrink-0 gap-2 pr-2",
-              paused && "[animation-play-state:paused]",
-            )}
-          >
-            {techStack.map((item) => (
-              <StackChip key={item} label={item} />
-            ))}
-          </ul>
-          <ul
-            aria-hidden="true"
-            className={cn(
-              "animate-marquee flex shrink-0 gap-2 pr-2",
-              paused && "[animation-play-state:paused]",
-            )}
-          >
-            {techStack.map((item) => (
-              <StackChip key={`${item}-duplicate`} label={item} />
-            ))}
-          </ul>
+        // The band is rotated and over-scaled so its edges run off screen
+        // rather than showing a cut corner.
+        <div className="marquee-band bg-lime border-y-2 border-[rgba(11,12,10,0.9)] py-4">
+          <div className="marquee-viewport relative flex overflow-hidden">
+            <ul
+              className={cn(
+                "animate-marquee flex shrink-0 items-center gap-8 pr-8",
+                paused && "[animation-play-state:paused]",
+              )}
+            >
+              {techStack.map((item) => (
+                <StackChip key={item} label={item} />
+              ))}
+            </ul>
+            <ul
+              aria-hidden="true"
+              className={cn(
+                "animate-marquee flex shrink-0 items-center gap-8 pr-8",
+                paused && "[animation-play-state:paused]",
+              )}
+            >
+              {techStack.map((item) => (
+                <StackChip key={`${item}-duplicate`} label={item} />
+              ))}
+            </ul>
+          </div>
         </div>
       )}
-
-      <span className="sr-only" role="status">
-        {isRunning ? "Stack list scrolling" : "Stack list paused"}
-      </span>
     </section>
   );
 }
 
 function StackChip({ label }: { label: string }) {
   return (
-    <li className="text-ink label-mono shrink-0 rounded-full border border-[rgba(11,12,10,0.12)] bg-white/60 px-4 py-2.5 whitespace-nowrap">
+    <li className="font-display text-ink flex shrink-0 items-center gap-8 text-[1.125rem] font-bold tracking-[-0.02em] whitespace-nowrap md:text-[1.375rem]">
       {label}
+      <span aria-hidden="true" className="bg-ink/40 inline-block size-1.5 rounded-full" />
     </li>
   );
 }

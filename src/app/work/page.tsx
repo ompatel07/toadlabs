@@ -59,7 +59,7 @@ export default function WorkPage() {
         <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {caseStudies.map((study, index) => (
             <Reveal as="li" key={study.slug} index={index}>
-              <WorkCard study={study} />
+              <WorkCard study={study} index={index} />
             </Reveal>
           ))}
         </ul>

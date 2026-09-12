@@ -1,39 +1,53 @@
 import { trustStrip } from "@/config/home";
-import { Reveal } from "@/components/motion/reveal";
+import { tones, type ToneName } from "@/lib/tones";
+import { cn } from "@/lib/utils";
 
 /**
- * Capability statements rather than client logos or metrics — we have no real
- * ones, and inventing them is off the table. Set as a quiet ruled row so it
- * reads as substance, not as a badge wall.
+ * Capability statements as colour blocks.
+ *
+ * Still capability claims rather than logos or metrics — but rendered as a
+ * four-up colour band, which is what turns the site's most boilerplate-prone
+ * section into the one that sets the palette for the whole page.
  */
+const TONES: ToneName[] = ["lime", "teal", "cyan", "amber"];
+
 export function TrustStrip() {
   return (
-    <section className="section-dense">
+    <section className="section-dense relative">
       <div className="container-tl">
         <h2 className="sr-only">How we work</h2>
-        <ul className="border-t border-[rgba(11,12,10,0.1)] md:grid md:grid-cols-4">
-          {trustStrip.map((item, index) => (
-            <Reveal
-              as="li"
-              key={item.title}
-              index={index}
-              className="border-b border-[rgba(11,12,10,0.1)] md:border-b-0 md:not-last:border-r md:not-last:border-[rgba(11,12,10,0.1)]"
-            >
-              <div className="flex flex-col gap-2 py-6 md:px-6 md:first:pl-0 md:last:pr-0">
-                <item.icon
-                  className="text-ink size-[18px]"
-                  strokeWidth={1.75}
-                  aria-hidden="true"
-                />
-                <h3 className="font-display text-ink mt-1 text-[0.9375rem] font-semibold tracking-[-0.02em]">
-                  {item.title}
-                </h3>
-                <p className="text-ink-soft text-[0.875rem] leading-snug">
-                  {item.description}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {trustStrip.map((item, index) => {
+            const tone = tones[TONES[index % TONES.length]];
+            return (
+              <li key={item.title} className="rise">
+                <div
+                  className={cn(
+                    "group flex h-full flex-col gap-3 rounded-3xl p-6 transition-transform duration-300 ease-out hover:-translate-y-1.5",
+                    tone.bg,
+                    tone.text,
+                    tone.dark && "on-dark",
+                  )}
+                >
+                  <span
+                    className={cn(
+                      "inline-flex size-10 items-center justify-center rounded-xl transition-transform duration-300 ease-out group-hover:rotate-6",
+                      tone.chip,
+                    )}
+                  >
+                    <item.icon className="size-[18px]" strokeWidth={2} aria-hidden="true" />
+                  </span>
+                  <h3 className="font-display text-[1rem] font-bold tracking-[-0.02em]">
+                    {item.title}
+                  </h3>
+                  <p className={cn("text-[0.875rem] leading-snug", tone.muted)}>
+                    {item.description}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>
