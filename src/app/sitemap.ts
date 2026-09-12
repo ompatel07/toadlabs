@@ -11,7 +11,7 @@ export const dynamic = "force-static";
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
-  const routes = ["", "/services", "/cybersecurity", "/work", "/about", "/contact"];
+  const routes = ["", "/services", "/cybersecurity", "/work", "/about", "/contact", "/security"];
 
   const pages = routes.map((route) => ({
     url: `${siteConfig.siteUrl}${route}`,

@@ -1,0 +1,18 @@
+# Toad Labs — vulnerability disclosure
+#
+# RFC 9116 (https://www.rfc-editor.org/rfc/rfc9116.html)
+#
+# If you have found a security issue in a Toad Labs property, tell us and we
+# will work the report properly. We will not pursue legal action against
+# researchers acting in good faith under the policy linked below.
+#
+# NOTE FOR MAINTAINERS
+# The Contact address below must match siteConfig.email in src/config/site.ts.
+# Expires must stay in the future — RFC 9116 requires it, and an expired file
+# is treated as stale. Review it at least annually.
+
+Contact: mailto:hello@toadlabs.in
+Expires: 2027-09-12T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://toadlabs.in/.well-known/security.txt
+Policy: https://toadlabs.in/security

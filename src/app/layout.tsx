@@ -91,6 +91,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+        {/* Scroll progress. Decorative and CSS-driven, so it is hidden from
+            assistive tech and costs no scroll listener. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px]"
+        >
+          <div className="scroll-progress bg-lime h-full w-full" />
+        </div>
+
         <SiteHeader />
         <main id="main" className="flex-1">
           {children}

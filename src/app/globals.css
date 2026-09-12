@@ -558,6 +558,50 @@
     transform-origin: center;
   }
 
+  /* --- Scroll progress -----------------------------------------------
+     A lime rule across the top that fills as the document scrolls. Driven by
+     a scroll timeline, so there is no scroll listener and nothing to throttle;
+     where scroll timelines are unsupported the bar simply never appears. */
+  @supports (animation-timeline: scroll()) {
+    .scroll-progress {
+      transform-origin: 0 50%;
+      animation: progress-grow linear both;
+      animation-timeline: scroll(root block);
+    }
+
+    @keyframes progress-grow {
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  /* --- Cursor spotlight ------------------------------------------------
+     A soft light that follows the pointer across a dark panel. Coordinates
+     come from JS, but the paint is a plain radial gradient, so the work per
+     frame is a single composited layer. */
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+    background: radial-gradient(
+      380px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(199, 242, 60, 0.16),
+      transparent 70%
+    );
+  }
+
+  .spotlight:hover::before {
+    opacity: 1;
+  }
+
   /* Soft lime blob used as a section background accent. Carries the hero's
      glow motif through the rest of the page without adding any images. */
   .blob-accent {

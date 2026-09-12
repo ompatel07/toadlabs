@@ -3,6 +3,7 @@ import { siteConfig, whatsappUrl } from "@/config/site";
 import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/ui-brand/magnetic";
+import { Spotlight } from "@/components/ui-brand/spotlight";
 
 interface FinalCtaProps {
   title?: string;
@@ -23,7 +24,7 @@ export function FinalCta({
     <section className="section">
       <div className="container-tl">
         <Reveal>
-          <div className="slab-dark on-dark relative overflow-hidden p-10 md:p-16 lg:p-20">
+          <Spotlight className="slab-dark on-dark relative overflow-hidden p-10 md:p-16 lg:p-20">
             {/* Soft lime bloom in the corner — decorative only. */}
             <div
               aria-hidden="true"
@@ -66,7 +67,7 @@ export function FinalCta({
                 {siteConfig.location.full}
               </p>
             </div>
-          </div>
+          </Spotlight>
         </Reveal>
       </div>
     </section>

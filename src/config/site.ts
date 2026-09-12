@@ -82,6 +82,7 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "About", href: "/about" },
       { label: "Work", href: "/work" },
       { label: "Contact", href: "/contact" },
+      { label: "Security & disclosure", href: "/security" },
     ],
   },
 ];

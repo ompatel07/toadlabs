@@ -3,6 +3,7 @@ import { securityServices } from "@/config/security";
 import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
 import { DecodeText } from "@/components/brand/decode-text";
+import { Spotlight } from "@/components/ui-brand/spotlight";
 
 /**
  * Cybersecurity capability band for the home page.
@@ -16,7 +17,7 @@ export function SecurityPreview() {
     <section className="section">
       <div className="container-tl">
         <Reveal>
-          <div className="slab-dark on-dark relative overflow-hidden p-8 md:p-14 lg:p-16">
+          <Spotlight className="slab-dark on-dark relative overflow-hidden p-8 md:p-14 lg:p-16">
             {/* Decorative lime bloom. */}
             <div
               aria-hidden="true"
@@ -72,7 +73,7 @@ export function SecurityPreview() {
                 ))}
               </ul>
             </div>
-          </div>
+          </Spotlight>
         </Reveal>
       </div>
     </section>
