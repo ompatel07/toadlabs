@@ -16,7 +16,7 @@ export function Manifesto() {
     <section className="relative overflow-hidden py-20 md:py-28">
       <div className="container-tl">
         <div className="flex flex-col items-center gap-8 text-center">
-          <Asterisk className="text-lime-deep size-5" />
+          <Asterisk className="text-lime-ink size-5" />
 
           <p className="type-display text-ink max-w-5xl text-balance">
             <SplitText text="Anyone can ship it once. The bill arrives in" />{" "}

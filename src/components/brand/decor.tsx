@@ -68,20 +68,23 @@ export function ScallopDivider({
 }
 
 /**
- * Ticker strip — a continuously scrolling ink band.
+ * Ticker strip — a continuously scrolling band.
  *
- * Two identical tracks sit side by side and the pair translates by exactly
- * -50%. At the moment the first track leaves, the second is precisely where
- * the first began, so the loop is seamless with no snap.
+ * One animated wrapper holds two identical tracks and translates by exactly
+ * -50%, which is one whole track. At the end of the cycle the second track sits
+ * precisely where the first began, so the reset is invisible.
+ *
+ * Getting this wrong is subtle: animating each track separately also moves
+ * things leftward, but -50% of a single track is only half a track, so the
+ * pattern does not line up and the band snaps back once per cycle.
+ *
+ * `items` is repeated until a track is long enough that two of them cover the
+ * widest viewport we support. Without that, a caller passing three short
+ * strings gets a band that scrolls a little text across a lot of empty colour.
  *
  * `tone` picks ink or lime; `speed` and `reverse` let neighbouring strips run
  * at different rates and directions, which is what stops several of them on one
  * page reading as the same element repeated.
- *
- * Accessibility: the strip is decorative, so the whole thing is aria-hidden and
- * the duplicate costs nothing in the accessibility tree. It pauses on hover and
- * focus-within, and the edges are masked so items dissolve rather than being
- * clipped.
  */
 export function TickerStrip({
   items,
@@ -96,11 +99,19 @@ export function TickerStrip({
   speed?: string;
   reverse?: boolean;
 }) {
+  // Rough width budget. Coverage is decided by ONE track, not by the pair: at
+  // the end of the cycle the wrapper has moved a full track left, so if a
+  // single track is narrower than the viewport there is bare band behind it.
+  // A label averages ~140px including its asterisk and gap, and the widest
+  // viewport we support is 1920, so a track needs ~14 entries.
+  const repeats = Math.max(1, Math.ceil(14 / Math.max(items.length, 1)));
+  const filled = Array.from({ length: repeats }, () => items).flat();
+
   const track = (
-    <div className="flex shrink-0 items-center gap-6 pr-6">
-      {items.map((item) => (
+    <div className="flex shrink-0 items-center gap-6 pr-6" aria-hidden="true">
+      {filled.map((item, index) => (
         <span
-          key={item}
+          key={`${item}-${index}`}
           className="label-mono flex shrink-0 items-center gap-6 whitespace-nowrap"
         >
           {item}
@@ -124,18 +135,16 @@ export function TickerStrip({
         className,
       )}
     >
-      {[0, 1].map((copy) => (
-        <div
-          key={copy}
-          className={cn(
-            "flex shrink-0 items-center",
-            reverse ? "animate-marquee-reverse" : "animate-marquee",
-          )}
-          style={{ animationDuration: speed }}
-        >
-          {track}
-        </div>
-      ))}
+      <div
+        className={cn(
+          "flex w-max shrink-0 items-center",
+          reverse ? "animate-marquee-reverse" : "animate-marquee",
+        )}
+        style={{ animationDuration: speed }}
+      >
+        {track}
+        {track}
+      </div>
     </div>
   );
 }

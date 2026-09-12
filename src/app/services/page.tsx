@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { services } from "@/config/services";
 import { siteConfig } from "@/config/site";
 import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
-import { Reveal } from "@/components/motion/reveal";
+import { ServicesLedger } from "@/components/sections/services-ledger";
 import { Process } from "@/components/sections/process";
 import { FinalCta } from "@/components/sections/final-cta";
 
@@ -99,68 +99,9 @@ export default function ServicesPage() {
         </div>
       </nav>
 
-      <Section>
-        <ul className="grid gap-4 lg:grid-cols-2">
-          {services.map((service, index) => (
-            <Reveal
-              as="li"
-              key={service.id}
-              index={index}
-              className={service.featured ? "lg:col-span-2" : undefined}
-            >
-              {/* scroll-mt clears the sticky header when the anchor is used. */}
-              <article
-                id={service.id}
-                className="card-solid lift flex h-full scroll-mt-28 flex-col gap-4 p-7 md:p-9"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <span className="bg-lime text-ink inline-flex size-12 items-center justify-center rounded-2xl">
-                    <service.icon
-                      className="size-5"
-                      strokeWidth={1.75}
-                      aria-hidden="true"
-                    />
-                  </span>
-                  <span
-                    className="numeral text-ink/10 numeral-md"
-                    aria-hidden="true"
-                  >
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-
-                <h2 className="font-display text-ink type-h2 font-bold">
-                  {service.title}
-                </h2>
-                <p className="text-ink-soft measure t-base">
-                  {service.description}
-                </p>
-
-                <ul
-                  className={
-                    service.featured
-                      ? "mt-2 grid gap-2.5 border-t border-[rgba(11,12,10,0.1)] pt-5 sm:grid-cols-3"
-                      : "mt-auto flex flex-col gap-2.5 border-t border-[rgba(11,12,10,0.1)] pt-5"
-                  }
-                >
-                  {service.points.map((point) => (
-                    <li key={point} className="flex items-start gap-2.5">
-                      <Check
-                        className="text-ink mt-0.5 size-3.5 shrink-0"
-                        strokeWidth={2}
-                        aria-hidden="true"
-                      />
-                      <span className="text-ink-soft t-sm leading-snug">
-                        {point}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </Reveal>
-          ))}
-        </ul>
-      </Section>
+      <section className="section" aria-label="Services in detail">
+        <ServicesLedger services={services} />
+      </section>
 
       <Process />
 

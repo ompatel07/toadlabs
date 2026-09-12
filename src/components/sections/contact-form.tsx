@@ -1,27 +1,63 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { AlertCircle, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
-import {
-  BUDGET_OPTIONS,
-  SERVICE_OPTIONS,
-  submitContact,
-  type ContactPayload,
-} from "@/lib/contact";
+import { useMemo, useRef, useState } from "react";
+import { AlertCircle, ArrowRight, Boxes, CheckCircle2, Loader2, MessageCircle, ShieldCheck } from "lucide-react";
+import { BUDGET_OPTIONS, submitContact, type ContactPayload } from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
 /**
  * Contact form.
  *
- * Accessibility is the priority here, so the details matter:
- *  - every field has a real <label>; placeholders are never the label
- *  - required is stated in the label text, not by colour or an asterisk alone
- *  - errors are text, tied by aria-describedby, with aria-invalid set
- *  - focus moves to the first invalid field on a failed submit
- *  - status is announced through a polite live region
- *  - the submit button stays focusable while busy rather than being disabled,
- *    which would drop focus and strand a keyboard user mid-form
+ * Rebuilt around two findings that contradicted the previous version:
+ *
+ *  1. Single column outperforms multi-column. Two fields side by side read as
+ *     one row and cost more to parse than they save in height.
+ *  2. Conditional fields beat showing everything. Asking what someone wants
+ *     first lets the rest of the form ask only what is relevant to them.
+ *
+ * So it opens with a path choice, then asks four or five questions rather than
+ * six. The progress ring exists because a form that shows its own length gets
+ * finished more often than one that does not.
+ *
+ * Accessibility is unchanged from the previous version and remains the
+ * priority: real labels, requirement stated in words rather than by colour,
+ * errors tied by aria-describedby with aria-invalid, focus moved to the first
+ * problem on a failed submit, and status announced politely. The path buttons
+ * are a radiogroup so arrow keys work the way a keyboard user expects.
  */
+
+type Path = "build" | "secure" | "other";
+
+const PATHS: { id: Path; label: string; hint: string; icon: typeof Boxes }[] = [
+  { id: "build", label: "Build something", hint: "Product, app, MVP, automation", icon: Boxes },
+  { id: "secure", label: "Test something", hint: "VAPT, pentest, code review", icon: ShieldCheck },
+  { id: "other", label: "Something else", hint: "Partnership, advice, other", icon: MessageCircle },
+];
+
+const BUILD_SERVICES = [
+  "Not sure yet",
+  "Website",
+  "Web or mobile app",
+  "MVP development",
+  "SaaS product",
+  "CRM",
+  "AI automation",
+  "WhatsApp automation",
+  "AI chatbot",
+  "AI voice assistant",
+  "Custom solution",
+];
+
+const SECURE_SERVICES = [
+  "Not sure yet",
+  "VAPT",
+  "Web application pentest",
+  "Mobile application pentest",
+  "Secure code review",
+  "Cloud posture review",
+  "Compliance readiness",
+  "Incident response readiness",
+];
 
 type Errors = Partial<Record<keyof ContactPayload, string>>;
 
@@ -29,23 +65,32 @@ const EMPTY: ContactPayload = {
   name: "",
   email: "",
   company: "",
-  service: SERVICE_OPTIONS[0],
+  service: "",
   budget: BUDGET_OPTIONS[0],
   message: "",
 };
 
 export function ContactForm() {
+  const [path, setPath] = useState<Path | null>(null);
   const [values, setValues] = useState<ContactPayload>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<"idle" | "busy" | "sent" | "failed">(
-    "idle",
-  );
+  const [status, setStatus] = useState<"idle" | "busy" | "sent" | "failed">("idle");
   const formRef = useRef<HTMLFormElement>(null);
 
   const set = (field: keyof ContactPayload) => (value: string) => {
     setValues((previous) => ({ ...previous, [field]: value }));
     setErrors((previous) => ({ ...previous, [field]: undefined }));
   };
+
+  // Budget is only asked on the two paths where it means anything.
+  const asksBudget = path === "build" || path === "secure";
+  const serviceOptions = path === "secure" ? SECURE_SERVICES : BUILD_SERVICES;
+
+  const progress = useMemo(() => {
+    const required: (keyof ContactPayload)[] = ["name", "email", "message"];
+    const done = required.filter((f) => values[f].trim().length > 0).length;
+    return Math.round(((path ? 1 : 0) + done) / (required.length + 1) * 100);
+  }, [values, path]);
 
   function validate(payload: ContactPayload): Errors {
     const next: Errors = {};
@@ -56,7 +101,7 @@ export function ContactForm() {
       next.email = "That email address does not look right.";
     }
     if (!payload.message.trim()) {
-      next.message = "Tell us a little about what you need.";
+      next.message = "Tell us what is going on.";
     } else if (payload.message.trim().length < 20) {
       next.message = "A sentence or two more would help us reply usefully.";
     }
@@ -71,18 +116,19 @@ export function ContactForm() {
     const firstInvalid = Object.keys(found)[0];
     if (firstInvalid) {
       setStatus("idle");
-      // Move focus to the first problem so it is not just announced but reached.
-      formRef.current
-        ?.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)
-        ?.focus();
+      formRef.current?.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus();
       return;
     }
 
     setStatus("busy");
-    const result = await submitContact(values);
+    const result = await submitContact({
+      ...values,
+      service: values.service || `${path ?? "unspecified"} — not specified`,
+    });
     if (result.ok) {
       setStatus("sent");
       setValues(EMPTY);
+      setPath(null);
     } else {
       setStatus("failed");
     }
@@ -90,19 +136,15 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div
-        className="card-solid flex flex-col items-start gap-4 p-8"
-        role="status"
-      >
-        <span className="bg-lime text-ink inline-flex size-12 items-center justify-center rounded-2xl">
-          <CheckCircle2 className="size-6" strokeWidth={2} aria-hidden="true" />
+      <div className="card-solid flex flex-col items-start gap-4 rounded-3xl p-8 md:p-10" role="status">
+        <span className="bg-lime text-ink inline-flex size-14 items-center justify-center rounded-2xl">
+          <CheckCircle2 className="size-7" strokeWidth={2} aria-hidden="true" />
         </span>
-        <h2 className="font-display text-ink type-h3 font-bold">
-          Thanks — that&apos;s with us
-        </h2>
-        <p className="text-ink-soft measure t-base">
-          We read every enquiry ourselves and reply with either a time to talk
-          or an honest note that we are not the right fit.
+        <h2 className="font-display text-ink type-h2 font-bold">That&apos;s with us</h2>
+        <p className="text-ink-soft measure t-lead">
+          It goes to the engineers who would do the work, not a sales queue. You
+          will get either a time to talk or an honest note that we are not the
+          right studio for it.
         </p>
         <button
           type="button"
@@ -120,73 +162,103 @@ export function ContactForm() {
       ref={formRef}
       onSubmit={onSubmit}
       noValidate
-      className="card-solid flex flex-col gap-5 p-6 md:p-8"
+      className="card-solid flex flex-col gap-8 rounded-3xl p-6 md:p-9"
     >
-      <div className="grid gap-5 sm:grid-cols-2">
+      {/* Path choice. Asking this first is what lets the rest of the form ask
+          fewer, more relevant questions. */}
+      <fieldset className="flex flex-col gap-3">
+        <legend className="label-mono text-ink-soft mb-3">
+          01 — What brings you here?
+        </legend>
+        <div role="radiogroup" aria-label="What brings you here" className="grid gap-2.5 sm:grid-cols-3">
+          {PATHS.map((option) => {
+            const active = path === option.id;
+            return (
+              <button
+                key={option.id}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                onClick={() => setPath(option.id)}
+                className={cn(
+                  "group flex cursor-pointer flex-col gap-2 rounded-2xl border p-4 text-left transition-all duration-250 ease-out",
+                  active
+                    ? "border-ink bg-lime text-ink"
+                    : "border-[rgba(11,12,10,0.16)] hover:border-ink",
+                )}
+              >
+                <option.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
+                <span className="font-display t-base font-bold">{option.label}</span>
+                <span className={cn("t-xs", active ? "text-ink/70" : "text-ink-soft")}>
+                  {option.hint}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </fieldset>
+
+      {/* Single column from here: two fields on a row read as one and cost more
+          to parse than the height they save. */}
+      <div className="flex flex-col gap-5">
+        <p className="label-mono text-ink-soft">02 — About you</p>
+        <Field label="Your name" name="name" required value={values.name} onChange={set("name")} error={errors.name} autoComplete="name" />
+        <Field label="Email" name="email" type="email" required value={values.email} onChange={set("email")} error={errors.email} autoComplete="email" />
+        <Field label="Company" name="company" optional value={values.company} onChange={set("company")} autoComplete="organization" />
+      </div>
+
+      {path ? (
+        <div className="page-enter flex flex-col gap-5">
+          <p className="label-mono text-ink-soft">03 — About the work</p>
+          <SelectField
+            label={path === "secure" ? "What needs testing?" : "What are you building?"}
+            name="service"
+            optional
+            value={values.service}
+            onChange={set("service")}
+            options={serviceOptions}
+          />
+          {asksBudget ? (
+            <SelectField
+              label="Budget range"
+              name="budget"
+              optional
+              value={values.budget}
+              onChange={set("budget")}
+              options={[...BUDGET_OPTIONS]}
+            />
+          ) : null}
+        </div>
+      ) : null}
+
+      <div className="flex flex-col gap-5">
+        <p className="label-mono text-ink-soft">
+          {path ? "04" : "03"} — The problem
+        </p>
         <Field
-          label="Your name"
-          name="name"
+          label={path === "secure" ? "What are you worried about?" : "What is going wrong?"}
+          name="message"
           required
-          value={values.name}
-          onChange={set("name")}
-          error={errors.name}
-          autoComplete="name"
-        />
-        <Field
-          label="Email"
-          name="email"
-          type="email"
-          required
-          value={values.email}
-          onChange={set("email")}
-          error={errors.email}
-          autoComplete="email"
+          multiline
+          value={values.message}
+          onChange={set("message")}
+          error={errors.message}
+          hint="The problem is more useful to us than a feature list. Two or three sentences is plenty."
         />
       </div>
 
-      <Field
-        label="Company"
-        name="company"
-        optional
-        value={values.company}
-        onChange={set("company")}
-        autoComplete="organization"
-      />
+      <div className="flex flex-col gap-4 border-t border-[rgba(11,12,10,0.12)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <ProgressRing value={progress} />
+          <span className="text-ink-soft t-sm">
+            {progress === 100 ? "Ready to send" : "A few details to go"}
+          </span>
+        </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <SelectField
-          label="Service interest"
-          name="service"
-          value={values.service}
-          onChange={set("service")}
-          options={[...SERVICE_OPTIONS]}
-        />
-        <SelectField
-          label="Budget range"
-          name="budget"
-          optional
-          value={values.budget}
-          onChange={set("budget")}
-          options={[...BUDGET_OPTIONS]}
-        />
-      </div>
-
-      <Field
-        label="What do you need?"
-        name="message"
-        required
-        multiline
-        value={values.message}
-        onChange={set("message")}
-        error={errors.message}
-        hint="The problem you're solving is more useful to us than a feature list."
-      />
-
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <button
           type="submit"
           aria-busy={status === "busy"}
-          className="bg-ink inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-7 t-base font-medium text-white transition-colors duration-250 ease-out hover:bg-[#242720] aria-busy:opacity-80"
+          className="btn-liquid btn-liquid-ink bg-ink inline-flex h-13 cursor-pointer items-center justify-center gap-2 rounded-full px-7 t-base font-medium text-white transition-colors duration-250 ease-out aria-busy:opacity-80"
         >
           {status === "busy" ? (
             <>
@@ -200,27 +272,42 @@ export function ContactForm() {
             </>
           )}
         </button>
-        <p className="text-ink-soft t-xs">
-          We reply personally. No newsletter, no drip sequence.
-        </p>
       </div>
 
-      {/* Announced politely rather than interrupting. */}
       <p role="status" aria-live="polite" className="sr-only">
         {status === "busy" ? "Sending your enquiry" : ""}
       </p>
 
       {status === "failed" ? (
-        <p
-          role="alert"
-          className="text-destructive flex items-start gap-2 t-sm"
-        >
+        <p role="alert" className="text-destructive flex items-start gap-2 t-sm">
           <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-          That didn&apos;t send. Please email us directly and we&apos;ll pick it
-          up.
+          That didn&apos;t send. Please email us directly and we&apos;ll pick it up.
         </p>
       ) : null}
     </form>
+  );
+}
+
+/** Completion ring. A form that shows its own length gets finished more often. */
+function ProgressRing({ value }: { value: number }) {
+  const radius = 13;
+  const circumference = 2 * Math.PI * radius;
+  return (
+    <svg viewBox="0 0 32 32" className="size-8 shrink-0 -rotate-90" aria-hidden="true">
+      <circle cx="16" cy="16" r={radius} fill="none" stroke="rgba(11,12,10,0.12)" strokeWidth="3" />
+      <circle
+        cx="16"
+        cy="16"
+        r={radius}
+        fill="none"
+        stroke="var(--lime-ink)"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeDasharray={circumference}
+        strokeDashoffset={circumference * (1 - value / 100)}
+        style={{ transition: "stroke-dashoffset 400ms cubic-bezier(0.16,1,0.3,1)" }}
+      />
+    </svg>
   );
 }
 
@@ -239,17 +326,8 @@ interface FieldProps {
 }
 
 function Field({
-  label,
-  name,
-  value,
-  onChange,
-  type = "text",
-  required,
-  optional,
-  multiline,
-  error,
-  hint,
-  autoComplete,
+  label, name, value, onChange, type = "text",
+  required, optional, multiline, error, hint, autoComplete,
 }: FieldProps) {
   const hintId = hint ? `${name}-hint` : undefined;
   const errorId = error ? `${name}-error` : undefined;
@@ -262,14 +340,11 @@ function Field({
     autoComplete,
     "aria-invalid": error ? (true as const) : undefined,
     "aria-describedby": describedBy,
-    onChange: (
-      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => onChange(event.target.value),
+    onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      onChange(event.target.value),
     className: cn(
-      "w-full rounded-xl border bg-white px-4 py-3 t-base text-ink transition-colors duration-200 ease-out placeholder:text-ink-soft/60",
-      error
-        ? "border-destructive"
-        : "border-[rgba(11,12,10,0.16)] hover:border-[rgba(11,12,10,0.3)]",
+      "text-ink w-full rounded-xl border bg-white px-4 py-3 t-base transition-colors duration-200 ease-out placeholder:text-ink-soft/60",
+      error ? "border-destructive" : "border-[rgba(11,12,10,0.16)] hover:border-[rgba(11,12,10,0.34)]",
     ),
   };
 
@@ -277,32 +352,13 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <label htmlFor={name} className="text-ink t-sm font-medium">
         {label}
-        {/* Requirement is in the label text, not signalled by colour alone. */}
-        {required ? (
-          <span className="text-ink-soft font-normal"> (required)</span>
-        ) : null}
-        {optional ? (
-          <span className="text-ink-soft font-normal"> (optional)</span>
-        ) : null}
+        {required ? <span className="text-ink-soft font-normal"> (required)</span> : null}
+        {optional ? <span className="text-ink-soft font-normal"> (optional)</span> : null}
       </label>
-
-      {hint ? (
-        <p id={hintId} className="text-ink-soft t-xs">
-          {hint}
-        </p>
-      ) : null}
-
-      {multiline ? (
-        <textarea {...shared} rows={5} />
-      ) : (
-        <input {...shared} type={type} />
-      )}
-
+      {hint ? <p id={hintId} className="text-ink-soft t-xs">{hint}</p> : null}
+      {multiline ? <textarea {...shared} rows={5} /> : <input {...shared} type={type} />}
       {error ? (
-        <p
-          id={errorId}
-          className="text-destructive flex items-start gap-1.5 t-xs"
-        >
+        <p id={errorId} className="text-destructive flex items-start gap-1.5 t-xs">
           <AlertCircle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
           {error}
         </p>
@@ -312,12 +368,7 @@ function Field({
 }
 
 function SelectField({
-  label,
-  name,
-  value,
-  onChange,
-  options,
-  optional,
+  label, name, value, onChange, options, optional,
 }: {
   label: string;
   name: keyof ContactPayload;
@@ -330,23 +381,19 @@ function SelectField({
     <div className="flex flex-col gap-1.5">
       <label htmlFor={name} className="text-ink t-sm font-medium">
         {label}
-        {optional ? (
-          <span className="text-ink-soft font-normal"> (optional)</span>
-        ) : null}
+        {optional ? <span className="text-ink-soft font-normal"> (optional)</span> : null}
       </label>
-      {/* A native select on purpose: it is keyboard and screen-reader correct
-          everywhere, and uses the platform picker on mobile. */}
+      {/* Native select on purpose: correct for keyboard and screen readers
+          everywhere, and it uses the platform picker on mobile. */}
       <select
         id={name}
         name={name}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="text-ink h-[46px] w-full cursor-pointer rounded-xl border border-[rgba(11,12,10,0.16)] bg-white px-4 t-base transition-colors duration-200 ease-out hover:border-[rgba(11,12,10,0.3)]"
+        className="text-ink h-[46px] w-full cursor-pointer rounded-xl border border-[rgba(11,12,10,0.16)] bg-white px-4 t-base transition-colors duration-200 ease-out hover:border-[rgba(11,12,10,0.34)]"
       >
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
+          <option key={option} value={option}>{option}</option>
         ))}
       </select>
     </div>

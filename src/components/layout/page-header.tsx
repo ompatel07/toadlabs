@@ -55,7 +55,7 @@ export function PageHeader({
         <div className="grid gap-12 lg:grid-cols-[1.45fr_1fr] lg:items-end">
           <div className="flex flex-col gap-5">
             <p className="label-mono text-ink-soft flex items-center gap-2.5">
-              <Asterisk className="text-lime-deep size-2.5" />
+              <Asterisk className="text-lime-ink size-2.5" />
               {eyebrow}
             </p>
 

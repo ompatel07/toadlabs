@@ -59,7 +59,7 @@ export default function SecurityPolicyPage() {
         <div className="mt-12 grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
             <h2 className="label-mono text-ink-soft flex items-center gap-2">
-              <Asterisk className="text-lime-deep size-2.5" />
+              <Asterisk className="text-lime-ink size-2.5" />
               In scope
             </h2>
             <ul className="mt-5 border-t-2 border-[rgba(11,12,10,0.85)]">
@@ -81,7 +81,7 @@ export default function SecurityPolicyPage() {
 
           <div>
             <h2 className="label-mono text-ink-soft flex items-center gap-2">
-              <Asterisk className="text-lime-deep size-2.5" />
+              <Asterisk className="text-lime-ink size-2.5" />
               Out of scope
             </h2>
             <ul className="mt-5 border-t-2 border-[rgba(11,12,10,0.85)]">
@@ -129,7 +129,7 @@ export default function SecurityPolicyPage() {
                   key={item}
                   className="text-ink-soft flex items-start gap-2.5 t-base"
                 >
-                  <Asterisk className="text-lime-deep mt-1.5 size-2 shrink-0" />
+                  <Asterisk className="text-lime-ink mt-1.5 size-2 shrink-0" />
                   {item}
                 </li>
               ))}

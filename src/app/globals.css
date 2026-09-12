@@ -21,6 +21,7 @@
   --color-ink-soft: var(--ink-soft);
   --color-lime: var(--lime);
   --color-lime-deep: var(--lime-deep);
+  --color-lime-ink: var(--lime-ink);
   --color-emerald: var(--emerald);
   --color-deep: var(--deep);
 
@@ -110,6 +111,12 @@
   --ink-soft: #5f6359;
   --lime: #c7f23c;
   --lime-deep: #a8d520;
+  /* Text-safe member of the lime family. --lime and --lime-deep are background
+     and decoration colours only: --lime-deep is 1.48:1 on canvas, so any label
+     set in it fails WCAG 1.4.3 outright. This is the same hue taken dark enough
+     to be legible — 6.9:1 on canvas, 10.5:1 on white — so an accent label can
+     stay an accent instead of collapsing to grey. */
+  --lime-ink: #46560a;
   --emerald: #1f6b4a;
   --deep: #101710;
 

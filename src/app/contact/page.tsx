@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Clock, Mail, MapPin, MessageCircle } from "lucide-react";
+import { ArrowUpRight, Bug, Clock, Mail, MapPin, MessageCircle, ShieldCheck } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/config/site";
+import { Asterisk, TickerStrip } from "@/components/brand/decor";
 import { PageHeader } from "@/components/layout/page-header";
 import { Section } from "@/components/layout/section";
 import { ContactForm } from "@/components/sections/contact-form";
@@ -11,10 +12,32 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
+/**
+ * What actually happens after someone sends the form.
+ *
+ * Written as commitments with a stated timeframe rather than reassurance —
+ * "we will get back to you soon" is what every form says and it tells the
+ * reader nothing they can hold us to.
+ */
 const whatHappensNext = [
-  "We read it ourselves — there is no sales team to route through.",
-  "If it looks like a fit, we propose a 30-minute call to scope it.",
-  "If it is not a fit, we say so, and point you somewhere better if we can.",
+  {
+    when: "Within a day",
+    title: "An engineer reads it",
+    copy:
+      "Not a sales team, not a routing rule. The person who replies is one of the people who would do the work.",
+  },
+  {
+    when: "The reply",
+    title: "A real answer, or a real no",
+    copy:
+      "If it is a fit, we propose a 30-minute call and tell you what we would want to see beforehand. If it is not, we say so and point you somewhere better where we can.",
+  },
+  {
+    when: "The call",
+    title: "Scoping, not a pitch",
+    copy:
+      "We spend it on your system and your constraints. You leave with an approach and a rough shape of cost, whether or not you hire us.",
+  },
 ];
 
 export default function ContactPage() {
@@ -26,15 +49,28 @@ export default function ContactPage() {
         description="Describe what is actually going wrong, or what you need tested. You get a direct answer from the engineers who would do the work — including if the answer is that you need less than you think."
       />
 
-      <Section className="pt-4 md:pt-6">
-        {/* The form comes first in DOM order so keyboard and screen-reader
-            users reach it without traversing the contact rail. */}
-        <div className="grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:gap-12">
+      <TickerStrip
+        items={[
+          "No sales team",
+          "Replies from engineers",
+          "NDA before scoping",
+          "An honest no is a valid answer",
+        ]}
+        speed="42s"
+      />
+
+      <Section className="pt-10 md:pt-14">
+        {/* Form first in DOM order so keyboard and screen-reader users reach it
+            without traversing the contact rail. */}
+        <div className="grid gap-8 lg:grid-cols-[1.55fr_1fr] lg:gap-12">
           <ContactForm />
 
-          <aside className="flex flex-col gap-4">
+          {/* Sticky on desktop: the form is roughly twice the height of this
+              column, and without it the right third of the page is dead space
+              for most of the scroll. */}
+          <aside className="flex flex-col gap-4 lg:sticky lg:top-28 lg:self-start">
             <div className="bg-muted flex flex-col gap-4 rounded-3xl p-6 md:p-7">
-              <h2 className="label-mono text-ink-soft">Reach us directly</h2>
+              <h2 className="label-mono text-ink-soft">Or reach us directly</h2>
 
               <ul className="flex flex-col gap-3">
                 <li>
@@ -65,44 +101,81 @@ export default function ContactPage() {
                   {siteConfig.location.full}
                 </li>
                 <li className="text-ink-soft inline-flex items-start gap-2.5 t-base">
-                  <Clock
-                    className="mt-0.5 size-4 shrink-0"
-                    aria-hidden="true"
-                  />
+                  <Clock className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                   IST business hours, with overlap arranged for other timezones
                 </li>
               </ul>
             </div>
 
-            <div className="card-solid flex flex-col gap-3 p-6 md:p-7">
-              <h2 className="label-mono text-ink-soft">What happens next</h2>
-              <ol className="flex flex-col gap-3">
-                {whatHappensNext.map((step, index) => (
-                  <li key={step} className="flex items-start gap-3">
-                    <span
-                      className="numeral text-ink/25 type-h3 leading-none"
-                      aria-hidden="true"
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-ink-soft t-base">{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-
-            <div className="bg-lime text-ink rounded-3xl p-6 md:p-7">
-              <h2 className="font-display t-lead font-bold">
+            <div className="bg-lime text-ink relative overflow-hidden rounded-3xl p-6 md:p-7">
+              <ShieldCheck
+                className="absolute -right-6 -bottom-6 size-32 text-[rgba(11,12,10,0.07)]"
+                strokeWidth={1}
+                aria-hidden="true"
+              />
+              <h2 className="font-display relative t-lead font-bold">
                 Under NDA first?
               </h2>
-              <p className="mt-2 t-base">
+              <p className="relative mt-2 t-base">
                 Happy to sign yours before you tell us anything about the
-                system. Just say so in the message and we will send it back
-                before the call.
+                system. Say so in the message and we will send it back before
+                the call.
               </p>
             </div>
+
+            {/* Researchers land on this page too, and the disclosure policy is
+                what they are actually looking for. */}
+            <a
+              href="/security"
+              className="group/dis card-solid flex cursor-pointer items-start gap-3 rounded-3xl p-6 transition-colors duration-250 ease-out hover:border-ink md:p-7"
+            >
+              <Bug className="text-ink mt-0.5 size-5 shrink-0" strokeWidth={1.75} aria-hidden="true" />
+              <span className="flex flex-col gap-1.5">
+                <span className="font-display text-ink t-base font-bold">
+                  Reporting a vulnerability?
+                </span>
+                <span className="text-ink-soft t-sm leading-relaxed">
+                  Our disclosure policy sets out what is in scope, what we ask
+                  of you, and how quickly we respond.
+                </span>
+                <span className="text-ink inline-flex items-center gap-1.5 t-sm font-medium underline-offset-4 group-hover/dis:underline">
+                  Read the policy
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
+                </span>
+              </span>
+            </a>
           </aside>
         </div>
+      </Section>
+
+      {/* Promoted out of the sidebar. This is the answer to the question every
+          visitor has before they press send, and it was hiding in a small box
+          under two other small boxes. */}
+      <Section className="pt-4 md:pt-8">
+        <p className="label-mono text-ink-soft mb-8">
+          After you press send
+        </p>
+        <ol className="grid gap-px overflow-hidden rounded-3xl bg-[rgba(11,12,10,0.14)] md:grid-cols-3">
+          {whatHappensNext.map((step, index) => (
+            <li
+              key={step.title}
+              className="bg-canvas reveal flex flex-col gap-3 p-7 md:p-8"
+              style={{ animationDelay: `${index * 90}ms` }}
+            >
+              <div className="flex items-baseline justify-between gap-4">
+                <span className="numeral numeral-md text-ink/18 leading-none" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="label-mono text-lime-ink">{step.when}</span>
+              </div>
+              <h3 className="font-display text-ink type-h3 font-bold">
+                {step.title}
+              </h3>
+              <p className="text-ink-soft t-base leading-relaxed">{step.copy}</p>
+              <Asterisk className="text-lime-ink mt-auto size-3" />
+            </li>
+          ))}
+        </ol>
       </Section>
     </>
   );

@@ -35,7 +35,7 @@ export function ServicesRail() {
           <div className="container-tl mb-10 flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="label-mono text-ink-soft flex items-center gap-2">
-                <Asterisk className="text-lime-deep size-2.5" />
+                <Asterisk className="text-lime-ink size-2.5" />
                 Everything we build
               </p>
               <h2 className="type-h2 text-ink mt-5 max-w-xl">

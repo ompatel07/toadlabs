@@ -12,6 +12,7 @@ import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
+import { SecurityCapabilities } from "@/components/sections/security-capabilities";
 import { SeverityExplorer } from "@/components/sections/severity-explorer";
 import { Deliverables } from "@/components/sections/deliverables";
 import { SecurityFaq } from "@/components/sections/security-faq";
@@ -103,57 +104,7 @@ export default function CybersecurityPage() {
           description="Each mapped to the public standard it is measured against, so you can see the coverage rather than take our word for it."
         />
 
-        <ul className="mt-12 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {securityServices.map((service, index) => (
-            <Reveal as="li" key={service.id} index={index}>
-              <article
-                id={service.id}
-                className="card-solid lift flex h-full scroll-mt-28 flex-col gap-3.5 rounded-2xl p-6"
-              >
-                <span className="bg-canvas text-ink inline-flex size-10 items-center justify-center rounded-xl">
-                  <service.icon
-                    className="size-[18px]"
-                    strokeWidth={1.75}
-                    aria-hidden="true"
-                  />
-                </span>
-
-                <h2 className="font-display text-ink t-lead font-semibold">
-                  {service.title}
-                </h2>
-                <p className="text-ink-soft t-sm leading-relaxed">
-                  {service.summary}
-                </p>
-
-                <ul className="flex flex-col gap-1.5 border-t border-[rgba(11,12,10,0.1)] pt-3.5">
-                  {service.scope.map((item) => (
-                    <li
-                      key={item}
-                      className="text-ink-soft flex items-start gap-2 t-xs leading-snug"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className="bg-lime-deep mt-1.5 inline-block size-1 shrink-0 rounded-full"
-                      />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-
-                <ul className="mt-auto flex flex-wrap gap-1.5 pt-1">
-                  {service.standards.map((standard) => (
-                    <li
-                      key={standard}
-                      className="label-mono text-ink-soft rounded-full border border-[rgba(11,12,10,0.14)] px-2 py-0.5"
-                    >
-                      {standard}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </Reveal>
-          ))}
-        </ul>
+        <SecurityCapabilities services={securityServices} />
       </Section>
 
       {/* Engagement process */}

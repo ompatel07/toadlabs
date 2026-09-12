@@ -22,7 +22,7 @@ export function Pillars() {
           {/* Sticky margin column */}
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="label-mono text-ink-soft flex items-center gap-2">
-              <Asterisk className="text-lime-deep size-2.5" />
+              <Asterisk className="text-lime-ink size-2.5" />
               Two halves of one studio
             </p>
             <h2 className="type-h2 text-ink mt-5">
@@ -79,7 +79,7 @@ export function Pillars() {
                       key={point}
                       className="text-ink flex items-start gap-2.5 border-t border-[rgba(11,12,10,0.12)] py-2.5 t-base"
                     >
-                      <Asterisk className="text-lime-deep mt-1.5 size-2 shrink-0" />
+                      <Asterisk className="text-lime-ink mt-1.5 size-2 shrink-0" />
                       {point}
                     </li>
                   ))}

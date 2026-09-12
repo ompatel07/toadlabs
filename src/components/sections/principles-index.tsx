@@ -84,7 +84,7 @@ export function PrinciplesIndex({ principles }: { principles: Principle[] }) {
                 00
               </span>
               <p className="text-ink-soft measure flex items-start gap-3 t-lead leading-relaxed">
-                <Asterisk className="text-lime-deep mt-2 size-2.5 shrink-0" />
+                <Asterisk className="text-lime-ink mt-2 size-2.5 shrink-0" />
                 {item.copy}
               </p>
             </div>

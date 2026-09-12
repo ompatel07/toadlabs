@@ -98,26 +98,41 @@ function Lane({
   speed: string;
   paused: boolean;
 }) {
+  // Coverage is decided by ONE copy of the list: the wrapper translates a full
+  // copy-width per cycle, so a copy narrower than the viewport leaves bare band
+  // behind it. Chips average ~120px, and the widest viewport we support is
+  // 1920, so a copy needs ~16 entries.
+  const repeats = Math.max(1, Math.ceil(16 / Math.max(items.length, 1)));
+  const filled = Array.from({ length: repeats }, () => items).flat();
+
   return (
     // marquee-edge masks both ends so chips fade out rather than being cut.
     <div className="marquee-viewport marquee-edge relative flex overflow-hidden">
       <h3 className="sr-only">{label} tooling</h3>
-      {[0, 1].map((copy) => (
-        <ul
-          key={copy}
-          aria-hidden={copy === 1 ? "true" : undefined}
-          className={cn(
-            "flex shrink-0 items-center gap-6 pr-6",
-            reversed ? "animate-marquee-reverse" : "animate-marquee",
-            paused && "[animation-play-state:paused]",
-          )}
-          style={{ animationDuration: speed }}
-        >
-          {items.map((item) => (
-            <Chip key={`${copy}-${item}`} label={item} />
-          ))}
-        </ul>
-      ))}
+      {/* One animated wrapper holding both copies, translating -50% — which is
+          exactly one copy — so the second lands where the first began and the
+          reset is invisible. Animating the two lists separately moves them only
+          half a copy, and the lane snaps back once per cycle. */}
+      <div
+        className={cn(
+          "flex w-max shrink-0 items-center",
+          reversed ? "animate-marquee-reverse" : "animate-marquee",
+          paused && "[animation-play-state:paused]",
+        )}
+        style={{ animationDuration: speed }}
+      >
+        {[0, 1].map((copy) => (
+          <ul
+            key={copy}
+            aria-hidden={copy === 1 ? "true" : undefined}
+            className="flex shrink-0 items-center gap-6 pr-6"
+          >
+            {filled.map((item, index) => (
+              <Chip key={`${copy}-${item}-${index}`} label={item} />
+            ))}
+          </ul>
+        ))}
+      </div>
     </div>
   );
 }
