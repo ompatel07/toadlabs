@@ -2,7 +2,18 @@
 
 import { useEffect, useState } from "react";
 
-const KEY = "toadlabs:motion";
+/**
+ * Versioned deliberately.
+ *
+ * An earlier, unlabelled header control wrote to "toadlabs:motion". Anyone who
+ * clicked it off kept that value after the control was removed, which left
+ * their browser with every animation permanently disabled and no obvious way
+ * back — the symptom being a site that animated on their phone but not their
+ * laptop. Bumping the key retires those writes; the old one is also cleared on
+ * read so it does not sit around.
+ */
+const KEY = "toadlabs:motion:v2";
+const LEGACY_KEY = "toadlabs:motion";
 
 /**
  * Lets a visitor override the OS motion setting for this site.
@@ -20,6 +31,9 @@ export function MotionPreference() {
   const [enabled, setEnabled] = useState<boolean | null>(null);
 
   useEffect(() => {
+    try {
+      localStorage.removeItem(LEGACY_KEY);
+    } catch {}
     const stored = localStorage.getItem(KEY);
     if (stored === "on" || stored === "off") {
       setEnabled(stored === "on");
@@ -76,6 +90,7 @@ export function MotionPreference() {
  */
 export const motionInitScript = `
 try {
+  localStorage.removeItem("${LEGACY_KEY}");
   var m = localStorage.getItem("${KEY}");
   if (m === "on" || m === "off") document.documentElement.dataset.motion = m;
 } catch (e) {}
