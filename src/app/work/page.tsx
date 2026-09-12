@@ -4,8 +4,7 @@ import { caseStudies, hasPlaceholderWork } from "@/config/work";
 import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
 import { Section } from "@/components/layout/section";
-import { Reveal } from "@/components/motion/reveal";
-import { WorkCard } from "@/components/sections/work-card";
+import { WorkIndex } from "@/components/sections/work-index";
 import { FinalCta } from "@/components/sections/final-cta";
 
 export const metadata: Metadata = {
@@ -70,13 +69,7 @@ export default function WorkPage() {
         {/* The cards' titles are h3, so this level has to exist for the
             document outline to be unbroken. */}
         <h2 className="sr-only">Case studies</h2>
-        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {caseStudies.map((study, index) => (
-            <Reveal as="li" key={study.slug} index={index}>
-              <WorkCard study={study} index={index} />
-            </Reveal>
-          ))}
-        </ul>
+        <WorkIndex studies={caseStudies} />
       </Section>
 
       <FinalCta

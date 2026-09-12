@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { AlertTriangle, ArrowLeft, ArrowRight } from "lucide-react";
 import { caseStudies, getCaseStudy } from "@/config/work";
 import { Section } from "@/components/layout/section";
+import { cn } from "@/lib/utils";
 import { FinalCta } from "@/components/sections/final-cta";
 
 export function generateStaticParams() {
@@ -109,6 +110,25 @@ export default async function CaseStudyPage({
               ))}
             </ul>
 
+            <h2 className="label-mono text-ink-soft mt-8">Chapters</h2>
+            <ol className="mt-4 flex flex-col">
+              {["Problem", "Approach", "Outcome"].map((chapter, index) => (
+                <li key={chapter}>
+                  <a
+                    href={`#${chapter.toLowerCase()}`}
+                    className="text-ink-soft hover:text-ink group flex cursor-pointer items-baseline gap-3 border-b border-[rgba(11,12,10,0.12)] py-2.5 transition-colors duration-200 ease-out"
+                  >
+                    <span className="label-mono opacity-60">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="t-base font-medium transition-transform duration-200 ease-out group-hover:translate-x-1">
+                      {chapter}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+
             <h2 className="label-mono text-ink-soft mt-8">Focus</h2>
             <ul className="mt-4 flex flex-wrap gap-1.5">
               {study.tags.map((tag) => (
@@ -122,23 +142,51 @@ export default async function CaseStudyPage({
             </ul>
           </aside>
 
-          <div className="flex flex-col gap-12">
+          <div className="flex flex-col gap-16">
             {[
               { heading: "Problem", body: study.problem },
               { heading: "Approach", body: study.approach },
               { heading: "Outcome", body: study.outcome },
-            ].map((block) => (
-              <section key={block.heading}>
-                <h2 className="font-display text-ink type-h2 font-bold">
-                  {block.heading}
-                </h2>
-                <ul className="mt-5 flex flex-col gap-4">
-                  {block.body.map((line) => (
+            ].map((block, blockIndex) => (
+              <section
+                key={block.heading}
+                id={block.heading.toLowerCase()}
+                className="scroll-mt-28"
+              >
+                {/* Chapter marker: an oversized numeral in the margin and a
+                    rule that runs to the edge, so each block reads as a chapter
+                    rather than a paragraph with a bold line above it. */}
+                <div className="flex items-baseline gap-5 border-t-2 border-[rgba(11,12,10,0.85)] pt-5">
+                  <span
+                    className="numeral text-ink/20 numeral-md leading-none"
+                    aria-hidden="true"
+                  >
+                    {String(blockIndex + 1).padStart(2, "0")}
+                  </span>
+                  <h2 className="font-display text-ink type-h2 font-bold">
+                    {block.heading}
+                  </h2>
+                </div>
+
+                <ul className="mt-7 flex flex-col gap-5">
+                  {block.body.map((line, lineIndex) => (
                     <li
                       key={line}
-                      className="text-ink-soft measure border-l-2 border-[rgba(11,12,10,0.14)] pl-4 t-base leading-relaxed"
+                      className="rise grid grid-cols-[auto_1fr] gap-4"
                     >
-                      {line}
+                      <span
+                        aria-hidden="true"
+                        className="bg-lime-deep mt-2.5 inline-block size-1.5 shrink-0 rounded-full"
+                      />
+                      <p
+                        className={cn(
+                          "text-ink measure leading-relaxed",
+                          // The first line of each chapter carries the weight.
+                          lineIndex === 0 ? "t-lead font-medium" : "t-base text-ink-soft",
+                        )}
+                      >
+                        {line}
+                      </p>
                     </li>
                   ))}
                 </ul>

@@ -1025,6 +1025,21 @@
     animation: rule-draw 760ms cubic-bezier(0.65, 0, 0.35, 1) 120ms both;
   }
 
+  /* Cursor-following preview panel. Positioned from custom properties so the
+     pointer loop never touches React state — setting state per pointer event
+     would re-render the whole list at pointer frequency. */
+  .work-preview {
+    top: 0;
+    left: 0;
+    transform: translate3d(
+        calc(var(--px, 0px) + 28px),
+        calc(var(--py, 0px) - 40px),
+        0
+      );
+    transition: opacity 220ms ease-out;
+    will-change: transform;
+  }
+
   /* --- Intro curtain ------------------------------------------------------
      Two half-height ink panels, each showing the same wordmark clipped to its
      half, so the type reads as one continuous word until the halves part.
