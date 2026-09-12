@@ -11,7 +11,6 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { PageTransition } from "@/components/layout/page-transition";
 import { Cursor } from "@/components/ui-brand/cursor";
 import { IntroReveal } from "@/components/brand/intro-reveal";
-import { motionInitScript } from "@/components/ui-brand/motion-preference";
 import "./globals.css";
 
 const inter = Inter({
@@ -82,10 +81,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en-IN"
       className={`${inter.variable} ${interTight.variable} ${jetbrainsMono.variable} ${bagelFatOne.variable} h-full`}
     >
-      <head>
-        {/* Applies the stored motion preference before first paint. */}
-        <script dangerouslySetInnerHTML={{ __html: motionInitScript }} />
-      </head>
       <body className="grain flex min-h-full flex-col overflow-x-hidden">
         <a
           href="#main"

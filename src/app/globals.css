@@ -268,14 +268,14 @@
      OS to calm things down.
      --------------------------------------------------------------------- */
   @media (prefers-reduced-motion: reduce) {
-    html:not([data-motion="on"]) {
+    html {
       scroll-behavior: auto;
     }
 
-    /* Tier 2 only. `data-motion="on"` is an explicit per-site override. */
-    html:not([data-motion="on"]) .motion-rich,
-    html:not([data-motion="on"]) .motion-rich::before,
-    html:not([data-motion="on"]) .motion-rich::after {
+    /* Tier 2 only. */
+    .motion-rich,
+    .motion-rich::before,
+    .motion-rich::after {
       animation: none !important;
       transform: none !important;
       transition: none !important;
@@ -960,17 +960,17 @@
      An earlier version wrapped the flex track instead, which left a ragged
      empty gap at the end of each row and read as broken. */
   @media (prefers-reduced-motion: reduce) {
-    html:not([data-motion="on"]) .rail-section {
+    .rail-section {
       height: auto;
     }
 
-    html:not([data-motion="on"]) .rail-sticky {
+    .rail-sticky {
       position: static;
       height: auto;
       overflow: visible;
     }
 
-    html:not([data-motion="on"]) .rail-viewport {
+    .rail-viewport {
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scrollbar-width: thin;
@@ -978,7 +978,7 @@
       padding-bottom: 1rem;
     }
 
-    html:not([data-motion="on"]) .rail-track {
+    .rail-track {
       animation: none;
       flex-wrap: nowrap;
       /* max-content is right here — the row is meant to overflow and scroll.
@@ -987,7 +987,7 @@
       padding-inline: 0;
     }
 
-    html:not([data-motion="on"]) .rail-card {
+    .rail-card {
       scroll-snap-align: center;
     }
   }
@@ -1519,33 +1519,16 @@
        that stops everything. Gating them on the OS setting alone removed the
        site's signature element for a whole class of visitor when a pause
        button already met the obligation. */
-    html:not([data-motion="on"]) .velocity-skew {
+    .velocity-skew {
       animation: none !important;
       transform: none !important;
     }
 
-    html:not([data-motion="on"]) .hero-parallax {
+    .hero-parallax {
       transform: none !important;
     }
   }
 
-  /* Explicit opt-out stops everything, including the ambient layer. */
-  html[data-motion="off"] :is(
-      .animate-marquee,
-      .animate-marquee-reverse,
-      .animate-drift,
-      .animate-drift-slow,
-      .animate-hero-float,
-      .aurora-blob,
-      .velocity-skew,
-      .split-char,
-      .stack-item > *
-    ),
-  html[data-motion="off"] .hero-glow::before,
-  html[data-motion="off"] .slab-bloom::after {
-    animation: none !important;
-    transform: none !important;
-  }
 
   /* Opacity-only variant of the split reveal. */
   @keyframes split-fade {

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Mail, MapPin, MessageCircle } from "lucide-react";
 import { footerNav, siteConfig, whatsappUrl } from "@/config/site";
 import { Wordmark } from "@/components/brand/wordmark";
-import { MotionPreference } from "@/components/ui-brand/motion-preference";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -88,10 +87,7 @@ export function SiteFooter() {
           <p>
             &copy; {year} {siteConfig.name}. All rights reserved.
           </p>
-          <div className="flex items-center gap-5">
-            <MotionPreference />
-            <p className="label-mono">Built in {siteConfig.location.city}</p>
-          </div>
+          <p className="label-mono">Built in {siteConfig.location.city}</p>
         </div>
       </div>
     </footer>
