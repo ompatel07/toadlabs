@@ -100,11 +100,22 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <div className="scroll-progress bg-lime h-full w-full" />
         </div>
 
-        <SiteHeader />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter />
+        {/* Drifting colour field behind the whole site. Decorative, fixed,
+            and pointer-transparent; the grain overlay above it hides the
+            banding that large soft gradients cause on 8-bit displays. */}
+        <div className="aurora" aria-hidden="true">
+          <span className="aurora-blob" />
+          <span className="aurora-blob" />
+          <span className="aurora-blob" />
+        </div>
+
+        <div className="relative z-10 flex min-h-full flex-1 flex-col">
+          <SiteHeader />
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </div>
       </body>
     </html>
   );

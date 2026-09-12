@@ -133,8 +133,14 @@ export const process: ProcessStep[] = [
   },
 ];
 
-/** Tools we build with. Not client logos — the design system bans those. */
-export const techStack: string[] = [
+/**
+ * Tooling, split into two lanes for the stack band.
+ *
+ * The split is meaningful rather than cosmetic — build tooling runs one way,
+ * security tooling the other — so the band carries information instead of just
+ * filling width. Not client logos; those would have to be real.
+ */
+export const buildStack = [
   "TypeScript",
   "Next.js",
   "React",
@@ -150,12 +156,24 @@ export const techStack: string[] = [
   "Docker",
   "Kubernetes",
   "GitHub Actions",
-  "Playwright",
+] as const;
+
+export const secureStack = [
   "Burp Suite",
   "OWASP ASVS",
+  "OWASP MASVS",
   "Semgrep",
+  "Nuclei",
+  "Playwright",
+  "Trivy",
   "Grafana",
-];
+  "MITRE ATT&CK",
+  "CIS Benchmarks",
+  "NIST SP 800-115",
+] as const;
+
+/** Flat list, kept for anything that wants the whole set. */
+export const techStack: string[] = [...buildStack, ...secureStack];
 
 export interface FaqItem {
   question: string;

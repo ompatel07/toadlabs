@@ -169,6 +169,8 @@
 
   html {
     @apply font-sans;
+    /* The aurora sits at z-index 0 behind everything; page content is lifted
+       above it in the layout. */
     scroll-behavior: smooth;
     scroll-padding-top: 7rem;
     -webkit-text-size-adjust: 100%;
@@ -442,7 +444,7 @@
   /* Translucent glass. Kept above 0.72 alpha so text on it stays legible
      even where the blur is unsupported. */
   .glass {
-    background: rgba(255, 255, 255, 0.74);
+    background: rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
     border: 1px solid rgba(255, 255, 255, 0.85);
@@ -463,7 +465,7 @@
   }
 
   .glass-pill {
-    background: rgba(255, 255, 255, 0.76);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
     border: 1px solid rgba(255, 255, 255, 0.85);
@@ -511,8 +513,43 @@
     animation: marquee-scroll 46s linear infinite;
   }
 
+  /* Second lane runs the other way. Opposing directions at different speeds
+     are what stop the band reading as one conveyor belt. */
+  @keyframes marquee-scroll-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-marquee-reverse {
+    animation: marquee-scroll-reverse 46s linear infinite;
+  }
+
+  /* Fade both ends so chips dissolve instead of being cut at a hard edge. */
+  .marquee-edge {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 8%,
+      #000 92%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      #000 8%,
+      #000 92%,
+      transparent 100%
+    );
+  }
+
   .marquee-viewport:hover .animate-marquee,
-  .marquee-viewport:focus-within .animate-marquee {
+  .marquee-viewport:focus-within .animate-marquee,
+  .marquee-viewport:hover .animate-marquee-reverse,
+  .marquee-viewport:focus-within .animate-marquee-reverse {
     animation-play-state: paused;
   }
 
@@ -685,6 +722,78 @@
 
   .spotlight:hover::before {
     opacity: 1;
+  }
+
+  /* --- Aurora field -------------------------------------------------------
+     A fixed layer of slowly drifting blobs behind the whole site. Three, not
+     six: each is a large blurred element and they are the most expensive thing
+     on the page, so the count is the budget.
+
+     multiply rather than screen — on a light ground that reads as ink soaking
+     into paper, where screen would wash the canvas out.
+
+     Animated with transform only, so each blob stays on its own composited
+     layer and the drift costs no repaint. The grain overlay sits above this and
+     does real work: large soft gradients band badly on 8-bit displays, and the
+     noise breaks the bands up. */
+  @keyframes aurora-a {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    33%      { transform: translate3d(6vw, 4vh, 0) scale(1.18); }
+    66%      { transform: translate3d(-4vw, 7vh, 0) scale(0.92); }
+  }
+
+  @keyframes aurora-b {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+    50%      { transform: translate3d(-8vw, -5vh, 0) scale(0.9); }
+  }
+
+  @keyframes aurora-c {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+    40%      { transform: translate3d(5vw, -6vh, 0) scale(1.2); }
+    75%      { transform: translate3d(-6vw, 3vh, 0) scale(1.05); }
+  }
+
+  .aurora {
+    position: fixed;
+    inset: -20vmax;
+    z-index: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    contain: strict;
+  }
+
+  .aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    will-change: transform;
+  }
+
+  .aurora-blob:nth-child(1) {
+    top: 6%;
+    left: 4%;
+    width: 46vmax;
+    height: 46vmax;
+    background: radial-gradient(circle, rgba(199, 242, 60, 0.26) 0%, rgba(199, 242, 60, 0) 65%);
+    animation: aurora-a 34s ease-in-out infinite;
+  }
+
+  .aurora-blob:nth-child(2) {
+    top: 34%;
+    right: 2%;
+    width: 40vmax;
+    height: 40vmax;
+    background: radial-gradient(circle, rgba(31, 107, 74, 0.16) 0%, rgba(31, 107, 74, 0) 65%);
+    animation: aurora-b 44s ease-in-out infinite;
+  }
+
+  .aurora-blob:nth-child(3) {
+    bottom: 4%;
+    left: 26%;
+    width: 52vmax;
+    height: 52vmax;
+    background: radial-gradient(circle, rgba(168, 213, 32, 0.15) 0%, rgba(168, 213, 32, 0) 68%);
+    animation: aurora-c 52s ease-in-out infinite;
   }
 
   /* --- Background treatments --------------------------------------------
@@ -883,6 +992,7 @@
   @media (prefers-reduced-motion: reduce) {
     html:not([data-motion="on"]) :is(
         .animate-marquee,
+        .animate-marquee-reverse,
         .animate-drift,
         .animate-drift-slow,
         .animate-hero-float
@@ -895,6 +1005,7 @@
 
   html[data-motion="off"] :is(
       .animate-marquee,
+      .animate-marquee-reverse,
       .animate-drift,
       .animate-drift-slow,
       .animate-hero-float
