@@ -1,22 +1,21 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { CaseStudy } from "@/config/work";
-import { toneCycle, type ToneName } from "@/lib/tones";
+import { tones, accentAt } from "@/lib/tones";
 import { cn } from "@/lib/utils";
-
-const TONES: ToneName[] = ["sand", "cyan", "amber"];
 
 /** Shared between the home preview and the /work index. */
 export function WorkCard({ study, index = 0 }: { study: CaseStudy; index?: number }) {
-  const tone = toneCycle(TONES, index);
+  const tone = tones[accentAt(index, [1])];
 
   return (
     <Link
       href={`/work/${study.slug}`}
       className={cn(
-        "group relative flex h-full cursor-pointer flex-col gap-4 overflow-hidden rounded-3xl p-7 transition-transform duration-300 ease-out hover:-translate-y-1.5",
+        "group relative flex h-full cursor-pointer flex-col gap-4 overflow-hidden rounded-2xl border p-7 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-ink",
         tone.bg,
         tone.text,
+        tone.border,
         tone.dark && "on-dark",
       )}
     >

@@ -38,7 +38,7 @@ export function PageHeader({
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-end">
           <div className="flex flex-col gap-5">
             <p className="label-mono text-ink-soft">{eyebrow}</p>
-            <h1 className="text-display text-ink max-w-4xl">{title}</h1>
+            <h1 className="type-display text-ink max-w-4xl">{title}</h1>
             {description ? (
               <p className="measure text-ink-soft text-[1.0625rem] md:text-lg">
                 {description}

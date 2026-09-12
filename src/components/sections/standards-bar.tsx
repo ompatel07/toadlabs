@@ -8,26 +8,26 @@ import { standards } from "@/config/trust";
  * "accredited by": naming a standard describes our process, whereas showing its
  * logo would imply an endorsement we do not have.
  *
- * White on teal is 9.39:1; lime on teal is 7.24:1.
+ * White on deep is 18.2:1; lime on deep is well clear.
  */
 export function StandardsBar() {
   return (
     <section className="section-dense relative">
       <div className="container-tl">
-        <div className="bg-teal on-dark relative overflow-hidden rounded-[2rem] p-8 text-white md:p-12 lg:p-14">
+        <div className="bg-deep on-dark relative overflow-hidden rounded-[2rem] border border-ink p-8 text-white md:p-12 lg:p-14">
           {/* Bioluminescent bloom. */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -right-32 -bottom-40 size-[460px] rounded-full opacity-50 blur-3xl"
             style={{
               background:
-                "radial-gradient(circle, rgba(69,224,208,0.45) 0%, rgba(199,242,60,0.18) 45%, rgba(14,79,74,0) 72%)",
+                "radial-gradient(circle, rgba(199,242,60,0.30) 0%, rgba(168,213,32,0.12) 45%, rgba(16,23,16,0) 72%)",
             }}
           />
 
           <div className="relative flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="label-mono text-cyan">Methodology</p>
+              <p className="label-mono text-lime">Methodology</p>
               <h2 className="font-display mt-3 max-w-xl text-[1.625rem] font-bold tracking-[-0.03em] md:text-[2.25rem]">
                 We test against published standards
               </h2>

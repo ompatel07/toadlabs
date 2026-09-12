@@ -30,7 +30,7 @@ export function Pillars() {
             <span className="label-mono text-ink-soft">
               {pillars.build.label}
             </span>
-            <h3 className="text-h3 text-ink">{pillars.build.title}</h3>
+            <h3 className="type-h3 text-ink">{pillars.build.title}</h3>
             <p className="text-ink-soft text-[0.9375rem]">
               {pillars.build.description}
             </p>
@@ -59,7 +59,7 @@ export function Pillars() {
           {/* `on-dark` switches the focus ring to lime so it stays visible. */}
           <article className="slab-dark on-dark flex h-full flex-col gap-6 p-8 md:p-10">
             <span className="label-mono text-lime">{pillars.secure.label}</span>
-            <h3 className="text-h3 text-white">{pillars.secure.title}</h3>
+            <h3 className="type-h3 text-white">{pillars.secure.title}</h3>
             <p className="text-[0.9375rem] text-white/70">
               {pillars.secure.description}
             </p>

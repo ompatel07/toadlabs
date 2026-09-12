@@ -62,7 +62,7 @@ export function StackMarquee() {
       ) : (
         // The band is rotated and over-scaled so its edges run off screen
         // rather than showing a cut corner.
-        <div className="marquee-band bg-lime border-y-2 border-[rgba(11,12,10,0.9)] py-4">
+        <div className="marquee-band bg-ink border-y-2 border-ink py-4">
           <div className="marquee-viewport relative flex overflow-hidden">
             <ul
               className={cn(
@@ -94,9 +94,9 @@ export function StackMarquee() {
 
 function StackChip({ label }: { label: string }) {
   return (
-    <li className="font-display text-ink flex shrink-0 items-center gap-8 text-[1.125rem] font-bold tracking-[-0.02em] whitespace-nowrap md:text-[1.375rem]">
+    <li className="font-display flex shrink-0 items-center gap-8 text-[1.125rem] font-bold tracking-[-0.02em] whitespace-nowrap text-white md:text-[1.375rem]">
       {label}
-      <span aria-hidden="true" className="bg-ink/40 inline-block size-1.5 rounded-full" />
+      <span aria-hidden="true" className="bg-lime inline-block size-1.5 rounded-full" />
     </li>
   );
 }

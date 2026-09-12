@@ -8,6 +8,7 @@ import {
 import { siteConfig } from "@/config/site";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { motionInitScript } from "@/components/ui-brand/motion-toggle";
 import "./globals.css";
 
 const inter = Inter({
@@ -78,6 +79,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en-IN"
       className={`${inter.variable} ${interTight.variable} ${jetbrainsMono.variable} ${bagelFatOne.variable} h-full`}
     >
+      <head>
+        {/* Applies the stored motion preference before first paint, so the
+            page never renders one frame with the wrong setting. */}
+        <script dangerouslySetInnerHTML={{ __html: motionInitScript }} />
+      </head>
       <body className="grain flex min-h-full flex-col overflow-x-hidden">
         <a
           href="#main"

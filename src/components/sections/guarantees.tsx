@@ -1,6 +1,7 @@
 import { guarantees } from "@/config/trust";
 import { Section, SectionHeading } from "@/components/layout/section";
-import { toneCycle, type ToneName } from "@/lib/tones";
+import { tones, accentAt } from "@/lib/tones";
+import { Stamp } from "@/components/brand/decor";
 import { cn } from "@/lib/utils";
 
 /**
@@ -10,31 +11,37 @@ import { cn } from "@/lib/utils";
  * not. That is what replaces the unverifiable badge wall a security site
  * usually leads with.
  */
-const TONES: ToneName[] = ["sand", "coral", "teal", "cyan", "amber", "lime"];
-
 export function Guarantees() {
   return (
     <Section className="relative overflow-hidden">
       <div className="blob-accent -right-32 bottom-0 h-[420px] w-[420px]" aria-hidden="true" />
 
       <div className="relative">
-        <SectionHeading
-          className="kinetic"
-          eyebrow="How we engage"
-          title="Commitments you can hold us to"
-          description="No badges, no logo wall. Six things that either happen on your engagement or visibly do not."
-        />
+        <div className="flex items-start justify-between gap-8">
+          <SectionHeading
+            className="kinetic"
+            eyebrow="How we engage"
+            title="Commitments you can hold us to"
+            description="No badges, no logo wall. Six things that either happen on your engagement or visibly do not."
+          />
+          <Stamp className="hidden shrink-0 lg:flex">
+            No
+            <br />
+            lock-in
+          </Stamp>
+        </div>
 
         <ul className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {guarantees.map((item, index) => {
-            const tone = toneCycle(TONES, index);
+            const tone = tones[accentAt(index, [3])];
             return (
               <li key={item.title} className="rise">
                 <div
                   className={cn(
-                    "group flex h-full flex-col gap-3.5 rounded-3xl p-7 transition-transform duration-300 ease-out hover:-translate-y-1.5",
+                    "group flex h-full flex-col gap-3.5 rounded-2xl border p-7 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-ink",
                     tone.bg,
                     tone.text,
+                    tone.border,
                     tone.dark && "on-dark",
                   )}
                 >

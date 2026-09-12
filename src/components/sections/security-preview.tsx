@@ -33,7 +33,7 @@ export function SecurityPreview() {
                 {/* The heading resolves from scrambled glyphs on scroll — the
                     idea of decoding, without reaching for matrix rain. The
                     accessible copy never scrambles. */}
-                <h2 className="text-h2 text-white">
+                <h2 className="type-h2 text-white">
                   <DecodeText text="We break what we build." />
                   <br />
                   <DecodeText text="And what you built." duration={1100} />

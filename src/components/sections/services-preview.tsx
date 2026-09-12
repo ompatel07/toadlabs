@@ -3,23 +3,24 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { homeServiceIds, services } from "@/config/services";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
-import { tones, type ToneName } from "@/lib/tones";
+import { OutlineType, DotGrid } from "@/components/brand/decor";
+import { tones, accentAt } from "@/lib/tones";
 import { cn } from "@/lib/utils";
 
 /**
  * Services bento.
  *
- * Varied spans and a fixed colour rotation, so the grid reads as one composed
- * block rather than six identical tiles. Tones come from lib/tones, which
- * couples each background to the only text colour that passes on it.
+ * Varied spans, a watermark word behind the grid, and lime on two cells only.
+ * The composition carries it — an asymmetric grid of mostly-white cards with
+ * two accents reads as designed; six coloured cards reads as a swatch page.
  */
-const LAYOUT: { tone: ToneName; span: string }[] = [
-  { tone: "lime", span: "sm:col-span-2 lg:col-span-2 lg:row-span-1" },
-  { tone: "teal", span: "" },
-  { tone: "cyan", span: "" },
-  { tone: "amber", span: "" },
-  { tone: "sand", span: "sm:col-span-2" },
-  { tone: "coral", span: "" },
+const SPANS = [
+  "sm:col-span-2 lg:col-span-2",
+  "",
+  "",
+  "",
+  "sm:col-span-2",
+  "",
 ];
 
 export function ServicesPreview() {
@@ -29,6 +30,12 @@ export function ServicesPreview() {
 
   return (
     <Section className="relative overflow-hidden">
+      {/* Watermark word, cropped by the section edge. */}
+      <OutlineType className="absolute -top-4 -left-6 text-[clamp(5rem,16vw,13rem)]">
+        BUILD
+      </OutlineType>
+      <DotGrid className="top-24 right-6 hidden h-32 w-32 lg:block" />
+
       <div className="relative flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <SectionHeading
           className="kinetic"
@@ -48,23 +55,22 @@ export function ServicesPreview() {
 
       <ul className="relative mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {featured.map((service, index) => {
-          const { tone: toneName, span } = LAYOUT[index % LAYOUT.length];
-          const tone = tones[toneName];
+          const tone = tones[accentAt(index, [0, 4])];
 
           return (
-            <li key={service.id} className={cn("rise", span)}>
+            <li key={service.id} className={cn("rise", SPANS[index % SPANS.length])}>
               <Link
                 href={`/services#${service.id}`}
                 className={cn(
-                  "group relative flex h-full cursor-pointer flex-col gap-4 overflow-hidden rounded-3xl p-7 transition-transform duration-300 ease-out hover:-translate-y-1.5 md:p-8",
+                  "group relative flex h-full cursor-pointer flex-col gap-4 overflow-hidden rounded-2xl border p-7 transition-all duration-300 ease-out hover:-translate-y-1.5 md:p-8",
                   tone.bg,
                   tone.text,
-                  tone.dark && "on-dark",
+                  tone.border,
+                  "hover:border-ink",
                 )}
               >
-                {/* Oversized numeral bleeding off the corner. */}
                 <span
-                  className="numeral pointer-events-none absolute -right-2 -bottom-6 text-[7rem] opacity-10"
+                  className="numeral pointer-events-none absolute -right-1 -bottom-6 text-[6.5rem] opacity-[0.07]"
                   aria-hidden="true"
                 >
                   {String(index + 1).padStart(2, "0")}
@@ -72,8 +78,9 @@ export function ServicesPreview() {
 
                 <span
                   className={cn(
-                    "relative inline-flex size-12 items-center justify-center rounded-2xl",
+                    "relative inline-flex size-12 items-center justify-center rounded-full border transition-transform duration-300 ease-out group-hover:rotate-12",
                     tone.chip,
+                    tone.border,
                   )}
                 >
                   <service.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />

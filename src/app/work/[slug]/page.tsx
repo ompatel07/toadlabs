@@ -63,7 +63,7 @@ export default async function CaseStudyPage({
             ) : null}
           </div>
 
-          <h1 className="text-display text-ink mt-4 max-w-4xl">
+          <h1 className="type-display text-ink mt-4 max-w-4xl">
             {study.title}
           </h1>
           <p className="measure text-ink-soft mt-5 text-[1.0625rem] md:text-lg">

@@ -208,17 +208,44 @@
     color: var(--ink);
   }
 
+  /* ---------------------------------------------------------------------
+     MOTION CONTROL
+
+     Animations are declared unconditionally and switched off here, rather
+     than each one being wrapped in a no-preference query. That gives one
+     place to reason about, and makes a user override possible:
+
+       data-motion="on"   force motion on, even if the OS says reduce
+       data-motion="off"  force motion off
+       (absent)           follow the OS setting
+
+     The override exists because "reduce" is often set OS-wide and forgotten,
+     and a visitor should be able to opt back in for one site. The OS setting
+     is still the default — we never silently ignore it.
+     --------------------------------------------------------------------- */
   @media (prefers-reduced-motion: reduce) {
-    html {
+    html:not([data-motion="on"]) {
       scroll-behavior: auto;
     }
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
+    html:not([data-motion="on"]) *,
+    html:not([data-motion="on"]) *::before,
+    html:not([data-motion="on"]) *::after {
+      /* `animation: none`, not a zeroed duration: a view-timeline animation
+         ignores duration, so zeroing it would leave scroll-driven reveals
+         stuck at opacity 0 and hide the page. */
+      animation: none !important;
       transition-duration: 0.01ms !important;
     }
+  }
+
+  html[data-motion="off"] {
+    scroll-behavior: auto;
+  }
+  html[data-motion="off"] *,
+  html[data-motion="off"] *::before,
+  html[data-motion="off"] *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -276,6 +303,38 @@
 
   .measure-tight {
     max-width: 46ch;
+  }
+
+  /* Heading sizes.
+     Deliberately NOT named `text-*`: tailwind-merge groups every `text-…`
+     utility together, so `cn("text-h2", "text-ink")` silently dropped the size
+     and rendered section headings at body size. A distinct prefix is immune. */
+  .type-hero {
+    font-size: var(--text-hero);
+    line-height: 0.86;
+    letter-spacing: -0.05em;
+    font-weight: 800;
+  }
+
+  .type-display {
+    font-size: var(--text-display);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    font-weight: 800;
+  }
+
+  .type-h2 {
+    font-size: var(--text-h2);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    font-weight: 700;
+  }
+
+  .type-h3 {
+    font-size: var(--text-h3);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    font-weight: 600;
   }
 
   /* Small uppercase technical label. */
@@ -393,13 +452,11 @@
     }
   }
 
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      .reveal {
-        animation: reveal-in linear both;
-        animation-timeline: view();
-        animation-range: entry 0% cover 16%;
-      }
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 16%;
     }
   }
 
@@ -435,8 +492,7 @@
   /* --- Kinetic scroll typography -----------------------------------------
      Section headings rise and settle as they enter. CSS scroll-driven, so it
      costs no JS and degrades to a static heading where unsupported. */
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
+  @supports (animation-timeline: view()) {
       @keyframes kinetic-in {
         from {
           opacity: 0;
@@ -471,7 +527,6 @@
         animation-timeline: view();
         animation-range: entry 0% cover 26%;
       }
-    }
   }
 
   /* --- Stickers ----------------------------------------------------------
@@ -563,13 +618,6 @@
     will-change: transform;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .animate-hero-float {
-      animation: none !important;
-      transform: none !important;
-    }
-  }
-
   /* Soft lime bloom behind the hero object. A pseudo-element gradient, not a
      blur filter on the image — blurring the image itself would cost a repaint
      of a large bitmap on every frame of the float. */
@@ -587,13 +635,6 @@
     );
     pointer-events: none;
     animation: glow-pulse 7s ease-in-out infinite;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-glow::before {
-      animation: none !important;
-      transform: none !important;
-    }
   }
 
   /* Slow drift for the hero centrepiece. */
@@ -625,12 +666,33 @@
     animation: drift-slow 18s ease-in-out infinite;
   }
 
+}
+
+@layer utilities {
+  /* Looping animations must be stopped outright rather than sped up: the
+     global switch sets animation-duration to ~0, which would snap a marquee
+     straight to its end position instead of holding it still. */
   @media (prefers-reduced-motion: reduce) {
-    .animate-marquee,
-    .animate-drift,
-    .animate-drift-slow {
+    html:not([data-motion="on"]) :is(
+        .animate-marquee,
+        .animate-drift,
+        .animate-drift-slow,
+        .animate-hero-float
+      ),
+    html:not([data-motion="on"]) .hero-glow::before {
       animation: none !important;
       transform: none !important;
     }
+  }
+
+  html[data-motion="off"] :is(
+      .animate-marquee,
+      .animate-drift,
+      .animate-drift-slow,
+      .animate-hero-float
+    ),
+  html[data-motion="off"] .hero-glow::before {
+    animation: none !important;
+    transform: none !important;
   }
 }

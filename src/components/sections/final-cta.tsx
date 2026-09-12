@@ -36,7 +36,7 @@ export function FinalCta({
 
             <div className="relative flex flex-col gap-8">
               <div className="flex flex-col gap-5">
-                <h2 className="text-display max-w-3xl text-white">{title}</h2>
+                <h2 className="type-display max-w-3xl text-white">{title}</h2>
                 <p className="measure text-[1.0625rem] text-white/70">
                   {description}
                 </p>

@@ -1,6 +1,7 @@
 import { process } from "@/config/home";
 import { Section, SectionHeading } from "@/components/layout/section";
-import { toneCycle, type ToneName } from "@/lib/tones";
+import { tones, accentAt } from "@/lib/tones";
+import { OutlineType } from "@/components/brand/decor";
 import { cn } from "@/lib/utils";
 
 /**
@@ -10,12 +11,12 @@ import { cn } from "@/lib/utils";
  * face, which is what carries the hero's type voice down the page without
  * repeating the wave effect.
  */
-const TONES: ToneName[] = ["cyan", "lime", "amber", "teal"];
-
 export function Process() {
   return (
     <Section className="relative overflow-hidden">
-      <div className="blob-accent -top-20 right-[6%] h-[360px] w-[360px]" aria-hidden="true" />
+      <OutlineType className="absolute -top-2 right-0 text-[clamp(4rem,13vw,10rem)]">
+        PROCESS
+      </OutlineType>
 
       <div className="relative">
         <SectionHeading
@@ -27,7 +28,7 @@ export function Process() {
 
         <ol className="mt-14 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
           {process.map((step, index) => {
-            const tone = toneCycle(TONES, index);
+            const tone = tones[accentAt(index, [1])];
             return (
               <li
                 key={step.number}
@@ -42,9 +43,10 @@ export function Process() {
               >
                 <div
                   className={cn(
-                    "relative flex h-full flex-col gap-3 overflow-hidden rounded-3xl p-7 transition-transform duration-300 ease-out hover:-translate-y-1.5",
+                    "relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border p-7 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-ink",
                     tone.bg,
                     tone.text,
+                    tone.border,
                     tone.dark && "on-dark",
                   )}
                 >
