@@ -1,0 +1,20 @@
+[build]
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# PREVIEW GUARD — remove this block at launch.
+#
+# Still true as of now:
+#   - the three case studies are placeholders, not real client work
+#   - contact details in src/config/site.ts are placeholders
+#   - the contact form is a stub and does not send (src/lib/contact.ts)
+#
+# Until those are real, this must not be indexed as the live Toad Labs site.
+# Delete this whole [[headers]] block on launch day.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

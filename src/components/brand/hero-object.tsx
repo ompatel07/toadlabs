@@ -1,0 +1,71 @@
+/**
+ * The hero 3D object.
+ *
+ * WHY <picture> RATHER THAN next/image
+ * The site builds with `output: "export"`, which disables Next's image
+ * optimiser — `images.unoptimized` is required, and next/image then emits a
+ * plain <img> with the src untouched. It would do no format negotiation, so
+ * the AVIF and WebP derivatives would never be served and every visitor would
+ * download the 1.39MB PNG.
+ *
+ * A <picture> gives what next/image would have: explicit dimensions (so the
+ * box is reserved and CLS stays 0), a sizes/srcset pair matching the responsive
+ * widths, high fetch priority, and a preload — plus actual AVIF/WebP delivery.
+ * At 1254px that is 87KB AVIF against 345KB PNG.
+ *
+ * Derivatives come from scripts/generate-hero-assets.mjs.
+ */
+
+const WIDTHS = [400, 600, 900, 1254] as const;
+
+/** Matches the breakpoints in the hero layout below. */
+const SIZES =
+  "(max-width: 767px) 72vw, (max-width: 1023px) 46vw, (max-width: 1439px) 38vw, 560px";
+
+const srcSet = (extension: string) =>
+  WIDTHS.map((width) => `/hero/toad-3d-${width}.${extension} ${width}w`).join(
+    ", ",
+  );
+
+export function HeroObject({ className }: { className?: string }) {
+  return (
+    <>
+      {/* React hoists this to <head>. Responsive so the preload matches the
+          candidate the browser will actually choose. */}
+      <link
+        rel="preload"
+        as="image"
+        type="image/avif"
+        href="/hero/toad-3d-900.avif"
+        imageSrcSet={srcSet("avif")}
+        imageSizes={SIZES}
+        fetchPriority="high"
+      />
+
+      <div className={className}>
+        {/* hero-glow paints the lime bloom behind; the float sits on the image
+            itself so the glow stays put while the object drifts. The wrapper
+            controls the size — width on phones, height on desktop — so the
+            object can be bounded by whichever axis is scarcer. */}
+        <div className="hero-glow relative isolate h-full w-full">
+          <picture>
+            <source type="image/avif" srcSet={srcSet("avif")} sizes={SIZES} />
+            <source type="image/webp" srcSet={srcSet("webp")} sizes={SIZES} />
+            <img
+              src="/hero/toad-3d-1254.png"
+              srcSet={srcSet("png")}
+              sizes={SIZES}
+              width={1254}
+              height={1254}
+              fetchPriority="high"
+              decoding="async"
+              alt=""
+              className="animate-hero-float block h-full w-full object-contain select-none"
+              draggable={false}
+            />
+          </picture>
+        </div>
+      </div>
+    </>
+  );
+}
