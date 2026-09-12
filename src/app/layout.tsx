@@ -8,6 +8,7 @@ import {
 import { siteConfig } from "@/config/site";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { PageTransition } from "@/components/layout/page-transition";
 import { Cursor } from "@/components/ui-brand/cursor";
 import { IntroReveal } from "@/components/brand/intro-reveal";
 import { motionInitScript } from "@/components/ui-brand/motion-preference";
@@ -116,7 +117,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="relative z-10 flex min-h-full flex-1 flex-col">
           <SiteHeader />
           <main id="main" className="flex-1">
-            {children}
+            <PageTransition>{children}</PageTransition>
           </main>
           <SiteFooter />
         </div>

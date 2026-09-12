@@ -11,7 +11,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
-import { SeverityModel } from "@/components/sections/severity-model";
+import { SeverityExplorer } from "@/components/sections/severity-explorer";
 import { Deliverables } from "@/components/sections/deliverables";
 import { SecurityFaq } from "@/components/sections/security-faq";
 import { FinalCta } from "@/components/sections/final-cta";
@@ -181,7 +181,7 @@ export default function CybersecurityPage() {
         </ol>
       </Section>
 
-      <SeverityModel dense />
+      <SeverityExplorer />
       <Deliverables dense />
 
       {/* Methodology */}
