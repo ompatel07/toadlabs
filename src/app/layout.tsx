@@ -9,6 +9,7 @@ import { siteConfig } from "@/config/site";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { motionInitScript } from "@/components/ui-brand/motion-toggle";
+import { Cursor } from "@/components/ui-brand/cursor";
 import "./globals.css";
 
 const inter = Inter({
@@ -103,6 +104,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* Drifting colour field behind the whole site. Decorative, fixed,
             and pointer-transparent; the grain overlay above it hides the
             banding that large soft gradients cause on 8-bit displays. */}
+        <Cursor />
+
         <div className="aurora" aria-hidden="true">
           <span className="aurora-blob" />
           <span className="aurora-blob" />

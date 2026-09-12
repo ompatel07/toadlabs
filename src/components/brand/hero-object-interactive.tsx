@@ -80,7 +80,12 @@ export function HeroObjectInteractive({ className }: { className?: string }) {
   }, []);
 
   return (
-    <div ref={wrapperRef} className={className} style={{ willChange: "transform" }}>
+    <div
+      ref={wrapperRef}
+      className={className}
+      data-cursor="Toad Labs"
+      style={{ willChange: "transform" }}
+    >
       <div className="hero-parallax h-full w-full">
         <HeroObject className="h-full w-full" />
       </div>

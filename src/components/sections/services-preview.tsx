@@ -61,6 +61,7 @@ export function ServicesPreview() {
             <li key={service.id} className={cn("rise", SPANS[index % SPANS.length])}>
               <Link
                 href={`/services#${service.id}`}
+                data-cursor="Explore"
                 className={cn(
                   "group relative flex h-full cursor-pointer flex-col gap-4 overflow-hidden rounded-2xl border p-7 transition-all duration-300 ease-out hover:-translate-y-1.5 md:p-8",
                   tone.bg,

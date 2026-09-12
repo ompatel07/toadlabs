@@ -724,6 +724,166 @@
     opacity: 1;
   }
 
+  /* --- Sticky stacking cards ----------------------------------------------
+     Each card sticks a little lower than the one before, so they pile up as
+     you scroll and the earlier ones stay visible as a deck edge rather than
+     scrolling away. The scale-down is scroll-driven, so a covered card
+     visually recedes instead of just being overlapped.
+
+     `position: sticky` does the stacking with no JS. The scale is layered on
+     only where scroll-driven timelines exist. */
+  .stack-item {
+    position: sticky;
+    top: calc(7rem + var(--i) * 2.25rem);
+  }
+
+  @supports (animation-timeline: view()) {
+    @keyframes stack-recede {
+      to {
+        transform: scale(0.93) translateY(-0.5rem);
+        filter: brightness(0.97);
+      }
+    }
+
+    .stack-item > * {
+      animation: stack-recede linear both;
+      animation-timeline: view();
+      /* Only starts receding once the card has been scrolled well past. */
+      animation-range: exit-crossing 0% exit-crossing 100%;
+      transform-origin: 50% 0%;
+    }
+  }
+
+  /* Scroll-velocity skew. The value is written by JS on scroll and eased back
+     to zero, so the band leans into the direction of travel. */
+  .velocity-skew {
+    transform: skewY(var(--skew, 0deg));
+    transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* --- Split text ---------------------------------------------------------
+     Per-character reveal driven by scroll position. Each char shares one
+     view-timeline on the parent but starts a little later, which produces a
+     sweep instead of a block fade.
+
+     Characters are inline-block so they can transform; words are inline-block
+     too, so wrapping still happens at word boundaries. */
+  .split-text {
+    display: inline;
+  }
+
+  .split-word {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .split-char {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+
+  @supports (animation-timeline: view()) {
+    @keyframes split-in {
+      from {
+        opacity: 0;
+        transform: translateY(0.4em) rotate(3deg);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .split-text {
+      view-timeline-name: --split;
+    }
+
+    .split-char {
+      animation: split-in linear both;
+      animation-timeline: --split;
+      /* Stagger: each character's window starts 0.6% further along the
+         element's entry, capped so long lines still finish on screen. */
+      animation-range: entry calc(2% + (var(--i) * 0.6%)) entry
+        calc(34% + (var(--i) * 0.6%));
+    }
+  }
+
+  /* --- Custom cursor ------------------------------------------------------
+     The ring blends with `difference`, so it inverts against lime, ink or
+     paper without needing a colour per surface. The class is only added by the
+     component once it is actually running, so the native cursor is never
+     hidden without a replacement on screen. */
+  .has-custom-cursor,
+  .has-custom-cursor a,
+  .has-custom-cursor button,
+  .has-custom-cursor [role="button"],
+  .has-custom-cursor summary,
+  .has-custom-cursor label {
+    cursor: none;
+  }
+
+  /* Text inputs keep a real caret — replacing an I-beam helps nobody. */
+  .has-custom-cursor input,
+  .has-custom-cursor textarea {
+    cursor: text;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    pointer-events: none;
+    opacity: 0;
+    will-change: transform;
+  }
+
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    transition: opacity 200ms ease-out;
+  }
+
+  .cursor-ring {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid #ffffff;
+    border-radius: 999px;
+    mix-blend-mode: difference;
+    transition:
+      width 260ms cubic-bezier(0.16, 1, 0.3, 1),
+      height 260ms cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 260ms ease-out,
+      opacity 200ms ease-out;
+  }
+
+  .cursor-ring[data-active="true"] {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .cursor-ring[data-labelled="true"] {
+    width: 84px;
+    height: 84px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .cursor-label {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.2;
+  }
+
   /* --- Aurora field -------------------------------------------------------
      A fixed layer of slowly drifting blobs behind the whole site. Three, not
      six: each is a large blurred element and they are the most expensive thing

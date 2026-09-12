@@ -35,7 +35,7 @@ export function FinalCta({
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Magnetic>
-                  <ActionLink href="/contact" variant="lime" size="lg">
+                  <ActionLink href="/contact" variant="lime" size="lg" data-cursor="Let's talk">
                     {primaryLabel}
                     <ArrowRight className="size-4" aria-hidden="true" />
                   </ActionLink>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Pause, Play } from "lucide-react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useScrollVelocity } from "@/hooks/use-scroll-velocity";
 import { buildStack, secureStack } from "@/config/home";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,9 @@ import { cn } from "@/lib/utils";
 export function StackMarquee() {
   const reduceMotion = useReducedMotion();
   const [paused, setPaused] = useState(false);
+  // The band leans into the direction of scroll, which makes it feel attached
+  // to the page rather than playing independently of it.
+  const bandRef = useScrollVelocity();
 
   return (
     // overflow-x-clip is load-bearing: the animated band is rotated and
@@ -60,9 +64,10 @@ export function StackMarquee() {
       </div>
 
       <div
+        ref={bandRef}
         className={cn(
           "bg-ink border-ink relative flex flex-col gap-3 border-y-2 py-5",
-          !reduceMotion && "marquee-band",
+          !reduceMotion && "marquee-band velocity-skew",
         )}
       >
         <Lane

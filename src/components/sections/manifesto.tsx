@@ -1,4 +1,5 @@
 import { Asterisk } from "@/components/brand/decor";
+import { SplitText } from "@/components/brand/split-text";
 
 /**
  * A statement moment.
@@ -18,7 +19,7 @@ export function Manifesto() {
           <Asterisk className="text-lime-deep size-5" />
 
           <p className="type-display text-ink max-w-5xl text-balance">
-            Most agency code only has to survive the{" "}
+            <SplitText text="Most agency code only has to survive the" />{" "}
             {/* The full stop lives inside the highlighted span: with it
                 outside, the span's margin left a visible gap before it. */}
             <span className="relative inline-block whitespace-nowrap">
