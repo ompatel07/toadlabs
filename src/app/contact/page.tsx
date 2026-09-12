@@ -65,7 +65,10 @@ export default function ContactPage() {
                   {siteConfig.location.full}
                 </li>
                 <li className="text-ink-soft inline-flex items-start gap-2.5 t-base">
-                  <Clock className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                  <Clock
+                    className="mt-0.5 size-4 shrink-0"
+                    aria-hidden="true"
+                  />
                   IST business hours, with overlap arranged for other timezones
                 </li>
               </ul>
@@ -82,9 +85,7 @@ export default function ContactPage() {
                     >
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-ink-soft t-base">
-                      {step}
-                    </span>
+                    <span className="text-ink-soft t-base">{step}</span>
                   </li>
                 ))}
               </ol>

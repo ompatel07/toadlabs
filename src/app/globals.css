@@ -1513,11 +1513,13 @@
        card stack         7% scale on an element already leaving the viewport
      ----------------------------------------------------------------------- */
   @media (prefers-reduced-motion: reduce) {
-    html:not([data-motion="on"]) :is(
-        .animate-marquee,
-        .animate-marquee-reverse,
-        .velocity-skew
-      ) {
+    /* Marquees deliberately keep running. WCAG 2.2.2's requirement for
+       content that auto-moves past five seconds is a mechanism to PAUSE it,
+       which the band provides, and the footer carries a persistent opt-out
+       that stops everything. Gating them on the OS setting alone removed the
+       site's signature element for a whole class of visitor when a pause
+       button already met the obligation. */
+    html:not([data-motion="on"]) .velocity-skew {
       animation: none !important;
       transform: none !important;
     }

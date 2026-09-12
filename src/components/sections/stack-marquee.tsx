@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Pause, Play } from "lucide-react";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useScrollVelocity } from "@/hooks/use-scroll-velocity";
 import { buildStack, secureStack } from "@/config/home";
 import { cn } from "@/lib/utils";
@@ -27,7 +26,6 @@ import { cn } from "@/lib/utils";
  *    ink band, and the pause control is withdrawn
  */
 export function StackMarquee() {
-  const reduceMotion = useReducedMotion();
   const [paused, setPaused] = useState(false);
   // The band leans into the direction of scroll, which makes it feel attached
   // to the page rather than playing independently of it.
@@ -45,29 +43,27 @@ export function StackMarquee() {
           What we build with
         </h2>
 
-        {!reduceMotion ? (
-          <button
-            type="button"
-            onClick={() => setPaused((value) => !value)}
-            aria-pressed={paused}
-            className="text-ink-soft hover:text-ink inline-flex h-9 cursor-pointer items-center gap-2 rounded-full px-3 text-sm transition-colors duration-200 ease-out hover:bg-[rgba(11,12,10,0.05)]"
-          >
-            {paused ? (
-              <Play className="size-3.5" aria-hidden="true" />
-            ) : (
-              <Pause className="size-3.5" aria-hidden="true" />
-            )}
-            {paused ? "Play" : "Pause"}
-            <span className="sr-only">stack animation</span>
-          </button>
-        ) : null}
+        <button
+          type="button"
+          onClick={() => setPaused((value) => !value)}
+          aria-pressed={paused}
+          className="text-ink-soft hover:text-ink inline-flex h-9 cursor-pointer items-center gap-2 rounded-full px-3 text-sm transition-colors duration-200 ease-out hover:bg-[rgba(11,12,10,0.05)]"
+        >
+          {paused ? (
+            <Play className="size-3.5" aria-hidden="true" />
+          ) : (
+            <Pause className="size-3.5" aria-hidden="true" />
+          )}
+          {paused ? "Play" : "Pause"}
+          <span className="sr-only">stack animation</span>
+        </button>
       </div>
 
       <div
         ref={bandRef}
         className={cn(
           "bg-ink border-ink relative flex flex-col gap-3 border-y-2 py-5",
-          !reduceMotion && "marquee-band velocity-skew",
+          "marquee-band velocity-skew",
         )}
       >
         <Lane
@@ -76,7 +72,6 @@ export function StackMarquee() {
           reversed={false}
           speed="52s"
           paused={paused}
-          reduceMotion={reduceMotion}
         />
         <Lane
           items={secureStack}
@@ -84,7 +79,6 @@ export function StackMarquee() {
           reversed
           speed="38s"
           paused={paused}
-          reduceMotion={reduceMotion}
         />
       </div>
     </section>
@@ -97,28 +91,13 @@ function Lane({
   reversed,
   speed,
   paused,
-  reduceMotion,
 }: {
   items: readonly string[];
   label: string;
   reversed: boolean;
   speed: string;
   paused: boolean;
-  reduceMotion: boolean;
 }) {
-  if (reduceMotion) {
-    return (
-      <div className="container-tl">
-        <h3 className="sr-only">{label} tooling</h3>
-        <ul className="flex flex-wrap items-center gap-x-6 gap-y-1.5">
-          {items.map((item) => (
-            <Chip key={item} label={item} />
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
   return (
     // marquee-edge masks both ends so chips fade out rather than being cut.
     <div className="marquee-viewport marquee-edge relative flex overflow-hidden">

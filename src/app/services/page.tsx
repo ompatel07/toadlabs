@@ -3,6 +3,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { services } from "@/config/services";
 import { siteConfig } from "@/config/site";
 import { PageHeader } from "@/components/layout/page-header";
+import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
@@ -39,6 +40,22 @@ export default function ServicesPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+
+      <TickerStrip
+        items={[
+          "Websites",
+          "Web & mobile apps",
+          "MVPs",
+          "SaaS products",
+          "CRM",
+          "AI automation",
+          "WhatsApp automation",
+          "Chatbots",
+          "Voice assistants",
+          "Custom builds",
+        ]}
+        speed="42s"
       />
 
       <PageHeader

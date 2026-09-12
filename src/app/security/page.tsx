@@ -104,13 +104,15 @@ export default function SecurityPolicyPage() {
 
         <div className="mt-14 grid gap-4 lg:grid-cols-2">
           <div className="bg-lime text-ink border-ink rounded-3xl border p-8">
-            <h2 className="font-display type-h3 font-bold">
-              What we will do
-            </h2>
+            <h2 className="font-display type-h3 font-bold">What we will do</h2>
             <ul className="mt-5 flex flex-col gap-3">
               {disclosure.weWill.map((item) => (
                 <li key={item} className="flex items-start gap-2.5 t-base">
-                  <Check className="mt-0.5 size-4 shrink-0" strokeWidth={2} aria-hidden="true" />
+                  <Check
+                    className="mt-0.5 size-4 shrink-0"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
                   {item}
                 </li>
               ))}
@@ -137,7 +139,11 @@ export default function SecurityPolicyPage() {
       </Section>
 
       {/* Data handling */}
-      <Section dense surface="white" className="border-y border-[rgba(11,12,10,0.1)]">
+      <Section
+        dense
+        surface="white"
+        className="border-y border-[rgba(11,12,10,0.1)]"
+      >
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.5fr)] lg:gap-20">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="label-mono text-ink-soft">Your data</p>

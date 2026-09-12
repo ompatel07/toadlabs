@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AlertTriangle } from "lucide-react";
 import { caseStudies, hasPlaceholderWork } from "@/config/work";
 import { PageHeader } from "@/components/layout/page-header";
+import { TickerStrip } from "@/components/brand/decor";
 import { Section } from "@/components/layout/section";
 import { Reveal } from "@/components/motion/reveal";
 import { WorkCard } from "@/components/sections/work-card";
@@ -23,6 +24,19 @@ export default function WorkPage() {
         eyebrow="Work"
         title="How we approach a build"
         description="Problem, approach, stack, outcome — written so you can judge the reasoning rather than admire a screenshot."
+      />
+
+      <TickerStrip
+        items={[
+          "Problem",
+          "Approach",
+          "Stack",
+          "Outcome",
+          "Written up honestly",
+          "No invented metrics",
+        ]}
+        speed="36s"
+        reverse
       />
 
       {hasPlaceholderWork ? (

@@ -8,6 +8,7 @@ import {
 import { standards } from "@/config/trust";
 import { siteConfig } from "@/config/site";
 import { PageHeader } from "@/components/layout/page-header";
+import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
@@ -45,6 +46,20 @@ export default function CybersecurityPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+
+      <TickerStrip
+        items={[
+          "OWASP Top 10",
+          "OWASP ASVS",
+          "OWASP MASVS",
+          "PTES",
+          "NIST SP 800-115",
+          "CIS Benchmarks",
+          "MITRE ATT&CK",
+        ]}
+        speed="30s"
+        reverse
       />
 
       <PageHeader
@@ -142,7 +157,11 @@ export default function CybersecurityPage() {
       </Section>
 
       {/* Engagement process */}
-      <Section dense surface="white" className="border-y border-[rgba(11,12,10,0.1)]">
+      <Section
+        dense
+        surface="white"
+        className="border-y border-[rgba(11,12,10,0.1)]"
+      >
         <SectionHeading
           eyebrow="Engagement process"
           title="Six phases, agreed before anything is touched"
@@ -185,7 +204,11 @@ export default function CybersecurityPage() {
       <Deliverables dense />
 
       {/* Methodology */}
-      <Section dense surface="white" className="border-y border-[rgba(11,12,10,0.1)]">
+      <Section
+        dense
+        surface="white"
+        className="border-y border-[rgba(11,12,10,0.1)]"
+      >
         <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
           <SectionHeading
             eyebrow="Methodology"
@@ -200,7 +223,10 @@ export default function CybersecurityPage() {
               </caption>
               <thead>
                 <tr className="border-b-2 border-[rgba(11,12,10,0.8)]">
-                  <th scope="col" className="label-mono text-ink-soft py-3 pr-4">
+                  <th
+                    scope="col"
+                    className="label-mono text-ink-soft py-3 pr-4"
+                  >
                     Standard
                   </th>
                   <th scope="col" className="label-mono text-ink-soft py-3">

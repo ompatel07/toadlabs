@@ -68,36 +68,72 @@ export function ScallopDivider({
 }
 
 /**
- * Thin repeating ticker strip. Used as a hard rule between sections — it does
- * the job of a divider while carrying a little of the brand's voice.
+ * Ticker strip — a continuously scrolling ink band.
+ *
+ * Two identical tracks sit side by side and the pair translates by exactly
+ * -50%. At the moment the first track leaves, the second is precisely where
+ * the first began, so the loop is seamless with no snap.
+ *
+ * `tone` picks ink or lime; `speed` and `reverse` let neighbouring strips run
+ * at different rates and directions, which is what stops several of them on one
+ * page reading as the same element repeated.
+ *
+ * Accessibility: the strip is decorative, so the whole thing is aria-hidden and
+ * the duplicate costs nothing in the accessibility tree. It pauses on hover and
+ * focus-within, and the edges are masked so items dissolve rather than being
+ * clipped.
  */
 export function TickerStrip({
   items,
   className,
+  tone = "ink",
+  speed = "34s",
+  reverse = false,
 }: {
   items: string[];
   className?: string;
+  tone?: "ink" | "lime";
+  speed?: string;
+  reverse?: boolean;
 }) {
+  const track = (
+    <div className="flex shrink-0 items-center gap-6 pr-6">
+      {items.map((item) => (
+        <span
+          key={item}
+          className="label-mono flex shrink-0 items-center gap-6 whitespace-nowrap"
+        >
+          {item}
+          <Asterisk
+            className={cn(
+              "size-2.5",
+              tone === "ink" ? "text-lime" : "text-ink/50",
+            )}
+          />
+        </span>
+      ))}
+    </div>
+  );
+
   return (
     <div
       aria-hidden="true"
       className={cn(
-        "bg-ink flex items-center gap-6 overflow-hidden py-2.5 select-none",
+        "marquee-viewport relative flex overflow-hidden py-2.5 select-none",
+        tone === "ink" ? "bg-ink text-white/85" : "bg-lime text-ink",
         className,
       )}
     >
-      {/* Repeated enough times to fill an ultra-wide viewport without JS. */}
-      {Array.from({ length: 6 }).map((_, group) => (
-        <div key={group} className="flex shrink-0 items-center gap-6">
-          {items.map((item) => (
-            <span
-              key={`${group}-${item}`}
-              className="label-mono flex shrink-0 items-center gap-6 text-white/80"
-            >
-              {item}
-              <Asterisk className="text-lime size-2.5" />
-            </span>
-          ))}
+      {[0, 1].map((copy) => (
+        <div
+          key={copy}
+          className={cn(
+            "flex shrink-0 items-center",
+            reverse ? "animate-marquee-reverse" : "animate-marquee",
+          )}
+          style={{ animationDuration: speed }}
+        >
+          {track}
         </div>
       ))}
     </div>

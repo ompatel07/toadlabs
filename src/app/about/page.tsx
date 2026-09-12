@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { PageHeader } from "@/components/layout/page-header";
+import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { Guarantees } from "@/components/sections/guarantees";
 import { FinalCta } from "@/components/sections/final-cta";
@@ -55,6 +56,18 @@ export default function AboutPage() {
         eyebrow="About"
         title="We build products. That changes how we build yours."
         description="Toad Labs is a founder-led studio in Ahmedabad. Most agencies write code that has to survive until handover. We write software we expect to still be maintaining in two years — and we bring that same standard to client work."
+      />
+
+      <TickerStrip
+        items={[
+          "Scope is a design problem",
+          "Working software beats status",
+          "Write the decision down",
+          "Build it, then attack it",
+          "No lock-in by design",
+          "Say the uncomfortable thing",
+        ]}
+        speed="46s"
       />
 
       {/* Story — the one place on the site that breaks the card grid, set as a
