@@ -14,14 +14,18 @@ import { cn } from "@/lib/utils";
  * the surprise, and it suits a list of ten services far better than a grid,
  * which would either truncate them or turn into a wall.
  *
- * Everywhere else it degrades honestly: touch and narrow screens get a normal
- * swipeable row with snap points, and reduced motion gets a plain wrapped
- * grid. Pinning is never forced on someone who asked for less motion, because
- * converting their scroll into sideways travel is exactly what that setting is
- * about.
+ * Everywhere else it degrades to the same rail, scrolled by hand: touch,
+ * narrow screens and reduced motion all get a swipeable snap row. Pinning is
+ * never forced on someone who asked for less motion, because converting their
+ * scroll into sideways travel is exactly what that setting is about — but a row
+ * the visitor drags themselves is not motion imposed on them, so they still get
+ * the design rather than a fallback.
  *
- * All CSS — `animation-timeline: scroll()` — so there is no scroll listener
- * and nothing to desynchronise.
+ * (An earlier fallback wrapped the flex track instead. That left a ragged empty
+ * gap at the end of each row and read as broken.)
+ *
+ * All CSS — a named view-timeline on the section — so there is no scroll
+ * listener and nothing to desynchronise.
  */
 export function ServicesRail() {
   return (
@@ -39,8 +43,11 @@ export function ServicesRail() {
               </h2>
             </div>
             <p className="text-ink-soft measure-tight t-base">
+              {/* Neutral wording: the rail pans on scroll for most visitors
+                  and is dragged by hand under reduced motion or on touch, so
+                  the copy must not promise one specific behaviour. */}
               Scoped around the outcome you need rather than a package tier.
-              Keep scrolling — the rail moves with you.
+              All ten, side by side.
             </p>
           </div>
 

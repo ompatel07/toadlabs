@@ -952,6 +952,13 @@
   /* Reduced motion: never pin. A pinned section converts scrolling into
      sideways movement, which is exactly the kind of motion the setting asks
      us not to force. */
+  /* Reduced motion: do not pin, and do not auto-pan — converting someone's
+     scroll into sideways travel is exactly what that setting asks us not to
+     force. But a row the VISITOR scrolls is not vestibular motion, so they get
+     the same rail, just driven by hand.
+
+     An earlier version wrapped the flex track instead, which left a ragged
+     empty gap at the end of each row and read as broken. */
   @media (prefers-reduced-motion: reduce) {
     html:not([data-motion="on"]) .rail-section {
       height: auto;
@@ -963,14 +970,25 @@
       overflow: visible;
     }
 
+    html:not([data-motion="on"]) .rail-viewport {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      padding-inline: var(--gutter);
+      padding-bottom: 1rem;
+    }
+
     html:not([data-motion="on"]) .rail-track {
       animation: none;
-      flex-wrap: wrap;
-      padding-inline: var(--gutter);
-      /* Must be reverted: the desktop branch sets max-content for the pan, and
-         a wrapped track left at content width overflows the document by ~2.5k
-         px once the pinning is off. */
-      width: auto;
+      flex-wrap: nowrap;
+      /* max-content is right here — the row is meant to overflow and scroll.
+         It is the PAGE that must not overflow, and .rail-viewport clips it. */
+      width: max-content;
+      padding-inline: 0;
+    }
+
+    html:not([data-motion="on"]) .rail-card {
+      scroll-snap-align: center;
     }
   }
 
