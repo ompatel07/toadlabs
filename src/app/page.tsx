@@ -8,6 +8,7 @@ import { Pillars } from "@/components/sections/pillars";
 import { ServicesPreview } from "@/components/sections/services-preview";
 import { SecurityPreview } from "@/components/sections/security-preview";
 import { Process } from "@/components/sections/process";
+import { Manifesto } from "@/components/sections/manifesto";
 import { Guarantees } from "@/components/sections/guarantees";
 import { SelectedWork } from "@/components/sections/selected-work";
 import { StackMarquee } from "@/components/sections/stack-marquee";
@@ -84,6 +85,7 @@ export default function HomePage() {
       <StandardsBar />
       <Pillars />
       <ServicesPreview />
+      <Manifesto />
       <SecurityPreview />
       <Process />
       <Guarantees />

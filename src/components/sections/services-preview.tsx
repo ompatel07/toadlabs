@@ -18,9 +18,9 @@ const SPANS = [
   "sm:col-span-2 lg:col-span-2",
   "",
   "",
-  "",
   "sm:col-span-2",
   "",
+  "sm:col-span-2",
 ];
 
 export function ServicesPreview() {

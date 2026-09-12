@@ -1,91 +1,104 @@
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { pillars } from "@/config/home";
-import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
-import { Reveal } from "@/components/motion/reveal";
+import { Asterisk } from "@/components/brand/decor";
 
 /**
- * Build / Secure split. Build is a white card, Secure is the dark slab — the
- * page's one heavy block, so the contrast lands as a deliberate shift rather
- * than as decoration.
+ * Build / Secure — as an editorial split, not a pair of cards.
+ *
+ * The page had five consecutive "heading + grid of rounded cards" sections,
+ * which is what made it read as competent but flat. This one is deliberately a
+ * different archetype: a sticky oversized label in the margin, and two ruled
+ * text blocks that scroll past it. No cards, no fills, no shadows — the rule
+ * lines and the type scale carry it.
  */
 export function Pillars() {
+  const entries = [pillars.build, pillars.secure];
+
   return (
-    <Section>
-      <SectionHeading
-        eyebrow="Two halves of one studio"
-        title={
-          <>
-            Build it properly.
-            <br />
-            Then try to break it.
-          </>
-        }
-        description="Most companies buy these from two vendors and let them argue. We do both, which means a security finding arrives with an engineer who can fix it."
-      />
-
-      <div className="mt-14 grid gap-5 lg:grid-cols-2">
-        <Reveal index={0}>
-          <article className="card-solid lift flex h-full flex-col gap-6 p-8 md:p-10">
-            <span className="label-mono text-ink-soft">
-              {pillars.build.label}
-            </span>
-            <h3 className="type-h3 text-ink">{pillars.build.title}</h3>
-            <p className="text-ink-soft text-[0.9375rem]">
-              {pillars.build.description}
+    <section className="section relative">
+      <div className="container-tl">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)] lg:gap-20">
+          {/* Sticky margin column */}
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <p className="label-mono text-ink-soft flex items-center gap-2">
+              <Asterisk className="text-lime-deep size-2.5" />
+              Two halves of one studio
             </p>
-            <ul className="flex flex-col gap-2.5">
-              {pillars.build.points.map((point) => (
-                <li key={point} className="flex items-start gap-2.5">
-                  <Check
-                    className="text-ink mt-0.5 size-4 shrink-0"
-                    strokeWidth={2.25}
-                    aria-hidden="true"
-                  />
-                  <span className="text-[0.9375rem]">{point}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-auto pt-2">
-              <ActionLink href={pillars.build.cta.href} variant="ghost">
-                {pillars.build.cta.label}
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </ActionLink>
-            </div>
-          </article>
-        </Reveal>
-
-        <Reveal index={1}>
-          {/* `on-dark` switches the focus ring to lime so it stays visible. */}
-          <article className="slab-dark on-dark flex h-full flex-col gap-6 p-8 md:p-10">
-            <span className="label-mono text-lime">{pillars.secure.label}</span>
-            <h3 className="type-h3 text-white">{pillars.secure.title}</h3>
-            <p className="text-[0.9375rem] text-white/70">
-              {pillars.secure.description}
+            <h2 className="type-h2 text-ink mt-5">
+              Build it properly.
+              <br />
+              Then try to{" "}
+              {/* nowrap so the highlighted word and the full stop cannot be
+                  split across lines, which stranded "it." on its own. */}
+              <span className="relative inline-block whitespace-nowrap">
+                break it.
+                <span
+                  aria-hidden="true"
+                  className="bg-lime absolute inset-x-[-0.12em] bottom-[0.06em] -z-10 h-[0.42em]"
+                />
+              </span>
+            </h2>
+            <p className="text-ink-soft measure mt-6 text-[1.0625rem]">
+              Most companies buy these from two vendors and let them argue. We
+              do both, which means a security finding arrives with an engineer
+              who can fix it.
             </p>
-            <ul className="flex flex-col gap-2.5">
-              {pillars.secure.points.map((point) => (
-                <li key={point} className="flex items-start gap-2.5">
-                  <Check
-                    className="text-lime mt-0.5 size-4 shrink-0"
-                    strokeWidth={2.25}
+          </div>
+
+          {/* Ruled entries */}
+          <div className="flex flex-col">
+            {entries.map((entry, index) => (
+              <article
+                key={entry.label}
+                className="rise border-t-2 border-[rgba(11,12,10,0.85)] py-9 first:border-t-0 first:pt-0 lg:py-12"
+              >
+                <div className="flex items-baseline gap-4">
+                  <span
+                    className="numeral text-ink/20 text-[2.5rem] leading-none"
                     aria-hidden="true"
-                  />
-                  <span className="text-[0.9375rem] text-white/85">
-                    {point}
+                  >
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-auto pt-2">
-              <ActionLink href={pillars.secure.cta.href} variant="lime">
-                {pillars.secure.cta.label}
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </ActionLink>
-            </div>
-          </article>
-        </Reveal>
+                  <div>
+                    <p className="label-mono text-ink-soft">{entry.label}</p>
+                    <h3 className="font-display text-ink mt-2 text-[1.5rem] leading-[1.1] font-bold tracking-[-0.03em] md:text-[2rem]">
+                      {entry.title}
+                    </h3>
+                  </div>
+                </div>
+
+                <p className="text-ink-soft measure mt-5 text-[1rem] leading-relaxed">
+                  {entry.description}
+                </p>
+
+                {/* Points as a hairline table rather than a bullet list. */}
+                <ul className="mt-7 grid gap-x-8 sm:grid-cols-2">
+                  {entry.points.map((point) => (
+                    <li
+                      key={point}
+                      className="text-ink flex items-start gap-2.5 border-t border-[rgba(11,12,10,0.12)] py-2.5 text-[0.9375rem]"
+                    >
+                      <Asterisk className="text-lime-deep mt-1.5 size-2 shrink-0" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+
+                <ActionLink
+                  href={entry.cta.href}
+                  variant="ghost"
+                  size="sm"
+                  className="mt-7"
+                >
+                  {entry.cta.label}
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
+                </ActionLink>
+              </article>
+            ))}
+          </div>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

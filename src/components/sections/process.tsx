@@ -1,81 +1,62 @@
 import { process } from "@/config/home";
-import { Section, SectionHeading } from "@/components/layout/section";
-import { tones, accentAt } from "@/lib/tones";
 import { OutlineType } from "@/components/brand/decor";
-import { cn } from "@/lib/utils";
 
 /**
- * Four-step process.
+ * Four-step process — a sticky-scroll rail.
  *
- * Each step is a stepped colour block — the numerals are set in the wordmark
- * face, which is what carries the hero's type voice down the page without
- * repeating the wave effect.
+ * The heading pins while the steps travel past it. Another deliberate change of
+ * archetype: no cards here, just oversized numerals, rules, and space. Sticky
+ * behaviour is pure CSS `position: sticky`, so there is no scroll listener and
+ * nothing to jank.
  */
 export function Process() {
   return (
-    <Section className="relative overflow-hidden">
-      <OutlineType className="absolute -top-2 right-0 text-[clamp(4rem,13vw,10rem)]">
+    <section className="section relative overflow-hidden">
+      <OutlineType className="absolute -top-4 right-0 text-[clamp(4rem,13vw,10rem)]">
         PROCESS
       </OutlineType>
 
-      <div className="relative">
-        <SectionHeading
-          className="kinetic"
-          eyebrow="How we work"
-          title="Four steps, and you see working software in every one"
-          description="No discovery phase that produces a slide deck. Each step ends with something you can look at and disagree with."
-        />
+      <div className="container-tl relative">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.5fr)] lg:gap-20">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <p className="label-mono text-ink-soft">How we work</p>
+            <h2 className="type-h2 text-ink mt-5">
+              Four steps, and you see working software in every one
+            </h2>
+            <p className="text-ink-soft measure mt-6 text-[1.0625rem]">
+              No discovery phase that produces a slide deck. Each step ends with
+              something you can look at and disagree with.
+            </p>
+          </div>
 
-        <ol className="mt-14 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-          {process.map((step, index) => {
-            const tone = tones[accentAt(index, [1])];
-            return (
+          <ol className="flex flex-col">
+            {process.map((step) => (
               <li
                 key={step.number}
-                className={cn(
-                  "rise",
-                  // Staircase: each card sits slightly lower than the last, so
-                  // the row reads as a sequence rather than four equal boxes.
-                  index === 1 && "lg:mt-8",
-                  index === 2 && "lg:mt-16",
-                  index === 3 && "lg:mt-24",
-                )}
+                className="rise group grid grid-cols-[auto_1fr] gap-x-6 border-t border-[rgba(11,12,10,0.16)] py-8 md:gap-x-10 md:py-11"
               >
-                <div
-                  className={cn(
-                    "relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl border p-7 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-ink",
-                    tone.bg,
-                    tone.text,
-                    tone.border,
-                    tone.dark && "on-dark",
-                  )}
+                {/* Oversized numeral in the margin — the step index is the
+                    graphic element, so the row needs nothing else. */}
+                <span
+                  className="numeral text-ink/15 text-[3rem] leading-[0.8] transition-colors duration-300 ease-out group-hover:text-[color:var(--lime-deep)] md:text-[4.5rem]"
+                  aria-hidden="true"
                 >
-                  <span
-                    className="numeral pointer-events-none absolute -top-3 right-3 text-[6rem] opacity-15"
-                    aria-hidden="true"
-                  >
-                    {step.number}
-                  </span>
-                  <span
-                    className={cn(
-                      "label-mono relative w-fit rounded-full px-2.5 py-1",
-                      tone.chip,
-                    )}
-                  >
-                    Step {step.number}
-                  </span>
-                  <h3 className="font-display relative text-[1.125rem] font-bold tracking-[-0.02em]">
+                  {step.number}
+                </span>
+
+                <div>
+                  <h3 className="font-display text-ink text-[1.375rem] font-bold tracking-[-0.03em] md:text-[1.75rem]">
                     {step.title}
                   </h3>
-                  <p className={cn("relative text-[0.9375rem]", tone.muted)}>
+                  <p className="text-ink-soft measure mt-3 text-[1rem] leading-relaxed">
                     {step.description}
                   </p>
                 </div>
               </li>
-            );
-          })}
-        </ol>
+            ))}
+          </ol>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

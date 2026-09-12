@@ -1,29 +1,35 @@
 import { guarantees } from "@/config/trust";
-import { Section, SectionHeading } from "@/components/layout/section";
-import { tones, accentAt } from "@/lib/tones";
-import { Stamp } from "@/components/brand/decor";
-import { cn } from "@/lib/utils";
+import { Stamp, Asterisk } from "@/components/brand/decor";
 
 /**
- * Engagement commitments, as a colour grid.
+ * Engagement commitments — a hairline index, not a card grid.
  *
- * Each is falsifiable — it either happens on an engagement or it visibly does
+ * Each is falsifiable: it either happens on an engagement or it visibly does
  * not. That is what replaces the unverifiable badge wall a security site
  * usually leads with.
+ *
+ * Rendered as ruled rows with the index and icon hanging in the margin. Reads
+ * like a list of contract clauses, which is the right register for promises —
+ * and gives the page a break from consecutive card grids.
  */
 export function Guarantees() {
   return (
-    <Section className="relative overflow-hidden">
-      <div className="blob-accent -right-32 bottom-0 h-[420px] w-[420px]" aria-hidden="true" />
-
-      <div className="relative">
-        <div className="flex items-start justify-between gap-8">
-          <SectionHeading
-            className="kinetic"
-            eyebrow="How we engage"
-            title="Commitments you can hold us to"
-            description="No badges, no logo wall. Six things that either happen on your engagement or visibly do not."
-          />
+    <section className="section relative bg-white">
+      <div className="container-tl">
+        <div className="flex flex-wrap items-end justify-between gap-8">
+          <div>
+            <p className="label-mono text-ink-soft flex items-center gap-2">
+              <Asterisk className="text-lime-deep size-2.5" />
+              How we engage
+            </p>
+            <h2 className="type-h2 text-ink mt-5 max-w-2xl">
+              Commitments you can hold us to
+            </h2>
+            <p className="text-ink-soft measure mt-5 text-[1.0625rem]">
+              No badges, no logo wall. Six things that either happen on your
+              engagement or visibly do not.
+            </p>
+          </div>
           <Stamp className="hidden shrink-0 lg:flex">
             No
             <br />
@@ -31,40 +37,42 @@ export function Guarantees() {
           </Stamp>
         </div>
 
-        <ul className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {guarantees.map((item, index) => {
-            const tone = tones[accentAt(index, [3])];
-            return (
-              <li key={item.title} className="rise">
-                <div
-                  className={cn(
-                    "group flex h-full flex-col gap-3.5 rounded-2xl border p-7 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-ink",
-                    tone.bg,
-                    tone.text,
-                    tone.border,
-                    tone.dark && "on-dark",
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "inline-flex size-11 items-center justify-center rounded-2xl transition-transform duration-300 ease-out group-hover:-rotate-6",
-                      tone.chip,
-                    )}
-                  >
-                    <item.icon className="size-5" strokeWidth={2} aria-hidden="true" />
-                  </span>
-                  <h3 className="font-display text-[1.0625rem] font-bold tracking-[-0.02em]">
-                    {item.title}
-                  </h3>
-                  <p className={cn("text-[0.9375rem]", tone.muted)}>
-                    {item.description}
-                  </p>
-                </div>
-              </li>
-            );
-          })}
+        <ul className="mt-14 border-t-2 border-[rgba(11,12,10,0.85)]">
+          {guarantees.map((item, index) => (
+            <li
+              key={item.title}
+              className="rise group grid items-start gap-x-6 border-b border-[rgba(11,12,10,0.14)] py-7 md:grid-cols-[auto_minmax(0,0.9fr)_minmax(0,1.4fr)] md:gap-x-10 md:py-8"
+            >
+              <span
+                className="label-mono text-ink-soft hidden pt-1.5 md:block"
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              <h3 className="font-display text-ink flex items-start gap-3 text-[1.125rem] font-bold tracking-[-0.02em] md:text-[1.3125rem]">
+                <span className="bg-canvas text-ink inline-flex size-9 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:rotate-12 md:hidden">
+                  <item.icon className="size-4" strokeWidth={2} aria-hidden="true" />
+                </span>
+                {item.title}
+              </h3>
+
+              <div className="mt-3 flex items-start gap-5 md:mt-0">
+                <span className="bg-canvas text-ink hidden size-10 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:rotate-12 md:inline-flex">
+                  <item.icon
+                    className="size-[18px]"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                </span>
+                <p className="text-ink-soft text-[0.9375rem] leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
-    </Section>
+    </section>
   );
 }
