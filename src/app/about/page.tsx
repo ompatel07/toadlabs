@@ -3,6 +3,7 @@ import { siteConfig } from "@/config/site";
 import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
+import { PrinciplesIndex } from "@/components/sections/principles-index";
 import { Guarantees } from "@/components/sections/guarantees";
 import { FinalCta } from "@/components/sections/final-cta";
 
@@ -156,29 +157,9 @@ export default function AboutPage() {
           description="Not values on a wall. These are the rules that decide arguments when a project gets tight."
         />
 
-        <ul className="mt-12 grid gap-x-12 gap-y-8 md:grid-cols-2">
-          {principles.map((item, index) => (
-            <li
-              key={item.title}
-              className="border-t border-[rgba(11,12,10,0.14)] pt-5"
-            >
-              <div className="flex items-baseline gap-3">
-                <span
-                  className="numeral text-ink/20 type-h2"
-                  aria-hidden="true"
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="font-display text-ink t-h4 font-semibold">
-                  {item.title}
-                </h3>
-              </div>
-              <p className="text-ink-soft mt-2.5 t-base leading-relaxed">
-                {item.copy}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-12">
+          <PrinciplesIndex principles={principles} />
+        </div>
       </Section>
 
       <Guarantees />
