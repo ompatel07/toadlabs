@@ -37,7 +37,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "b2b-logistics-platform",
     sector: "B2B logistics",
-    title: "Replacing a spreadsheet dispatch process with a real platform",
+    title: "Replacing a spreadsheet dispatch process with a real platform",
     summary:
       "A regional freight operator coordinating daily dispatch across shared spreadsheets, with no single view of a shipment.",
     isPlaceholder: true,
@@ -69,7 +69,7 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "fintech-mvp",
     sector: "Fintech",
-    title: "An MVP scoped down until it could actually ship",
+    title: "An MVP scoped down until it could actually ship",
     summary:
       "A founding team with a twelve-month feature list and a runway that did not support one.",
     isPlaceholder: true,

@@ -20,7 +20,7 @@ export function WorkCard({ study, index = 0 }: { study: CaseStudy; index?: numbe
       )}
     >
       <span
-        className="numeral pointer-events-none absolute -right-2 -bottom-7 text-[7rem] opacity-10"
+        className="numeral pointer-events-none absolute -right-2 -bottom-7 numeral-lg opacity-10"
         aria-hidden="true"
       >
         {String(index + 1).padStart(2, "0")}
@@ -36,7 +36,7 @@ export function WorkCard({ study, index = 0 }: { study: CaseStudy; index?: numbe
         ) : null}
       </div>
 
-      <h3 className="font-display relative flex items-start gap-1.5 text-[1.125rem] font-bold tracking-[-0.02em]">
+      <h3 className="font-display relative flex items-start gap-1.5 t-h4 font-bold">
         <span>{study.title}</span>
         <ArrowUpRight
           className="mt-1 size-4 shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-1"
@@ -44,7 +44,7 @@ export function WorkCard({ study, index = 0 }: { study: CaseStudy; index?: numbe
         />
       </h3>
 
-      <p className={cn("relative text-[0.9375rem]", tone.muted)}>
+      <p className={cn("relative t-base", tone.muted)}>
         {study.summary}
       </p>
 

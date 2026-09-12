@@ -40,7 +40,7 @@ export default function ContactPage() {
                 <li>
                   <a
                     href={`mailto:${siteConfig.email}`}
-                    className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 text-[0.9375rem] transition-colors duration-200 ease-out"
+                    className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 t-base transition-colors duration-200 ease-out"
                   >
                     <Mail className="size-4 shrink-0" aria-hidden="true" />
                     {siteConfig.email}
@@ -53,18 +53,18 @@ export default function ContactPage() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="border-ink text-ink hover:bg-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border-2 px-5 text-[0.9375rem] font-medium transition-colors duration-250 ease-out hover:text-white"
+                    className="border-ink text-ink hover:bg-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border-2 px-5 t-base font-medium transition-colors duration-250 ease-out hover:text-white"
                   >
                     <MessageCircle className="size-4" aria-hidden="true" />
                     Message on WhatsApp
                     <span className="sr-only">(opens in a new tab)</span>
                   </a>
                 </li>
-                <li className="text-ink-soft inline-flex items-center gap-2.5 text-[0.9375rem]">
+                <li className="text-ink-soft inline-flex items-center gap-2.5 t-base">
                   <MapPin className="size-4 shrink-0" aria-hidden="true" />
                   {siteConfig.location.full}
                 </li>
-                <li className="text-ink-soft inline-flex items-start gap-2.5 text-[0.9375rem]">
+                <li className="text-ink-soft inline-flex items-start gap-2.5 t-base">
                   <Clock className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                   IST business hours, with overlap arranged for other timezones
                 </li>
@@ -77,12 +77,12 @@ export default function ContactPage() {
                 {whatHappensNext.map((step, index) => (
                   <li key={step} className="flex items-start gap-3">
                     <span
-                      className="numeral text-ink/25 text-[1.25rem] leading-none"
+                      className="numeral text-ink/25 type-h3 leading-none"
                       aria-hidden="true"
                     >
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-ink-soft text-[0.9375rem]">
+                    <span className="text-ink-soft t-base">
                       {step}
                     </span>
                   </li>
@@ -91,10 +91,10 @@ export default function ContactPage() {
             </div>
 
             <div className="bg-lime text-ink rounded-3xl p-6 md:p-7">
-              <h2 className="font-display text-[1.0625rem] font-bold tracking-[-0.02em]">
+              <h2 className="font-display t-lead font-bold">
                 Under NDA first?
               </h2>
-              <p className="mt-2 text-[0.9375rem]">
+              <p className="mt-2 t-base">
                 Happy to sign yours before you tell us anything about the
                 system. Just say so in the message and we will send it back
                 before the call.

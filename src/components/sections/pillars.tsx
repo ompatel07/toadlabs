@@ -39,7 +39,7 @@ export function Pillars() {
                 />
               </span>
             </h2>
-            <p className="text-ink-soft measure mt-6 text-[1.0625rem]">
+            <p className="text-ink-soft measure mt-6 t-lead">
               Most companies buy these from two vendors and let them argue. We
               do both, which means a security finding arrives with an engineer
               who can fix it.
@@ -55,20 +55,20 @@ export function Pillars() {
               >
                 <div className="flex items-baseline gap-4">
                   <span
-                    className="numeral text-ink/20 text-[2.5rem] leading-none"
+                    className="numeral text-ink/20 numeral-md leading-none"
                     aria-hidden="true"
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <div>
                     <p className="label-mono text-ink-soft">{entry.label}</p>
-                    <h3 className="font-display text-ink mt-2 text-[1.5rem] leading-[1.1] font-bold tracking-[-0.03em] md:text-[2rem]">
+                    <h3 className="font-display text-ink mt-2 type-h2 leading-[1.1] font-bold">
                       {entry.title}
                     </h3>
                   </div>
                 </div>
 
-                <p className="text-ink-soft measure mt-5 text-[1rem] leading-relaxed">
+                <p className="text-ink-soft measure mt-5 t-base leading-relaxed">
                   {entry.description}
                 </p>
 
@@ -77,7 +77,7 @@ export function Pillars() {
                   {entry.points.map((point) => (
                     <li
                       key={point}
-                      className="text-ink flex items-start gap-2.5 border-t border-[rgba(11,12,10,0.12)] py-2.5 text-[0.9375rem]"
+                      className="text-ink flex items-start gap-2.5 border-t border-[rgba(11,12,10,0.12)] py-2.5 t-base"
                     >
                       <Asterisk className="text-lime-deep mt-1.5 size-2 shrink-0" />
                       {point}

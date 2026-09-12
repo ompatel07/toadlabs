@@ -62,11 +62,11 @@ export default function AboutPage() {
       <Section>
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
           <div className="flex flex-col gap-6">
-            <h2 className="font-display text-ink text-[1.75rem] font-bold tracking-[-0.03em] md:text-[2.25rem]">
+            <h2 className="font-display text-ink type-h2 font-bold">
               Why product discipline matters for client builds
             </h2>
 
-            <div className="measure text-ink-soft flex flex-col gap-5 text-[1.0625rem] leading-relaxed">
+            <div className="measure text-ink-soft flex flex-col gap-5 t-lead leading-relaxed">
               <p>
                 There is a specific failure mode in agency software. The code
                 only has to survive one thing — the handover. It passes, the
@@ -98,7 +98,7 @@ export default function AboutPage() {
             </div>
 
             <blockquote className="border-ink mt-2 border-l-2 pl-5">
-              <p className="font-display text-ink text-[1.25rem] leading-snug font-semibold tracking-[-0.02em] md:text-[1.5rem]">
+              <p className="font-display text-ink type-h2 leading-snug font-semibold">
                 If leaving us is expensive, then staying was never really a
                 decision you got to make.
               </p>
@@ -109,13 +109,13 @@ export default function AboutPage() {
             <div className="card-solid flex flex-col gap-5 p-7">
               <div>
                 <h2 className="label-mono text-ink-soft">Where we are</h2>
-                <p className="text-ink mt-2 text-[0.9375rem]">
+                <p className="text-ink mt-2 t-base">
                   {siteConfig.location.full}
                 </p>
               </div>
               <div className="border-t border-[rgba(11,12,10,0.1)] pt-5">
                 <h2 className="label-mono text-ink-soft">How we work</h2>
-                <p className="text-ink-soft mt-2 text-[0.9375rem]">
+                <p className="text-ink-soft mt-2 t-base">
                   Async delivery with a weekly demo, overlapping your working
                   hours for the calls that need to be live. We work with teams
                   across India and internationally.
@@ -123,7 +123,7 @@ export default function AboutPage() {
               </div>
               <div className="border-t border-[rgba(11,12,10,0.1)] pt-5">
                 <h2 className="label-mono text-ink-soft">What we do</h2>
-                <p className="text-ink-soft mt-2 text-[0.9375rem]">
+                <p className="text-ink-soft mt-2 t-base">
                   Product and client software — web, mobile, MVPs, SaaS,
                   automation — plus offensive security testing and readiness
                   work.
@@ -151,16 +151,16 @@ export default function AboutPage() {
             >
               <div className="flex items-baseline gap-3">
                 <span
-                  className="numeral text-ink/20 text-[1.75rem]"
+                  className="numeral text-ink/20 type-h2"
                   aria-hidden="true"
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <h3 className="font-display text-ink text-[1.125rem] font-semibold tracking-[-0.02em]">
+                <h3 className="font-display text-ink t-h4 font-semibold">
                   {item.title}
                 </h3>
               </div>
-              <p className="text-ink-soft mt-2.5 text-[0.9375rem] leading-relaxed">
+              <p className="text-ink-soft mt-2.5 t-base leading-relaxed">
                 {item.copy}
               </p>
             </li>

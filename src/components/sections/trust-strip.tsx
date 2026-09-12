@@ -52,10 +52,10 @@ export function TrustStrip() {
                     >
                       <item.icon className="size-[18px]" strokeWidth={2} aria-hidden="true" />
                     </span>
-                    <h3 className="font-display text-[1rem] font-bold tracking-[-0.02em]">
+                    <h3 className="font-display t-base font-bold">
                       {item.title}
                     </h3>
-                    <p className={cn("text-[0.875rem] leading-snug", tone.muted)}>
+                    <p className={cn("t-sm leading-snug", tone.muted)}>
                       {item.description}
                     </p>
                   </div>

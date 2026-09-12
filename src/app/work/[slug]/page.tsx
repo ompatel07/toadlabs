@@ -48,7 +48,7 @@ export default async function CaseStudyPage({
         <div className="container-tl relative">
           <Link
             href="/work"
-            className="text-ink-soft hover:text-ink inline-flex cursor-pointer items-center gap-2 text-[0.875rem] transition-colors duration-200 ease-out"
+            className="text-ink-soft hover:text-ink inline-flex cursor-pointer items-center gap-2 t-sm transition-colors duration-200 ease-out"
           >
             <ArrowLeft className="size-4" aria-hidden="true" />
             All case studies
@@ -66,7 +66,7 @@ export default async function CaseStudyPage({
           <h1 className="type-display text-ink mt-4 max-w-4xl">
             {study.title}
           </h1>
-          <p className="measure text-ink-soft mt-5 text-[1.0625rem] md:text-lg">
+          <p className="measure text-ink-soft mt-5 t-lead md:text-lg">
             {study.summary}
           </p>
         </div>
@@ -80,7 +80,7 @@ export default async function CaseStudyPage({
               strokeWidth={2}
               aria-hidden="true"
             />
-            <p className="text-ink-soft measure text-[0.9375rem]">
+            <p className="text-ink-soft measure t-base">
               <strong className="text-ink font-semibold">
                 This is an illustrative placeholder.
               </strong>{" "}
@@ -129,14 +129,14 @@ export default async function CaseStudyPage({
               { heading: "Outcome", body: study.outcome },
             ].map((block) => (
               <section key={block.heading}>
-                <h2 className="font-display text-ink text-[1.5rem] font-bold tracking-[-0.03em] md:text-[1.875rem]">
+                <h2 className="font-display text-ink type-h2 font-bold">
                   {block.heading}
                 </h2>
                 <ul className="mt-5 flex flex-col gap-4">
                   {block.body.map((line) => (
                     <li
                       key={line}
-                      className="text-ink-soft measure border-l-2 border-[rgba(11,12,10,0.14)] pl-4 text-[1rem] leading-relaxed"
+                      className="text-ink-soft measure border-l-2 border-[rgba(11,12,10,0.14)] pl-4 t-base leading-relaxed"
                     >
                       {line}
                     </li>
@@ -158,7 +158,7 @@ export default async function CaseStudyPage({
             <span className="label-mono text-ink-soft block">
               Next case study
             </span>
-            <span className="font-display text-ink mt-1.5 block text-[1.0625rem] font-semibold tracking-[-0.02em] md:text-[1.25rem]">
+            <span className="font-display text-ink mt-1.5 block type-h3 font-semibold">
               {next.title}
             </span>
           </span>

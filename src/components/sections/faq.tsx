@@ -21,7 +21,7 @@ export function Faq() {
         <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr] lg:gap-14">
         {/* Sticky lime panel — the page's single warm anchor, and it keeps the
             CTA in view while the list is read. */}
-        <div className="bg-lime text-ink border-ink flex h-fit flex-col gap-5 rounded-[2rem] border p-8 lg:sticky lg:top-28">
+        <div className="bg-lime text-ink border-ink flex h-fit flex-col gap-5 rounded-3xl border p-8 lg:sticky lg:top-28">
           <span className="bg-ink/10 inline-flex size-12 items-center justify-center rounded-2xl">
             <MessageCircleQuestion
               className="size-6"
@@ -29,10 +29,10 @@ export function Faq() {
               aria-hidden="true"
             />
           </span>
-          <h2 className="font-display text-[1.75rem] leading-[1.05] font-bold tracking-[-0.03em] md:text-[2.25rem]">
+          <h2 className="font-display type-h2 leading-[1.05] font-bold">
             Questions we get asked
           </h2>
-          <p className="text-ink/75 text-[0.9375rem]">
+          <p className="text-ink/75 t-base">
             If yours is not here, ask it on the call — we would rather answer it
             before you sign anything.
           </p>
@@ -51,10 +51,10 @@ export function Faq() {
               value={item.question}
               className="border-b border-[rgba(11,12,10,0.12)]"
             >
-              <AccordionTrigger className="font-display text-ink cursor-pointer py-5 text-[1.0625rem] font-semibold tracking-[-0.02em] hover:no-underline md:text-[1.1875rem]">
+              <AccordionTrigger className="font-display text-ink cursor-pointer py-5 t-h4 font-semibold hover:no-underline">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="text-ink-soft measure pb-5 text-[0.9375rem] leading-relaxed">
+              <AccordionContent className="text-ink-soft measure pb-5 t-base leading-relaxed">
                 {item.answer}
               </AccordionContent>
             </AccordionItem>

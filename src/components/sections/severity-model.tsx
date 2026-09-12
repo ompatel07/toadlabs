@@ -59,15 +59,15 @@ export function SeverityModel({ dense = false }: { dense?: boolean }) {
                           level.token,
                         )}
                       />
-                      <span className="font-display text-ink text-[0.9375rem] font-semibold whitespace-nowrap">
+                      <span className="font-display text-ink t-base font-semibold whitespace-nowrap">
                         {level.label}
                       </span>
                     </span>
                   </th>
-                  <td className="text-ink-soft py-4 pr-4 align-top text-[0.9375rem]">
+                  <td className="text-ink-soft py-4 pr-4 align-top t-base">
                     {level.meaning}
                   </td>
-                  <td className="text-ink-soft py-4 align-top text-[0.9375rem]">
+                  <td className="text-ink-soft py-4 align-top t-base">
                     {level.response}
                   </td>
                 </tr>

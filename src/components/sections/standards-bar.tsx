@@ -14,7 +14,7 @@ export function StandardsBar() {
   return (
     <section className="section-dense relative">
       <div className="container-tl">
-        <div className="bg-deep on-dark relative overflow-hidden rounded-[2rem] border border-ink p-8 text-white md:p-12 lg:p-14">
+        <div className="bg-deep on-dark relative overflow-hidden rounded-3xl border border-ink p-8 text-white md:p-12 lg:p-14">
           {/* Bioluminescent bloom. */}
           <div
             aria-hidden="true"
@@ -28,11 +28,11 @@ export function StandardsBar() {
           <div className="relative flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="label-mono text-lime">Methodology</p>
-              <h2 className="font-display mt-3 max-w-xl text-[1.625rem] font-bold tracking-[-0.03em] md:text-[2.25rem]">
+              <h2 className="font-display mt-3 max-w-xl type-h2 font-bold">
                 We test against published standards
               </h2>
             </div>
-            <p className="max-w-sm text-[0.9375rem] text-white/70">
+            <p className="max-w-sm t-base text-white/70">
               So coverage is something you can check, rather than something you
               have to take on trust.
             </p>
@@ -44,17 +44,17 @@ export function StandardsBar() {
                 key={standard.name}
                 className="border-t border-white/25 pt-3.5"
               >
-                <p className="font-display text-lime text-[0.9375rem] font-bold tracking-[-0.02em]">
+                <p className="font-display text-lime t-base font-bold">
                   {standard.name}
                 </p>
-                <p className="mt-1 text-[0.8125rem] leading-snug text-white/65">
+                <p className="mt-1 t-xs leading-snug text-white/65">
                   {standard.scope}
                 </p>
               </li>
             ))}
           </ul>
 
-          <p className="relative mt-9 text-[0.8125rem] text-white/55">
+          <p className="relative mt-9 t-xs text-white/55">
             Named methodologies describe how we work. They are not
             certifications, and we do not claim accreditation we do not hold.
           </p>

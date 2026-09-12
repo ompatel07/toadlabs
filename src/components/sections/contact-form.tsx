@@ -97,17 +97,17 @@ export function ContactForm() {
         <span className="bg-lime text-ink inline-flex size-12 items-center justify-center rounded-2xl">
           <CheckCircle2 className="size-6" strokeWidth={2} aria-hidden="true" />
         </span>
-        <h2 className="font-display text-ink text-[1.375rem] font-bold tracking-[-0.03em]">
+        <h2 className="font-display text-ink type-h3 font-bold">
           Thanks — that&apos;s with us
         </h2>
-        <p className="text-ink-soft measure text-[0.9375rem]">
+        <p className="text-ink-soft measure t-base">
           We read every enquiry ourselves and reply with either a time to talk
           or an honest note that we are not the right fit.
         </p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="text-ink cursor-pointer text-[0.9375rem] underline underline-offset-4"
+          className="text-ink cursor-pointer t-base underline underline-offset-4"
         >
           Send another message
         </button>
@@ -186,7 +186,7 @@ export function ContactForm() {
         <button
           type="submit"
           aria-busy={status === "busy"}
-          className="bg-ink inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-7 text-[0.9375rem] font-medium text-white transition-colors duration-250 ease-out hover:bg-[#242720] aria-busy:opacity-80"
+          className="bg-ink inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-7 t-base font-medium text-white transition-colors duration-250 ease-out hover:bg-[#242720] aria-busy:opacity-80"
         >
           {status === "busy" ? (
             <>
@@ -200,7 +200,7 @@ export function ContactForm() {
             </>
           )}
         </button>
-        <p className="text-ink-soft text-[0.8125rem]">
+        <p className="text-ink-soft t-xs">
           We reply personally. No newsletter, no drip sequence.
         </p>
       </div>
@@ -213,7 +213,7 @@ export function ContactForm() {
       {status === "failed" ? (
         <p
           role="alert"
-          className="text-destructive flex items-start gap-2 text-[0.875rem]"
+          className="text-destructive flex items-start gap-2 t-sm"
         >
           <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
           That didn&apos;t send. Please email us directly and we&apos;ll pick it
@@ -266,7 +266,7 @@ function Field({
       event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     ) => onChange(event.target.value),
     className: cn(
-      "w-full rounded-xl border bg-white px-4 py-3 text-[0.9375rem] text-ink transition-colors duration-200 ease-out placeholder:text-ink-soft/60",
+      "w-full rounded-xl border bg-white px-4 py-3 t-base text-ink transition-colors duration-200 ease-out placeholder:text-ink-soft/60",
       error
         ? "border-destructive"
         : "border-[rgba(11,12,10,0.16)] hover:border-[rgba(11,12,10,0.3)]",
@@ -275,7 +275,7 @@ function Field({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={name} className="text-ink text-[0.875rem] font-medium">
+      <label htmlFor={name} className="text-ink t-sm font-medium">
         {label}
         {/* Requirement is in the label text, not signalled by colour alone. */}
         {required ? (
@@ -287,7 +287,7 @@ function Field({
       </label>
 
       {hint ? (
-        <p id={hintId} className="text-ink-soft text-[0.8125rem]">
+        <p id={hintId} className="text-ink-soft t-xs">
           {hint}
         </p>
       ) : null}
@@ -301,7 +301,7 @@ function Field({
       {error ? (
         <p
           id={errorId}
-          className="text-destructive flex items-start gap-1.5 text-[0.8125rem]"
+          className="text-destructive flex items-start gap-1.5 t-xs"
         >
           <AlertCircle className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
           {error}
@@ -328,7 +328,7 @@ function SelectField({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={name} className="text-ink text-[0.875rem] font-medium">
+      <label htmlFor={name} className="text-ink t-sm font-medium">
         {label}
         {optional ? (
           <span className="text-ink-soft font-normal"> (optional)</span>
@@ -341,7 +341,7 @@ function SelectField({
         name={name}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="text-ink h-[46px] w-full cursor-pointer rounded-xl border border-[rgba(11,12,10,0.16)] bg-white px-4 text-[0.9375rem] transition-colors duration-200 ease-out hover:border-[rgba(11,12,10,0.3)]"
+        className="text-ink h-[46px] w-full cursor-pointer rounded-xl border border-[rgba(11,12,10,0.16)] bg-white px-4 t-base transition-colors duration-200 ease-out hover:border-[rgba(11,12,10,0.3)]"
       >
         {options.map((option) => (
           <option key={option} value={option}>

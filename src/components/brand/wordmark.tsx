@@ -11,7 +11,7 @@ export function Wordmark({
   return (
     <span
       className={cn(
-        "font-display inline-flex items-center gap-2 text-[0.9375rem] font-700 tracking-[-0.03em] whitespace-nowrap",
+        "font-display inline-flex items-center gap-2 t-base font-700 whitespace-nowrap",
         onDark ? "text-white" : "text-ink",
         className,
       )}

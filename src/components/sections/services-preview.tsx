@@ -70,7 +70,7 @@ export function ServicesPreview() {
                 )}
               >
                 <span
-                  className="numeral pointer-events-none absolute -right-1 -bottom-6 text-[6.5rem] opacity-[0.07]"
+                  className="numeral pointer-events-none absolute -right-1 -bottom-6 numeral-lg opacity-[0.07]"
                   aria-hidden="true"
                 >
                   {String(index + 1).padStart(2, "0")}
@@ -86,7 +86,7 @@ export function ServicesPreview() {
                   <service.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
                 </span>
 
-                <h3 className="font-display relative flex items-center gap-1.5 text-[1.25rem] font-bold tracking-[-0.03em]">
+                <h3 className="font-display relative flex items-center gap-1.5 type-h3 font-bold">
                   {service.title}
                   <ArrowUpRight
                     className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:-translate-y-1"
@@ -94,7 +94,7 @@ export function ServicesPreview() {
                   />
                 </h3>
 
-                <p className={cn("relative text-[0.9375rem]", tone.muted)}>
+                <p className={cn("relative t-base", tone.muted)}>
                   {service.description}
                 </p>
               </Link>

@@ -39,7 +39,7 @@ export function SecurityPreview() {
                   <br />
                   <DecodeText text="And what you built." duration={1100} />
                 </h2>
-                <p className="text-[1.0625rem] text-white/70">
+                <p className="t-lead text-white/70">
                   Offensive testing run by the same engineers who ship
                   production software — so a finding arrives with a fix that
                   works in your codebase, not a generic recommendation.
@@ -63,10 +63,10 @@ export function SecurityPreview() {
                       strokeWidth={1.75}
                       aria-hidden="true"
                     />
-                    <h3 className="font-display text-[0.9375rem] font-semibold text-white">
+                    <h3 className="font-display t-base font-semibold text-white">
                       {service.title}
                     </h3>
-                    <p className="text-[0.8125rem] leading-snug text-white/60">
+                    <p className="t-xs leading-snug text-white/60">
                       {service.standards.join(" · ")}
                     </p>
                   </li>

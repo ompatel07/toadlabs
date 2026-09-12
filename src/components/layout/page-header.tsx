@@ -40,7 +40,7 @@ export function PageHeader({
             <p className="label-mono text-ink-soft">{eyebrow}</p>
             <h1 className="type-display text-ink max-w-4xl">{title}</h1>
             {description ? (
-              <p className="measure text-ink-soft text-[1.0625rem] md:text-lg">
+              <p className="measure text-ink-soft t-lead md:text-lg">
                 {description}
               </p>
             ) : null}

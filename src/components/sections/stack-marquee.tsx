@@ -94,7 +94,7 @@ export function StackMarquee() {
 
 function StackChip({ label }: { label: string }) {
   return (
-    <li className="font-display flex shrink-0 items-center gap-8 text-[1.125rem] font-bold tracking-[-0.02em] whitespace-nowrap text-white md:text-[1.375rem]">
+    <li className="font-display flex shrink-0 items-center gap-8 type-h3 font-bold whitespace-nowrap text-white">
       {label}
       <span aria-hidden="true" className="bg-lime inline-block size-1.5 rounded-full" />
     </li>

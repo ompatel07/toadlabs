@@ -12,12 +12,15 @@ export function SiteFooter() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_3fr]">
           <div className="flex flex-col gap-5">
             <Wordmark />
-            <p className="measure-tight text-ink-soft text-[0.9375rem]">
+            <p className="measure-tight text-ink-soft t-base">
+              {/* City and full stop are joined into one string. As separate
+                  JSX nodes the browser could break between them, which left a
+                  lone "." on its own line — on every page. */}
               {siteConfig.tagline} An IT services and cybersecurity studio in{" "}
-              {siteConfig.location.city}.
+              {`${siteConfig.location.city}.`}
             </p>
 
-            <ul className="flex flex-col gap-3 text-[0.9375rem]">
+            <ul className="flex flex-col gap-3 t-base">
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
@@ -57,7 +60,7 @@ export function SiteFooter() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-ink hover:text-ink-soft cursor-pointer text-[0.9375rem] transition-colors duration-200 ease-out"
+                        className="text-ink hover:text-ink-soft cursor-pointer t-base transition-colors duration-200 ease-out"
                       >
                         {item.label}
                       </Link>

@@ -64,10 +64,10 @@ export default function CybersecurityPage() {
                 <li key={item} className="flex items-start gap-2.5">
                   <Check
                     className="text-lime mt-0.5 size-4 shrink-0"
-                    strokeWidth={2.5}
+                    strokeWidth={2}
                     aria-hidden="true"
                   />
-                  <span className="text-[0.875rem] text-white/85">{item}</span>
+                  <span className="t-sm text-white/85">{item}</span>
                 </li>
               ))}
             </ul>
@@ -103,10 +103,10 @@ export default function CybersecurityPage() {
                   />
                 </span>
 
-                <h2 className="font-display text-ink text-[1.0625rem] font-semibold tracking-[-0.02em]">
+                <h2 className="font-display text-ink t-lead font-semibold">
                   {service.title}
                 </h2>
-                <p className="text-ink-soft text-[0.875rem] leading-relaxed">
+                <p className="text-ink-soft t-sm leading-relaxed">
                   {service.summary}
                 </p>
 
@@ -114,7 +114,7 @@ export default function CybersecurityPage() {
                   {service.scope.map((item) => (
                     <li
                       key={item}
-                      className="text-ink-soft flex items-start gap-2 text-[0.8125rem] leading-snug"
+                      className="text-ink-soft flex items-start gap-2 t-xs leading-snug"
                     >
                       <span
                         aria-hidden="true"
@@ -154,15 +154,15 @@ export default function CybersecurityPage() {
             <Reveal as="li" key={phase.number} index={index}>
               <div className="bg-canvas relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl p-6">
                 <span
-                  className="numeral text-ink/10 absolute -top-2 right-3 text-[4.5rem]"
+                  className="numeral text-ink/10 absolute -top-2 right-3 numeral-lg"
                   aria-hidden="true"
                 >
                   {phase.number}
                 </span>
-                <h3 className="font-display text-ink relative text-[1.0625rem] font-semibold tracking-[-0.02em]">
+                <h3 className="font-display text-ink relative t-lead font-semibold">
                   {phase.title}
                 </h3>
-                <p className="text-ink-soft relative text-[0.875rem] leading-relaxed">
+                <p className="text-ink-soft relative t-sm leading-relaxed">
                   {phase.description}
                 </p>
                 <ul className="relative mt-auto flex flex-wrap gap-1.5 pt-2">
@@ -215,14 +215,14 @@ export default function CybersecurityPage() {
                     className="border-b border-[rgba(11,12,10,0.12)]"
                   >
                     <th scope="row" className="py-3.5 pr-4 align-top">
-                      <span className="font-display text-ink block text-[0.9375rem] font-semibold">
+                      <span className="font-display text-ink block t-base font-semibold">
                         {standard.name}
                       </span>
-                      <span className="text-ink-soft block text-[0.75rem]">
+                      <span className="text-ink-soft block t-xs">
                         {standard.full}
                       </span>
                     </th>
-                    <td className="text-ink-soft py-3.5 align-top text-[0.9375rem]">
+                    <td className="text-ink-soft py-3.5 align-top t-base">
                       {standard.scope}
                     </td>
                   </tr>

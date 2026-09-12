@@ -48,7 +48,7 @@ export default function ServicesPage() {
         aside={
           <div className="card-solid flex flex-col gap-3 p-6 lg:w-[300px]">
             <p className="label-mono text-ink-soft">Not sure which you need?</p>
-            <p className="text-ink text-[0.9375rem]">
+            <p className="text-ink t-base">
               Describe the problem rather than the solution — scoping it
               properly is the first thing we do anyway.
             </p>
@@ -72,7 +72,7 @@ export default function ServicesPage() {
               <li key={service.id}>
                 <a
                   href={`#${service.id}`}
-                  className="text-ink-soft hover:border-ink hover:text-ink inline-flex cursor-pointer rounded-full border border-[rgba(11,12,10,0.14)] px-3.5 py-1.5 text-[0.8125rem] font-medium transition-colors duration-200 ease-out"
+                  className="text-ink-soft hover:border-ink hover:text-ink inline-flex cursor-pointer rounded-full border border-[rgba(11,12,10,0.14)] px-3.5 py-1.5 t-xs font-medium transition-colors duration-200 ease-out"
                 >
                   {service.title}
                 </a>
@@ -105,17 +105,17 @@ export default function ServicesPage() {
                     />
                   </span>
                   <span
-                    className="numeral text-ink/10 text-[3.5rem]"
+                    className="numeral text-ink/10 numeral-md"
                     aria-hidden="true"
                   >
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
 
-                <h2 className="font-display text-ink text-[1.375rem] font-bold tracking-[-0.03em] md:text-[1.625rem]">
+                <h2 className="font-display text-ink type-h2 font-bold">
                   {service.title}
                 </h2>
-                <p className="text-ink-soft measure text-[1rem]">
+                <p className="text-ink-soft measure t-base">
                   {service.description}
                 </p>
 
@@ -130,10 +130,10 @@ export default function ServicesPage() {
                     <li key={point} className="flex items-start gap-2.5">
                       <Check
                         className="text-ink mt-0.5 size-3.5 shrink-0"
-                        strokeWidth={2.5}
+                        strokeWidth={2}
                         aria-hidden="true"
                       />
-                      <span className="text-ink-soft text-[0.875rem] leading-snug">
+                      <span className="text-ink-soft t-sm leading-snug">
                         {point}
                       </span>
                     </li>
@@ -174,10 +174,10 @@ export default function ServicesPage() {
                 key={item.title}
                 className="border-t border-[rgba(11,12,10,0.14)] pt-4"
               >
-                <h3 className="font-display text-ink text-[1.0625rem] font-semibold tracking-[-0.02em]">
+                <h3 className="font-display text-ink t-lead font-semibold">
                   {item.title}
                 </h3>
-                <p className="text-ink-soft measure mt-1.5 text-[0.9375rem]">
+                <p className="text-ink-soft measure mt-1.5 t-base">
                   {item.copy}
                 </p>
               </li>

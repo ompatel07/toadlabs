@@ -25,7 +25,7 @@ export function Guarantees() {
             <h2 className="type-h2 text-ink mt-5 max-w-2xl">
               Commitments you can hold us to
             </h2>
-            <p className="text-ink-soft measure mt-5 text-[1.0625rem]">
+            <p className="text-ink-soft measure mt-5 t-lead">
               No badges, no logo wall. Six things that either happen on your
               engagement or visibly do not.
             </p>
@@ -50,7 +50,7 @@ export function Guarantees() {
                 {String(index + 1).padStart(2, "0")}
               </span>
 
-              <h3 className="font-display text-ink flex items-start gap-3 text-[1.125rem] font-bold tracking-[-0.02em] md:text-[1.3125rem]">
+              <h3 className="font-display text-ink flex items-start gap-3 type-h3 font-bold">
                 <span className="bg-canvas text-ink inline-flex size-9 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:rotate-12 md:hidden">
                   <item.icon className="size-4" strokeWidth={2} aria-hidden="true" />
                 </span>
@@ -65,7 +65,7 @@ export function Guarantees() {
                     aria-hidden="true"
                   />
                 </span>
-                <p className="text-ink-soft text-[0.9375rem] leading-relaxed">
+                <p className="text-ink-soft t-base leading-relaxed">
                   {item.description}
                 </p>
               </div>

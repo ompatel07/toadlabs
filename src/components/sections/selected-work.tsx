@@ -25,7 +25,7 @@ export function SelectedWork() {
       </div>
 
       {hasPlaceholderWork ? (
-        <p className="text-ink-soft mt-10 border-l-2 border-[rgba(11,12,10,0.25)] py-1 pl-4 text-[0.9375rem]">
+        <p className="text-ink-soft mt-10 border-l-2 border-[rgba(11,12,10,0.25)] py-1 pl-4 t-base">
           <strong className="text-ink font-semibold">
             These are placeholders.
           </strong>{" "}

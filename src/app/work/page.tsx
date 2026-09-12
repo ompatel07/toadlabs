@@ -36,10 +36,10 @@ export default function WorkPage() {
               aria-hidden="true"
             />
             <div>
-              <p className="font-display text-ink text-[1rem] font-bold tracking-[-0.02em]">
+              <p className="font-display text-ink t-base font-bold">
                 These case studies are placeholders
               </p>
-              <p className="text-ink-soft measure mt-1.5 text-[0.9375rem]">
+              <p className="text-ink-soft measure mt-1.5 t-base">
                 They illustrate how we scope, build and write up an engagement.
                 They are <strong className="text-ink">not</strong> delivered
                 client projects. Company names are generic sector descriptors,

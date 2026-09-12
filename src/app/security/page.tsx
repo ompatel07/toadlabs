@@ -28,20 +28,20 @@ export default function SecurityPolicyPage() {
         aside={
           <div className="bg-deep on-dark flex flex-col gap-4 rounded-3xl p-6 text-white lg:w-[320px]">
             <p className="label-mono text-lime">Machine-readable</p>
-            <p className="text-[0.9375rem] text-white/75">
+            <p className="t-base text-white/75">
               Our disclosure contact is published to RFC 9116, so scanners and
               researchers can find it without guessing.
             </p>
             <a
               href="/.well-known/security.txt"
-              className="border-lime text-lime hover:bg-lime hover:text-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border px-5 text-[0.875rem] font-medium transition-colors duration-250 ease-out"
+              className="border-lime text-lime hover:bg-lime hover:text-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border px-5 t-sm font-medium transition-colors duration-250 ease-out"
             >
               <FileText className="size-4" aria-hidden="true" />
               /.well-known/security.txt
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="inline-flex cursor-pointer items-center gap-2 text-[0.875rem] text-white/75 underline underline-offset-4 hover:text-white"
+              className="inline-flex cursor-pointer items-center gap-2 t-sm text-white/75 underline underline-offset-4 hover:text-white"
             >
               <Mail className="size-4" aria-hidden="true" />
               {siteConfig.email}
@@ -52,7 +52,7 @@ export default function SecurityPolicyPage() {
 
       {/* Disclosure policy */}
       <Section dense>
-        <p className="text-ink measure text-[1.125rem] leading-relaxed">
+        <p className="text-ink measure t-h4 leading-relaxed">
           {disclosure.intro}
         </p>
 
@@ -66,11 +66,11 @@ export default function SecurityPolicyPage() {
               {disclosure.inScope.map((item) => (
                 <li
                   key={item}
-                  className="text-ink flex items-start gap-3 border-b border-[rgba(11,12,10,0.12)] py-3.5 text-[0.9375rem]"
+                  className="text-ink flex items-start gap-3 border-b border-[rgba(11,12,10,0.12)] py-3.5 t-base"
                 >
                   <Check
                     className="text-ink mt-0.5 size-4 shrink-0"
-                    strokeWidth={2.5}
+                    strokeWidth={2}
                     aria-hidden="true"
                   />
                   {item}
@@ -88,11 +88,11 @@ export default function SecurityPolicyPage() {
               {disclosure.outOfScope.map((item) => (
                 <li
                   key={item}
-                  className="text-ink-soft flex items-start gap-3 border-b border-[rgba(11,12,10,0.12)] py-3.5 text-[0.9375rem]"
+                  className="text-ink-soft flex items-start gap-3 border-b border-[rgba(11,12,10,0.12)] py-3.5 t-base"
                 >
                   <X
                     className="mt-0.5 size-4 shrink-0"
-                    strokeWidth={2.5}
+                    strokeWidth={2}
                     aria-hidden="true"
                   />
                   {item}
@@ -104,13 +104,13 @@ export default function SecurityPolicyPage() {
 
         <div className="mt-14 grid gap-4 lg:grid-cols-2">
           <div className="bg-lime text-ink border-ink rounded-3xl border p-8">
-            <h2 className="font-display text-[1.25rem] font-bold tracking-[-0.02em]">
+            <h2 className="font-display type-h3 font-bold">
               What we will do
             </h2>
             <ul className="mt-5 flex flex-col gap-3">
               {disclosure.weWill.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-[0.9375rem]">
-                  <Check className="mt-0.5 size-4 shrink-0" strokeWidth={2.5} aria-hidden="true" />
+                <li key={item} className="flex items-start gap-2.5 t-base">
+                  <Check className="mt-0.5 size-4 shrink-0" strokeWidth={2} aria-hidden="true" />
                   {item}
                 </li>
               ))}
@@ -118,14 +118,14 @@ export default function SecurityPolicyPage() {
           </div>
 
           <div className="border-ink/15 rounded-3xl border bg-white p-8">
-            <h2 className="font-display text-ink text-[1.25rem] font-bold tracking-[-0.02em]">
+            <h2 className="font-display text-ink type-h3 font-bold">
               What we ask of you
             </h2>
             <ul className="mt-5 flex flex-col gap-3">
               {disclosure.weAsk.map((item) => (
                 <li
                   key={item}
-                  className="text-ink-soft flex items-start gap-2.5 text-[0.9375rem]"
+                  className="text-ink-soft flex items-start gap-2.5 t-base"
                 >
                   <Asterisk className="text-lime-deep mt-1.5 size-2 shrink-0" />
                   {item}
@@ -144,7 +144,7 @@ export default function SecurityPolicyPage() {
             <h2 className="type-h2 text-ink mt-5">
               What happens to your data during an engagement
             </h2>
-            <p className="text-ink-soft measure mt-5 text-[1.0625rem]">
+            <p className="text-ink-soft measure mt-5 t-lead">
               We are asking you to hand over access to the thing you care most
               about protecting. Here is precisely how it is treated.
             </p>
@@ -157,16 +157,16 @@ export default function SecurityPolicyPage() {
                 className="grid grid-cols-[auto_1fr] gap-x-6 border-t border-[rgba(11,12,10,0.16)] py-8 md:gap-x-10"
               >
                 <span
-                  className="numeral text-ink/15 text-[2.5rem] leading-[0.8] md:text-[3.5rem]"
+                  className="numeral text-ink/15 numeral-md leading-[0.8]"
                   aria-hidden="true"
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="font-display text-ink text-[1.25rem] font-bold tracking-[-0.02em]">
+                  <h3 className="font-display text-ink type-h3 font-bold">
                     {item.title}
                   </h3>
-                  <p className="text-ink-soft measure mt-2.5 text-[0.9375rem] leading-relaxed">
+                  <p className="text-ink-soft measure mt-2.5 t-base leading-relaxed">
                     {item.body}
                   </p>
                 </div>
@@ -184,7 +184,7 @@ export default function SecurityPolicyPage() {
             <h2 className="type-h2 text-ink mt-5 max-w-2xl">
               What a report actually contains
             </h2>
-            <p className="text-ink-soft measure mt-5 text-[1.0625rem]">
+            <p className="text-ink-soft measure mt-5 t-lead">
               We have no sanitised sample to hand out yet — publishing one would
               mean publishing a client&apos;s findings. This is the structure
               every report follows instead.
@@ -192,7 +192,7 @@ export default function SecurityPolicyPage() {
           </div>
           <ShieldCheck
             className="text-ink/15 hidden size-20 shrink-0 lg:block"
-            strokeWidth={1}
+            strokeWidth={1.75}
             aria-hidden="true"
           />
         </div>
@@ -204,7 +204,7 @@ export default function SecurityPolicyPage() {
               className="grid gap-x-10 gap-y-1.5 border-b border-[rgba(11,12,10,0.12)] py-5 md:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]"
             >
               <h3 className="label-mono text-ink pt-0.5">{item.section}</h3>
-              <p className="text-ink-soft text-[0.9375rem] leading-relaxed">
+              <p className="text-ink-soft t-base leading-relaxed">
                 {item.detail}
               </p>
             </li>

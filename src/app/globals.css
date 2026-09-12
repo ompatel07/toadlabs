@@ -95,7 +95,7 @@
   --radius-pill: 999px;
   --radius-card: 24px;
   --radius-panel: 32px;
-  --radius-slab: 40px;
+  --radius-slab: 32px;
 
   /* --- Elevation. Soft, wide, low-opacity — never a hard drop shadow. --- */
   --shadow-card: 0 1px 2px rgba(12, 14, 10, 0.04), 0 14px 34px -12px rgba(12, 14, 10, 0.1);
@@ -181,6 +181,28 @@
     font-size: 1rem;
     line-height: 1.6;
     letter-spacing: -0.011em;
+    /* Micro-typography. Cheap to set, and the difference between type that
+       reads as typeset and type that reads as pasted in. */
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    font-variant-ligatures: common-ligatures contextual;
+    /* Pulls quotes and bullets into the margin so the text edge stays flush.
+       Safari-only today; harmless elsewhere. */
+    hanging-punctuation: first last;
+  }
+
+  /* `pretty` costs a little layout work but prevents single-word last lines in
+     body copy, which is the most common typographic tell on a marketing page. */
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* Lining, tabular figures so numerals in labels and tables align in columns
+     rather than drifting. */
+  .label-mono,
+  table {
+    font-variant-numeric: tabular-nums lining-nums;
   }
 
   h1,
@@ -305,10 +327,49 @@
     max-width: 46ch;
   }
 
-  /* Heading sizes.
+  /* ---------------------------------------------------------------------
+     TYPE SCALE
+
+     An audit of the rendered page found 24 distinct font sizes and 22 tracking
+     values in use. That is the main reason a layout reads as "nearly right"
+     rather than crafted — the eye registers the near-misses even when no
+     single value looks wrong. This is the whole scale; nothing outside it.
+
+     Tracking is baked into each step, so components never set it themselves.
+
      Deliberately NOT named `text-*`: tailwind-merge groups every `text-…`
-     utility together, so `cn("text-h2", "text-ink")` silently dropped the size
-     and rendered section headings at body size. A distinct prefix is immune. */
+     utility together, so cn("text-h2", "text-ink") silently dropped the size. */
+  .t-xs {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    letter-spacing: 0;
+  }
+
+  .t-sm {
+    font-size: 0.875rem;
+    line-height: 1.55;
+    letter-spacing: -0.005em;
+  }
+
+  .t-base {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    letter-spacing: -0.008em;
+  }
+
+  .t-lead {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    letter-spacing: -0.012em;
+  }
+
+  .t-h4 {
+    font-size: 1.125rem;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+
   .type-hero {
     font-size: var(--text-hero);
     line-height: 0.86;
@@ -324,17 +385,26 @@
   }
 
   .type-h2 {
-    font-size: var(--text-h2);
-    line-height: 1.02;
+    font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+    line-height: 1.05;
     letter-spacing: -0.035em;
     font-weight: 700;
   }
 
   .type-h3 {
-    font-size: var(--text-h3);
-    line-height: 1.18;
-    letter-spacing: -0.02em;
-    font-weight: 600;
+    font-size: clamp(1.25rem, 1.7vw, 1.375rem);
+    line-height: 1.22;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+  }
+
+  /* Decorative numerals — two sizes, not six. */
+  .numeral-md {
+    font-size: clamp(2.25rem, 3.4vw, 3.25rem);
+  }
+
+  .numeral-lg {
+    font-size: clamp(4rem, 7vw, 6.5rem);
   }
 
   /* Small uppercase technical label. */
@@ -373,7 +443,7 @@
     backdrop-filter: blur(18px) saturate(1.3);
     -webkit-backdrop-filter: blur(18px) saturate(1.3);
     border: 1px solid rgba(11, 12, 10, 0.08);
-    border-radius: 22px;
+    border-radius: 24px;
     box-shadow: 0 1px 2px rgba(12, 14, 10, 0.03);
   }
 

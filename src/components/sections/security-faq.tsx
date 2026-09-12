@@ -30,10 +30,10 @@ export function SecurityFaq() {
               value={item.question}
               className="border-b border-[rgba(11,12,10,0.12)]"
             >
-              <AccordionTrigger className="font-display text-ink cursor-pointer py-5 text-[1rem] font-semibold tracking-[-0.02em] hover:no-underline md:text-[1.0625rem]">
+              <AccordionTrigger className="font-display text-ink cursor-pointer py-5 t-lead font-semibold hover:no-underline">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="text-ink-soft measure pb-5 text-[0.9375rem] leading-relaxed">
+              <AccordionContent className="text-ink-soft measure pb-5 t-base leading-relaxed">
                 {item.answer}
               </AccordionContent>
             </AccordionItem>

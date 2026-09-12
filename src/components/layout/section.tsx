@@ -89,7 +89,7 @@ export function SectionHeading({
       {description ? (
         <p
           className={cn(
-            "measure text-[1.0625rem]",
+            "measure t-lead",
             onDark ? "text-white/70" : "text-ink-soft",
             align === "center" && "mx-auto",
           )}

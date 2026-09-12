@@ -22,27 +22,27 @@ export function Deliverables({ dense = false }: { dense?: boolean }) {
                   <item.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
                 </span>
                 <span
-                  className="numeral text-ink/12 text-[3.25rem]"
+                  className="numeral text-ink/12 numeral-md"
                   aria-hidden="true"
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
               </div>
 
-              <h3 className="font-display text-ink text-[1.125rem] font-semibold tracking-[-0.02em]">
+              <h3 className="font-display text-ink t-h4 font-semibold">
                 {item.title}
               </h3>
-              <p className="text-ink-soft text-[0.9375rem]">{item.description}</p>
+              <p className="text-ink-soft t-base">{item.description}</p>
 
               <ul className="mt-auto flex flex-col gap-2.5 border-t border-[rgba(11,12,10,0.1)] pt-4">
                 {item.detail.map((line) => (
                   <li key={line} className="flex items-start gap-2.5">
                     <Check
                       className="text-ink mt-0.5 size-3.5 shrink-0"
-                      strokeWidth={2.5}
+                      strokeWidth={2}
                       aria-hidden="true"
                     />
-                    <span className="text-ink-soft text-[0.875rem] leading-snug">
+                    <span className="text-ink-soft t-sm leading-snug">
                       {line}
                     </span>
                   </li>

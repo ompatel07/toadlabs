@@ -21,9 +21,11 @@ export function Process() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="label-mono text-ink-soft">How we work</p>
             <h2 className="type-h2 text-ink mt-5">
-              Four steps, and you see working software in every one
+              {/* nbsp keeps "every one" together — otherwise "one" drops to a
+                  line on its own. */}
+              Four steps, and you see working software in every&nbsp;one
             </h2>
-            <p className="text-ink-soft measure mt-6 text-[1.0625rem]">
+            <p className="text-ink-soft measure mt-6 t-lead">
               No discovery phase that produces a slide deck. Each step ends with
               something you can look at and disagree with.
             </p>
@@ -38,17 +40,17 @@ export function Process() {
                 {/* Oversized numeral in the margin — the step index is the
                     graphic element, so the row needs nothing else. */}
                 <span
-                  className="numeral text-ink/15 text-[3rem] leading-[0.8] transition-colors duration-300 ease-out group-hover:text-[color:var(--lime-deep)] md:text-[4.5rem]"
+                  className="numeral text-ink/15 numeral-lg leading-[0.8] transition-colors duration-300 ease-out group-hover:text-[color:var(--lime-deep)]"
                   aria-hidden="true"
                 >
                   {step.number}
                 </span>
 
                 <div>
-                  <h3 className="font-display text-ink text-[1.375rem] font-bold tracking-[-0.03em] md:text-[1.75rem]">
+                  <h3 className="font-display text-ink type-h2 font-bold">
                     {step.title}
                   </h3>
-                  <p className="text-ink-soft measure mt-3 text-[1rem] leading-relaxed">
+                  <p className="text-ink-soft measure mt-3 t-base leading-relaxed">
                     {step.description}
                   </p>
                 </div>

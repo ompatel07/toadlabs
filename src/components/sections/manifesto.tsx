@@ -31,7 +31,7 @@ export function Manifesto() {
             Ours has to survive us.
           </p>
 
-          <p className="text-ink-soft max-w-xl text-[1.0625rem]">
+          <p className="text-ink-soft max-w-xl t-lead">
             We run our own products. Client work gets the habits that come with
             being the person who still maintains it in two years.
           </p>
