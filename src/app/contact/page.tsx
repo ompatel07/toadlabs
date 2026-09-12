@@ -22,8 +22,8 @@ export default function ContactPage() {
     <>
       <PageHeader
         eyebrow="Contact"
-        title="Tell us what you're building"
-        description="Or what you need tested. Either way you get a direct answer from the people who would do the work."
+        title="Start with the problem, not the spec"
+        description="Describe what is actually going wrong, or what you need tested. You get a direct answer from the engineers who would do the work — including if the answer is that you need less than you think."
       />
 
       <Section className="pt-4 md:pt-6">

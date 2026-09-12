@@ -55,8 +55,8 @@ export default function AboutPage() {
     <>
       <PageHeader
         eyebrow="About"
-        title="We build products. That changes how we build yours."
-        description="Toad Labs is a founder-led studio in Ahmedabad. Most agencies write code that has to survive until handover. We write software we expect to still be maintaining in two years — and we bring that same standard to client work."
+        title="We maintain what we build. That changes how we build."
+        description="A founder-led studio in Ahmedabad running its own products alongside client work. The habits that make software cheap to change in year two are the ones we already need for ourselves — you inherit them by default."
       />
 
       <TickerStrip

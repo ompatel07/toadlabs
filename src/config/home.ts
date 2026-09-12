@@ -16,13 +16,12 @@ import {
  */
 
 export const hero = {
-  eyebrow: "IT services & cybersecurity",
+  eyebrow: "Product studio & security practice",
   /** Set at display size in the hero, like a title card. */
   wordmark: "Toad Labs.",
-  statement:
-    "Product-builder discipline, applied to client builds.",
+  statement: "Software built to survive production — and tested like an adversary.",
   subtitle:
-    "We build software the way product teams build it — then we try to break it before anyone else does.",
+    "One team designs your architecture, ships it, and then tries to break it. Most companies buy those from two vendors and let them argue.",
   primaryCta: { label: "Book a call", href: "/contact" },
   secondaryCta: { label: "See our work", href: "/work" },
   /** Honest floating cards. No invented metrics. */
@@ -46,27 +45,27 @@ export interface TrustItem {
 
 export const trustStrip: TrustItem[] = [
   {
-    title: "Senior engineers only",
+    title: "You work with the builders",
     description:
-      "The people who scope your project are the people who write it.",
+      "The engineer who scopes your project writes it. Nothing is handed down to a bench you never met.",
     icon: Code2,
   },
   {
-    title: "You own the code",
+    title: "Yours from commit one",
     description:
-      "Your repository, your infrastructure, your accounts. From commit one.",
+      "Your repository, your cloud accounts, your domains. No proprietary layer you have to keep paying to keep running.",
     icon: GitPullRequest,
   },
   {
-    title: "Security in-house",
+    title: "Offence and defence, one team",
     description:
-      "We test what we build — and what other teams built, too.",
+      "The people who review your authorisation logic are the people who try to bypass it the following month.",
     icon: ShieldCheck,
   },
   {
-    title: "Performance budgets",
+    title: "Budgets, not opinions",
     description:
-      "Measured against real targets, not declared done and forgotten.",
+      "Performance and accessibility targets are set at the start and checked against the running build, not argued about at the end.",
     icon: Gauge,
   },
 ];
@@ -74,27 +73,27 @@ export const trustStrip: TrustItem[] = [
 export const pillars = {
   build: {
     label: "Build",
-    title: "Software that survives its second year",
+    title: "Systems that are still cheap to change in year two",
     description:
-      "Most agency code is written to pass a handover, not to be maintained. We build the way product teams build, because that is what we are the rest of the time: typed boundaries, real tests, migrations that run, and a release process your team can operate without us.",
+      "Most software does not fail at launch. It fails eighteen months later, when a change that should take a day takes a fortnight because nobody wrote down why the schema looks like that. We build for that moment: typed boundaries, migrations that run forwards and backwards, tests where they earn their cost, and decisions recorded with the trade-off that drove them.",
     points: [
-      "Architecture decisions written down, not folklore",
-      "Tests where they earn their cost",
-      "CI, staging, and rollback from the first week",
-      "Documentation your next hire can actually follow",
+      "Architecture decision records, not folklore",
+      "Reversible migrations and seeded environments",
+      "CI, staging and rollback from week one",
+      "Handover documentation your next hire can follow",
     ],
     cta: { label: "Explore services", href: "/services" },
   },
   secure: {
     label: "Secure",
-    title: "Then we try to break it",
+    title: "Then we come back and attack it",
     description:
-      "Building and breaking in the same studio means findings arrive with a fix, not just a severity rating. We run VAPT, penetration tests, and secure code reviews against public standards — OWASP Top 10, ASVS, PTES — and we retest after you remediate.",
+      "Testing your own work sounds like a conflict of interest until you have seen how differently an engineer writes access control knowing a colleague will spend a week trying to defeat it. We test against OWASP ASVS and PTES, prioritise by what is reachable in your actual deployment rather than by scanner score, and retest after you remediate.",
     points: [
-      "VAPT and application penetration testing",
-      "Secure code review and cloud posture review",
-      "Findings prioritised by real exploitability",
-      "Retest included, so closure is evidenced",
+      "Authenticated and unauthenticated application testing",
+      "Secure code review of the authorisation layer",
+      "Findings ranked by real exploitability, with proof",
+      "Retest included — closure is evidenced, not asserted",
     ],
     cta: { label: "Cybersecurity services", href: "/cybersecurity" },
   },
@@ -111,25 +110,25 @@ export const process: ProcessStep[] = [
     number: "01",
     title: "Scope",
     description:
-      "We work out what the thing actually has to do, and just as importantly what it does not. You get a written scope with the cuts and the reasoning visible.",
+      "We work out what the system has to do and, more usefully, what it does not. You get a written scope with the cuts visible and the reasoning attached, so later feature arguments start from a document rather than from memory.",
   },
   {
     number: "02",
     title: "Shape",
     description:
-      "Architecture, data model, and interface decided before anyone writes production code. Decisions are recorded so they can be revisited rather than re-argued.",
+      "Data model, trust boundaries and interface settled before production code exists. This is the cheapest hour in the whole engagement, and the one most often skipped.",
   },
   {
     number: "03",
     title: "Build",
     description:
-      "Weekly demos against working software. No status decks — if it is not running, it is not done, and you see the same build we do.",
+      "Weekly demos against software that runs. No percentage-complete bars — you see the same build we do, early enough that disagreeing with it is still cheap.",
   },
   {
     number: "04",
-    title: "Harden & hand over",
+    title: "Harden and hand over",
     description:
-      "Security testing, performance budgets, and a handover your team can operate. Repository, infrastructure, and documentation are yours.",
+      "Security testing, performance budgets, runbooks, and a walkthrough with whoever will operate it. You leave with the repository, the infrastructure and the knowledge.",
   },
 ];
 
@@ -184,31 +183,31 @@ export const faqs: FaqItem[] = [
   {
     question: "How is this different from hiring an agency?",
     answer:
-      "Most agencies optimise for delivery against a signed scope; the code only has to survive until handover. We run our own products, so we build client work the same way we build software we will still be maintaining in two years. Practically, that means you get architecture decisions in writing, a test suite, and a release process — not a zip file and a support address.",
+      "Agency code has to survive one event: the handover. Every shortcut taken before that point lands on someone else afterwards, and the incentive quietly points that way for everyone involved. We run our own products, so the habits we already have are the ones you want — decisions written down, a test suite that means something, a release process your team can operate without calling us. You are buying how it is built, not just that it gets built.",
   },
   {
     question: "Do you work with teams outside Ahmedabad?",
     answer:
-      "Yes. We are based in Ahmedabad and work with teams across India and internationally. Delivery runs asynchronously with a weekly demo, and we overlap working hours with your timezone for the calls that need to be live.",
+      "Yes, across India and internationally. Delivery runs asynchronously against a weekly demo, and we hold working-hour overlap with your timezone for the conversations that genuinely need to be live. In practice most engagements involve one scheduled call a week and a shared channel for everything else.",
   },
   {
-    question: "Can you do security testing on software you did not build?",
+    question: "Can you test software you did not build?",
     answer:
-      "That is a large share of our security work. We test applications, APIs, and cloud environments built by in-house teams and other vendors. Reports are written for two audiences: engineers who need reproduction steps, and decision-makers who need to know what to fix first.",
+      "That is most of our security work — applications, APIs and cloud estates built by in-house teams and other vendors. We have no interest in litigating who wrote what. The report is about what is reachable, what it would cost an attacker, and what to fix first.",
   },
   {
     question: "What does an engagement cost?",
     answer:
-      "It depends on scope, and we would rather scope it properly than publish a number that turns out to be wrong. Book a call and we will talk through what you need; if a fixed-scope phase makes sense, we will quote one, and if the work is genuinely open-ended we will say so rather than pretend otherwise.",
+      "It depends on scope, and quoting before understanding the system produces a number that is wrong in one direction or the other. Book a call and we will scope it properly. Where the boundary is clear we quote a fixed-scope phase; where it genuinely is not, we say so rather than pricing a guess and renegotiating later.",
   },
   {
     question: "Who owns the code and the infrastructure?",
     answer:
-      "You do, from the first commit. Work happens in your repository and your cloud accounts wherever possible. There is no proprietary framework you have to keep paying us to maintain, and no lock-in that makes leaving expensive.",
+      "You do, from the first commit. Work happens in your repository and your cloud accounts wherever possible. There is no proprietary framework you have to keep paying us to maintain — if leaving us is expensive, then staying was never really a decision you got to make.",
   },
   {
     question: "What happens after launch?",
     answer:
-      "Handover includes documentation, runbooks, and a walkthrough with whoever will operate the system. Beyond that we can stay on for a support or ongoing development arrangement, but it is an option rather than a dependency we designed in.",
+      "Handover includes runbooks, architecture notes and a walkthrough with whoever will operate the system. After that a support or continued-development arrangement is available, but it is an option rather than a dependency we designed in. The measure of a good handover is that you could choose not to call us.",
   },
 ];

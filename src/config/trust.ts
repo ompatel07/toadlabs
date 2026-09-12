@@ -86,37 +86,37 @@ export const guarantees: Guarantee[] = [
   {
     title: "You own everything",
     description:
-      "Your repository, your cloud accounts, your domains — from the first commit. No proprietary framework you have to keep paying us to maintain.",
+      "Your repository, your cloud accounts, your domains, from the first commit. No proprietary layer you have to keep paying to keep running.",
     icon: GitPullRequest,
   },
   {
     title: "Retest is included",
     description:
-      "A finding is not closed because you say it is fixed. We retest after remediation and reissue the report, so closure is evidenced.",
+      "A finding is not closed because someone says it is fixed. We verify it and reissue the report, so closure is evidenced rather than claimed.",
     icon: RefreshCw,
   },
   {
     title: "Least-privilege access",
     description:
-      "We ask for the narrowest access that lets us do the work, on named accounts, and we tell you exactly what we will touch before we touch it.",
+      "We ask for the narrowest access that lets us do the agreed work, on named accounts you can revoke, and we tell you what we intend to touch before we touch it.",
     icon: KeyRound,
   },
   {
     title: "Data returned or destroyed",
     description:
-      "Test data, credentials, and findings are handed back or securely destroyed at the end of an engagement. Confirmed in writing.",
+      "Test data, credentials and evidence are handed back or securely destroyed when the engagement ends, and we confirm it in writing.",
     icon: Trash2,
   },
   {
     title: "NDA before scoping",
     description:
-      "Happy to sign yours before you tell us anything about the system. Scoping conversations happen under it, not after.",
+      "Happy to sign yours before you tell us anything about the system. The scoping conversation happens under it, not after.",
     icon: ScrollText,
   },
   {
     title: "Findings you can act on",
     description:
-      "Every finding ships with reproduction steps, real-world impact, and a concrete fix — not a scanner ID and a severity label.",
+      "Reproduction steps, real-world impact, and a concrete fix for every finding. If we cannot explain how it would be exploited, it does not go in as a finding.",
     icon: FileSearch,
   },
 ];

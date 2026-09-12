@@ -60,8 +60,8 @@ export default function ServicesPage() {
 
       <PageHeader
         eyebrow="Services"
-        title="What we build, and what you end up owning"
-        description="Scoped around the outcome you need rather than a package tier. Every engagement leaves you with the repository, the infrastructure, and documentation your team can operate."
+        title="Ten disciplines, one engineering standard"
+        description="Scoped around the outcome you need, not a package tier. Whatever we build, it ships with tests that mean something, a release process your team can run, and everything in your accounts."
         aside={
           <div className="card-solid flex flex-col gap-3 p-6 lg:w-[300px]">
             <p className="label-mono text-ink-soft">Not sure which you need?</p>

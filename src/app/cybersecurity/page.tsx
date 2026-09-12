@@ -64,8 +64,8 @@ export default function CybersecurityPage() {
 
       <PageHeader
         eyebrow="Cybersecurity"
-        title="Find it before someone else does"
-        description="Offensive testing run by engineers who ship production software. Findings arrive with reproduction steps and a fix that works in your codebase — not a scanner ID and a severity label."
+        title="We test the way an attacker would, then hand you the fix"
+        description="Offensive testing run by engineers who ship production software. Every finding arrives with reproduction steps, real-world impact, and a fix that compiles in your codebase — never a scanner ID and a severity label."
         aside={
           <div className="slab-dark on-dark flex flex-col gap-4 rounded-3xl p-6 lg:w-[320px]">
             <p className="label-mono text-lime">Every engagement includes</p>

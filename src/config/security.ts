@@ -32,11 +32,11 @@ export const securityServices: SecurityService[] = [
     id: "vapt",
     title: "VAPT",
     summary:
-      "Vulnerability assessment and penetration testing across your applications, APIs, and network surface — automated coverage where it helps, manual testing where it matters.",
+      "Assessment and penetration testing across applications, APIs and network surface. Tooling for coverage, hands on keyboard for everything that requires understanding your business logic.",
     scope: [
       "External and internal network testing",
       "Web application and API assessment",
-      "Authenticated and unauthenticated passes",
+      "Authenticated passes for every user role",
       "Credentialed configuration review",
     ],
     standards: ["PTES", "NIST SP 800-115", "OWASP Top 10"],
@@ -46,12 +46,12 @@ export const securityServices: SecurityService[] = [
     id: "pentesting",
     title: "Web & mobile penetration testing",
     summary:
-      "Manual, goal-oriented testing against your application the way an attacker would approach it — chaining low-severity issues into the ones that actually matter.",
+      "Goal-oriented manual testing. Scanners find known signatures; the findings that matter usually come from chaining three low-severity issues into one that ends with your data.",
     scope: [
-      "Authentication and session handling",
+      "Authentication, session and token handling",
       "Authorisation and multi-tenant isolation",
-      "Business logic abuse",
-      "iOS and Android application testing",
+      "Business logic and workflow abuse",
+      "iOS and Android, including local storage and transport",
     ],
     standards: ["OWASP ASVS", "OWASP MASVS"],
     icon: Bug,
@@ -60,12 +60,12 @@ export const securityServices: SecurityService[] = [
     id: "audits",
     title: "Security audits",
     summary:
-      "A structured review of how your system is built and operated, mapped against a verification standard so you can see coverage rather than a list of opinions.",
+      "A structured review of how the system is built and operated, mapped to a verification standard so you get measured coverage rather than a list of one engineer's opinions.",
     scope: [
       "Architecture and trust-boundary review",
-      "Control coverage against ASVS levels",
+      "Control coverage against a chosen ASVS level",
       "Secrets handling and key management",
-      "Logging, monitoring, and alerting gaps",
+      "Logging, monitoring and alerting gaps",
     ],
     standards: ["OWASP ASVS", "CIS Benchmarks"],
     icon: ClipboardCheck,
@@ -74,12 +74,12 @@ export const securityServices: SecurityService[] = [
     id: "code-review",
     title: "Secure code review",
     summary:
-      "Reading the code, not just probing the surface. Finds the authorisation flaws and injection paths that black-box testing structurally cannot reach.",
+      "Reading the source, not just probing the surface. Broken object-level authorisation is close to invisible from outside and obvious the moment you read the handler.",
     scope: [
-      "Authorisation logic and access control",
-      "Injection, deserialisation, SSRF paths",
+      "Authorisation logic and access-control paths",
+      "Injection, deserialisation and SSRF sinks",
       "Dependency and supply-chain review",
-      "Static analysis tuned to your codebase",
+      "Static analysis tuned to your codebase, not defaults",
     ],
     standards: ["OWASP ASVS", "MITRE ATT&CK"],
     icon: Code2,
@@ -88,11 +88,11 @@ export const securityServices: SecurityService[] = [
     id: "cloud",
     title: "Cloud security posture",
     summary:
-      "Review of your AWS, GCP, or Azure footprint — IAM, network exposure, storage, and the defaults nobody revisited after the first deploy.",
+      "Review of your AWS, GCP or Azure footprint — IAM, exposure, storage, and the defaults nobody revisited after the first deploy went out under deadline.",
     scope: [
-      "IAM roles, policies, and privilege creep",
+      "IAM roles, policies and privilege creep",
       "Public exposure and network segmentation",
-      "Storage, encryption, and backup posture",
+      "Encryption, key rotation and backup posture",
       "Infrastructure-as-code review",
     ],
     standards: ["CIS Benchmarks", "NIST SP 800-115"],
@@ -102,12 +102,12 @@ export const securityServices: SecurityService[] = [
     id: "compliance",
     title: "Compliance readiness",
     summary:
-      "Preparation support for the security questionnaire or audit ahead of you. We help you get evidence in order — we do not certify you, and no one can promise you a pass.",
+      "Preparation for the questionnaire or audit ahead of you. We get your evidence in order and answer the technical questions — we do not certify you, and nobody honest will promise you a pass.",
     scope: [
       "Gap analysis against your target framework",
-      "Evidence collection and documentation",
-      "Policy and control mapping",
-      "Questionnaire and auditor-question support",
+      "Evidence collection and control mapping",
+      "Policy documentation support",
+      "Enterprise questionnaire and auditor-question support",
     ],
     standards: ["ISO 27001 (readiness)", "SOC 2 (readiness)"],
     icon: FileSearch,
@@ -116,7 +116,7 @@ export const securityServices: SecurityService[] = [
     id: "incident-response",
     title: "Incident response readiness",
     summary:
-      "Making sure that when something does happen, you already know who does what. Tabletop exercises and runbooks, built before you need them.",
+      "Deciding who does what before it happens, rather than at 2am in a group chat. Runbooks and tabletop exercises, built while there is time to think.",
     scope: [
       "Response runbooks and escalation paths",
       "Tabletop exercises with your team",

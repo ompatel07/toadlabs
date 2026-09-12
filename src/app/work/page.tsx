@@ -21,8 +21,8 @@ export default function WorkPage() {
     <>
       <PageHeader
         eyebrow="Work"
-        title="How we approach a build"
-        description="Problem, approach, stack, outcome — written so you can judge the reasoning rather than admire a screenshot."
+        title="The reasoning, not the screenshot"
+        description="Problem, approach, stack, outcome. Written so you can judge how we think about a system, which is the only part of a case study that tells you anything."
       />
 
       <TickerStrip

@@ -19,22 +19,22 @@ export function Manifesto() {
           <Asterisk className="text-lime-deep size-5" />
 
           <p className="type-display text-ink max-w-5xl text-balance">
-            <SplitText text="Most agency code only has to survive the" />{" "}
+            <SplitText text="Anyone can ship it once. The bill arrives in" />{" "}
             {/* The full stop lives inside the highlighted span: with it
                 outside, the span's margin left a visible gap before it. */}
             <span className="relative inline-block whitespace-nowrap">
-              handover.
+              year two.
               <span
                 aria-hidden="true"
                 className="bg-lime absolute inset-x-[-0.1em] bottom-[0.08em] -z-10 h-[0.38em]"
               />
             </span>{" "}
-            Ours has to survive us.
+            We build for that bill.
           </p>
 
           <p className="text-ink-soft max-w-xl t-lead">
-            We run our own products. Client work gets the habits that come with
-            being the person who still maintains it in two years.
+            We maintain our own products, so the habits that make year two
+            cheap are the ones we already have. You inherit them by default.
           </p>
         </div>
       </div>
