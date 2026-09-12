@@ -268,14 +268,14 @@
      OS to calm things down.
      --------------------------------------------------------------------- */
   @media (prefers-reduced-motion: reduce) {
-    html {
+    html:not([data-motion="on"]) {
       scroll-behavior: auto;
     }
 
-    /* Tier 2 only. */
-    .motion-rich,
-    .motion-rich::before,
-    .motion-rich::after {
+    /* Tier 2 only. `data-motion="on"` is an explicit per-site override. */
+    html:not([data-motion="on"]) .motion-rich,
+    html:not([data-motion="on"]) .motion-rich::before,
+    html:not([data-motion="on"]) .motion-rich::after {
       animation: none !important;
       transform: none !important;
       transition: none !important;
@@ -687,7 +687,7 @@
      A lime rule across the top that fills as the document scrolls. Driven by
      a scroll timeline, so there is no scroll listener and nothing to throttle;
      where scroll timelines are unsupported the bar simply never appears. */
-  @supports (animation-timeline: scroll()) {
+  @supports (animation-timeline: view()) {
     .scroll-progress {
       transform-origin: 0 50%;
       animation: progress-grow linear both;
@@ -854,6 +854,245 @@
          element's entry, capped so long lines still finish on screen. */
       animation-range: entry calc(2% + (var(--i) * 0.6%)) entry
         calc(34% + (var(--i) * 0.6%));
+    }
+  }
+
+  /* --- Horizontal scroll rail --------------------------------------------
+     A tall section pins its inner track and translates it sideways as you
+     scroll through, so vertical scrolling drives horizontal movement.
+
+     Driven by `animation-timeline: scroll()` on the section itself, so there
+     is no scroll listener and nothing to fall out of sync. Where scroll-driven
+     timelines are unsupported — and on touch, where hijacking vertical scroll
+     is hostile — the track falls back to a normal swipeable overflow row. */
+  .rail-track {
+    display: flex;
+    gap: 1rem;
+  }
+
+  /* Touch and small screens: a plain swipeable row with snap points. */
+  @media (max-width: 1023px), (pointer: coarse) {
+    .rail-viewport {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-inline: var(--gutter);
+    }
+
+    .rail-viewport::-webkit-scrollbar {
+      display: none;
+    }
+
+    .rail-card {
+      scroll-snap-align: center;
+    }
+  }
+
+  @media (min-width: 1024px) and (pointer: fine) {
+    @supports (animation-timeline: view()) {
+      .rail-section {
+        /* Height controls how much scrolling the pan consumes. */
+        height: 320vh;
+      }
+
+      .rail-sticky {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      @keyframes rail-pan {
+        to {
+          /* Moves the track just past its own overflow. */
+          transform: translateX(calc(-100% + 100vw - var(--gutter) * 2));
+        }
+      }
+
+      /* The section owns a named view-timeline and the track references it.
+         `scroll(nearest)` would bind to the document scroller and give whole-
+         page progress; this gives progress through THIS section, which is what
+         the pan needs. `contain` spans the period the tall section covers the
+         viewport — exactly the window in which it is pinned. */
+      .rail-section {
+        view-timeline-name: --rail;
+        view-timeline-axis: block;
+      }
+
+      .rail-track {
+        /* Without max-content the flex container is sized to its parent, so
+           the `-100%` in the keyframe resolved to the viewport width and the
+           track panned by ~76px instead of its full length. */
+        width: max-content;
+        padding-inline: var(--gutter);
+        animation: rail-pan linear both;
+        animation-timeline: --rail;
+        /* `contain` is degenerate for a section taller than the viewport — it
+           can never be fully contained, so the range collapses. entry 100% is
+           the moment the section's top reaches the viewport top, exit 0% the
+           moment its bottom reaches the viewport bottom: precisely the window
+           in which the inner element is pinned. */
+        animation-range: entry 100% exit 0%;
+        will-change: transform;
+      }
+    }
+
+    /* Without scroll-driven support the section is a normal scrollable row. */
+    @supports not (animation-timeline: view()) {
+      .rail-viewport {
+        overflow-x: auto;
+        padding-inline: var(--gutter);
+      }
+    }
+  }
+
+  /* Reduced motion: never pin. A pinned section converts scrolling into
+     sideways movement, which is exactly the kind of motion the setting asks
+     us not to force. */
+  @media (prefers-reduced-motion: reduce) {
+    html:not([data-motion="on"]) .rail-section {
+      height: auto;
+    }
+
+    html:not([data-motion="on"]) .rail-sticky {
+      position: static;
+      height: auto;
+      overflow: visible;
+    }
+
+    html:not([data-motion="on"]) .rail-track {
+      animation: none;
+      flex-wrap: wrap;
+      padding-inline: var(--gutter);
+      /* Must be reverted: the desktop branch sets max-content for the pan, and
+         a wrapped track left at content width overflows the document by ~2.5k
+         px once the pinning is off. */
+      width: auto;
+    }
+  }
+
+  /* --- Intro curtain ------------------------------------------------------
+     Two half-height ink panels, each showing the same wordmark clipped to its
+     half, so the type reads as one continuous word until the halves part.
+     Content underneath stays rendered and interactive throughout — this is an
+     overlay, never a gate. */
+  .intro-curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    pointer-events: none;
+  }
+
+  .intro-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50.5%;
+    background: var(--deep);
+    overflow: hidden;
+    animation-duration: 900ms;
+    animation-delay: 480ms;
+    animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+    animation-fill-mode: forwards;
+  }
+
+  .intro-panel-top {
+    top: 0;
+    animation-name: intro-lift-top;
+  }
+
+  .intro-panel-bottom {
+    bottom: 0;
+    animation-name: intro-lift-bottom;
+  }
+
+  @keyframes intro-lift-top {
+    to {
+      transform: translateY(-100%);
+    }
+  }
+
+  @keyframes intro-lift-bottom {
+    to {
+      transform: translateY(100%);
+    }
+  }
+
+  /* Each panel holds a full-height copy of the wordmark, offset so together
+     they form one word straddling the seam. */
+  .intro-inner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    gap: 1.25rem;
+  }
+
+  .intro-panel-top .intro-inner {
+    top: 0;
+  }
+
+  .intro-panel-bottom .intro-inner {
+    bottom: 0;
+  }
+
+  .intro-word {
+    font-family: var(--font-wordmark);
+    font-size: clamp(2rem, 8vw, 6rem);
+    letter-spacing: -0.04em;
+    color: #ffffff;
+    white-space: nowrap;
+    animation: intro-word-in 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes intro-word-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.35em);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .intro-rule {
+    display: block;
+    width: min(220px, 40vw);
+    height: 2px;
+    background: var(--lime);
+    transform-origin: left;
+    animation: intro-rule 900ms cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+
+  @keyframes intro-rule {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Reduced motion: no sliding panels, no rising type — the curtain simply
+     fades out. */
+  .intro-curtain[data-reduced="true"] .intro-panel {
+    animation: intro-fade 420ms ease-out 320ms forwards;
+  }
+
+  .intro-curtain[data-reduced="true"] .intro-word,
+  .intro-curtain[data-reduced="true"] .intro-rule {
+    animation: none;
+  }
+
+  @keyframes intro-fade {
+    to {
+      opacity: 0;
     }
   }
 
@@ -1201,29 +1440,47 @@
      duration would snap a marquee to its end position instead of holding it
      still. */
   @media (prefers-reduced-motion: reduce) {
-    .animate-marquee,
-    .animate-marquee-reverse,
-    .animate-drift,
-    .animate-drift-slow,
-    .animate-hero-float,
-    .aurora-blob,
-    .velocity-skew,
-    .hero-glow::before,
-    .slab-bloom::after {
+    html:not([data-motion="on"]) :is(
+        .animate-marquee,
+        .animate-marquee-reverse,
+        .animate-drift,
+        .animate-drift-slow,
+        .animate-hero-float,
+        .aurora-blob,
+        .velocity-skew
+      ),
+    html:not([data-motion="on"]) .hero-glow::before,
+    html:not([data-motion="on"]) .slab-bloom::after {
       animation: none !important;
       transform: none !important;
     }
 
     /* Split text and card stacking keep their fade but drop the movement, so
        the reveal still reads without anything sliding across the screen. */
-    .split-char {
+    html:not([data-motion="on"]) .split-char {
       animation-name: split-fade !important;
     }
 
-    .stack-item > * {
+    html:not([data-motion="on"]) .stack-item > * {
       animation: none !important;
       transform: none !important;
     }
+  }
+
+  /* Explicit opt-out, regardless of the OS setting. */
+  html[data-motion="off"] :is(
+      .animate-marquee,
+      .animate-marquee-reverse,
+      .animate-drift,
+      .animate-drift-slow,
+      .animate-hero-float,
+      .aurora-blob,
+      .velocity-skew
+    ),
+  html[data-motion="off"] .hero-glow::before,
+  html[data-motion="off"] .slab-bloom::after {
+    animation: none !important;
+    transform: none !important;
   }
 
   /* Opacity-only variant of the split reveal. */
