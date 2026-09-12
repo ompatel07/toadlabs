@@ -25,10 +25,15 @@ export function ParticleNetwork({ className }: { className?: string }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
     const context = canvas.getContext("2d", { alpha: true });
     if (!context) return;
+
+    // Runs under reduced motion as well, at a slower drift. Nodes move ~0.1px
+    // per frame with no directional sweep, which is ambience rather than the
+    // large directional movement that setting is about — and the field is a
+    // large part of what makes the hero feel alive.
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const DRIFT = calm ? 0.06 : 0.18;
 
     const LINK_DISTANCE = 132;
     const POINTER_RADIUS = 150;
@@ -70,8 +75,8 @@ export function ParticleNetwork({ className }: { className?: string }) {
           y,
           baseX: x,
           baseY: y,
-          vx: (Math.random() - 0.5) * 0.18,
-          vy: (Math.random() - 0.5) * 0.18,
+          vx: (Math.random() - 0.5) * DRIFT,
+          vy: (Math.random() - 0.5) * DRIFT,
         };
       });
     };

@@ -1457,35 +1457,44 @@
      Listed explicitly rather than blanket-disabled, because zeroing a
      duration would snap a marquee to its end position instead of holding it
      still. */
+  /* TIER 2 — motion that is actually worth gating.
+     -----------------------------------------------------------------------
+     Recalibrated. An earlier version gated an 8px float and a blurred blob
+     drifting over 34 seconds, which stripped the site of life for anyone with
+     the OS setting on and bought them nothing: prefers-reduced-motion is about
+     large, fast, directional movement that can trigger a vestibular response,
+     not slow low-amplitude ambience.
+
+     Still gated, because each genuinely qualifies:
+       marquee / reverse  continuous directional travel across the viewport
+       velocity skew      the page itself shearing as you scroll
+       hero parallax      large cursor-driven displacement
+       rail pinning       scroll converted into sideways travel (handled in
+                          the rail block; it becomes a hand-scrolled row)
+
+     Now always running, because none of them qualify:
+       hero float         +/-8px over 6s
+       aurora drift       heavily blurred, 34-52s, no hard edge to track
+       glow pulse         opacity and a 6% scale
+       split text         small rise per character
+       card stack         7% scale on an element already leaving the viewport
+     ----------------------------------------------------------------------- */
   @media (prefers-reduced-motion: reduce) {
     html:not([data-motion="on"]) :is(
         .animate-marquee,
         .animate-marquee-reverse,
-        .animate-drift,
-        .animate-drift-slow,
-        .animate-hero-float,
-        .aurora-blob,
         .velocity-skew
-      ),
-    html:not([data-motion="on"]) .hero-glow::before,
-    html:not([data-motion="on"]) .slab-bloom::after {
+      ) {
       animation: none !important;
       transform: none !important;
     }
 
-    /* Split text and card stacking keep their fade but drop the movement, so
-       the reveal still reads without anything sliding across the screen. */
-    html:not([data-motion="on"]) .split-char {
-      animation-name: split-fade !important;
-    }
-
-    html:not([data-motion="on"]) .stack-item > * {
-      animation: none !important;
+    html:not([data-motion="on"]) .hero-parallax {
       transform: none !important;
     }
   }
 
-  /* Explicit opt-out, regardless of the OS setting. */
+  /* Explicit opt-out stops everything, including the ambient layer. */
   html[data-motion="off"] :is(
       .animate-marquee,
       .animate-marquee-reverse,
@@ -1493,7 +1502,9 @@
       .animate-drift-slow,
       .animate-hero-float,
       .aurora-blob,
-      .velocity-skew
+      .velocity-skew,
+      .split-char,
+      .stack-item > *
     ),
   html[data-motion="off"] .hero-glow::before,
   html[data-motion="off"] .slab-bloom::after {

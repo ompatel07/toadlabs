@@ -25,15 +25,15 @@ export function Cursor() {
 
   useEffect(() => {
     const fine = window.matchMedia("(pointer: fine)");
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    const decide = () => setEnabled(fine.matches && !reduced.matches);
+    // Reduced motion does not disable the cursor — replacing a pointer is not
+    // vestibular motion. It removes the ring's LAG instead, so the ring tracks
+    // exactly rather than trailing.
+    const decide = () => setEnabled(fine.matches);
     decide();
     fine.addEventListener("change", decide);
-    reduced.addEventListener("change", decide);
     return () => {
       fine.removeEventListener("change", decide);
-      reduced.removeEventListener("change", decide);
     };
   }, []);
 
@@ -53,11 +53,13 @@ export function Cursor() {
     let ringY = 0;
     let frame = 0;
     let seen = false;
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const EASE = calm ? 1 : 0.16;
 
     const tick = () => {
       // The ring eases toward the pointer; the dot is pinned to it exactly.
-      ringX += (mouseX - ringX) * 0.16;
-      ringY += (mouseY - ringY) * 0.16;
+      ringX += (mouseX - ringX) * EASE;
+      ringY += (mouseY - ringY) * EASE;
       ring.style.transform = `translate3d(${ringX.toFixed(2)}px, ${ringY.toFixed(2)}px, 0) translate(-50%, -50%)`;
       frame = requestAnimationFrame(tick);
     };
