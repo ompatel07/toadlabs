@@ -24,17 +24,7 @@ export function FinalCta({
     <section className="section">
       <div className="container-tl">
         <Reveal>
-          <Spotlight className="slab-dark on-dark relative overflow-hidden p-10 md:p-16 lg:p-20">
-            {/* Soft lime bloom in the corner — decorative only. */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -top-32 -right-24 size-[420px] rounded-full opacity-45 blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(199,242,60,0.5) 0%, rgba(31,107,74,0.25) 45%, rgba(16,23,16,0) 72%)",
-              }}
-            />
-
+          <Spotlight className="slab-dark on-dark slab-bloom relative overflow-hidden p-10 md:p-16 lg:p-20">
             <div className="relative flex flex-col gap-8">
               <div className="flex flex-col gap-5">
                 <h2 className="type-display max-w-3xl text-white">{title}</h2>

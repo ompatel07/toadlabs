@@ -17,17 +17,7 @@ export function SecurityPreview() {
     <section className="section">
       <div className="container-tl">
         <Reveal>
-          <Spotlight className="slab-dark on-dark relative overflow-hidden p-8 md:p-14 lg:p-16">
-            {/* Decorative lime bloom. */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -top-40 -left-32 size-[520px] rounded-full opacity-40 blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(199,242,60,0.5) 0%, rgba(31,107,74,0.28) 45%, rgba(16,23,16,0) 72%)",
-              }}
-            />
-
+          <Spotlight className="slab-dark on-dark slab-bloom relative overflow-hidden p-8 md:p-14 lg:p-16">
             <div className="relative grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
               <div className="flex flex-col gap-5">
                 <p className="label-mono text-lime">Cybersecurity</p>

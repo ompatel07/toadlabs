@@ -7,23 +7,28 @@ import { techStack } from "@/config/home";
 import { cn } from "@/lib/utils";
 
 /**
- * Tech stack marquee — an angled lime band across the page.
+ * Tech stack band.
  *
- * Accessibility, unchanged from the plainer version:
+ * The ink band renders in BOTH states. An earlier version fell back to a plain
+ * wrapped list under reduced motion, which put white chip text straight onto
+ * the light canvas — invisible. Keeping the band means the reduced-motion view
+ * is the same design, just not moving, rather than a degraded one.
+ *
+ * Accessibility:
  *  - the real list is in the DOM once; the visual duplicate is aria-hidden
  *  - CSS pauses on hover and focus-within
  *  - an explicit control satisfies WCAG 2.2.2; hover alone does not
- *  - under reduced motion it renders static and the control is withdrawn
+ *  - under reduced motion the band wraps to show every item, with no rotation
+ *    (a rotated multi-line band reads as broken) and no pause control, since
+ *    there is nothing to pause
  */
 export function StackMarquee() {
   const reduceMotion = useReducedMotion();
   const [paused, setPaused] = useState(false);
 
-  const isAnimated = !reduceMotion;
-
   return (
-    // overflow-x-clip is load-bearing: the band is rotated and over-scaled, so
-    // its bounding box is wider than the viewport even though it looks correct.
+    // overflow-x-clip is load-bearing: the animated band is rotated and
+    // over-scaled, so its bounding box is wider than the viewport.
     <section
       aria-labelledby="stack-heading"
       className="relative overflow-x-clip py-16 md:py-24"
@@ -33,7 +38,7 @@ export function StackMarquee() {
           What we build with
         </h2>
 
-        {isAnimated ? (
+        {!reduceMotion ? (
           <button
             type="button"
             onClick={() => setPaused((value) => !value)}
@@ -51,18 +56,21 @@ export function StackMarquee() {
         ) : null}
       </div>
 
-      {reduceMotion ? (
-        <div className="container-tl">
-          <ul className="flex flex-wrap gap-2">
-            {techStack.map((item) => (
-              <StackChip key={item} label={item} />
-            ))}
-          </ul>
-        </div>
-      ) : (
-        // The band is rotated and over-scaled so its edges run off screen
-        // rather than showing a cut corner.
-        <div className="marquee-band bg-ink border-y-2 border-ink py-4">
+      <div
+        className={cn(
+          "bg-ink border-ink border-y-2 py-4",
+          !reduceMotion && "marquee-band",
+        )}
+      >
+        {reduceMotion ? (
+          <div className="container-tl">
+            <ul className="flex flex-wrap items-center gap-x-7 gap-y-2">
+              {techStack.map((item) => (
+                <StackChip key={item} label={item} />
+              ))}
+            </ul>
+          </div>
+        ) : (
           <div className="marquee-viewport relative flex overflow-hidden">
             <ul
               className={cn(
@@ -86,17 +94,21 @@ export function StackMarquee() {
               ))}
             </ul>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   );
 }
 
+/** Always sits on the ink band, so white is always the correct colour. */
 function StackChip({ label }: { label: string }) {
   return (
-    <li className="font-display flex shrink-0 items-center gap-8 type-h3 font-bold whitespace-nowrap text-white">
+    <li className="font-display type-h3 flex shrink-0 items-center gap-7 font-bold whitespace-nowrap text-white">
       {label}
-      <span aria-hidden="true" className="bg-lime inline-block size-1.5 rounded-full" />
+      <span
+        aria-hidden="true"
+        className="bg-lime inline-block size-1.5 shrink-0 rounded-full"
+      />
     </li>
   );
 }

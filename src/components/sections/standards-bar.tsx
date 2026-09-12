@@ -14,17 +14,7 @@ export function StandardsBar() {
   return (
     <section className="section-dense relative">
       <div className="container-tl">
-        <div className="bg-deep on-dark relative overflow-hidden rounded-3xl border border-ink p-8 text-white md:p-12 lg:p-14">
-          {/* Bioluminescent bloom. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-32 -bottom-40 size-[460px] rounded-full opacity-50 blur-3xl"
-            style={{
-              background:
-                "radial-gradient(circle, rgba(199,242,60,0.30) 0%, rgba(168,213,32,0.12) 45%, rgba(16,23,16,0) 72%)",
-            }}
-          />
-
+        <div className="bg-deep on-dark slab-bloom relative overflow-hidden rounded-3xl border border-ink p-8 text-white md:p-12 lg:p-14">
           <div className="relative flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="label-mono text-lime">Methodology</p>

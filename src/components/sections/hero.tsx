@@ -57,7 +57,7 @@ function HeroCard({
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-x-clip pb-6 md:h-[calc(100svh-var(--header-h))] md:min-h-0">
+    <section className="bg-grid relative flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-x-clip pb-6 md:h-[calc(100svh-var(--header-h))] md:min-h-0">
       {/* Meta row */}
       <div className="container-tl flex shrink-0 items-start justify-between gap-4 pt-3">
         <span className="glass-pill text-ink inline-flex items-center gap-2 px-3.5 py-2 t-xs font-medium">

@@ -15,7 +15,8 @@ import {
 export function Faq() {
   return (
     <div className="relative bg-white">
-      <WaveDivider fill="var(--canvas)" className="-mt-px" />
+      {/* flipped: paints canvas DOWN into the white band */}
+      <WaveDivider fill="var(--canvas)" flip className="-mt-px" />
 
       <Section surface="white" className="relative overflow-hidden !pt-4">
         <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr] lg:gap-14">
@@ -63,7 +64,8 @@ export function Faq() {
         </div>
       </Section>
 
-      <WaveDivider fill="var(--canvas)" flip className="-mb-px" />
+      {/* unflipped: paints canvas UP out of the white band */}
+      <WaveDivider fill="var(--canvas)" className="-mb-px" />
     </div>
   );
 }
