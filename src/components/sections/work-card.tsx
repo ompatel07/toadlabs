@@ -12,7 +12,7 @@ export function WorkCard({ study, index = 0 }: { study: CaseStudy; index?: numbe
     <Link
       href={`/work/${study.slug}`}
       className={cn(
-        "group relative flex h-full cursor-pointer flex-col gap-4 overflow-hidden rounded-2xl border p-7 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-ink",
+        "group relative flex h-full cursor-pointer flex-col gap-4 overflow-hidden rounded-lg border p-7 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-ink",
         tone.bg,
         tone.text,
         tone.border,

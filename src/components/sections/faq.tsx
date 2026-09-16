@@ -14,7 +14,7 @@ import {
 
 export function Faq() {
   return (
-    <div className="relative bg-white">
+    <div className="relative bg-[var(--surface)]">
       {/* flipped: paints canvas DOWN into the white band */}
       <WaveDivider fill="var(--canvas)" flip className="-mt-px" />
 
@@ -22,8 +22,8 @@ export function Faq() {
         <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr] lg:gap-14">
         {/* Sticky lime panel — the page's single warm anchor, and it keeps the
             CTA in view while the list is read. */}
-        <div className="bg-lime text-ink border-ink flex h-fit flex-col gap-5 rounded-3xl border p-8 lg:sticky lg:top-28">
-          <span className="bg-ink/10 inline-flex size-12 items-center justify-center rounded-2xl">
+        <div className="bg-lime text-canvas border-ink flex h-fit flex-col gap-5 rounded-xl border p-8 lg:sticky lg:top-28">
+          <span className="bg-ink/10 inline-flex size-12 items-center justify-center rounded-lg">
             <MessageCircleQuestion
               className="size-6"
               strokeWidth={2}
@@ -44,13 +44,13 @@ export function Faq() {
 
         <Accordion
           multiple={false}
-          className="border-t border-[rgba(11,12,10,0.12)]"
+          className="border-t border-[rgba(255, 255, 255, 0.138)]"
         >
           {faqs.map((item) => (
             <AccordionItem
               key={item.question}
               value={item.question}
-              className="border-b border-[rgba(11,12,10,0.12)]"
+              className="border-b border-[rgba(255, 255, 255, 0.138)]"
             >
               <AccordionTrigger className="font-display text-ink cursor-pointer py-5 t-h4 font-semibold hover:no-underline">
                 {item.question}

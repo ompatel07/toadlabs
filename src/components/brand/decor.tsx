@@ -131,7 +131,7 @@ export function TickerStrip({
       aria-hidden="true"
       className={cn(
         "marquee-viewport relative flex overflow-hidden py-2.5 select-none",
-        tone === "ink" ? "bg-ink text-white/85" : "bg-lime text-ink",
+        tone === "ink" ? "bg-ink text-canvas/85" : "bg-lime text-canvas",
         className,
       )}
     >
@@ -191,7 +191,7 @@ export function GridLines({ className }: { className?: string }) {
       className={cn("pointer-events-none absolute inset-0", className)}
       style={{
         backgroundImage:
-          "linear-gradient(to right, rgba(11,12,10,0.055) 1px, transparent 1px), linear-gradient(to bottom, rgba(11,12,10,0.055) 1px, transparent 1px)",
+          "linear-gradient(to right, rgba(255, 255, 255, 0.063) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.063) 1px, transparent 1px)",
         backgroundSize: "72px 72px",
         maskImage:
           "radial-gradient(ellipse 90% 70% at 50% 40%, #000 40%, transparent 100%)",
@@ -210,7 +210,7 @@ export function DotGrid({ className }: { className?: string }) {
       className={cn("pointer-events-none absolute", className)}
       style={{
         backgroundImage:
-          "radial-gradient(rgba(11,12,10,0.18) 1.4px, transparent 1.4px)",
+          "radial-gradient(rgba(255, 255, 255, 0.207) 1.4px, transparent 1.4px)",
         backgroundSize: "14px 14px",
       }}
     />
@@ -279,7 +279,7 @@ export function OutlineType({
       style={{
         WebkitTextStroke: onDark
           ? "1.5px rgba(255,255,255,0.14)"
-          : "1.5px rgba(11,12,10,0.16)",
+          : "1.5px rgba(255, 255, 255, 0.184)",
         color: "transparent",
       }}
     >

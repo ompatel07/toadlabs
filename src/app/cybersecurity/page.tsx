@@ -68,7 +68,7 @@ export default function CybersecurityPage() {
         title="We attack your software, then hand you the fix"
         description="Security testing run by engineers who ship production software. Every finding arrives with steps to reproduce it, its real-world impact, and a fix that compiles in your codebase — never just a scanner ID and a severity label."
         aside={
-          <div className="card-solid flex flex-col gap-4 rounded-3xl p-6 lg:w-[320px]">
+          <div className="card-solid flex flex-col gap-4 rounded-xl p-6 lg:w-[320px]">
             <p className="label-mono text-ink-soft">Every engagement includes</p>
             <ul className="flex flex-col gap-2.5">
               {[
@@ -97,7 +97,7 @@ export default function CybersecurityPage() {
 
       {/* Services — denser grid and tighter rhythm than /services, which is
           what gives this page its technical weight without a dark theme. */}
-      <Section dense className="border-t border-[rgba(11,12,10,0.1)]">
+      <Section dense className="border-t border-[rgba(255, 255, 255, 0.115)]">
         <SectionHeading
           eyebrow="Capabilities"
           title="Seven ways we test your systems"

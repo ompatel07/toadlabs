@@ -37,7 +37,7 @@ export function ParticleNetwork({
 
     const LINE_RGB = tone === "light" ? "255, 255, 255" : "11, 12, 10";
     const NODE_FILL =
-      tone === "light" ? "rgba(255, 255, 255, 0.34)" : "rgba(11, 12, 10, 0.36)";
+      tone === "light" ? "rgba(255, 255, 255, 0.34)" : "rgba(255, 255, 255, 0.414)";
 
     // Runs under reduced motion as well, at a slower drift. Nodes move ~0.1px
     // per frame with no directional sweep, which is ambience rather than the

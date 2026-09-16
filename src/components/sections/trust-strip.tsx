@@ -55,8 +55,8 @@ export function TrustStrip() {
                       // Collapse the shared borders into single rules.
                       "-mt-px -ml-px",
                       accent
-                        ? "bg-lime border-ink text-ink"
-                        : "border-[rgba(11,12,10,0.16)] bg-white text-ink hover:border-ink",
+                        ? "bg-lime border-ink text-canvas"
+                        : "border-[rgba(255, 255, 255, 0.184)] bg-[var(--surface)] text-ink hover:border-ink",
                     )}
                   >
                     {/* The wipe. Rises from the bottom edge behind the
@@ -86,8 +86,8 @@ export function TrustStrip() {
                       className={cn(
                         "inline-flex size-11 items-center justify-center rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cell:rotate-[-8deg]",
                         accent
-                          ? "bg-ink text-lime group-hover/cell:bg-lime group-hover/cell:text-ink"
-                          : "bg-canvas text-ink group-hover/cell:bg-lime",
+                          ? "bg-ink text-lime group-hover/cell:bg-lime group-hover/cell:text-canvas"
+                          : "bg-canvas text-canvas group-hover/cell:bg-lime",
                       )}
                     >
                       <item.icon className="size-[18px]" strokeWidth={2} aria-hidden="true" />

@@ -80,7 +80,7 @@ export function SeverityExplorer() {
                 }}
                 onFocus={() => setFocused(index)}
                 className={cn(
-                  "group grid cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-[rgba(11,12,10,0.14)] py-4 text-left transition-colors duration-200 ease-out first:border-t",
+                  "group grid cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-4 border-b border-[rgba(255, 255, 255, 0.161)] py-4 text-left transition-colors duration-200 ease-out first:border-t",
                   isSelected ? "text-ink" : "text-ink-soft hover:text-ink",
                 )}
               >
@@ -121,7 +121,7 @@ export function SeverityExplorer() {
           tabIndex={0}
           // key remounts the panel so its entry animation replays on change.
           key={selected}
-          className="page-enter card-solid flex flex-col gap-6 rounded-3xl p-7 md:p-9"
+          className="page-enter card-solid flex flex-col gap-6 rounded-xl p-7 md:p-9"
         >
           <div className="flex items-center gap-3">
             <span
@@ -138,7 +138,7 @@ export function SeverityExplorer() {
             <p className="text-ink measure mt-2 t-lead">{active.meaning}</p>
           </div>
 
-          <div className="border-t border-[rgba(11,12,10,0.12)] pt-5">
+          <div className="border-t border-[rgba(255, 255, 255, 0.138)] pt-5">
             <p className="label-mono text-ink-soft">When you hear about it</p>
             <p className="text-ink mt-2 t-lead">{active.response}</p>
           </div>

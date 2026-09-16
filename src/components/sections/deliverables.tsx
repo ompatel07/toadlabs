@@ -18,7 +18,7 @@ export function Deliverables({ dense = false }: { dense?: boolean }) {
           <Reveal as="li" key={item.title} index={index}>
             <div className="card-solid lift flex h-full flex-col gap-4 p-7 md:p-8">
               <div className="flex items-center justify-between gap-3">
-                <span className="bg-canvas text-ink inline-flex size-11 items-center justify-center rounded-2xl">
+                <span className="bg-canvas text-ink inline-flex size-11 items-center justify-center rounded-lg">
                   <item.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
                 </span>
                 <span
@@ -34,7 +34,7 @@ export function Deliverables({ dense = false }: { dense?: boolean }) {
               </h3>
               <p className="text-ink-soft t-base">{item.description}</p>
 
-              <ul className="mt-auto flex flex-col gap-2.5 border-t border-[rgba(11,12,10,0.1)] pt-4">
+              <ul className="mt-auto flex flex-col gap-2.5 border-t border-[rgba(255, 255, 255, 0.115)] pt-4">
                 {item.detail.map((line) => (
                   <li key={line} className="flex items-start gap-2.5">
                     <Check

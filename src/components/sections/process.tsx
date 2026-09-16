@@ -21,7 +21,7 @@ import { OutlineType } from "@/components/brand/decor";
  */
 export function Process() {
   return (
-    <section className="section relative overflow-clip bg-white">
+    <section className="section relative overflow-clip bg-[var(--surface)]">
       <OutlineType className="absolute -top-4 right-0 text-[clamp(4rem,13vw,10rem)]">
         PROCESS
       </OutlineType>
@@ -47,7 +47,7 @@ export function Process() {
             {/* Track and fill, aligned to the centre of the marks. */}
             <span
               aria-hidden="true"
-              className="absolute top-3 bottom-3 left-[7px] w-[2px] bg-[rgba(11,12,10,0.12)]"
+              className="absolute top-3 bottom-3 left-[7px] w-[2px] bg-[rgba(255, 255, 255, 0.138)]"
             />
             <span
               aria-hidden="true"

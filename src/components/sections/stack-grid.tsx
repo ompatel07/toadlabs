@@ -52,7 +52,7 @@ export function StackGrid() {
           <div
             key={lane.label}
             className={cn(
-              "relative isolate flex flex-col gap-6 overflow-clip rounded-3xl p-7 md:p-9",
+              "relative isolate flex flex-col gap-6 overflow-clip rounded-xl p-7 md:p-9",
               lane.dark ? "slab-dark on-dark" : "card-solid",
             )}
           >
@@ -91,8 +91,8 @@ export function StackGrid() {
                     className={cn(
                       "inline-flex cursor-default items-center rounded-full border px-3.5 py-1.5 t-sm font-medium transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5",
                       lane.dark
-                        ? "border-white/22 text-white/85 hover:border-lime hover:bg-lime hover:text-ink"
-                        : "border-[rgba(11,12,10,0.18)] text-ink hover:border-ink hover:bg-ink hover:text-white",
+                        ? "border-white/22 text-canvas/85 hover:border-lime hover:bg-lime hover:text-canvas"
+                        : "border-[rgba(255, 255, 255, 0.207)] text-ink hover:border-ink hover:bg-ink hover:text-canvas",
                     )}
                   >
                     {item}

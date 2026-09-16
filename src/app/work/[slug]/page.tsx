@@ -58,7 +58,7 @@ export default async function CaseStudyPage({
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <span className="label-mono text-ink-soft">{study.sector}</span>
             {study.isPlaceholder ? (
-              <span className="label-mono text-ink rounded-full border border-[rgba(11,12,10,0.25)] px-2.5 py-1">
+              <span className="label-mono text-ink rounded-full border border-[rgba(255, 255, 255, 0.287)] px-2.5 py-1">
                 Placeholder
               </span>
             ) : null}
@@ -75,7 +75,7 @@ export default async function CaseStudyPage({
 
       {study.isPlaceholder ? (
         <div className="container-tl">
-          <div className="flex items-start gap-3.5 rounded-2xl border-2 border-[rgba(11,12,10,0.8)] bg-white p-5">
+          <div className="flex items-start gap-3.5 rounded-lg border-2 border-[rgba(255, 255, 255, 0.92)] bg-[var(--surface)] p-5">
             <AlertTriangle
               className="text-ink mt-0.5 size-5 shrink-0"
               strokeWidth={2}
@@ -103,7 +103,7 @@ export default async function CaseStudyPage({
               {study.stack.map((tool) => (
                 <li
                   key={tool}
-                  className="label-mono text-ink rounded-full border border-[rgba(11,12,10,0.14)] bg-white px-2.5 py-1"
+                  className="label-mono text-ink rounded-full border border-[rgba(255, 255, 255, 0.161)] bg-[var(--surface)] px-2.5 py-1"
                 >
                   {tool}
                 </li>
@@ -116,7 +116,7 @@ export default async function CaseStudyPage({
                 <li key={chapter}>
                   <a
                     href={`#${chapter.toLowerCase()}`}
-                    className="text-ink-soft hover:text-ink group flex cursor-pointer items-baseline gap-3 border-b border-[rgba(11,12,10,0.12)] py-2.5 transition-colors duration-200 ease-out"
+                    className="text-ink-soft hover:text-ink group flex cursor-pointer items-baseline gap-3 border-b border-[rgba(255, 255, 255, 0.138)] py-2.5 transition-colors duration-200 ease-out"
                   >
                     <span className="label-mono opacity-60">
                       {String(index + 1).padStart(2, "0")}
@@ -156,7 +156,7 @@ export default async function CaseStudyPage({
                 {/* Chapter marker: an oversized numeral in the margin and a
                     rule that runs to the edge, so each block reads as a chapter
                     rather than a paragraph with a bold line above it. */}
-                <div className="flex items-baseline gap-5 border-t-2 border-[rgba(11,12,10,0.85)] pt-5">
+                <div className="flex items-baseline gap-5 border-t-2 border-[rgba(255, 255, 255, 0.95)] pt-5">
                   <span
                     className="numeral text-ink/20 numeral-md leading-none"
                     aria-hidden="true"

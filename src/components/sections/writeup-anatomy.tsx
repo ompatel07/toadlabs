@@ -48,7 +48,7 @@ const parts = [
 
 export function WriteupAnatomy() {
   return (
-    <Section surface="white" className="overflow-clip border-y border-[rgba(11,12,10,0.1)]">
+    <Section surface="white" className="overflow-clip border-y border-[rgba(255, 255, 255, 0.115)]">
       <SectionHeading
         eyebrow="Anatomy"
         title="What a write-up contains"
@@ -61,12 +61,12 @@ export function WriteupAnatomy() {
           <div className="absolute -inset-6 -z-10 bg-[radial-gradient(60%_60%_at_50%_45%,rgba(199,242,60,0.22)_0%,rgba(199,242,60,0)_70%)]" />
 
           {/* A second sheet behind, to read as a document rather than a card. */}
-          <div className="absolute inset-x-6 top-4 -z-10 h-full rounded-2xl border border-[rgba(11,12,10,0.1)] bg-white/70" />
+          <div className="absolute inset-x-6 top-4 -z-10 h-full rounded-lg border border-[rgba(255, 255, 255, 0.115)] bg-[var(--surface)]/70" />
 
-          <div className="card-solid relative flex flex-col gap-5 rounded-2xl p-6 shadow-[0_24px_60px_-28px_rgba(11,12,10,0.45)] md:p-8">
+          <div className="card-solid relative flex flex-col gap-5 rounded-lg p-6 shadow-[0_24px_60px_-28px_rgba(255, 255, 255, 0.517)] md:p-8">
             <div className="flex items-center justify-between gap-4">
               <span className="label-mono text-ink-soft">Case study</span>
-              <span className="bg-lime text-ink rounded-full px-2.5 py-1 label-mono">
+              <span className="bg-lime text-canvas rounded-full px-2.5 py-1 label-mono">
                 Write-up
               </span>
             </div>
@@ -80,14 +80,14 @@ export function WriteupAnatomy() {
               { label: "03 Stack", chips: ["TypeScript", "Postgres", "AWS"] },
               { label: "04 Outcome", lines: ["w-11/12", "w-1/2"] },
             ].map((block) => (
-              <div key={block.label} className="flex flex-col gap-2 border-t border-[rgba(11,12,10,0.1)] pt-4">
+              <div key={block.label} className="flex flex-col gap-2 border-t border-[rgba(255, 255, 255, 0.115)] pt-4">
                 <span className="label-mono text-lime-ink">{block.label}</span>
                 {block.chips ? (
                   <div className="flex flex-wrap gap-1.5">
                     {block.chips.map((chip) => (
                       <span
                         key={chip}
-                        className="text-ink-soft rounded-full border border-[rgba(11,12,10,0.16)] px-2.5 py-1 t-xs"
+                        className="text-ink-soft rounded-full border border-[rgba(255, 255, 255, 0.184)] px-2.5 py-1 t-xs"
                       >
                         {chip}
                       </span>
@@ -102,11 +102,11 @@ export function WriteupAnatomy() {
         </div>
 
         {/* The parts, stated in words. */}
-        <ol className="border-t-2 border-[rgba(11,12,10,0.85)]">
+        <ol className="border-t-2 border-[rgba(255, 255, 255, 0.95)]">
           {parts.map((part) => (
             <li
               key={part.n}
-              className="group/part grid grid-cols-[auto_1fr] items-start gap-5 border-b border-[rgba(11,12,10,0.16)] py-6 md:gap-8"
+              className="group/part grid grid-cols-[auto_1fr] items-start gap-5 border-b border-[rgba(255, 255, 255, 0.184)] py-6 md:gap-8"
             >
               <span className="numeral numeral-md text-ink/15 leading-none transition-colors duration-400 ease-out group-hover/part:text-[color:var(--lime-deep)]">
                 {part.n}
@@ -129,7 +129,7 @@ export function WriteupAnatomy() {
 function Bar({ className }: { className?: string }) {
   return (
     <span
-      className={cn("block rounded-full bg-[rgba(11,12,10,0.11)]", className)}
+      className={cn("block rounded-full bg-[rgba(255, 255, 255, 0.127)]", className)}
     />
   );
 }

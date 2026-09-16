@@ -26,7 +26,7 @@ export default function SecurityPolicyPage() {
         title="Report a vulnerability, and how we handle yours"
         description="A security vendor should be held to the standard it sells. This page is the policy we operate under — published, dated, and machine-readable."
         aside={
-          <div className="card-solid flex flex-col gap-4 rounded-3xl p-6 lg:w-[320px]">
+          <div className="card-solid flex flex-col gap-4 rounded-xl p-6 lg:w-[320px]">
             <p className="label-mono text-ink-soft">Machine-readable</p>
             <p className="text-ink-soft t-base">
               Our disclosure contact is published to RFC 9116, so scanners and
@@ -34,7 +34,7 @@ export default function SecurityPolicyPage() {
             </p>
             <a
               href="/.well-known/security.txt"
-              className="border-ink text-ink hover:bg-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border-2 px-5 t-sm font-medium transition-colors duration-250 ease-out hover:text-white"
+              className="border-ink text-ink hover:bg-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border-2 px-5 t-sm font-medium transition-colors duration-250 ease-out hover:text-canvas"
             >
               <FileText className="size-4" aria-hidden="true" />
               /.well-known/security.txt
@@ -62,11 +62,11 @@ export default function SecurityPolicyPage() {
               <Asterisk className="text-lime-ink size-2.5" />
               In scope
             </h2>
-            <ul className="mt-5 border-t-2 border-[rgba(11,12,10,0.85)]">
+            <ul className="mt-5 border-t-2 border-[rgba(255, 255, 255, 0.95)]">
               {disclosure.inScope.map((item) => (
                 <li
                   key={item}
-                  className="text-ink flex items-start gap-3 border-b border-[rgba(11,12,10,0.12)] py-3.5 t-base"
+                  className="text-ink flex items-start gap-3 border-b border-[rgba(255, 255, 255, 0.138)] py-3.5 t-base"
                 >
                   <Check
                     className="text-ink mt-0.5 size-4 shrink-0"
@@ -84,11 +84,11 @@ export default function SecurityPolicyPage() {
               <Asterisk className="text-lime-ink size-2.5" />
               Out of scope
             </h2>
-            <ul className="mt-5 border-t-2 border-[rgba(11,12,10,0.85)]">
+            <ul className="mt-5 border-t-2 border-[rgba(255, 255, 255, 0.95)]">
               {disclosure.outOfScope.map((item) => (
                 <li
                   key={item}
-                  className="text-ink-soft flex items-start gap-3 border-b border-[rgba(11,12,10,0.12)] py-3.5 t-base"
+                  className="text-ink-soft flex items-start gap-3 border-b border-[rgba(255, 255, 255, 0.138)] py-3.5 t-base"
                 >
                   <X
                     className="mt-0.5 size-4 shrink-0"
@@ -103,7 +103,7 @@ export default function SecurityPolicyPage() {
         </div>
 
         <div className="mt-14 grid gap-4 lg:grid-cols-2">
-          <div className="bg-lime text-ink border-ink rounded-3xl border p-8">
+          <div className="bg-lime text-canvas border-ink rounded-xl border p-8">
             <h2 className="font-display type-h3 font-bold">What we will do</h2>
             <ul className="mt-5 flex flex-col gap-3">
               {disclosure.weWill.map((item) => (
@@ -119,7 +119,7 @@ export default function SecurityPolicyPage() {
             </ul>
           </div>
 
-          <div className="border-ink/15 rounded-3xl border bg-white p-8">
+          <div className="border-ink/15 rounded-xl border bg-[var(--surface)] p-8">
             <h2 className="font-display text-ink type-h3 font-bold">
               What we ask of you
             </h2>
@@ -206,11 +206,11 @@ export default function SecurityPolicyPage() {
           />
         </div>
 
-        <ol className="mt-12 border-t-2 border-[rgba(11,12,10,0.85)]">
+        <ol className="mt-12 border-t-2 border-[rgba(255, 255, 255, 0.95)]">
           {reportStructure.map((item) => (
             <li
               key={item.section}
-              className="grid gap-x-10 gap-y-1.5 border-b border-[rgba(11,12,10,0.12)] py-5 md:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]"
+              className="grid gap-x-10 gap-y-1.5 border-b border-[rgba(255, 255, 255, 0.138)] py-5 md:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]"
             >
               <h3 className="label-mono text-ink pt-0.5">{item.section}</h3>
               <p className="text-ink-soft t-base leading-relaxed">

@@ -43,7 +43,7 @@ export default function WorkPage() {
         <div className="container-tl">
           {/* Unmissable, not small print. Publishing invented client work is a
               real-world harm, so this states it plainly at the top. */}
-          <div className="flex items-start gap-3.5 rounded-2xl border-2 border-[rgba(11,12,10,0.8)] bg-white p-5 md:p-6">
+          <div className="flex items-start gap-3.5 rounded-lg border-2 border-[rgba(255, 255, 255, 0.92)] bg-[var(--surface)] p-5 md:p-6">
             <AlertTriangle
               className="text-ink mt-0.5 size-5 shrink-0"
               strokeWidth={2}

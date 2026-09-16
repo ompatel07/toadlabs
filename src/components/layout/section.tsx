@@ -11,7 +11,7 @@ interface SectionProps extends React.ComponentPropsWithoutRef<"section"> {
 
 const surfaceClass: Record<SectionSurface, string> = {
   canvas: "bg-canvas",
-  white: "bg-white",
+  white: "bg-[var(--surface)]",
 };
 
 export function Section({

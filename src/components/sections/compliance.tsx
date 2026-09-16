@@ -24,7 +24,7 @@ import { Asterisk } from "@/components/brand/decor";
 export function Compliance() {
   return (
     <>
-      <Section surface="white" className="border-y border-[rgba(11,12,10,0.1)]">
+      <Section surface="white" className="border-y border-[rgba(255, 255, 255, 0.115)]">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <div>
             <SectionHeading
@@ -33,7 +33,7 @@ export function Compliance() {
               description={complianceProgramme.summary}
             />
 
-            <div className="slab-dark on-dark mt-9 flex items-start gap-4 rounded-2xl p-6">
+            <div className="slab-dark on-dark mt-9 flex items-start gap-4 rounded-lg p-6">
               <ShieldCheck
                 className="text-lime mt-0.5 size-6 shrink-0"
                 strokeWidth={1.75}
@@ -56,7 +56,7 @@ export function Compliance() {
                 <Asterisk className="text-lime-ink size-2.5" />
                 What we do
               </h3>
-              <ul className="mt-5 flex flex-col gap-3 border-t-2 border-[rgba(11,12,10,0.85)] pt-5">
+              <ul className="mt-5 flex flex-col gap-3 border-t-2 border-[rgba(255, 255, 255, 0.95)] pt-5">
                 {complianceProgramme.weDo.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <Check
@@ -77,7 +77,7 @@ export function Compliance() {
                 <Asterisk className="text-lime-ink size-2.5" />
                 What we don&apos;t
               </h3>
-              <ul className="mt-5 flex flex-col gap-3 border-t-2 border-[rgba(11,12,10,0.22)] pt-5">
+              <ul className="mt-5 flex flex-col gap-3 border-t-2 border-[rgba(255, 255, 255, 0.253)] pt-5">
                 {complianceProgramme.weDoNot.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <X
@@ -101,7 +101,7 @@ export function Compliance() {
           description="Every vendor says they support compliance. These six decisions determine whether your audit is a review or a rewrite — and they get made in the first week of a build, not the last."
         />
 
-        <ul className="mt-12 grid gap-px overflow-hidden rounded-3xl bg-[rgba(11,12,10,0.14)] md:grid-cols-2 xl:grid-cols-3">
+        <ul className="mt-12 grid gap-px overflow-hidden rounded-xl bg-[rgba(255, 255, 255, 0.161)] md:grid-cols-2 xl:grid-cols-3">
           {compliancePractices.map((practice, index) => (
             <li
               key={practice.title}
@@ -109,7 +109,7 @@ export function Compliance() {
               style={{ animationDelay: `${Math.min(index, 5) * 70}ms` }}
             >
               <div className="flex items-start justify-between gap-4">
-                <span className="bg-ink inline-flex size-11 items-center justify-center rounded-xl text-white transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/prac:-rotate-6">
+                <span className="bg-ink inline-flex size-11 items-center justify-center rounded-xl text-canvas transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/prac:-rotate-6">
                   <practice.icon
                     className="size-5"
                     strokeWidth={1.75}

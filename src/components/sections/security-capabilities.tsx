@@ -44,7 +44,7 @@ export function SecurityCapabilities({
             <article
               id={service.id}
               className={cn(
-                "group/cap relative flex h-full scroll-mt-28 flex-col gap-3.5 overflow-hidden rounded-2xl p-6 transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1",
+                "group/cap relative flex h-full scroll-mt-28 flex-col gap-3.5 overflow-hidden rounded-lg p-6 transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1",
                 dark ? "slab-dark on-dark" : "card-solid",
               )}
             >
@@ -63,7 +63,7 @@ export function SecurityCapabilities({
                 <span
                   className={cn(
                     "inline-flex size-10 items-center justify-center rounded-xl",
-                    dark ? "bg-lime text-ink" : "bg-canvas text-ink",
+                    dark ? "bg-lime text-canvas" : "bg-canvas text-ink",
                   )}
                 >
                   <service.icon
@@ -105,7 +105,7 @@ export function SecurityCapabilities({
                   "relative grid gap-1.5 border-t pt-3.5",
                   dark
                     ? "border-white/15 sm:grid-cols-2 sm:gap-x-6"
-                    : "border-[rgba(11,12,10,0.1)]",
+                    : "border-[rgba(255, 255, 255, 0.115)]",
                 )}
               >
                 {service.scope.map((item) => (
@@ -136,7 +136,7 @@ export function SecurityCapabilities({
                       "label-mono rounded-full border px-2 py-0.5",
                       dark
                         ? "border-white/25 text-white/75"
-                        : "border-[rgba(11,12,10,0.14)] text-ink-soft",
+                        : "border-[rgba(255, 255, 255, 0.161)] text-ink-soft",
                     )}
                   >
                     {standard}

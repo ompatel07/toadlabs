@@ -21,7 +21,7 @@ export function Wordmark({
         aria-hidden="true"
         className={cn(
           "inline-flex size-6 items-center justify-center rounded-[7px]",
-          onDark ? "bg-white" : "bg-ink",
+          onDark ? "bg-[var(--surface)]" : "bg-ink",
         )}
       >
         <span className="bg-lime block size-2 rounded-full" />

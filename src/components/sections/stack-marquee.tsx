@@ -47,7 +47,7 @@ export function StackMarquee() {
           type="button"
           onClick={() => setPaused((value) => !value)}
           aria-pressed={paused}
-          className="text-ink-soft hover:text-ink inline-flex h-9 cursor-pointer items-center gap-2 rounded-full px-3 text-sm transition-colors duration-200 ease-out hover:bg-[rgba(11,12,10,0.05)]"
+          className="text-ink-soft hover:text-ink inline-flex h-9 cursor-pointer items-center gap-2 rounded-full px-3 text-sm transition-colors duration-200 ease-out hover:bg-[rgba(255, 255, 255, 0.057)]"
         >
           {paused ? (
             <Play className="size-3.5" aria-hidden="true" />
@@ -137,11 +137,15 @@ function Lane({
   );
 }
 
-/** Always on the ink band, so white is always correct. */
+/** Always on the ink band, which is the light surface — so chips take dark text. */
 function Chip({ label }: { label: string }) {
   return (
     <li className="group/chip flex shrink-0 items-center gap-6 whitespace-nowrap">
-      <span className="font-display type-h3 hover:text-lime cursor-default font-bold text-white transition-colors duration-200 ease-out">
+      {/* The band is `bg-ink`, which is now the LIGHT colour — so it reads as a
+          bright strip cutting across the dark page. Its chips therefore take the
+          page ground as their text colour, and hover to deep emerald, which
+          holds 7:1 on that fill. White chips here were 1.17:1. */}
+      <span className="font-display type-h3 text-canvas cursor-default font-bold transition-colors duration-200 ease-out hover:text-[color:var(--emerald)]">
         {label}
       </span>
       <span

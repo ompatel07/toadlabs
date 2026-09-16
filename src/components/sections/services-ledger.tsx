@@ -31,14 +31,14 @@ const DARK_ROWS = new Set(["custom"]);
 
 export function ServicesLedger({ services }: { services: Service[] }) {
   return (
-    <ul className="border-t border-[rgba(11,12,10,0.16)]">
+    <ul className="border-t border-[rgba(255, 255, 255, 0.184)]">
       {services.map((service, index) => {
         const dark = Boolean(service.featured) || DARK_ROWS.has(service.id);
         return (
           <li
             key={service.id}
             className={cn(
-              "group/row relative border-b border-[rgba(11,12,10,0.16)]",
+              "group/row relative border-b border-[rgba(255, 255, 255, 0.184)]",
               dark && "slab-dark border-b-0",
             )}
           >
@@ -73,8 +73,8 @@ export function ServicesLedger({ services }: { services: Service[] }) {
 
                   <span
                     className={cn(
-                      "inline-flex size-13 shrink-0 items-center justify-center rounded-2xl transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/row:-rotate-6",
-                      dark ? "bg-lime text-ink" : "bg-ink text-white",
+                      "inline-flex size-13 shrink-0 items-center justify-center rounded-lg transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/row:-rotate-6",
+                      dark ? "bg-lime text-canvas" : "bg-ink text-canvas",
                     )}
                   >
                     <service.icon className="size-5.5" strokeWidth={1.75} aria-hidden="true" />
@@ -105,7 +105,7 @@ export function ServicesLedger({ services }: { services: Service[] }) {
                 <ul
                   className={cn(
                     "mt-3 grid gap-x-8 gap-y-3 border-t pt-6 sm:grid-cols-3",
-                    dark ? "border-white/15" : "border-[rgba(11,12,10,0.12)]",
+                    dark ? "border-white/15" : "border-[rgba(255, 255, 255, 0.138)]",
                   )}
                 >
                   {service.points.map((point) => (

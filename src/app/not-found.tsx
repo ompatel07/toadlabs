@@ -30,7 +30,7 @@ export default function NotFound() {
             page's actual heading carries the meaning. */}
         <span
           aria-hidden="true"
-          className="numeral pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 leading-none whitespace-nowrap select-none text-[clamp(14rem,42vw,34rem)] text-[rgba(11,12,10,0.05)]"
+          className="numeral pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 leading-none whitespace-nowrap select-none text-[clamp(14rem,42vw,34rem)] text-[rgba(255, 255, 255, 0.057)]"
         >
           404
         </span>
@@ -58,7 +58,7 @@ export default function NotFound() {
             </ActionLink>
             <Link
               href="/contact"
-              className="border-ink text-ink hover:bg-ink inline-flex h-13 cursor-pointer items-center gap-2 rounded-full border-2 px-6 t-base font-medium transition-colors duration-250 ease-out hover:text-white"
+              className="border-ink text-ink hover:bg-ink inline-flex h-13 cursor-pointer items-center gap-2 rounded-full border-2 px-6 t-base font-medium transition-colors duration-250 ease-out hover:text-canvas"
             >
               Tell us the link was broken
             </Link>
@@ -75,9 +75,9 @@ export default function NotFound() {
 
       <section className="section-dense">
         <div className="container-tl">
-          <ul className="border-t border-[rgba(11,12,10,0.16)]">
+          <ul className="border-t border-[rgba(255, 255, 255, 0.184)]">
             {routes.map((route, index) => (
-              <li key={route.href} className="border-b border-[rgba(11,12,10,0.16)]">
+              <li key={route.href} className="border-b border-[rgba(255, 255, 255, 0.184)]">
                 <Link
                   href={route.href}
                   className="group/link grid cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-5 py-6 md:gap-8"

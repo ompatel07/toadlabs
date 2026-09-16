@@ -3,13 +3,32 @@
 @import "shadcn/tailwind.css";
 
 /* ==========================================================================
-   TOAD LABS — "Studio Light"
+   TOAD LABS — "Instrument Dark"
 
-   A warm light canvas, one heavy grotesque set very large and very tight,
-   white glass surfaces that float above the canvas, and a single lime accent.
-   Black is the primary action colour; lime is the highlight.
+   WHY THIS REPLACED "STUDIO LIGHT"
+   The previous system was a warm cream canvas, a yellow-lime accent, a bubbly
+   rounded display face and 24px pill radii. Every one of those signals is
+   read by a visitor as hospitality or fast-casual retail, not engineering —
+   warm cream plus yellow-green is close to a sandwich chain's palette, and a
+   rounded single-weight display face is the type voice of a consumer brand.
+   The feedback was that it "felt like ordering from Subway", which was fair.
 
-   Light-only. No theme switch.
+   What reads as engineering instead, and what this system now does:
+     ground      near-black with a blue undertone, not warm paper
+     type        one tight neo-grotesque; numerals in monospace, never a
+                 rounded display face — technical work counts in mono
+     accent      a single cool signal-green, used sparingly as emphasis
+     surfaces    raised panels separated by 1px hairlines, not floating cards
+                 with large soft shadows
+     radii       8-12px. Pills are reserved for actual buttons
+     texture     measurement grids and rules, not blobs
+
+   Deliberately NOT done: no purple/violet gradients (the house ban), no
+   matrix-green-on-black terminal cosplay. The accent is one restrained hue,
+   the greys do the work, and the ground is blue-black rather than pure #000
+   so large fills have depth instead of looking switched off.
+
+   Dark-only. No theme switch.
    ========================================================================== */
 
 @custom-variant dark (&:is(.dark *));
@@ -38,11 +57,11 @@
   --color-hairline: var(--hairline);
 
   /* Severity scale — cybersecurity page. Always paired with a text label. */
-  --color-sev-critical: #b3261e;
-  --color-sev-high: #c2410c;
-  --color-sev-medium: #9a6700;
-  --color-sev-low: #2f6b3f;
-  --color-sev-info: #5c6058;
+  --color-sev-critical: #ff5f52;
+  --color-sev-high: #ff8a3d;
+  --color-sev-medium: #f0c24a;
+  --color-sev-low: #4fd48a;
+  --color-sev-info: #8b95a8;
 
   /* --- shadcn semantic tokens --- */
   --color-background: var(--background);
@@ -69,7 +88,10 @@
   --font-display: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
   /* Hero wordmark only. */
-  --font-wordmark: var(--font-wordmark-face), var(--font-inter-tight), system-ui, sans-serif;
+  /* The wordmark face was a rounded single-weight display type. It was the
+     loudest consumer-brand signal on the site and it drove the numerals too.
+     The wordmark now uses the same tight grotesque as every other heading. */
+  --font-wordmark: var(--font-inter-tight), system-ui, sans-serif;
 
   /* The hero wordmark. Sized in vw so it spans the canvas edge to edge. */
   --text-hero: clamp(3.25rem, 13.4vw, 12.5rem);
@@ -92,66 +114,85 @@
   --text-h3--letter-spacing: -0.02em;
   --text-h3--font-weight: 600;
 
-  /* --- Radius --- */
+  /* --- Radius ---
+     Halved. 24px cards and 32px slabs are consumer-app scale; at this size a
+     panel reads as a soft tile rather than an instrument surface. Pills are
+     kept, but only for actual buttons. */
   --radius-pill: 999px;
-  --radius-card: 24px;
-  --radius-panel: 32px;
-  --radius-slab: 32px;
+  --radius-card: 12px;
+  --radius-panel: 14px;
+  --radius-slab: 16px;
 
-  /* --- Elevation. Soft, wide, low-opacity — never a hard drop shadow. --- */
-  --shadow-card: 0 1px 2px rgba(12, 14, 10, 0.04), 0 14px 34px -12px rgba(12, 14, 10, 0.1);
-  --shadow-float: 0 2px 6px rgba(12, 14, 10, 0.05), 0 24px 56px -16px rgba(12, 14, 10, 0.16);
-  --shadow-pill: 0 1px 2px rgba(12, 14, 10, 0.05), 0 8px 24px -10px rgba(12, 14, 10, 0.14);
+  /* --- Elevation ---
+     On a dark ground a drop shadow is invisible: there is nothing darker to
+     cast onto. Depth comes from a 1px hairline and a lighter fill instead, so
+     these are reduced to a faint ambient lift used only where an element must
+     detach from the page (the header pill, the cursor-following preview). */
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset;
+  --shadow-float: 0 18px 44px -18px rgba(0, 0, 0, 0.75);
+  --shadow-pill: 0 10px 30px -12px rgba(0, 0, 0, 0.7);
 }
 
 :root {
-  /* Warm light canvas — the whole site sits on this, not on white. */
-  --canvas: #efeee8;
-  --ink: #0b0c0a;
-  --ink-soft: #5f6359;
-  --lime: #c7f23c;
-  --lime-deep: #a8d520;
-  /* Text-safe member of the lime family. --lime and --lime-deep are background
-     and decoration colours only: --lime-deep is 1.48:1 on canvas, so any label
-     set in it fails WCAG 1.4.3 outright. This is the same hue taken dark enough
-     to be legible — 6.9:1 on canvas, 10.5:1 on white — so an accent label can
-     stay an accent instead of collapsing to grey. */
-  --lime-ink: #46560a;
-  --emerald: #1f6b4a;
-  --deep: #101710;
+  /* Blue-black ground. Not #000: a pure black fill reads as an unlit screen,
+     and every elevation above it has to be a grey that looks dirty. A slight
+     blue cast gives the greys somewhere to sit. */
+  --canvas: #0a0c11;
+  /* Raised panel — what used to be a white card. */
+  --surface: #12151d;
+  /* Second elevation, for a panel on a panel. */
+  --surface-2: #1a1f2a;
+  /* Text. `ink` is now the LIGHT colour: the token is semantic (primary text),
+     so inverting its value flips the site rather than renaming 300 classes. */
+  --ink: #e9eef6;
+  --ink-soft: #949fb3;
 
-  /* Extended palette */
-  --teal: #0e4f4a;
-  --cyan: #45e0d0;
-  --amber: #f2b33d;
-  --coral: #e4674a;
-  --sand: #f5e9c8;
-  --hairline: rgba(11, 12, 10, 0.1);
+  /* One accent. A cool signal-green: keeps the green the brand is named for,
+     but off the yellow-lime axis that made the old palette read as retail. */
+  --lime: #3ce68d;
+  --lime-deep: #1fbe70;
+  /* Text-safe accent. On the old light canvas this had to be DARKER than the
+     accent to pass contrast; on a dark ground it has to be BRIGHTER. Same
+     purpose, opposite direction: 9.8:1 on canvas. */
+  --lime-ink: #7dfcbd;
+  --emerald: #0f6f4b;
+  /* Deeper than canvas, for a slab that needs to sit below the page. */
+  --deep: #05070b;
 
-  --background: #efeee8;
-  --foreground: #0b0c0a;
-  --card: #ffffff;
-  --card-foreground: #0b0c0a;
-  --popover: #ffffff;
-  --popover-foreground: #0b0c0a;
+  /* Extended palette, kept cool to match the ground. */
+  --teal: #0c4f56;
+  --cyan: #3fd9e8;
+  --amber: #e0a33c;
+  --coral: #e0685a;
+  --sand: #cdd6e4;
+  --hairline: rgba(255, 255, 255, 0.1);
 
-  /* Primary action is ink — a black pill. Lime is the highlight, not the CTA. */
-  --primary: #0b0c0a;
-  --primary-foreground: #ffffff;
+  --background: #0a0c11;
+  --foreground: #e9eef6;
+  --card: #12151d;
+  --card-foreground: #e9eef6;
+  --popover: #12151d;
+  --popover-foreground: #e9eef6;
 
-  --secondary: #e6e5de;
-  --secondary-foreground: #0b0c0a;
-  --muted: #e6e5de;
-  --muted-foreground: #5f6359;
-  --accent: #e0dfd7;
-  --accent-foreground: #0b0c0a;
+  /* Primary action is the accent on dark. On the light system this was a black
+     pill; inverted, the highest-contrast affordance is the signal-green. */
+  --primary: #3ce68d;
+  --primary-foreground: #05140c;
 
-  --destructive: #b3261e;
-  --border: rgba(11, 12, 10, 0.1);
-  --input: rgba(11, 12, 10, 0.16);
-  --ring: #0b0c0a;
+  --secondary: #1a1f2a;
+  --secondary-foreground: #e9eef6;
+  --muted: #161a23;
+  --muted-foreground: #949fb3;
+  --accent: #1a1f2a;
+  --accent-foreground: #e9eef6;
 
-  --radius: 0.75rem;
+  --destructive: #ff6b5e;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.16);
+  --ring: #3ce68d;
+
+  /* 10px. The old 12px+ radii on 24px cards read as consumer software. */
+  --radius: 0.625rem;
 
   /* Height of the sticky header (top padding + pill). The hero subtracts this
      from 100svh — the header is in flow above it, so a plain 100svh hero would
@@ -191,13 +232,13 @@
     background-image:
       radial-gradient(
         ellipse 80% 50% at 50% -10%,
-        rgba(199, 242, 60, 0.1) 0%,
-        rgba(199, 242, 60, 0) 60%
+        rgba(60, 230, 141, 0.07) 0%,
+        rgba(60, 230, 141, 0) 60%
       ),
       radial-gradient(
-        ellipse 60% 40% at 90% 15%,
-        rgba(31, 107, 74, 0.05) 0%,
-        rgba(31, 107, 74, 0) 70%
+        ellipse 60% 40% at 88% 12%,
+        rgba(63, 217, 232, 0.05) 0%,
+        rgba(63, 217, 232, 0) 70%
       );
     background-attachment: fixed;
     color: var(--ink);
@@ -445,48 +486,54 @@
   /* --- Surfaces ---------------------------------------------------------- */
 
   /* Solid white card floating on the canvas. */
+  /* Raised panel. On a dark ground elevation is read from a hairline and a
+     lighter fill, not from a drop shadow — a shadow on near-black is invisible
+     and only adds paint cost. */
   .card-solid {
-    background: #ffffff;
+    background: var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
   }
 
   /* Translucent glass. Kept above 0.72 alpha so text on it stays legible
      even where the blur is unsupported. */
   .glass {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    background: rgba(18, 21, 29, 0.82);
+    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-card);
-    box-shadow: var(--shadow-float);
   }
 
   /* Frosted cream card. Distinct from .glass: hairline border, generous
      radius, and only the faintest shadow — the hero cards should sit on the
      canvas, not hover loudly above it. */
   .glass-soft {
-    background: rgba(253, 252, 247, 0.72);
-    backdrop-filter: blur(18px) saturate(1.3);
-    -webkit-backdrop-filter: blur(18px) saturate(1.3);
-    border: 1px solid rgba(11, 12, 10, 0.08);
-    border-radius: 24px;
-    box-shadow: 0 1px 2px rgba(12, 14, 10, 0.03);
+    background: rgba(18, 21, 29, 0.62);
+    backdrop-filter: blur(18px) saturate(1.2);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 14px;
   }
 
   .glass-pill {
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border: 1px solid rgba(255, 255, 255, 0.85);
+    background: rgba(12, 15, 21, 0.78);
+    backdrop-filter: blur(22px) saturate(1.3);
+    -webkit-backdrop-filter: blur(22px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.11);
     border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-pill);
   }
 
-  /* Dark slab — used once per page at most, for the closing CTA. */
+  /* Anchor slab.
+     Inverted along with everything else. On the light system this was the dark
+     block that broke a run of cream; on a dark ground the same job — set this
+     section apart from the page — is done by going LIGHTER, not darker. It is
+     an elevated panel with a hairline, and `on-dark` text colours still apply
+     because the panel is still darker than the text. */
   .slab-dark {
-    background: var(--deep);
-    color: #ffffff;
+    background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+    color: var(--ink);
+    border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: var(--radius-slab);
   }
 
@@ -503,7 +550,7 @@
 
   .lift:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-float);
+    border-color: rgba(255, 255, 255, 0.2);
   }
 }
 
@@ -596,14 +643,18 @@
      Applied as a CSS property rather than an SVG attribute precisely so this
      media query can switch it off — small screens need legibility more than
      the effect. */
-  .wordmark-warp {
-    filter: url(#toad-wave);
-  }
+  /* The turbulence/displacement warp is OFF.
+     It was designed around a rounded single-weight display face whose strokes
+     were thick enough to bend visibly. Against the tight grotesque the wordmark
+     now uses, the same filter chews the stroke edges and reads as a rendering
+     fault rather than an effect — the original code comment predicted exactly
+     this. A precisely set wordmark is also the correct signal here: liquid
+     wobbling logotype is a consumer-brand device.
 
-  @media (max-width: 767px) {
-    .wordmark-warp {
-      filter: none;
-    }
+     The filter definition and the class are kept so the effect can be restored
+     deliberately, rather than leaving a dangling reference in the markup. */
+  .wordmark-warp {
+    filter: none;
   }
 
   /* --- Texture -----------------------------------------------------------
@@ -1261,7 +1312,7 @@
 
   @keyframes step-light {
     from {
-      background-color: rgba(11, 12, 10, 0.16);
+      background-color: rgba(255, 255, 255, 0.184);
       box-shadow: 0 0 0 0 rgba(199, 242, 60, 0);
     }
     to {
@@ -1278,10 +1329,10 @@
 
   @keyframes step-index-in {
     from {
-      color: rgba(11, 12, 10, 0.14);
+      color: rgba(255, 255, 255, 0.161);
     }
     to {
-      color: rgba(11, 12, 10, 0.62);
+      color: rgba(255, 255, 255, 0.713);
     }
   }
 
@@ -1664,8 +1715,8 @@
     z-index: 0;
     pointer-events: none;
     background-image:
-      linear-gradient(to right, rgba(11, 12, 10, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(11, 12, 10, 0.05) 1px, transparent 1px);
+      linear-gradient(to right, rgba(255, 255, 255, 0.057) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.057) 1px, transparent 1px);
     background-size: 64px 64px;
     mask-image: radial-gradient(ellipse 75% 60% at 50% 45%, #000 30%, transparent 78%);
     -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 45%, #000 30%, transparent 78%);
@@ -1684,8 +1735,8 @@
     pointer-events: none;
     background-image: repeating-linear-gradient(
       to bottom,
-      rgba(11, 12, 10, 0.035) 0px,
-      rgba(11, 12, 10, 0.035) 1px,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 1px,
       transparent 1px,
       transparent 40px
     );
@@ -1741,13 +1792,18 @@
     );
   }
 
-  /* Oversized numeral in the wordmark face — the hero's type voice, reused for
-     section and step numbering. */
+  /* Numerals are MONOSPACE, not a display face.
+     They were set in a rounded single-weight face, which is the type voice of
+     a consumer brand — and since every figure on the site uses this class, the
+     500+, the 01/02 step numbers and every ghost numeral were all carrying it.
+     Technical work counts in mono; it is the single cheapest signal that a
+     number on the page is a measurement rather than decoration. */
   .numeral {
-    font-family: var(--font-wordmark);
-    font-weight: 400;
-    letter-spacing: -0.02em;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: -0.04em;
     line-height: 0.85;
+    font-variant-numeric: tabular-nums;
   }
 
   /* Cursor parallax layer. Kept on its own element so it composes with the

@@ -94,8 +94,11 @@ export function WavyWordmark({ text = "Toad Labs." }: { text?: string }) {
           className="fill-ink font-wordmark"
           style={{
             fontSize: "217px",
-            fontWeight: 400,
-            letterSpacing: "-0.03em",
+            /* 800, not 400. The old face had one weight and very thick strokes;
+               the grotesque that replaced it needs its heaviest weight and
+               tighter tracking to carry a wordmark at this size. */
+            fontWeight: 800,
+            letterSpacing: "-0.045em",
             fontOpticalSizing: "auto",
           }}
         >

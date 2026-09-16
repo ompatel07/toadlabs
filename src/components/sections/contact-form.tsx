@@ -136,8 +136,8 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div className="card-solid flex flex-col items-start gap-4 rounded-3xl p-8 md:p-10" role="status">
-        <span className="bg-lime text-ink inline-flex size-14 items-center justify-center rounded-2xl">
+      <div className="card-solid flex flex-col items-start gap-4 rounded-xl p-8 md:p-10" role="status">
+        <span className="bg-lime text-canvas inline-flex size-14 items-center justify-center rounded-lg">
           <CheckCircle2 className="size-7" strokeWidth={2} aria-hidden="true" />
         </span>
         <h2 className="font-display text-ink type-h2 font-bold">That&apos;s with us</h2>
@@ -162,7 +162,7 @@ export function ContactForm() {
       ref={formRef}
       onSubmit={onSubmit}
       noValidate
-      className="card-solid flex flex-col gap-8 rounded-3xl p-6 md:p-9"
+      className="card-solid flex flex-col gap-8 rounded-xl p-6 md:p-9"
     >
       {/* Path choice. Asking this first is what lets the rest of the form ask
           fewer, more relevant questions. */}
@@ -181,10 +181,10 @@ export function ContactForm() {
                 aria-checked={active}
                 onClick={() => setPath(option.id)}
                 className={cn(
-                  "group flex cursor-pointer flex-col gap-2 rounded-2xl border p-4 text-left transition-all duration-250 ease-out",
+                  "group flex cursor-pointer flex-col gap-2 rounded-lg border p-4 text-left transition-all duration-250 ease-out",
                   active
-                    ? "border-ink bg-lime text-ink"
-                    : "border-[rgba(11,12,10,0.16)] hover:border-ink",
+                    ? "border-ink bg-lime text-canvas"
+                    : "border-[rgba(255, 255, 255, 0.184)] hover:border-ink",
                 )}
               >
                 <option.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
@@ -247,7 +247,7 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="flex flex-col gap-4 border-t border-[rgba(11,12,10,0.12)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 border-t border-[rgba(255, 255, 255, 0.138)] pt-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <ProgressRing value={progress} />
           <span className="text-ink-soft t-sm">
@@ -258,7 +258,7 @@ export function ContactForm() {
         <button
           type="submit"
           aria-busy={status === "busy"}
-          className="btn-liquid btn-liquid-ink bg-ink inline-flex h-13 cursor-pointer items-center justify-center gap-2 rounded-full px-7 t-base font-medium text-white transition-colors duration-250 ease-out aria-busy:opacity-80"
+          className="btn-liquid btn-liquid-ink bg-ink inline-flex h-13 cursor-pointer items-center justify-center gap-2 rounded-full px-7 t-base font-medium text-canvas transition-colors duration-250 ease-out aria-busy:opacity-80"
         >
           {status === "busy" ? (
             <>
@@ -294,7 +294,7 @@ function ProgressRing({ value }: { value: number }) {
   const circumference = 2 * Math.PI * radius;
   return (
     <svg viewBox="0 0 32 32" className="size-8 shrink-0 -rotate-90" aria-hidden="true">
-      <circle cx="16" cy="16" r={radius} fill="none" stroke="rgba(11,12,10,0.12)" strokeWidth="3" />
+      <circle cx="16" cy="16" r={radius} fill="none" stroke="rgba(255, 255, 255, 0.138)" strokeWidth="3" />
       <circle
         cx="16"
         cy="16"
@@ -343,8 +343,8 @@ function Field({
     onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       onChange(event.target.value),
     className: cn(
-      "text-ink w-full rounded-xl border bg-white px-4 py-3 t-base transition-colors duration-200 ease-out placeholder:text-ink-soft/60",
-      error ? "border-destructive" : "border-[rgba(11,12,10,0.16)] hover:border-[rgba(11,12,10,0.34)]",
+      "text-ink w-full rounded-xl border bg-[var(--surface)] px-4 py-3 t-base transition-colors duration-200 ease-out placeholder:text-ink-soft/60",
+      error ? "border-destructive" : "border-[rgba(255, 255, 255, 0.184)] hover:border-[rgba(255, 255, 255, 0.391)]",
     ),
   };
 
@@ -390,7 +390,7 @@ function SelectField({
         name={name}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="text-ink h-[46px] w-full cursor-pointer rounded-xl border border-[rgba(11,12,10,0.16)] bg-white px-4 t-base transition-colors duration-200 ease-out hover:border-[rgba(11,12,10,0.34)]"
+        className="text-ink h-[46px] w-full cursor-pointer rounded-xl border border-[rgba(255, 255, 255, 0.184)] bg-[var(--surface)] px-4 t-base transition-colors duration-200 ease-out hover:border-[rgba(255, 255, 255, 0.391)]"
       >
         {options.map((option) => (
           <option key={option} value={option}>{option}</option>

@@ -73,7 +73,7 @@ export function ServicesRail() {
                       href={`/services#${service.id}`}
                       data-cursor="Explore"
                       className={cn(
-                        "group relative flex h-full min-h-[320px] cursor-pointer flex-col gap-4 overflow-hidden rounded-3xl border p-7 transition-colors duration-300 ease-out hover:border-ink md:p-8",
+                        "group relative flex h-full min-h-[320px] cursor-pointer flex-col gap-4 overflow-hidden rounded-xl border p-7 transition-colors duration-300 ease-out hover:border-ink md:p-8",
                         tone.bg,
                         tone.text,
                         tone.border,

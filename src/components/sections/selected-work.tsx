@@ -38,7 +38,7 @@ export function SelectedWork() {
       </div>
 
       {hasPlaceholderWork ? (
-        <p className="text-ink-soft mt-10 border-l-2 border-[rgba(11,12,10,0.25)] py-1 pl-4 t-base">
+        <p className="text-ink-soft mt-10 border-l-2 border-[rgba(255, 255, 255, 0.287)] py-1 pl-4 t-base">
           <strong className="text-ink font-semibold">
             These are placeholders.
           </strong>{" "}
@@ -61,7 +61,7 @@ export function SelectedWork() {
                 href={`/work/${study.slug}`}
                 data-cursor="Read case"
                 className={cn(
-                  "group tilt relative grid cursor-pointer gap-6 overflow-hidden rounded-3xl border p-8 transition-colors duration-300 ease-out md:grid-cols-[1.1fr_1fr] md:gap-10 md:p-12",
+                  "group tilt relative grid cursor-pointer gap-6 overflow-hidden rounded-xl border p-8 transition-colors duration-300 ease-out md:grid-cols-[1.1fr_1fr] md:gap-10 md:p-12",
                   tone.bg,
                   tone.text,
                   tone.border,

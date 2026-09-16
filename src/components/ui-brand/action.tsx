@@ -15,14 +15,14 @@ const actionVariants = cva(
     variants: {
       variant: {
         /** Solid black pill. The default call to action. */
-        primary: "btn-liquid btn-liquid-ink bg-ink text-white",
+        primary: "btn-liquid btn-liquid-ink bg-ink text-canvas",
         /** Lime pill with ink text — the highlight action. */
-        lime: "btn-liquid btn-liquid-lime bg-lime text-ink",
+        lime: "btn-liquid btn-liquid-lime bg-lime text-canvas",
         /** Quiet pill on the canvas. */
         ghost:
-          "border border-[rgba(11,12,10,0.14)] bg-transparent text-ink hover:border-[rgba(11,12,10,0.3)] hover:bg-white/60",
+          "border border-[rgba(255, 255, 255, 0.161)] bg-transparent text-ink hover:border-[rgba(255, 255, 255, 0.345)] hover:bg-white/60",
         /** White pill, for use on top of imagery or dark slabs. */
-        white: "bg-white text-ink hover:bg-white/90",
+        white: "bg-[var(--surface)] text-ink hover:bg-white/90",
         /** Outline pill on a dark slab. */
         onDark:
           "border border-white/30 bg-transparent text-white hover:border-white/60 hover:bg-white/10",

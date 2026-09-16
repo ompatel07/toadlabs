@@ -69,7 +69,7 @@ export default function ContactPage() {
               column, and without it the right third of the page is dead space
               for most of the scroll. */}
           <aside className="flex flex-col gap-4 lg:sticky lg:top-28 lg:self-start">
-            <div className="bg-muted flex flex-col gap-4 rounded-3xl p-6 md:p-7">
+            <div className="bg-muted flex flex-col gap-4 rounded-xl p-6 md:p-7">
               <h2 className="label-mono text-ink-soft">Or reach us directly</h2>
 
               <ul className="flex flex-col gap-3">
@@ -89,7 +89,7 @@ export default function ContactPage() {
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="border-ink text-ink hover:bg-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border-2 px-5 t-base font-medium transition-colors duration-250 ease-out hover:text-white"
+                    className="border-ink text-ink hover:bg-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border-2 px-5 t-base font-medium transition-colors duration-250 ease-out hover:text-canvas"
                   >
                     <MessageCircle className="size-4" aria-hidden="true" />
                     Message on WhatsApp
@@ -107,9 +107,9 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            <div className="bg-lime text-ink relative overflow-hidden rounded-3xl p-6 md:p-7">
+            <div className="bg-lime text-canvas relative overflow-hidden rounded-xl p-6 md:p-7">
               <ShieldCheck
-                className="absolute -right-6 -bottom-6 size-32 text-[rgba(11,12,10,0.07)]"
+                className="absolute -right-6 -bottom-6 size-32 text-[rgba(255, 255, 255, 0.081)]"
                 strokeWidth={1}
                 aria-hidden="true"
               />
@@ -127,7 +127,7 @@ export default function ContactPage() {
                 what they are actually looking for. */}
             <a
               href="/security"
-              className="group/dis card-solid flex cursor-pointer items-start gap-3 rounded-3xl p-6 transition-colors duration-250 ease-out hover:border-ink md:p-7"
+              className="group/dis card-solid flex cursor-pointer items-start gap-3 rounded-xl p-6 transition-colors duration-250 ease-out hover:border-ink md:p-7"
             >
               <Bug className="text-ink mt-0.5 size-5 shrink-0" strokeWidth={1.75} aria-hidden="true" />
               <span className="flex flex-col gap-1.5">
@@ -155,7 +155,7 @@ export default function ContactPage() {
         <p className="label-mono text-ink-soft mb-8">
           After you press send
         </p>
-        <ol className="grid gap-px overflow-hidden rounded-3xl bg-[rgba(11,12,10,0.14)] md:grid-cols-3">
+        <ol className="grid gap-px overflow-hidden rounded-xl bg-[rgba(255, 255, 255, 0.161)] md:grid-cols-3">
           {whatHappensNext.map((step, index) => (
             <li
               key={step.title}

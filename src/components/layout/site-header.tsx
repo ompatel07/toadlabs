@@ -66,8 +66,8 @@ export function SiteHeader() {
                 className={cn(
                   "cursor-pointer rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 ease-out",
                   isActive(item.href)
-                    ? "text-ink bg-[rgba(11,12,10,0.07)]"
-                    : "text-ink-soft hover:text-ink hover:bg-[rgba(11,12,10,0.05)]",
+                    ? "text-ink bg-[rgba(255, 255, 255, 0.081)]"
+                    : "text-ink-soft hover:text-ink hover:bg-[rgba(255, 255, 255, 0.057)]",
                 )}
               >
                 {item.label}
@@ -90,7 +90,7 @@ export function SiteHeader() {
               onClick={() => setOpen((value) => !value)}
               aria-expanded={open}
               aria-controls="mobile-nav"
-              className="text-ink inline-flex size-10 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-out hover:bg-[rgba(11,12,10,0.06)] md:hidden"
+              className="text-ink inline-flex size-10 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-out hover:bg-[rgba(255, 255, 255, 0.069)] md:hidden"
             >
               {open ? (
                 <X className="size-5" aria-hidden="true" />
@@ -115,10 +115,10 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "cursor-pointer rounded-2xl px-4 py-3 font-medium transition-colors duration-200 ease-out",
+                  "cursor-pointer rounded-lg px-4 py-3 font-medium transition-colors duration-200 ease-out",
                   isActive(item.href)
-                    ? "text-ink bg-[rgba(11,12,10,0.07)]"
-                    : "text-ink-soft hover:text-ink hover:bg-[rgba(11,12,10,0.05)]",
+                    ? "text-ink bg-[rgba(255, 255, 255, 0.081)]"
+                    : "text-ink-soft hover:text-ink hover:bg-[rgba(255, 255, 255, 0.057)]",
                 )}
               >
                 {item.label}

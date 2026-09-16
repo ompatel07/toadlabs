@@ -3,7 +3,6 @@ import {
   Inter,
   Inter_Tight,
   JetBrains_Mono,
-  Bagel_Fat_One,
 } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -24,25 +23,6 @@ const interTight = Inter_Tight({
   subsets: ["latin"],
   display: "swap",
   weight: ["500", "600", "700", "800"],
-});
-
-/**
- * Bagel Fat One — the hero wordmark face.
- *
- * A single-weight display face with very thick rounded strokes. Paired with the
- * displacement filter on the wordmark it gives the liquid/blobby "wavy ink"
- * look; a normal grotesk under the same filter just reads as a printing fault,
- * because the strokes are too thin to bend visibly.
- *
- * Only used for the hero wordmark — the rest of the site stays on Inter Tight,
- * so the playful face never leaks into body or section headings.
- */
-const bagelFatOne = Bagel_Fat_One({
-  variable: "--font-wordmark-face",
-  subsets: ["latin"],
-  display: "swap",
-  weight: "400",
-  preload: true,
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -79,7 +59,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en-IN"
-      className={`${inter.variable} ${interTight.variable} ${jetbrainsMono.variable} ${bagelFatOne.variable} h-full`}
+      className={`${inter.variable} ${interTight.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="grain flex min-h-full flex-col overflow-x-hidden">
         <a

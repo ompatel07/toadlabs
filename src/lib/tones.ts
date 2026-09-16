@@ -5,19 +5,27 @@
  * amber, coral, sand, lime — and the page turned into a fruit salad: every
  * card shouting, nothing leading. Colour is not the same thing as design.
  *
- * The palette is now ink and canvas, one accent (lime), and one dark
- * (deep). Visual interest comes from form instead — borders, rules, scale,
- * separators, decorative marks, layout asymmetry. See components/brand/decor.
+ * REBUILT FOR THE DARK SYSTEM. These were four light fills (white, cream,
+ * lime, one dark) written against a light page, each paired with near-black
+ * text. Inverting the palette turned every one of them into light-on-light:
+ * "paper" was a pure white card that still rendered white, and `text-ink` —
+ * which is now the LIGHT colour — sat on top of it at 1.17:1.
+ *
+ * On a dark ground the tones are elevations, not colours: the default card is
+ * a raised surface, `raised` is a second step up, `accent` is the signal green
+ * used sparingly, and `bright` is a light panel for the rare block that has to
+ * invert.
  *
  * Each tone still hard-couples a background to the one text colour that clears
  * 4.5:1 on it, so an unreadable card cannot be built.
  *
- *   paper  #FFFFFF + ink   17.9:1
- *   canvas #EFEEE8 + ink   16.9:1
- *   lime   #C7F23C + ink   15.1:1
- *   deep   #101710 + white 18.2:1
+ *   surface  #12151D + ink     13.8:1
+ *   raised   #1A1F2A + ink     11.6:1
+ *   accent   #3CE68D + canvas  12.4:1
+ *   bright   #E9EEF6 + canvas  15.9:1
  */
 export type ToneName = "paper" | "canvas" | "lime" | "deep";
+// Names kept so call sites do not churn; the values below are what changed.
 
 export interface Tone {
   /** Card background. */
@@ -32,42 +40,47 @@ export interface Tone {
   border: string;
   /** Hairline/divider inside the card. */
   rule: string;
-  /** True when the tone is dark, so focus rings flip to lime. */
+  /** True when the tone is a LIGHT panel, so focus rings flip to the ground. */
   dark?: boolean;
 }
 
 export const tones: Record<ToneName, Tone> = {
+  /** Default card: one step above the page. */
   paper: {
-    bg: "bg-white",
+    bg: "bg-[var(--surface)]",
     text: "text-ink",
     muted: "text-ink-soft",
-    chip: "bg-canvas text-ink",
-    border: "border-[rgba(11,12,10,0.14)]",
-    rule: "border-[rgba(11,12,10,0.1)]",
+    chip: "bg-[var(--surface-2)] text-lime",
+    border: "border-[rgba(255,255,255,0.1)]",
+    rule: "border-[rgba(255,255,255,0.09)]",
   },
+  /** Second elevation, for a panel sitting on another panel. */
   canvas: {
-    bg: "bg-canvas",
+    bg: "bg-[var(--surface-2)]",
     text: "text-ink",
     muted: "text-ink-soft",
-    chip: "bg-white text-ink",
-    border: "border-[rgba(11,12,10,0.16)]",
-    rule: "border-[rgba(11,12,10,0.12)]",
+    chip: "bg-[rgba(255,255,255,0.08)] text-lime",
+    border: "border-[rgba(255,255,255,0.12)]",
+    rule: "border-[rgba(255,255,255,0.1)]",
   },
+  /** The accent fill. A light surface, so its text is the page ground. */
   lime: {
     bg: "bg-lime",
-    text: "text-ink",
-    muted: "text-ink/70",
-    chip: "bg-ink/10 text-ink",
-    border: "border-ink",
-    rule: "border-ink/15",
+    text: "text-canvas",
+    muted: "text-canvas/75",
+    chip: "bg-canvas/15 text-canvas",
+    border: "border-lime",
+    rule: "border-canvas/20",
+    dark: true,
   },
+  /** Full inversion — a bright panel on the dark page. Used sparingly. */
   deep: {
-    bg: "bg-deep",
-    text: "text-white",
-    muted: "text-white/70",
-    chip: "bg-white/12 text-lime",
+    bg: "bg-ink",
+    text: "text-canvas",
+    muted: "text-canvas/70",
+    chip: "bg-canvas/10 text-canvas",
     border: "border-ink",
-    rule: "border-white/15",
+    rule: "border-canvas/15",
     dark: true,
   },
 };

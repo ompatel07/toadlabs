@@ -43,7 +43,9 @@ export function Pillars() {
             Build it properly.{" "}
             {/* nowrap so the highlighted word and the full stop cannot be
                 split across lines, which stranded "it." on its own. */}
-            <span className="bg-lime inline-block rounded-[0.06em] px-[0.08em] whitespace-nowrap">
+            {/* text-canvas explicitly: the span would otherwise inherit text-ink from
+                the heading, which is now the light colour, giving light-on-lime. */}
+            <span className="bg-lime text-canvas inline-block rounded-[0.06em] px-[0.08em] whitespace-nowrap">
               Then try to break it.
             </span>
           </h2>
@@ -57,13 +59,13 @@ export function Pillars() {
 
       {/* The seam. gap-px over an ink ground draws the dividing line without a
           border that would double up against the dark panel's own edge. */}
-      <div className="mt-14 grid gap-px bg-[rgba(11,12,10,0.85)] lg:mt-20 lg:grid-cols-2">
+      <div className="mt-14 grid gap-px bg-[rgba(255, 255, 255, 0.95)] lg:mt-20 lg:grid-cols-2">
         {entries.map((entry, index) => (
           <article
             key={entry.label}
             className={cn(
               "relative isolate flex flex-col overflow-clip px-[var(--gutter)] py-14 md:py-20",
-              entry.dark ? "slab-dark on-dark" : "bg-white",
+              entry.dark ? "slab-dark on-dark" : "bg-[var(--surface)]",
               index === 0 ? "panel-lift" : "panel-sink",
             )}
           >
@@ -127,7 +129,7 @@ export function Pillars() {
                       "flex items-start gap-2.5 border-t py-3 t-base",
                       entry.dark
                         ? "border-white/15 text-white/85"
-                        : "border-[rgba(11,12,10,0.12)] text-ink",
+                        : "border-[rgba(255, 255, 255, 0.138)] text-ink",
                     )}
                   >
                     <Asterisk
@@ -146,8 +148,8 @@ export function Pillars() {
                 className={cn(
                   "group/cta mt-9 inline-flex w-fit cursor-pointer items-center gap-2 rounded-full border-2 px-6 py-3 t-base font-medium transition-colors duration-250 ease-out",
                   entry.dark
-                    ? "border-lime text-lime hover:bg-lime hover:text-ink"
-                    : "border-ink text-ink hover:bg-ink hover:text-white",
+                    ? "border-lime text-lime hover:bg-lime hover:text-canvas"
+                    : "border-ink text-ink hover:bg-ink hover:text-canvas",
                 )}
               >
                 {entry.cta.label}

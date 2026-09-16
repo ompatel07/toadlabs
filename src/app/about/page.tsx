@@ -130,7 +130,7 @@ export default function AboutPage() {
                   {siteConfig.location.full}
                 </p>
               </div>
-              <div className="border-t border-[rgba(11,12,10,0.1)] pt-5">
+              <div className="border-t border-[rgba(255, 255, 255, 0.115)] pt-5">
                 <h2 className="label-mono text-ink-soft">How we work</h2>
                 <p className="text-ink-soft mt-2 t-base">
                   Async delivery with a weekly demo, overlapping your working
@@ -138,7 +138,7 @@ export default function AboutPage() {
                   across India and internationally.
                 </p>
               </div>
-              <div className="border-t border-[rgba(11,12,10,0.1)] pt-5">
+              <div className="border-t border-[rgba(255, 255, 255, 0.115)] pt-5">
                 <h2 className="label-mono text-ink-soft">What we do</h2>
                 <p className="text-ink-soft mt-2 t-base">
                   Product and client software — web, mobile, MVPs, SaaS,
@@ -153,7 +153,7 @@ export default function AboutPage() {
 
       {/* Principles — ruled rows rather than cards, to keep this page reading
           as an editorial piece. */}
-      <Section surface="white" className="border-y border-[rgba(11,12,10,0.1)]">
+      <Section surface="white" className="border-y border-[rgba(255, 255, 255, 0.115)]">
         <SectionHeading
           eyebrow="Principles"
           title="How we actually work"
