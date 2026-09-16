@@ -3,6 +3,8 @@ import { siteConfig } from "@/config/site";
 import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
+import { MetricsBand } from "@/components/sections/metrics-band";
+import { Sectors } from "@/components/sections/sectors";
 import { PrinciplesIndex } from "@/components/sections/principles-index";
 import { Guarantees } from "@/components/sections/guarantees";
 import { FinalCta } from "@/components/sections/final-cta";
@@ -70,6 +72,8 @@ export default function AboutPage() {
         ]}
         speed="46s"
       />
+
+      <MetricsBand />
 
       {/* Story — the one place on the site that breaks the card grid, set as a
           narrow measure offset left so it reads as writing rather than UI. */}
@@ -161,6 +165,8 @@ export default function AboutPage() {
           <PrinciplesIndex principles={principles} />
         </div>
       </Section>
+
+      <Sectors />
 
       <Guarantees />
 

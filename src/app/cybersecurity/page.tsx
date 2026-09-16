@@ -14,6 +14,7 @@ import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
 import { SecurityCapabilities } from "@/components/sections/security-capabilities";
 import { SeverityExplorer } from "@/components/sections/severity-explorer";
+import { Compliance } from "@/components/sections/compliance";
 import { Deliverables } from "@/components/sections/deliverables";
 import { SecurityFaq } from "@/components/sections/security-faq";
 import { FinalCta } from "@/components/sections/final-cta";
@@ -209,6 +210,8 @@ export default function CybersecurityPage() {
           </div>
         </div>
       </Section>
+
+      <Compliance />
 
       <SecurityFaq />
 

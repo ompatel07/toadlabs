@@ -3,6 +3,8 @@ import { faqs } from "@/config/home";
 import { siteConfig } from "@/config/site";
 import { Hero } from "@/components/sections/hero";
 import { TrustStrip } from "@/components/sections/trust-strip";
+import { MetricsBand } from "@/components/sections/metrics-band";
+import { Sectors } from "@/components/sections/sectors";
 import { StandardsBar } from "@/components/sections/standards-bar";
 import { Pillars } from "@/components/sections/pillars";
 import { ServicesRail } from "@/components/sections/services-rail";
@@ -76,19 +78,25 @@ export default function HomePage() {
         // Content is authored by us in typed config, not user input.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      {/* Order is a credibility argument: what we claim (trust strip), what
-          measures it (standards), what we do (pillars, services), the security
-          weight, how we run it (process), what we commit to (guarantees), then
-          evidence and objections. */}
+      {/* Order is a credibility argument: what we claim (trust strip), the
+          track record behind it (metrics), what measures it (standards), what
+          we do (pillars, services), the security weight, how we run it
+          (process), what we commit to (guarantees), where it has been
+          (sectors), then evidence and objections. */}
       <Hero />
       <TrustStrip />
       <StandardsBar />
       <Pillars />
+      {/* Placed after Pillars, not before StandardsBar: both bands are dark
+          slabs, and stacking them left the page with two ink blocks separated
+          by a thin strip of canvas. */}
+      <MetricsBand />
       <ServicesRail />
       <Manifesto />
       <SecurityPreview />
       <Process />
       <Guarantees />
+      <Sectors />
       <SelectedWork />
       <StackMarquee />
       <Faq />

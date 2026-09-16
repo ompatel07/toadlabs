@@ -13,15 +13,21 @@ import {
 /**
  * Trust content.
  *
- * DELIBERATELY ABSENT: client logos, testimonials, certifications, and any
- * numeric claim ("200+ projects", "99.9% uptime", "ISO 27001"). None of those
- * are true yet, and on a security site an unverifiable credential is worse than
- * no credential — a technical buyer checks.
+ * STILL DELIBERATELY ABSENT: client logos, named testimonials, and any
+ * certification we do not hold. On a security site an unverifiable credential
+ * is worse than no credential, because a technical buyer checks — and a logo
+ * wall assembled without written permission is a legal problem as well as a
+ * credibility one.
  *
- * What is here instead is verifiable by inspection: public methodologies anyone
- * can look up, deliverables that either arrive or do not, and commitments that
- * are either honoured or not. See PROOF_SLOTS at the bottom for the places real
- * evidence should go once it exists.
+ * Track-record figures DO now appear, and they live in `config/proof.ts` —
+ * they are the studio's own numbers, supplied by the owner, and that file is
+ * the only place they are written down. Compliance is stated throughout as
+ * readiness and support, never as certification.
+ *
+ * What is here is verifiable by inspection: public methodologies anyone can
+ * look up, deliverables that either arrive or do not, and commitments that are
+ * either honoured or not. See proofSlots at the bottom for the places logos
+ * and testimonials go once there is written permission for them.
  */
 
 /**
