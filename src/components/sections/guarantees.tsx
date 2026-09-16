@@ -37,11 +37,11 @@ export function Guarantees() {
           </Stamp>
         </div>
 
-        <ul className="mt-14 border-t-2 border-[rgba(255, 255, 255, 0.95)]">
+        <ul className="mt-14 border-t-2 border-[rgba(255,255,255,0.22)]">
           {guarantees.map((item, index) => (
             <li
               key={item.title}
-              className="rise group grid items-start gap-x-6 border-b border-[rgba(255, 255, 255, 0.161)] py-7 md:grid-cols-[auto_minmax(0,0.9fr)_minmax(0,1.4fr)] md:gap-x-10 md:py-8"
+              className="rise group grid items-start gap-x-6 border-b border-[rgba(255,255,255,0.161)] py-7 md:grid-cols-[auto_minmax(0,0.9fr)_minmax(0,1.4fr)] md:gap-x-10 md:py-8"
             >
               <span
                 className="label-mono text-ink-soft hidden pt-1.5 md:block"

@@ -12,7 +12,7 @@ export function Wordmark({
     <span
       className={cn(
         "font-display inline-flex items-center gap-2 t-base font-700 whitespace-nowrap",
-        onDark ? "text-white" : "text-ink",
+        onDark ? "text-ink" : "text-ink",
         className,
       )}
       style={{ fontWeight: 700 }}

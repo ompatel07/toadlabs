@@ -32,13 +32,13 @@ export function CostDrivers() {
           />
         </div>
 
-        <ul className="border-t-2 border-[rgba(255, 255, 255, 0.95)]">
+        <ul className="border-t-2 border-[rgba(255,255,255,0.22)]">
           {costDrivers.map((driver, index) => {
             const down = driver.direction === "down";
             return (
               <li
                 key={driver.title}
-                className="group/cost reveal flex items-start gap-5 border-b border-[rgba(255, 255, 255, 0.184)] py-6 md:gap-7"
+                className="group/cost reveal flex items-start gap-5 border-b border-[rgba(255,255,255,0.184)] py-6 md:gap-7"
                 style={{ animationDelay: `${Math.min(index, 5) * 60}ms` }}
               >
                 {/* Direction is carried by the icon AND by the label text, never

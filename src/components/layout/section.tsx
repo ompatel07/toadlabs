@@ -82,7 +82,7 @@ export function SectionHeading({
         </p>
       ) : null}
       <Heading
-        className={cn("type-h2", onDark ? "text-white" : "text-ink")}
+        className={cn("type-h2", onDark ? "text-ink" : "text-ink")}
       >
         {title}
       </Heading>

@@ -20,12 +20,12 @@ const actionVariants = cva(
         lime: "btn-liquid btn-liquid-lime bg-lime text-canvas",
         /** Quiet pill on the canvas. */
         ghost:
-          "border border-[rgba(255, 255, 255, 0.161)] bg-transparent text-ink hover:border-[rgba(255, 255, 255, 0.345)] hover:bg-white/60",
+          "border border-[rgba(255,255,255,0.161)] bg-transparent text-ink hover:border-[rgba(255,255,255,0.16)] hover:bg-white/60",
         /** White pill, for use on top of imagery or dark slabs. */
         white: "bg-[var(--surface)] text-ink hover:bg-white/90",
         /** Outline pill on a dark slab. */
         onDark:
-          "border border-white/30 bg-transparent text-white hover:border-white/60 hover:bg-white/10",
+          "border border-white/30 bg-transparent text-ink hover:border-white/60 hover:bg-white/10",
         /** Inline text action. */
         text: "rounded-sm text-ink underline decoration-1 underline-offset-4 hover:decoration-2",
       },

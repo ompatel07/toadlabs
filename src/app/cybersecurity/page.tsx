@@ -97,7 +97,7 @@ export default function CybersecurityPage() {
 
       {/* Services — denser grid and tighter rhythm than /services, which is
           what gives this page its technical weight without a dark theme. */}
-      <Section dense className="border-t border-[rgba(255, 255, 255, 0.115)]">
+      <Section dense className="border-t border-[rgba(255,255,255,0.115)]">
         <SectionHeading
           eyebrow="Capabilities"
           title="Seven ways we test your systems"
@@ -152,7 +152,7 @@ export default function CybersecurityPage() {
                     className="border-b border-white/12 transition-colors duration-300 ease-out hover:bg-white/[0.04]"
                   >
                     <th scope="row" className="py-3.5 pr-4 align-top">
-                      <span className="font-display block t-base font-semibold text-white">
+                      <span className="font-display block t-base font-semibold text-ink">
                         {standard.name}
                       </span>
                       <span className="block t-xs text-white/50">

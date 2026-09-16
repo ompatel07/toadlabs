@@ -34,7 +34,7 @@ export function Deliverables({ dense = false }: { dense?: boolean }) {
               </h3>
               <p className="text-ink-soft t-base">{item.description}</p>
 
-              <ul className="mt-auto flex flex-col gap-2.5 border-t border-[rgba(255, 255, 255, 0.115)] pt-4">
+              <ul className="mt-auto flex flex-col gap-2.5 border-t border-[rgba(255,255,255,0.115)] pt-4">
                 {item.detail.map((line) => (
                   <li key={line} className="flex items-start gap-2.5">
                     <Check

@@ -23,13 +23,13 @@ export function Sectors() {
           description="Industry experience matters less than most agencies claim, and more than nothing. What carries over is knowing which constraints are real in your field before you have to explain them to us."
         />
 
-        <ul className="border-t-2 border-[rgba(255, 255, 255, 0.95)]">
+        <ul className="border-t-2 border-[rgba(255,255,255,0.22)]">
           {sectors.map((sector) => (
             <li
               key={sector.name}
-              className="group/sec flex items-start gap-5 border-b border-[rgba(255, 255, 255, 0.184)] py-5 md:gap-7"
+              className="group/sec flex items-start gap-5 border-b border-[rgba(255,255,255,0.184)] py-5 md:gap-7"
             >
-              <span className="bg-canvas text-ink inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-[rgba(255, 255, 255, 0.161)] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/sec:-rotate-6">
+              <span className="bg-canvas text-ink inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.161)] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/sec:-rotate-6">
                 <sector.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
               </span>
               <div className="flex flex-col gap-1">

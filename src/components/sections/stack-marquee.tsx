@@ -47,7 +47,7 @@ export function StackMarquee() {
           type="button"
           onClick={() => setPaused((value) => !value)}
           aria-pressed={paused}
-          className="text-ink-soft hover:text-ink inline-flex h-9 cursor-pointer items-center gap-2 rounded-full px-3 text-sm transition-colors duration-200 ease-out hover:bg-[rgba(255, 255, 255, 0.057)]"
+          className="text-ink-soft hover:text-ink inline-flex h-9 cursor-pointer items-center gap-2 rounded-full px-3 text-sm transition-colors duration-200 ease-out hover:bg-[rgba(255,255,255,0.057)]"
         >
           {paused ? (
             <Play className="size-3.5" aria-hidden="true" />

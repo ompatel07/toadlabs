@@ -47,7 +47,7 @@ export function Process() {
             {/* Track and fill, aligned to the centre of the marks. */}
             <span
               aria-hidden="true"
-              className="absolute top-3 bottom-3 left-[7px] w-[2px] bg-[rgba(255, 255, 255, 0.138)]"
+              className="absolute top-3 bottom-3 left-[7px] w-[2px] bg-[rgba(255,255,255,0.138)]"
             />
             <span
               aria-hidden="true"

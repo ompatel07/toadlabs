@@ -62,11 +62,11 @@ export default function SecurityPolicyPage() {
               <Asterisk className="text-lime-ink size-2.5" />
               In scope
             </h2>
-            <ul className="mt-5 border-t-2 border-[rgba(255, 255, 255, 0.95)]">
+            <ul className="mt-5 border-t-2 border-[rgba(255,255,255,0.22)]">
               {disclosure.inScope.map((item) => (
                 <li
                   key={item}
-                  className="text-ink flex items-start gap-3 border-b border-[rgba(255, 255, 255, 0.138)] py-3.5 t-base"
+                  className="text-ink flex items-start gap-3 border-b border-[rgba(255,255,255,0.138)] py-3.5 t-base"
                 >
                   <Check
                     className="text-ink mt-0.5 size-4 shrink-0"
@@ -84,11 +84,11 @@ export default function SecurityPolicyPage() {
               <Asterisk className="text-lime-ink size-2.5" />
               Out of scope
             </h2>
-            <ul className="mt-5 border-t-2 border-[rgba(255, 255, 255, 0.95)]">
+            <ul className="mt-5 border-t-2 border-[rgba(255,255,255,0.22)]">
               {disclosure.outOfScope.map((item) => (
                 <li
                   key={item}
-                  className="text-ink-soft flex items-start gap-3 border-b border-[rgba(255, 255, 255, 0.138)] py-3.5 t-base"
+                  className="text-ink-soft flex items-start gap-3 border-b border-[rgba(255,255,255,0.138)] py-3.5 t-base"
                 >
                   <X
                     className="mt-0.5 size-4 shrink-0"
@@ -150,7 +150,7 @@ export default function SecurityPolicyPage() {
         <div className="container-tl grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.5fr)] lg:gap-20">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="label-mono text-lime">Your data</p>
-            <h2 className="type-h2 mt-5 text-white">
+            <h2 className="type-h2 mt-5 text-ink">
               What happens to your data during an engagement
             </h2>
             <p className="measure mt-5 t-lead text-white/70">
@@ -172,7 +172,7 @@ export default function SecurityPolicyPage() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="font-display type-h3 font-bold text-white">
+                  <h3 className="font-display type-h3 font-bold text-ink">
                     {item.title}
                   </h3>
                   <p className="measure mt-2.5 t-base leading-relaxed text-white/65">
@@ -206,11 +206,11 @@ export default function SecurityPolicyPage() {
           />
         </div>
 
-        <ol className="mt-12 border-t-2 border-[rgba(255, 255, 255, 0.95)]">
+        <ol className="mt-12 border-t-2 border-[rgba(255,255,255,0.22)]">
           {reportStructure.map((item) => (
             <li
               key={item.section}
-              className="grid gap-x-10 gap-y-1.5 border-b border-[rgba(255, 255, 255, 0.138)] py-5 md:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]"
+              className="grid gap-x-10 gap-y-1.5 border-b border-[rgba(255,255,255,0.138)] py-5 md:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)]"
             >
               <h3 className="label-mono text-ink pt-0.5">{item.section}</h3>
               <p className="text-ink-soft t-base leading-relaxed">

@@ -78,14 +78,14 @@ export function HeroVisual({ className }: { className?: string }) {
           </radialGradient>
 
           <linearGradient id="tl-ring" x1="0%" y1="0%" x2="100%" y2="60%">
-            <stop offset="0%" stopColor="#0B0C0A" stopOpacity="0.05" />
+            <stop offset="0%" stopColor="var(--canvas)" stopOpacity="0.05" />
             <stop offset="34%" stopColor="#1A6248" stopOpacity="0.45" />
             <stop offset="60%" stopColor="#CBF561" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="#0B0C0A" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="var(--canvas)" stopOpacity="0.06" />
           </linearGradient>
 
           <radialGradient id="tl-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#C7F23C" stopOpacity="0.34" />
+            <stop offset="0%" stopColor="var(--lime)" stopOpacity="0.34" />
             <stop offset="55%" stopColor="#5FBE8A" stopOpacity="0.13" />
             <stop offset="100%" stopColor="#5FBE8A" stopOpacity="0" />
           </radialGradient>

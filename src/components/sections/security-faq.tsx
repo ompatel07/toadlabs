@@ -22,13 +22,13 @@ export function SecurityFaq() {
 
         <Accordion
           multiple={false}
-          className="border-t border-[rgba(255, 255, 255, 0.138)]"
+          className="border-t border-[rgba(255,255,255,0.138)]"
         >
           {securityFaqs.map((item) => (
             <AccordionItem
               key={item.question}
               value={item.question}
-              className="border-b border-[rgba(255, 255, 255, 0.138)]"
+              className="border-b border-[rgba(255,255,255,0.138)]"
             >
               <AccordionTrigger className="font-display text-ink cursor-pointer py-5 t-lead font-semibold hover:no-underline">
                 {item.question}

@@ -52,7 +52,7 @@ export function FinalCta({
 
             <div className="relative flex max-w-[min(100%,660px)] flex-col gap-8 lg:max-w-[62%]">
               <div className="flex flex-col gap-5">
-                <h2 className="type-display max-w-3xl text-white">{title}</h2>
+                <h2 className="type-display max-w-3xl text-ink">{title}</h2>
                 <p className="measure t-lead text-white/70">
                   {description}
                 </p>
@@ -70,7 +70,7 @@ export function FinalCta({
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-13 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/30 px-7 text-base font-medium text-white transition-colors duration-250 ease-out hover:border-white/60 hover:bg-white/10"
+                  className="inline-flex h-13 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/30 px-7 text-base font-medium text-ink transition-colors duration-250 ease-out hover:border-white/60 hover:bg-white/10"
                 >
                   <MessageCircle className="size-4" aria-hidden="true" />
                   WhatsApp us

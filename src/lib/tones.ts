@@ -69,7 +69,9 @@ export const tones: Record<ToneName, Tone> = {
     text: "text-canvas",
     muted: "text-canvas/75",
     chip: "bg-canvas/15 text-canvas",
-    border: "border-lime",
+    // Not border-lime: a lime edge on a lime fill is invisible. An accent
+    // panel takes its definition from the page ground.
+    border: "border-canvas/25",
     rule: "border-canvas/20",
     dark: true,
   },

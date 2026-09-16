@@ -137,7 +137,7 @@ export function ParticleNetwork({
       for (const node of nodes) {
         const near =
           Math.hypot(node.x - pointerX, node.y - pointerY) < POINTER_RADIUS;
-        context.fillStyle = near ? "rgba(199, 242, 60, 0.95)" : NODE_FILL;
+        context.fillStyle = near ? "rgba(60, 230, 141, 0.95)" : NODE_FILL;
         context.beginPath();
         context.arc(node.x, node.y, near ? 2.6 : 1.8, 0, Math.PI * 2);
         context.fill();

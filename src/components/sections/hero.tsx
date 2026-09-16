@@ -128,7 +128,7 @@ export function Hero() {
         <Link
           href={hero.primaryCta.href}
           className={cn(
-            "bg-lime text-canvas group inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 ease-out hover:bg-[#d3f95c] hover:shadow-[0_10px_30px_-8px_rgba(168,213,32,0.7)]",
+            "bg-lime text-canvas group inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 ease-out hover:bg-[#d3f95c] hover:shadow-[0_10px_30px_-8px_rgba(31,190,112,0.7)]",
             "h-12 w-full px-6 t-base",
             "sm:size-26 sm:flex-col sm:gap-1 sm:px-0 t-xs sm:leading-tight",
           )}

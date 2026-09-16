@@ -59,7 +59,7 @@ export function Pillars() {
 
       {/* The seam. gap-px over an ink ground draws the dividing line without a
           border that would double up against the dark panel's own edge. */}
-      <div className="mt-14 grid gap-px bg-[rgba(255, 255, 255, 0.95)] lg:mt-20 lg:grid-cols-2">
+      <div className="mt-14 grid gap-px bg-[rgba(255,255,255,0.22)] lg:mt-20 lg:grid-cols-2">
         {entries.map((entry, index) => (
           <article
             key={entry.label}
@@ -106,7 +106,7 @@ export function Pillars() {
               <h3
                 className={cn(
                   "font-display mt-5 type-h2 leading-[1.08] font-bold",
-                  entry.dark ? "text-white" : "text-ink",
+                  entry.dark ? "text-ink" : "text-ink",
                 )}
               >
                 {entry.title}
@@ -129,7 +129,7 @@ export function Pillars() {
                       "flex items-start gap-2.5 border-t py-3 t-base",
                       entry.dark
                         ? "border-white/15 text-white/85"
-                        : "border-[rgba(255, 255, 255, 0.138)] text-ink",
+                        : "border-[rgba(255,255,255,0.138)] text-ink",
                     )}
                   >
                     <Asterisk

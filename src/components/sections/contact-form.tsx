@@ -184,7 +184,7 @@ export function ContactForm() {
                   "group flex cursor-pointer flex-col gap-2 rounded-lg border p-4 text-left transition-all duration-250 ease-out",
                   active
                     ? "border-ink bg-lime text-canvas"
-                    : "border-[rgba(255, 255, 255, 0.184)] hover:border-ink",
+                    : "border-[rgba(255,255,255,0.184)] hover:border-ink",
                 )}
               >
                 <option.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
@@ -247,7 +247,7 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="flex flex-col gap-4 border-t border-[rgba(255, 255, 255, 0.138)] pt-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 border-t border-[rgba(255,255,255,0.138)] pt-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <ProgressRing value={progress} />
           <span className="text-ink-soft t-sm">
@@ -343,8 +343,11 @@ function Field({
     onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       onChange(event.target.value),
     className: cn(
-      "text-ink w-full rounded-xl border bg-[var(--surface)] px-4 py-3 t-base transition-colors duration-200 ease-out placeholder:text-ink-soft/60",
-      error ? "border-destructive" : "border-[rgba(255, 255, 255, 0.184)] hover:border-[rgba(255, 255, 255, 0.391)]",
+      // Recessed, not raised. The field sat on --surface inside a --surface card,
+    // so the input was exactly the colour of the panel around it and read as
+    // plain text. An input is a well: it goes DARKER than its container.
+    "text-ink w-full rounded-lg border bg-[var(--canvas)] px-4 py-3 t-base transition-colors duration-200 ease-out placeholder:text-ink-soft/60 focus:border-[color:var(--lime)]",
+      error ? "border-destructive" : "border-[rgba(255,255,255,0.184)] hover:border-[rgba(255,255,255,0.16)]",
     ),
   };
 
@@ -390,7 +393,7 @@ function SelectField({
         name={name}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="text-ink h-[46px] w-full cursor-pointer rounded-xl border border-[rgba(255, 255, 255, 0.184)] bg-[var(--surface)] px-4 t-base transition-colors duration-200 ease-out hover:border-[rgba(255, 255, 255, 0.391)]"
+        className="text-ink h-[46px] w-full cursor-pointer rounded-lg border border-[rgba(255,255,255,0.18)] bg-[var(--canvas)] px-4 t-base transition-colors duration-200 ease-out hover:border-[rgba(255,255,255,0.16)]"
       >
         {options.map((option) => (
           <option key={option} value={option}>{option}</option>

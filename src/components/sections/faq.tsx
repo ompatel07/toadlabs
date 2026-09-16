@@ -44,13 +44,13 @@ export function Faq() {
 
         <Accordion
           multiple={false}
-          className="border-t border-[rgba(255, 255, 255, 0.138)]"
+          className="border-t border-[rgba(255,255,255,0.138)]"
         >
           {faqs.map((item) => (
             <AccordionItem
               key={item.question}
               value={item.question}
-              className="border-b border-[rgba(255, 255, 255, 0.138)]"
+              className="border-b border-[rgba(255,255,255,0.138)]"
             >
               <AccordionTrigger className="font-display text-ink cursor-pointer py-5 t-h4 font-semibold hover:no-underline">
                 {item.question}

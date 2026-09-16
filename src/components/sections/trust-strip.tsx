@@ -56,7 +56,7 @@ export function TrustStrip() {
                       "-mt-px -ml-px",
                       accent
                         ? "bg-lime border-ink text-canvas"
-                        : "border-[rgba(255, 255, 255, 0.184)] bg-[var(--surface)] text-ink hover:border-ink",
+                        : "border-[rgba(255,255,255,0.184)] bg-[var(--surface)] text-ink hover:border-ink",
                     )}
                   >
                     {/* The wipe. Rises from the bottom edge behind the
@@ -93,7 +93,7 @@ export function TrustStrip() {
                       <item.icon className="size-[18px]" strokeWidth={2} aria-hidden="true" />
                     </span>
 
-                    <h3 className="font-display t-base font-bold transition-colors duration-500 ease-out group-hover/cell:text-white">
+                    <h3 className="font-display t-base font-bold transition-colors duration-500 ease-out group-hover/cell:text-ink">
                       {item.title}
                     </h3>
                     <p

@@ -30,7 +30,7 @@ export default function NotFound() {
             page's actual heading carries the meaning. */}
         <span
           aria-hidden="true"
-          className="numeral pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 leading-none whitespace-nowrap select-none text-[clamp(14rem,42vw,34rem)] text-[rgba(255, 255, 255, 0.057)]"
+          className="numeral pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 leading-none whitespace-nowrap select-none text-[clamp(14rem,42vw,34rem)] text-[rgba(255,255,255,0.057)]"
         >
           404
         </span>
@@ -75,9 +75,9 @@ export default function NotFound() {
 
       <section className="section-dense">
         <div className="container-tl">
-          <ul className="border-t border-[rgba(255, 255, 255, 0.184)]">
+          <ul className="border-t border-[rgba(255,255,255,0.184)]">
             {routes.map((route, index) => (
-              <li key={route.href} className="border-b border-[rgba(255, 255, 255, 0.184)]">
+              <li key={route.href} className="border-b border-[rgba(255,255,255,0.184)]">
                 <Link
                   href={route.href}
                   className="group/link grid cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-5 py-6 md:gap-8"

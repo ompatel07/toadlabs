@@ -48,7 +48,7 @@ export function WorkIndex({ studies }: { studies: CaseStudy[] }) {
       onPointerMove={onPointerMove}
       onPointerLeave={() => setActive(null)}
     >
-      <ul className="border-t-2 border-[rgba(255, 255, 255, 0.95)]">
+      <ul className="border-t-2 border-[rgba(255,255,255,0.22)]">
         {studies.map((study, index) => (
           <li key={study.slug}>
             <Link
@@ -57,7 +57,7 @@ export function WorkIndex({ studies }: { studies: CaseStudy[] }) {
               onPointerEnter={() => setActive(index)}
               onFocus={() => setActive(index)}
               onBlur={() => setActive(null)}
-              className="group grid cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-[rgba(255, 255, 255, 0.184)] py-7 transition-colors duration-300 ease-out md:gap-10 md:py-10"
+              className="group grid cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-[rgba(255,255,255,0.184)] py-7 transition-colors duration-300 ease-out md:gap-10 md:py-10"
             >
               <span
                 className="numeral text-ink/20 numeral-md leading-none transition-all duration-300 ease-out group-hover:text-[color:var(--lime-deep)]"
@@ -97,7 +97,7 @@ export function WorkIndex({ studies }: { studies: CaseStudy[] }) {
         ref={previewRef}
         aria-hidden="true"
         className={cn(
-          "work-preview pointer-events-none fixed z-40 hidden w-[260px] rounded-lg border border-[rgba(255, 255, 255, 0.23)] p-5 shadow-[0_24px_60px_-20px_rgba(12,14,10,0.35)] lg:block",
+          "work-preview pointer-events-none fixed z-40 hidden w-[260px] rounded-lg border border-[rgba(255,255,255,0.23)] p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.35)] lg:block",
           active === null ? "opacity-0" : "opacity-100",
           active === null ? "" : TONES[active % TONES.length],
         )}

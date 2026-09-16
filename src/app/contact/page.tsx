@@ -109,7 +109,7 @@ export default function ContactPage() {
 
             <div className="bg-lime text-canvas relative overflow-hidden rounded-xl p-6 md:p-7">
               <ShieldCheck
-                className="absolute -right-6 -bottom-6 size-32 text-[rgba(255, 255, 255, 0.081)]"
+                className="absolute -right-6 -bottom-6 size-32 text-[rgba(255,255,255,0.081)]"
                 strokeWidth={1}
                 aria-hidden="true"
               />
@@ -155,7 +155,7 @@ export default function ContactPage() {
         <p className="label-mono text-ink-soft mb-8">
           After you press send
         </p>
-        <ol className="grid gap-px overflow-hidden rounded-xl bg-[rgba(255, 255, 255, 0.161)] md:grid-cols-3">
+        <ol className="grid gap-px overflow-hidden rounded-xl bg-[rgba(255,255,255,0.161)] md:grid-cols-3">
           {whatHappensNext.map((step, index) => (
             <li
               key={step.title}

@@ -81,7 +81,7 @@ export default function ServicesPage() {
           keyboard reachable in order. */}
       <nav
         aria-label="Jump to a service"
-        className="border-y border-[rgba(255, 255, 255, 0.115)] bg-[var(--surface)]/50"
+        className="border-y border-[rgba(255,255,255,0.115)] bg-[var(--surface)]/50"
       >
         <div className="container-tl py-5">
           <ul className="flex flex-wrap gap-2">
@@ -89,7 +89,7 @@ export default function ServicesPage() {
               <li key={service.id}>
                 <a
                   href={`#${service.id}`}
-                  className="text-ink-soft hover:border-ink hover:text-ink inline-flex cursor-pointer rounded-full border border-[rgba(255, 255, 255, 0.161)] px-3.5 py-1.5 t-xs font-medium transition-colors duration-200 ease-out"
+                  className="text-ink-soft hover:border-ink hover:text-ink inline-flex cursor-pointer rounded-full border border-[rgba(255,255,255,0.161)] px-3.5 py-1.5 t-xs font-medium transition-colors duration-200 ease-out"
                 >
                   {service.title}
                 </a>

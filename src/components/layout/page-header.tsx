@@ -67,7 +67,7 @@ export function PageHeader({
       {/* Lime wash rising from the lower left. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_80%_at_18%_100%,rgba(199,242,60,0.2)_0%,rgba(199,242,60,0)_68%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_80%_at_18%_100%,rgba(60,230,141,0.2)_0%,rgba(60,230,141,0)_68%)]"
       />
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-[0.06]" />
 
@@ -100,7 +100,7 @@ export function PageHeader({
               className="bg-lime header-rule block h-[3px] w-full max-w-[120px] origin-left"
             />
 
-            <h1 className="type-display max-w-4xl text-white">
+            <h1 className="type-display max-w-4xl text-ink">
               <SplitText text={title} />
             </h1>
 

@@ -26,11 +26,11 @@ export function PrinciplesIndex({ principles }: { principles: Principle[] }) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <ul className="border-t-2 border-[rgba(255, 255, 255, 0.95)]">
+    <ul className="border-t-2 border-[rgba(255,255,255,0.22)]">
       {principles.map((item, index) => {
         const isOpen = open === index;
         return (
-          <li key={item.title} className="border-b border-[rgba(255, 255, 255, 0.184)]">
+          <li key={item.title} className="border-b border-[rgba(255,255,255,0.184)]">
             <button
               type="button"
               aria-expanded={isOpen}

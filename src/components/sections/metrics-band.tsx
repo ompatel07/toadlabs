@@ -39,7 +39,7 @@ export function MetricsBand() {
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-[0.07]" />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-1/4 left-0 -z-10 h-[85%] w-[70%] bg-[radial-gradient(60%_70%_at_30%_100%,rgba(199,242,60,0.26)_0%,rgba(199,242,60,0)_70%)]"
+        className="pointer-events-none absolute -bottom-1/4 left-0 -z-10 h-[85%] w-[70%] bg-[radial-gradient(60%_70%_at_30%_100%,rgba(60,230,141,0.26)_0%,rgba(60,230,141,0)_70%)]"
       />
 
       <div className="container-tl relative">
@@ -55,7 +55,7 @@ export function MetricsBand() {
             <span
               aria-hidden="true"
               className="numeral pointer-events-none absolute -top-6 -left-[6%] -z-10 text-[clamp(9rem,20vw,17rem)] leading-none whitespace-nowrap select-none"
-              style={{ WebkitTextStroke: "1.5px rgba(199,242,60,0.16)", color: "transparent" }}
+              style={{ WebkitTextStroke: "1.5px rgba(60, 230, 141,0.16)", color: "transparent" }}
             >
               {lead.value}
             </span>
@@ -67,7 +67,7 @@ export function MetricsBand() {
               className="text-[clamp(5rem,13vw,11rem)]"
             />
 
-            <p className="font-display mt-4 type-h3 font-bold text-white">
+            <p className="font-display mt-4 type-h3 font-bold text-ink">
               {lead.label}
             </p>
             <p className="measure mt-3 t-base leading-relaxed text-white/60">
@@ -89,7 +89,7 @@ export function MetricsBand() {
                   className="text-[clamp(2.75rem,6vw,4.25rem)]"
                 />
                 <div>
-                  <p className="font-display t-lead font-bold text-white transition-transform duration-400 ease-out md:group-hover/row:translate-x-1.5">
+                  <p className="font-display t-lead font-bold text-ink transition-transform duration-400 ease-out md:group-hover/row:translate-x-1.5">
                     {metric.label}
                   </p>
                   <p className="mt-1.5 t-sm leading-relaxed text-white/55">

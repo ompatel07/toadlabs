@@ -7,7 +7,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-[rgba(255, 255, 255, 0.115)]">
+    <footer className="mt-auto border-t border-[rgba(255,255,255,0.115)]">
       <div className="container-tl py-16">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_3fr]">
           <div className="flex flex-col gap-5">
@@ -83,7 +83,7 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <div className="text-ink-soft mt-10 flex flex-col gap-2 border-t border-[rgba(255, 255, 255, 0.115)] pt-8 text-sm sm:flex-row sm:items-center sm:justify-between">
+        <div className="text-ink-soft mt-10 flex flex-col gap-2 border-t border-[rgba(255,255,255,0.115)] pt-8 text-sm sm:flex-row sm:items-center sm:justify-between">
           <p>
             &copy; {year} {siteConfig.name}. All rights reserved.
           </p>

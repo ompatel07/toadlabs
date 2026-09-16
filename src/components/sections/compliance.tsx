@@ -24,7 +24,7 @@ import { Asterisk } from "@/components/brand/decor";
 export function Compliance() {
   return (
     <>
-      <Section surface="white" className="border-y border-[rgba(255, 255, 255, 0.115)]">
+      <Section surface="white" className="border-y border-[rgba(255,255,255,0.115)]">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <div>
             <SectionHeading
@@ -40,7 +40,7 @@ export function Compliance() {
                 aria-hidden="true"
               />
               <div>
-                <p className="font-display t-lead font-bold text-white">
+                <p className="font-display t-lead font-bold text-ink">
                   {complianceProgramme.framework} readiness
                 </p>
                 <p className="label-mono mt-1 text-white/55">
@@ -56,7 +56,7 @@ export function Compliance() {
                 <Asterisk className="text-lime-ink size-2.5" />
                 What we do
               </h3>
-              <ul className="mt-5 flex flex-col gap-3 border-t-2 border-[rgba(255, 255, 255, 0.95)] pt-5">
+              <ul className="mt-5 flex flex-col gap-3 border-t-2 border-[rgba(255,255,255,0.22)] pt-5">
                 {complianceProgramme.weDo.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <Check
@@ -77,7 +77,7 @@ export function Compliance() {
                 <Asterisk className="text-lime-ink size-2.5" />
                 What we don&apos;t
               </h3>
-              <ul className="mt-5 flex flex-col gap-3 border-t-2 border-[rgba(255, 255, 255, 0.253)] pt-5">
+              <ul className="mt-5 flex flex-col gap-3 border-t-2 border-[rgba(255,255,255,0.253)] pt-5">
                 {complianceProgramme.weDoNot.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <X
@@ -101,7 +101,7 @@ export function Compliance() {
           description="Every vendor says they support compliance. These six decisions determine whether your audit is a review or a rewrite — and they get made in the first week of a build, not the last."
         />
 
-        <ul className="mt-12 grid gap-px overflow-hidden rounded-xl bg-[rgba(255, 255, 255, 0.161)] md:grid-cols-2 xl:grid-cols-3">
+        <ul className="mt-12 grid gap-px overflow-hidden rounded-xl bg-[rgba(255,255,255,0.161)] md:grid-cols-2 xl:grid-cols-3">
           {compliancePractices.map((practice, index) => (
             <li
               key={practice.title}

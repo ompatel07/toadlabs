@@ -86,7 +86,7 @@ export function SecurityCapabilities({
               <h2
                 className={cn(
                   "font-display relative font-semibold",
-                  dark ? "type-h3 text-white" : "t-lead text-ink",
+                  dark ? "type-h3 text-ink" : "t-lead text-ink",
                 )}
               >
                 {service.title}
@@ -105,7 +105,7 @@ export function SecurityCapabilities({
                   "relative grid gap-1.5 border-t pt-3.5",
                   dark
                     ? "border-white/15 sm:grid-cols-2 sm:gap-x-6"
-                    : "border-[rgba(255, 255, 255, 0.115)]",
+                    : "border-[rgba(255,255,255,0.115)]",
                 )}
               >
                 {service.scope.map((item) => (
@@ -136,7 +136,7 @@ export function SecurityCapabilities({
                       "label-mono rounded-full border px-2 py-0.5",
                       dark
                         ? "border-white/25 text-white/75"
-                        : "border-[rgba(255, 255, 255, 0.161)] text-ink-soft",
+                        : "border-[rgba(255,255,255,0.161)] text-ink-soft",
                     )}
                   >
                     {standard}

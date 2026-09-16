@@ -31,14 +31,14 @@ const DARK_ROWS = new Set(["custom"]);
 
 export function ServicesLedger({ services }: { services: Service[] }) {
   return (
-    <ul className="border-t border-[rgba(255, 255, 255, 0.184)]">
+    <ul className="border-t border-[rgba(255,255,255,0.184)]">
       {services.map((service, index) => {
         const dark = Boolean(service.featured) || DARK_ROWS.has(service.id);
         return (
           <li
             key={service.id}
             className={cn(
-              "group/row relative border-b border-[rgba(255, 255, 255, 0.184)]",
+              "group/row relative border-b border-[rgba(255,255,255,0.184)]",
               dark && "slab-dark border-b-0",
             )}
           >
@@ -48,7 +48,7 @@ export function ServicesLedger({ services }: { services: Service[] }) {
               aria-hidden="true"
               className={cn(
                 "pointer-events-none absolute inset-0 origin-left scale-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/row:scale-x-100",
-                dark ? "bg-white/[0.04]" : "bg-[rgba(199,242,60,0.16)]",
+                dark ? "bg-white/[0.04]" : "bg-[rgba(60,230,141,0.16)]",
               )}
             />
 
@@ -87,7 +87,7 @@ export function ServicesLedger({ services }: { services: Service[] }) {
                 <h2
                   className={cn(
                     "font-display type-h2 font-bold transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] lg:group-hover/row:translate-x-2",
-                    dark ? "text-white" : "text-ink",
+                    dark ? "text-ink" : "text-ink",
                   )}
                 >
                   {service.title}
@@ -105,7 +105,7 @@ export function ServicesLedger({ services }: { services: Service[] }) {
                 <ul
                   className={cn(
                     "mt-3 grid gap-x-8 gap-y-3 border-t pt-6 sm:grid-cols-3",
-                    dark ? "border-white/15" : "border-[rgba(255, 255, 255, 0.138)]",
+                    dark ? "border-white/15" : "border-[rgba(255,255,255,0.138)]",
                   )}
                 >
                   {service.points.map((point) => (

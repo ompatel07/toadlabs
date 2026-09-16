@@ -57,7 +57,7 @@ export function Manifesto() {
           </div>
 
           <div className="scene-type flex flex-col items-center gap-7 text-center">
-            <p className="type-display max-w-5xl text-balance text-white">
+            <p className="type-display max-w-5xl text-balance text-ink">
               <SplitText text="Anyone can ship it once. The bill arrives in" />{" "}
               {/* The full stop lives inside the highlighted span: with it
                   outside, the span's margin left a visible gap before it. */}

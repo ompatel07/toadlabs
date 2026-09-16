@@ -60,7 +60,7 @@ export function StackGrid() {
               <h3
                 className={cn(
                   "font-display type-h3 font-bold",
-                  lane.dark ? "text-white" : "text-ink",
+                  lane.dark ? "text-ink" : "text-ink",
                 )}
               >
                 {lane.label}
@@ -92,7 +92,7 @@ export function StackGrid() {
                       "inline-flex cursor-default items-center rounded-full border px-3.5 py-1.5 t-sm font-medium transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5",
                       lane.dark
                         ? "border-white/22 text-canvas/85 hover:border-lime hover:bg-lime hover:text-canvas"
-                        : "border-[rgba(255, 255, 255, 0.207)] text-ink hover:border-ink hover:bg-ink hover:text-canvas",
+                        : "border-[rgba(255,255,255,0.207)] text-ink hover:border-ink hover:bg-ink hover:text-canvas",
                     )}
                   >
                     {item}

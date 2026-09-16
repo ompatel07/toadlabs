@@ -24,7 +24,7 @@ export function EngagementPhases() {
     <section className="slab-dark on-dark relative isolate overflow-clip py-20 md:py-28">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_60%_at_85%_0%,rgba(199,242,60,0.16)_0%,rgba(199,242,60,0)_65%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_60%_at_85%_0%,rgba(60,230,141,0.16)_0%,rgba(60,230,141,0)_65%)]"
       />
       <OutlineType
         onDark
@@ -39,7 +39,7 @@ export function EngagementPhases() {
             <Asterisk className="size-2.5" />
             Engagement process
           </p>
-          <h2 className="type-h2 mt-5 text-white">
+          <h2 className="type-h2 mt-5 text-ink">
             Six phases, agreed before anything is touched
           </h2>
           <p className="measure mt-6 t-lead text-white/70">
@@ -63,7 +63,7 @@ export function EngagementPhases() {
               </span>
 
               <div className="flex flex-col gap-2.5">
-                <h3 className="font-display type-h3 font-bold text-white transition-transform duration-400 ease-out md:group-hover/phase:translate-x-1.5">
+                <h3 className="font-display type-h3 font-bold text-ink transition-transform duration-400 ease-out md:group-hover/phase:translate-x-1.5">
                   {phase.title}
                 </h3>
                 <p className="t-base leading-relaxed text-white/65">
