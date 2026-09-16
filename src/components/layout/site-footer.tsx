@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Mail, MapPin, MessageCircle } from "lucide-react";
 import { footerNav, siteConfig, whatsappUrl } from "@/config/site";
 import { Wordmark } from "@/components/brand/wordmark";
+import { BrandObject } from "@/components/brand/hero-object";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -72,15 +73,31 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Oversized wordmark sign-off in the hero's display face. Clipped at
-            the baseline so it reads as a printed edge rather than a heading. */}
+        {/* Oversized wordmark sign-off in the hero's display face, clipped at
+            the baseline so it reads as a printed edge rather than a heading —
+            and the object's resting place. It recurs down every page and this
+            is where it stops, sitting on the wordmark just past the full stop,
+            so the site ends on the thing it opened with. */}
         <div
           aria-hidden="true"
-          className="mt-16 -mb-4 overflow-hidden md:mt-20 md:-mb-8"
+          className="relative mt-16 -mb-4 md:mt-20 md:-mb-8"
         >
-          <p className="numeral text-ink/8 text-center text-[clamp(3.5rem,15vw,13rem)] leading-[0.8] whitespace-nowrap select-none">
-            TOAD LABS.
-          </p>
+          <div className="overflow-hidden">
+            <p className="numeral text-ink/8 text-center text-[clamp(3.5rem,15vw,13rem)] leading-[0.8] whitespace-nowrap select-none">
+              TOAD LABS.
+            </p>
+          </div>
+
+          {/* Anchored to the wordmark's own box, so it stays beside the full
+              stop as that type scales with the viewport instead of drifting
+              away from it at one width and colliding at another. */}
+          <div className="pointer-events-none absolute right-[1%] bottom-[2%] w-[13vw] min-w-[60px] max-w-[120px]">
+            <div className="scene-bloom absolute inset-[-28%] -z-10 opacity-70" />
+            <BrandObject
+              className="object-settled w-full drop-shadow-[0_18px_34px_rgba(11,12,10,0.3)]"
+              sizes="(max-width: 640px) 80px, 132px"
+            />
+          </div>
         </div>
 
         <div className="text-ink-soft mt-10 flex flex-col gap-2 border-t border-[rgba(11,12,10,0.1)] pt-8 text-sm sm:flex-row sm:items-center sm:justify-between">

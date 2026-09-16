@@ -1300,164 +1300,67 @@
     }
   }
 
-  /* ── Scroll companion ───────────────────────────────────────────────────
-     The brand object travels the length of the page and settles over the
-     footer. One object, one journey: it fades in once the hero's own copy has
-     left, drifts down the right edge as the document scrolls, and lands in the
-     footer band.
+  /* ── In-flow brand object ───────────────────────────────────────────────
+     The object recurs down the site as part of the layout rather than as a
+     fixed overlay: the home hero, each page header, the mid-page scene, and
+     finally the footer, where it settles beside the wordmark.
 
-     Driven by scroll(root block) rather than a listener, so its position can
-     never disagree with the scrollbar and nothing runs on the main thread while
-     scrolling. `position: fixed` is what makes this legal — the element is out
-     of flow, so animating it cannot reflow the document or create overflow.
+     An earlier version floated it over the page on a fixed scroll timeline. It
+     tracked correctly and was the wrong idea — a decorative element hovering
+     above live text has to be shrunk and faded until it is apologising for
+     itself, and it belonged to no section. In the flow it can be sized to the
+     space that is actually there.
 
-     Guarded by @supports and display:none by default. Without a scroll
-     timeline the animation would fall back to a time-based one with the
-     default 0s duration, snap straight to its end keyframe, and park a toad
-     over the page forever.
-
-     Z-INDEX 40: above content, below the sticky header (50) and the reading
-     progress line (60), so it can never cover navigation.
-
-     NOT gated on prefers-reduced-motion, for the same reason as the progress
-     line: it has no motion of its own. It only ever reflects a scroll position
-     the visitor is producing, its amplitude is a few vh, and it sits in the
-     margin rather than behind text. The continuous bob is +/-5px, which the
-     motion policy already classes as ambience rather than vestibular motion. */
-  .toad-companion {
-    display: none;
+     `object-drift` gives each instance a small scroll-driven rise so it is not
+     pinned flat to its section. Tier 2 — it is scroll-tied movement — so it
+     stops under prefers-reduced-motion, where the composition carries it. */
+  .object-drift {
+    animation: object-drift linear both;
+    animation-timeline: view();
+    animation-range: cover;
+    will-change: transform;
   }
 
-  @supports (animation-timeline: scroll(root block)) {
-    .toad-companion {
-      position: fixed;
-      top: 0;
-      right: var(--toad-inset);
-      z-index: 40;
-      display: block;
-      width: var(--toad-size);
-      pointer-events: none;
-      opacity: 0;
-      animation: toad-travel linear both;
-      animation-timeline: scroll(root block);
-      will-change: transform, opacity;
+  @keyframes object-drift {
+    from {
+      transform: translate3d(0, 7%, 0) rotate(-3deg);
     }
-  }
-
-  /* Sized against the actual free margin, not by eye.
-     .container-tl is max-width 1320 with a --gutter of 20-40px, so the space
-     between the text column and the viewport edge is roughly:
-       375px -> 20    768px -> 31    1024/1280px -> 40
-       1440px -> 100  1920px -> 340
-     A companion wider than that sits on body copy. The first pass was 96-112px
-     hung 23-37px off the edge, which put it over live text on three pages —
-     confirmed by walking text-node Range rects rather than element boxes,
-     since a <p> box spans its column even where the words stop short.
-
-     So it hugs the edge and stays small. At >=1440 it clears the text column
-     entirely. Between 1024 and 1280 the margin is only 40px and no visible
-     object fits, so there it is deliberately translucent: a mascot that
-     briefly passes behind nothing is worth more than one that blots out a
-     sentence, and at 62% the words underneath stay readable. */
-  :root {
-    --toad-size: 2.75rem;
-    --toad-inset: 0.25rem;
-    --toad-alpha: 0.62;
-  }
-
-  @media (min-width: 640px) {
-    :root {
-      --toad-size: 3.25rem;
-      --toad-inset: 0.375rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    :root {
-      --toad-size: 4rem;
-      --toad-inset: 0.5rem;
-    }
-  }
-
-  /* From here the gutter is wide enough to hold it outright, so it goes fully
-     opaque and can grow. */
-  @media (min-width: 1440px) {
-    :root {
-      --toad-size: 5.25rem;
-      --toad-inset: 0.75rem;
-      --toad-alpha: 1;
-    }
-  }
-
-  @media (min-width: 1728px) {
-    :root {
-      --toad-size: 6.5rem;
-      --toad-inset: 2rem;
-    }
-  }
-
-  /* vh units throughout so the path scales with the viewport instead of being
-     tuned to one height. The end position keeps the object clear of the bottom
-     edge at every size. */
-  @keyframes toad-travel {
-    0% {
-      opacity: 0;
-      transform: translate3d(0, 8vh, 0) scale(0.7) rotate(-10deg);
-    }
-    9% {
-      opacity: 0;
-      transform: translate3d(0, 12vh, 0) scale(0.82) rotate(-7deg);
-    }
-    16% {
-      opacity: 1;
-      transform: translate3d(0, 17vh, 0) scale(1) rotate(0deg);
-    }
-    38% {
-      transform: translate3d(-2vw, 31vh, 0) scale(1) rotate(7deg);
-    }
-    60% {
-      transform: translate3d(1vw, 43vh, 0) scale(1) rotate(-5deg);
-    }
-    82% {
-      transform: translate3d(-1vw, 56vh, 0) scale(1.04) rotate(4deg);
-    }
-    /* Lands at 68vh, not 62vh. At 62 it finished level with the footer's last
-       link column and cleared "Security & disclosure" by seven pixels at
-       1440 — fine there, a collision at other widths. 68vh drops it below the
-       columns entirely, into the band above the footer wordmark, where no
-       width can put text beside it. */
-    100% {
-      opacity: 1;
-      transform: translate3d(0, 68vh, 0) scale(1.12) rotate(0deg);
-    }
-  }
-
-  /* Bob, and the fade used to stand the companion down while a section is
-     showing the object at full size. Kept on an inner element so it composes
-     with the travel transform instead of fighting it. */
-  .toad-companion-inner {
-    opacity: var(--toad-alpha);
-    animation: toad-bob 5.5s ease-in-out infinite;
-    transition: opacity 500ms ease-out;
-  }
-
-  .toad-companion-inner[data-solo="true"] {
-    opacity: 0;
-  }
-
-  @keyframes toad-bob {
-    0%,
-    100% {
-      transform: translate3d(0, 0, 0);
-    }
-    50% {
-      transform: translate3d(0, -5px, 0);
+    to {
+      transform: translate3d(0, -7%, 0) rotate(3deg);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .toad-companion-inner {
+    .object-drift {
       animation: none;
+      transform: none;
+    }
+  }
+
+  /* Footer resting place. The object sits on the baseline of the oversized
+     wordmark, so the page ends on it. */
+  .object-settled {
+    animation: object-settle linear both;
+    animation-timeline: view();
+    animation-range: entry;
+  }
+
+  @keyframes object-settle {
+    from {
+      transform: translate3d(0, 26%, 0) scale(0.86);
+      opacity: 0.4;
+    }
+    to {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .object-settled {
+      animation: none;
+      transform: none;
+      opacity: 1;
     }
   }
 

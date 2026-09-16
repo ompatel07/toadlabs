@@ -1,6 +1,7 @@
 import { SplitText } from "@/components/brand/split-text";
 import { Asterisk, DotGrid, OutlineType } from "@/components/brand/decor";
 import { ParticleNetwork } from "@/components/brand/particle-network";
+import { BrandObject } from "@/components/brand/hero-object";
 import { cn } from "@/lib/utils";
 
 interface PageHeaderProps {
@@ -33,6 +34,14 @@ interface PageHeaderProps {
  * The watermark drifts on the page's scroll timeline, so the header has a layer
  * that moves independently of the type — the same depth trick as the mid-page
  * scene, at a distance small enough to sit behind a heading.
+ *
+ * Each header also carries the brand object, so every page opens on it rather
+ * than only the home page. Its size depends on whether the page passes an
+ * `aside`: with a card in the right column the object drops behind it at a
+ * smaller size and bleeds off the edge, and without one it takes the column
+ * outright. Below lg it is withdrawn entirely — the header stacks to a single
+ * column there and an object would either crowd the heading or shrink to a
+ * sticker.
  *
  * The title is a plain string rather than a node because SplitText needs the
  * text to segment it — a deliberate constraint, not an oversight.
@@ -102,7 +111,34 @@ export function PageHeader({
             ) : null}
           </div>
 
-          {aside ? <div className="lg:justify-self-end">{aside}</div> : null}
+          {/* Right column: the aside, then the object beneath it. Stacking
+              them beats layering — with the object behind the card only its
+              feet cleared the bottom edge, which read as an accident rather
+              than a composition. */}
+          <div className="hidden flex-col items-end lg:flex">
+            {aside}
+
+            <div
+              aria-hidden="true"
+              className={cn(
+                "pointer-events-none relative",
+                aside
+                  ? "-mr-10 -mb-24 w-[240px] xl:-mr-4 xl:w-[280px]"
+                  : "-mr-6 -mb-28 w-[340px] xl:-mr-2 xl:w-[400px]",
+              )}
+            >
+              <div className="scene-bloom absolute inset-[-22%] -z-10" />
+              <BrandObject
+                className="object-drift w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
+                sizes={aside ? "280px" : "400px"}
+              />
+            </div>
+          </div>
+
+          {/* Below lg the aside returns to the flow beneath the heading; the
+              object is withdrawn, since a single-column header has no room for
+              it that does not crowd the heading. */}
+          {aside ? <div className="lg:hidden">{aside}</div> : null}
         </div>
       </div>
     </header>

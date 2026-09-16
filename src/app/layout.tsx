@@ -6,7 +6,6 @@ import {
   Bagel_Fat_One,
 } from "next/font/google";
 import { siteConfig } from "@/config/site";
-import { ToadCompanion } from "@/components/brand/toad-companion";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { PageTransition } from "@/components/layout/page-transition";
@@ -117,10 +116,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <SiteFooter />
         </div>
-
-        {/* Outside the z-10 stack on purpose: it sets its own z-index (40) so
-            it sits above content but below the sticky header. */}
-        <ToadCompanion />
       </body>
     </html>
   );
