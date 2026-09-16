@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
 import { Section } from "@/components/layout/section";
 import { WorkIndex } from "@/components/sections/work-index";
+import { WriteupAnatomy } from "@/components/sections/writeup-anatomy";
 import { FinalCta } from "@/components/sections/final-cta";
 
 export const metadata: Metadata = {
@@ -71,6 +72,8 @@ export default function WorkPage() {
         <h2 className="sr-only">Case studies</h2>
         <WorkIndex studies={caseStudies} />
       </Section>
+
+      <WriteupAnatomy />
 
       <FinalCta
         title="Your project could be the first real one here"
