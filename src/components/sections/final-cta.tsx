@@ -4,6 +4,7 @@ import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/ui-brand/magnetic";
 import { Spotlight } from "@/components/ui-brand/spotlight";
+import { BrandObject } from "@/components/brand/hero-object";
 
 interface FinalCtaProps {
   title?: string;
@@ -15,9 +16,17 @@ interface FinalCtaProps {
  * Closing CTA. Reused on every page except /contact, which is itself the CTA.
  * `on-dark` flips the focus ring to lime so it stays visible on the slab.
  *
- * Keeps the bloom but no longer carries the object itself. The scroll
- * companion settles over this slab as the page ends, so a second copy here put
- * two of the same object in one viewport.
+ * Carries the brand object, bled off the right edge and behind the content, so
+ * it reads as part of the slab rather than an illustration parked beside the
+ * text. This closes every page on it.
+ *
+ * It was briefly removed while a fixed scroll companion was settling over this
+ * slab — two copies of the same object in one viewport read as clip art. That
+ * companion is gone, and taking the object with it left the right half of the
+ * CTA empty on every page.
+ *
+ * Hidden below lg, where the slab narrows and the object would crowd the
+ * buttons rather than sit behind them.
  */
 export function FinalCta({
   title = "Tell us what you're building",
@@ -29,13 +38,17 @@ export function FinalCta({
       <div className="container-tl">
         <Reveal>
           <Spotlight className="slab-dark on-dark slab-bloom relative overflow-hidden p-10 md:p-16 lg:p-20">
-            {/* Bloom kept, object dropped: the scroll companion is arriving
-                over this slab by the time it is on screen, and two of the same
-                object in one viewport reads as clip art rather than a motif. */}
+            {/* Decorative: the heading and buttons carry all the meaning. */}
             <div
               aria-hidden="true"
-              className="scene-bloom pointer-events-none absolute -right-10 -bottom-20 h-[380px] w-[380px] opacity-70"
-            />
+              className="pointer-events-none absolute -right-16 -bottom-24 hidden w-[380px] lg:block xl:-right-6 xl:w-[440px]"
+            >
+              <div className="scene-bloom absolute inset-[-18%] -z-10" />
+              <BrandObject
+                className="animate-hero-float w-full drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)]"
+                sizes="440px"
+              />
+            </div>
 
             <div className="relative flex max-w-[min(100%,660px)] flex-col gap-8 lg:max-w-[62%]">
               <div className="flex flex-col gap-5">
