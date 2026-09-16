@@ -1317,25 +1317,6 @@
     }
   }
 
-  /* Footer resting place. The object sits on the baseline of the oversized
-     wordmark, so the page ends on it. */
-  .object-settled {
-    animation: object-settle linear both;
-    animation-timeline: view();
-    animation-range: entry;
-  }
-
-  @keyframes object-settle {
-    from {
-      transform: translate3d(0, 26%, 0) scale(0.86);
-      opacity: 0.4;
-    }
-    to {
-      transform: translate3d(0, 0, 0) scale(1);
-      opacity: 1;
-    }
-  }
-
   .header-rule {
     animation: rule-draw 760ms cubic-bezier(0.65, 0, 0.35, 1) 120ms both;
   }

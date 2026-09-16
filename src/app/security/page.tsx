@@ -138,19 +138,22 @@ export default function SecurityPolicyPage() {
         </div>
       </Section>
 
-      {/* Data handling */}
-      <Section
-        dense
-        surface="white"
-        className="border-y border-[rgba(11,12,10,0.1)]"
-      >
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.5fr)] lg:gap-20">
+      {/* Data handling — the page's dark anchor. /security ran four light
+          sections in a row below the header, and how a tester handles your data
+          is the passage a reader most needs to stop and read, so it is the one
+          that earns being set apart.
+
+          A plain <section>, not <Section surface=...>: Section always emits a
+          surface utility, and that utility is defined later in the stylesheet
+          than .slab-dark, so it paints straight over the dark ground. */}
+      <section className="section-dense slab-dark on-dark relative overflow-clip">
+        <div className="container-tl grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.5fr)] lg:gap-20">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <p className="label-mono text-ink-soft">Your data</p>
-            <h2 className="type-h2 text-ink mt-5">
+            <p className="label-mono text-lime">Your data</p>
+            <h2 className="type-h2 mt-5 text-white">
               What happens to your data during an engagement
             </h2>
-            <p className="text-ink-soft measure mt-5 t-lead">
+            <p className="measure mt-5 t-lead text-white/70">
               We are asking you to hand over access to the thing you care most
               about protecting. Here is precisely how it is treated.
             </p>
@@ -160,19 +163,19 @@ export default function SecurityPolicyPage() {
             {dataHandling.map((item, index) => (
               <li
                 key={item.title}
-                className="grid grid-cols-[auto_1fr] gap-x-6 border-t border-[rgba(11,12,10,0.16)] py-8 md:gap-x-10"
+                className="group/row grid grid-cols-[auto_1fr] gap-x-6 border-t border-white/15 py-8 transition-colors duration-400 ease-out hover:bg-white/[0.035] md:gap-x-10"
               >
                 <span
-                  className="numeral text-ink/15 numeral-md leading-[0.8]"
+                  className="numeral numeral-md leading-[0.8] text-white/20 transition-colors duration-400 ease-out group-hover/row:text-[color:var(--lime)]"
                   aria-hidden="true"
                 >
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h3 className="font-display text-ink type-h3 font-bold">
+                  <h3 className="font-display type-h3 font-bold text-white">
                     {item.title}
                   </h3>
-                  <p className="text-ink-soft measure mt-2.5 t-base leading-relaxed">
+                  <p className="measure mt-2.5 t-base leading-relaxed text-white/65">
                     {item.body}
                   </p>
                 </div>
@@ -180,7 +183,7 @@ export default function SecurityPolicyPage() {
             ))}
           </ol>
         </div>
-      </Section>
+      </section>
 
       {/* Report structure */}
       <Section dense>

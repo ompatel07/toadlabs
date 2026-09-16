@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowRight, Check } from "lucide-react";
 import {
-  engagementPhases,
   securityFaqs,
   securityServices,
 } from "@/config/security";
@@ -11,8 +10,8 @@ import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
-import { Reveal } from "@/components/motion/reveal";
 import { SecurityCapabilities } from "@/components/sections/security-capabilities";
+import { EngagementPhases } from "@/components/sections/engagement-phases";
 import { SeverityExplorer } from "@/components/sections/severity-explorer";
 import { Compliance } from "@/components/sections/compliance";
 import { Deliverables } from "@/components/sections/deliverables";
@@ -108,62 +107,25 @@ export default function CybersecurityPage() {
         <SecurityCapabilities services={securityServices} />
       </Section>
 
-      {/* Engagement process */}
-      <Section
-        dense
-        surface="white"
-        className="border-y border-[rgba(11,12,10,0.1)]"
-      >
-        <SectionHeading
-          eyebrow="Engagement process"
-          title="Six phases, agreed before anything is touched"
-          description="The rules of engagement exist so that testing never becomes a surprise. You know what we will do, when, and who to call to stop it."
-        />
-
-        <ol className="mt-12 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-          {engagementPhases.map((phase, index) => (
-            <Reveal as="li" key={phase.number} index={index}>
-              <div className="bg-canvas relative flex h-full flex-col gap-3 overflow-hidden rounded-2xl p-6">
-                <span
-                  className="numeral text-ink/10 absolute -top-2 right-3 numeral-lg"
-                  aria-hidden="true"
-                >
-                  {phase.number}
-                </span>
-                <h3 className="font-display text-ink relative t-lead font-semibold">
-                  {phase.title}
-                </h3>
-                <p className="text-ink-soft relative t-sm leading-relaxed">
-                  {phase.description}
-                </p>
-                <ul className="relative mt-auto flex flex-wrap gap-1.5 pt-2">
-                  {phase.outputs.map((output) => (
-                    <li
-                      key={output}
-                      className="label-mono text-ink rounded-full bg-white px-2 py-0.5"
-                    >
-                      {output}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-          ))}
-        </ol>
-      </Section>
+      <EngagementPhases />
 
       <SeverityExplorer />
       <Deliverables dense />
 
-      {/* Methodology */}
-      <Section
-        dense
-        surface="white"
-        className="border-y border-[rgba(11,12,10,0.1)]"
-      >
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
+      {/* Methodology. Dark: this page previously ran nine consecutive light
+          sections below the header, and a standards table is the natural second
+          anchor — it is reference material, and setting it apart is how a
+          reader knows to stop skimming. */}
+      {/* A plain <section>, not <Section surface=...>. Section always emits a
+          surface utility (bg-canvas by default) and that utility is defined
+          later in the stylesheet than the .slab-dark component class, so it
+          painted cream straight over the dark ground and left white text on
+          cream at 1.16:1. */}
+      <section className="section-dense slab-dark on-dark relative overflow-clip">
+        <div className="container-tl grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
           <SectionHeading
             eyebrow="Methodology"
+            onDark
             title="Measured against published standards"
             description="Naming a methodology is a statement about process, not accreditation. We hold no certifications we have not earned, and we will not imply otherwise."
           />
@@ -174,14 +136,11 @@ export default function CybersecurityPage() {
                 Standards we test against and their scope
               </caption>
               <thead>
-                <tr className="border-b-2 border-[rgba(11,12,10,0.8)]">
-                  <th
-                    scope="col"
-                    className="label-mono text-ink-soft py-3 pr-4"
-                  >
+                <tr className="border-b-2 border-white/40">
+                  <th scope="col" className="label-mono py-3 pr-4 text-lime">
                     Standard
                   </th>
-                  <th scope="col" className="label-mono text-ink-soft py-3">
+                  <th scope="col" className="label-mono py-3 text-lime">
                     Applied to
                   </th>
                 </tr>
@@ -190,17 +149,17 @@ export default function CybersecurityPage() {
                 {standards.map((standard) => (
                   <tr
                     key={standard.name}
-                    className="border-b border-[rgba(11,12,10,0.12)]"
+                    className="border-b border-white/12 transition-colors duration-300 ease-out hover:bg-white/[0.04]"
                   >
                     <th scope="row" className="py-3.5 pr-4 align-top">
-                      <span className="font-display text-ink block t-base font-semibold">
+                      <span className="font-display block t-base font-semibold text-white">
                         {standard.name}
                       </span>
-                      <span className="text-ink-soft block t-xs">
+                      <span className="block t-xs text-white/50">
                         {standard.full}
                       </span>
                     </th>
-                    <td className="text-ink-soft py-3.5 align-top t-base">
+                    <td className="py-3.5 align-top t-base text-white/70">
                       {standard.scope}
                     </td>
                   </tr>
@@ -209,7 +168,7 @@ export default function CybersecurityPage() {
             </table>
           </div>
         </div>
-      </Section>
+      </section>
 
       <Compliance />
 
