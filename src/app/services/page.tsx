@@ -4,9 +4,10 @@ import { services } from "@/config/services";
 import { siteConfig } from "@/config/site";
 import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
-import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
 import { ServicesLedger } from "@/components/sections/services-ledger";
+import { EngagementModels } from "@/components/sections/engagement-models";
+import { CostDrivers } from "@/components/sections/cost-drivers";
 import { FinalCta } from "@/components/sections/final-cta";
 
 export const metadata: Metadata = {
@@ -102,44 +103,9 @@ export default function ServicesPage() {
         <ServicesLedger services={services} />
       </section>
 
-      <Section surface="white" className="border-y border-[rgba(11,12,10,0.1)]">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
-          <SectionHeading
-            eyebrow="Engagements"
-            title="How work usually starts"
-            description="Three shapes cover almost everything. If yours does not fit one, say so on the call and we will scope it honestly rather than force it into a tier."
-          />
+      <EngagementModels />
 
-          <ul className="flex flex-col gap-4">
-            {[
-              {
-                title: "Fixed-scope phase",
-                copy: "A defined piece of work with a written scope and a fixed price. Best when the problem is well understood and the boundary is clear.",
-              },
-              {
-                title: "Ongoing development",
-                copy: "A continuing engagement with weekly demos, for products that keep evolving. Cancellable — there is no lock-in that makes leaving expensive.",
-              },
-              {
-                title: "Discovery first",
-                copy: "A short paid piece of work that produces a scope, an architecture, and an estimate. Sometimes the honest answer is that you need less than you thought.",
-              },
-            ].map((item) => (
-              <li
-                key={item.title}
-                className="border-t border-[rgba(11,12,10,0.14)] pt-4"
-              >
-                <h3 className="font-display text-ink t-lead font-semibold">
-                  {item.title}
-                </h3>
-                <p className="text-ink-soft measure mt-1.5 t-base">
-                  {item.copy}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Section>
+      <CostDrivers />
 
       <FinalCta
         title="Tell us what you're building"
