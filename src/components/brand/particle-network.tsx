@@ -19,7 +19,14 @@ import { useEffect, useRef } from "react";
  *  - an IntersectionObserver stops the loop entirely when the hero is offscreen
  *  - the whole thing is skipped under reduced motion and on coarse pointers
  */
-export function ParticleNetwork({ className }: { className?: string }) {
+export function ParticleNetwork({
+  className,
+  tone = "ink",
+}: {
+  className?: string;
+  /** Ink particles vanish on a dark ground; "light" swaps them for white. */
+  tone?: "ink" | "light";
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -27,6 +34,10 @@ export function ParticleNetwork({ className }: { className?: string }) {
     if (!canvas) return;
     const context = canvas.getContext("2d", { alpha: true });
     if (!context) return;
+
+    const LINE_RGB = tone === "light" ? "255, 255, 255" : "11, 12, 10";
+    const NODE_FILL =
+      tone === "light" ? "rgba(255, 255, 255, 0.34)" : "rgba(11, 12, 10, 0.36)";
 
     // Runs under reduced motion as well, at a slower drift. Nodes move ~0.1px
     // per frame with no directional sweep, which is ambience rather than the
@@ -114,7 +125,7 @@ export function ParticleNetwork({ className }: { className?: string }) {
           const distance = Math.hypot(dx, dy);
           if (distance > LINK_DISTANCE) continue;
           const alpha = (1 - distance / LINK_DISTANCE) * 0.42;
-          context.strokeStyle = `rgba(11, 12, 10, ${alpha.toFixed(3)})`;
+          context.strokeStyle = `rgba(${LINE_RGB}, ${alpha.toFixed(3)})`;
           context.beginPath();
           context.moveTo(nodes[i].x, nodes[i].y);
           context.lineTo(nodes[j].x, nodes[j].y);
@@ -126,9 +137,7 @@ export function ParticleNetwork({ className }: { className?: string }) {
       for (const node of nodes) {
         const near =
           Math.hypot(node.x - pointerX, node.y - pointerY) < POINTER_RADIUS;
-        context.fillStyle = near
-          ? "rgba(168, 213, 32, 0.9)"
-          : "rgba(11, 12, 10, 0.36)";
+        context.fillStyle = near ? "rgba(199, 242, 60, 0.95)" : NODE_FILL;
         context.beginPath();
         context.arc(node.x, node.y, near ? 2.6 : 1.8, 0, Math.PI * 2);
         context.fill();
@@ -181,7 +190,7 @@ export function ParticleNetwork({ className }: { className?: string }) {
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("pointerleave", onPointerLeave);
     };
-  }, []);
+  }, [tone]);
 
   return (
     <canvas

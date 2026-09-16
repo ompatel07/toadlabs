@@ -2,16 +2,26 @@ import { process } from "@/config/home";
 import { OutlineType } from "@/components/brand/decor";
 
 /**
- * Four-step process — a sticky-scroll rail.
+ * Four-step process — a sticky heading against a filling spine.
  *
- * The heading pins while the steps travel past it. Another deliberate change of
- * archetype: no cards here, just oversized numerals, rules, and space. Sticky
- * behaviour is pure CSS `position: sticky`, so there is no scroll listener and
- * nothing to jank.
+ * The bones were right: a pinned heading, oversized numerals, no cards. What it
+ * lacked was any sense of progression, which is the one thing a process section
+ * is actually about — four ruled rows told you there were four of them and
+ * nothing else.
+ *
+ * Now a rule runs down the steps and fills as the list crosses the viewport,
+ * and each step's mark lights as it arrives. The section reads as something you
+ * are moving through rather than a list you are scrolling past, and the state
+ * can never disagree with the scroll position because it is not tracking it —
+ * it is driven by it.
+ *
+ * All CSS scroll timelines: no observer, no listener, nothing to desynchronise.
+ * overflow-clip rather than hidden, or those timelines would measure against
+ * this section instead of the document and freeze.
  */
 export function Process() {
   return (
-    <section className="section relative overflow-hidden">
+    <section className="section relative overflow-clip bg-white">
       <OutlineType className="absolute -top-4 right-0 text-[clamp(4rem,13vw,10rem)]">
         PROCESS
       </OutlineType>
@@ -31,26 +41,42 @@ export function Process() {
             </p>
           </div>
 
-          <ol className="flex flex-col">
+          {/* The spine sits in its own column so the rule is a real grid track
+              rather than a border that would have to fake its own fill. */}
+          <ol className="relative flex flex-col">
+            {/* Track and fill, aligned to the centre of the marks. */}
+            <span
+              aria-hidden="true"
+              className="absolute top-3 bottom-3 left-[7px] w-[2px] bg-[rgba(11,12,10,0.12)]"
+            />
+            <span
+              aria-hidden="true"
+              className="spine-fill bg-lime-deep absolute top-3 bottom-3 left-[7px] w-[2px]"
+            />
+
             {process.map((step) => (
               <li
                 key={step.number}
-                className="rise group grid grid-cols-[auto_1fr] gap-x-6 border-t border-[rgba(11,12,10,0.16)] py-8 md:gap-x-10 md:py-11"
+                className="group relative grid grid-cols-[auto_1fr] gap-x-6 py-8 md:gap-x-10 md:py-11"
               >
-                {/* Oversized numeral in the margin — the step index is the
-                    graphic element, so the row needs nothing else. */}
                 <span
-                  className="numeral text-ink/15 numeral-lg leading-[0.8] transition-colors duration-300 ease-out group-hover:text-[color:var(--lime-deep)]"
                   aria-hidden="true"
-                >
-                  {step.number}
-                </span>
+                  className="step-mark mt-3 size-4 shrink-0 rounded-full"
+                />
 
-                <div>
-                  <h3 className="font-display text-ink type-h2 font-bold">
-                    {step.title}
-                  </h3>
-                  <p className="text-ink-soft measure mt-3 t-base leading-relaxed">
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-baseline gap-4">
+                    <span
+                      className="numeral step-index numeral-md leading-none"
+                      aria-hidden="true"
+                    >
+                      {step.number}
+                    </span>
+                    <h3 className="font-display text-ink type-h3 font-bold">
+                      {step.title}
+                    </h3>
+                  </div>
+                  <p className="text-ink-soft measure t-base leading-relaxed">
                     {step.description}
                   </p>
                 </div>

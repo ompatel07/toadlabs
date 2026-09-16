@@ -1208,6 +1208,98 @@
     }
   }
 
+  /* Page-header watermark drift. Scroll-driven, tiny travel — it only has to
+     separate the watermark from the type in depth, not be noticed on its own.
+     Tier 2 (see the motion policy): it is scroll-tied page-scale movement, so
+     it stops under prefers-reduced-motion. */
+  .page-watermark {
+    animation: watermark-drift linear both;
+    animation-timeline: view();
+    animation-range: cover;
+  }
+
+  @keyframes watermark-drift {
+    from {
+      transform: translate3d(-3%, 0, 0);
+    }
+    to {
+      transform: translate3d(3%, 0, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-watermark {
+      animation: none;
+      transform: none;
+    }
+  }
+
+  /* ── Process spine ──────────────────────────────────────────────────────
+     A rule down the step list that fills as the list crosses the viewport,
+     plus a per-step mark that lights as each step arrives. Both are scroll-
+     driven CSS, so there is no observer and the fill can never disagree with
+     the scroll position.
+
+     Ranges are written as bare range names. `animation-range: entry 0% exit
+     100%` mis-parses to `entry exit 0%` and silently ends the animation as the
+     element starts to leave — the bare names are unambiguous.
+
+     Not gated on prefers-reduced-motion: nothing translates or scales across
+     the page. A line growing in place and a dot changing colour are the same
+     category as a progress bar. */
+  .spine-fill {
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+    animation: spine-grow linear both;
+    animation-timeline: view();
+    /* `cover`, not `contain`. For a list shorter than the viewport the contain
+       range runs only from fully-entered to starting-to-leave, which is a few
+       hundred pixels — the fill snapped from empty to full almost at once.
+       `cover` spans first touch to last touch. */
+    animation-range: cover;
+  }
+
+  @keyframes spine-grow {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  .step-mark {
+    animation: step-light linear both;
+    animation-timeline: view();
+    animation-range: entry;
+  }
+
+  @keyframes step-light {
+    from {
+      background-color: rgba(11, 12, 10, 0.16);
+      box-shadow: 0 0 0 0 rgba(199, 242, 60, 0);
+    }
+    to {
+      background-color: var(--lime-deep);
+      box-shadow: 0 0 0 6px rgba(199, 242, 60, 0.25);
+    }
+  }
+
+  .step-index {
+    animation: step-index-in linear both;
+    animation-timeline: view();
+    animation-range: entry;
+  }
+
+  @keyframes step-index-in {
+    from {
+      color: rgba(11, 12, 10, 0.14);
+    }
+    to {
+      color: rgba(11, 12, 10, 0.62);
+    }
+  }
+
   .header-rule {
     animation: rule-draw 760ms cubic-bezier(0.65, 0, 0.35, 1) 120ms both;
   }

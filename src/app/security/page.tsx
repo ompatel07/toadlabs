@@ -26,22 +26,22 @@ export default function SecurityPolicyPage() {
         title="How to report an issue, and how we handle yours"
         description="A security vendor should be held to the standard it sells. This page is the policy we operate under — published, dated, and machine-readable."
         aside={
-          <div className="bg-deep on-dark flex flex-col gap-4 rounded-3xl p-6 text-white lg:w-[320px]">
-            <p className="label-mono text-lime">Machine-readable</p>
-            <p className="t-base text-white/75">
+          <div className="card-solid flex flex-col gap-4 rounded-3xl p-6 lg:w-[320px]">
+            <p className="label-mono text-ink-soft">Machine-readable</p>
+            <p className="text-ink-soft t-base">
               Our disclosure contact is published to RFC 9116, so scanners and
               researchers can find it without guessing.
             </p>
             <a
               href="/.well-known/security.txt"
-              className="border-lime text-lime hover:bg-lime hover:text-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border px-5 t-sm font-medium transition-colors duration-250 ease-out"
+              className="border-ink text-ink hover:bg-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border-2 px-5 t-sm font-medium transition-colors duration-250 ease-out hover:text-white"
             >
               <FileText className="size-4" aria-hidden="true" />
               /.well-known/security.txt
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="inline-flex cursor-pointer items-center gap-2 t-sm text-white/75 underline underline-offset-4 hover:text-white"
+              className="text-ink-soft hover:text-ink inline-flex cursor-pointer items-center gap-2 t-sm underline underline-offset-4"
             >
               <Mail className="size-4" aria-hidden="true" />
               {siteConfig.email}

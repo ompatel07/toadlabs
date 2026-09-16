@@ -69,8 +69,8 @@ export default function CybersecurityPage() {
         title="We test the way an attacker would, then hand you the fix"
         description="Offensive testing run by engineers who ship production software. Every finding arrives with reproduction steps, real-world impact, and a fix that compiles in your codebase — never a scanner ID and a severity label."
         aside={
-          <div className="slab-dark on-dark flex flex-col gap-4 rounded-3xl p-6 lg:w-[320px]">
-            <p className="label-mono text-lime">Every engagement includes</p>
+          <div className="card-solid flex flex-col gap-4 rounded-3xl p-6 lg:w-[320px]">
+            <p className="label-mono text-ink-soft">Every engagement includes</p>
             <ul className="flex flex-col gap-2.5">
               {[
                 "Critical findings reported same day",
@@ -80,15 +80,15 @@ export default function CybersecurityPage() {
               ].map((item) => (
                 <li key={item} className="flex items-start gap-2.5">
                   <Check
-                    className="text-lime mt-0.5 size-4 shrink-0"
-                    strokeWidth={2}
+                    className="text-ink mt-0.5 size-4 shrink-0"
+                    strokeWidth={2.5}
                     aria-hidden="true"
                   />
-                  <span className="t-sm text-white/85">{item}</span>
+                  <span className="text-ink-soft t-sm">{item}</span>
                 </li>
               ))}
             </ul>
-            <ActionLink href="/contact" variant="lime" className="mt-1 w-full">
+            <ActionLink href="/contact" className="mt-1 w-full">
               Scope an engagement
               <ArrowRight className="size-4" aria-hidden="true" />
             </ActionLink>
