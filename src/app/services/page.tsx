@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
 import { ActionLink } from "@/components/ui-brand/action";
 import { ServicesLedger } from "@/components/sections/services-ledger";
-import { EngagementModels } from "@/components/sections/engagement-models";
+import { StackGrid } from "@/components/sections/stack-grid";
 import { CostDrivers } from "@/components/sections/cost-drivers";
 import { FinalCta } from "@/components/sections/final-cta";
 
@@ -103,7 +103,7 @@ export default function ServicesPage() {
         <ServicesLedger services={services} />
       </section>
 
-      <EngagementModels />
+      <StackGrid />
 
       <CostDrivers />
 

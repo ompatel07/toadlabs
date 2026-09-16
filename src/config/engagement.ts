@@ -1,98 +1,18 @@
 /**
- * How an engagement is shaped and what drives its cost.
+ * What drives the cost of an engagement.
  *
- * Both of these come from looking at what comparable studios publish. Every
- * larger firm lists cooperation models; almost none of them explain what
- * actually moves the price, and the ones that skip both leave the buyer to
- * guess. For a studio this size that gap is the opportunity — a client who can
- * work out roughly what they are buying before the call arrives at it ready.
+ * Comparable studios publish nothing on this — every route ends at "request an
+ * estimate". A client who can work out roughly what moves the number arrives at
+ * the call ready to have a real conversation.
  *
  * NO PRICES ARE PUBLISHED HERE, deliberately. Rate cards and ranges are
  * commercial terms for the owner to set, not something to infer from a form's
- * budget dropdown. What is here is the shape of the commercial relationship and
- * the honest list of what makes a number go up or down — useful without
- * committing anyone to a figure.
+ * budget dropdown.
+ *
+ * (An engagement-model comparison table also lived here. It was accurate and
+ * dull, and it was occupying the widest block on a page whose job is to show
+ * capability. The engagement shapes belong to the scoping conversation.)
  */
-
-export interface EngagementModel {
-  id: string;
-  name: string;
-  tagline: string;
-  /** Set on exactly one — it gets the emphasis column. */
-  common?: boolean;
-  bestFor: string;
-  shape: string;
-  commitment: string;
-  billing: string;
-  pickWhen: string;
-}
-
-export const engagementModels: EngagementModel[] = [
-  {
-    id: "discovery",
-    name: "Discovery",
-    tagline: "A short paid piece of work that ends in a plan",
-    bestFor: "A problem that is not yet a specification",
-    shape: "One or two engineers, one to three weeks",
-    commitment: "Fixed, ends with a document",
-    billing: "Fixed price",
-    pickWhen:
-      "You need an architecture, a scope and a defensible estimate before committing a budget — including the possibility that the answer is to build less.",
-  },
-  {
-    id: "fixed",
-    name: "Fixed scope",
-    tagline: "A defined phase at a price agreed up front",
-    common: true,
-    bestFor: "A well-understood problem with a clear boundary",
-    shape: "A small team for the length of the phase",
-    commitment: "Scope and price fixed in writing",
-    billing: "Fixed price, milestone-based",
-    pickWhen:
-      "The boundary is genuinely clear. If it is not, discovery first is cheaper than the change requests that follow a fixed price built on guesses.",
-  },
-  {
-    id: "squad",
-    name: "Ongoing squad",
-    tagline: "A continuing team with weekly demos",
-    bestFor: "A product that keeps evolving after launch",
-    shape: "A standing team, adjusted as priorities move",
-    commitment: "Rolling, cancellable with notice",
-    billing: "Monthly",
-    pickWhen:
-      "The roadmap is longer than the phase. You see working software every week rather than a status report, and nothing about leaving is engineered to be expensive.",
-  },
-  {
-    id: "embedded",
-    name: "Embedded engineers",
-    tagline: "Our engineers inside your team and your process",
-    bestFor: "An in-house team that needs capacity or a specific skill",
-    shape: "Named engineers, your standups, your board",
-    commitment: "Rolling, per engineer",
-    billing: "Monthly, per engineer",
-    pickWhen:
-      "You have the product direction and the process, and what you need is more hands or a skill you do not want to hire permanently.",
-  },
-  {
-    id: "security",
-    name: "Security engagement",
-    tagline: "Scoped testing with retest included",
-    bestFor: "A system that needs testing, built by anyone",
-    shape: "Testers for the agreed window, plus retest",
-    commitment: "Fixed, scoped before anything is touched",
-    billing: "Fixed price per engagement",
-    pickWhen:
-      "You need evidence rather than reassurance — a report your engineers can act on and your buyers can read, with the retest already in the price.",
-  },
-];
-
-/** The attributes compared, in column order. Keyed to the model fields. */
-export const engagementRows = [
-  { key: "bestFor", label: "Best for" },
-  { key: "shape", label: "Team shape" },
-  { key: "commitment", label: "Commitment" },
-  { key: "billing", label: "Billing" },
-] as const;
 
 /**
  * What actually moves the number.
