@@ -262,9 +262,12 @@ export function Stamp({
 export function OutlineType({
   children,
   className,
+  onDark = false,
 }: {
   children: React.ReactNode;
   className?: string;
+  /** Ink stroke is invisible on a dark ground; this swaps it for a light one. */
+  onDark?: boolean;
 }) {
   return (
     <span
@@ -274,7 +277,9 @@ export function OutlineType({
         className,
       )}
       style={{
-        WebkitTextStroke: "1.5px rgba(11,12,10,0.16)",
+        WebkitTextStroke: onDark
+          ? "1.5px rgba(255,255,255,0.14)"
+          : "1.5px rgba(11,12,10,0.16)",
         color: "transparent",
       }}
     >

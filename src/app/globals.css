@@ -1076,6 +1076,90 @@
      — it only ever reflects scroll position the visitor is already causing,
      which is the same category as a scrollbar. */
 
+  /* ── The mid-page scene ─────────────────────────────────────────────────
+     The hero establishes a visual language — depth, a lime bloom, glass, the
+     object itself — and until now the page abandoned all of it the moment you
+     scrolled past. Everything below was flat cream with black type, which is
+     why the site read as plainer than its own first screen.
+
+     This is that language restated once, inverted to dark, at the page's
+     natural resting point. */
+
+  .scene {
+    background:
+      radial-gradient(
+        120% 80% at 50% 18%,
+        rgba(199, 242, 60, 0.16) 0%,
+        rgba(199, 242, 60, 0) 60%
+      ),
+      var(--deep);
+  }
+
+  /* Bloom behind the object. Separate element so it can sit still while the
+     object drifts in front of it. */
+  .scene-bloom {
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(199, 242, 60, 0.32) 0%,
+      rgba(199, 242, 60, 0.1) 38%,
+      rgba(199, 242, 60, 0) 68%
+    );
+    filter: blur(6px);
+  }
+
+  /* Object parallax, driven by the section's own view timeline: it rises as
+     the scene crosses the viewport, so the scene has depth rather than being a
+     flat picture that happens to be dark. */
+  .scene-object {
+    animation: scene-rise linear both;
+    animation-timeline: view();
+    /* `cover` — the whole time any part of the element is in the scrollport.
+       Written as the bare range name on purpose: `entry 0% exit 100%` means the
+       same thing but the shorthand mis-parses it to `entry exit 0%`, which ends
+       the animation the instant the element starts to leave and froze the
+       object at a fixed transform. */
+    animation-range: cover;
+    will-change: transform;
+  }
+
+  @keyframes scene-rise {
+    from {
+      transform: translate3d(0, 9%, 0) scale(1.04);
+    }
+    to {
+      transform: translate3d(0, -9%, 0) scale(1);
+    }
+  }
+
+  /* Counter-parallax on the type: moving the two layers in opposite directions
+     is what separates them in depth. Half the distance, so the text stays
+     comfortably readable. */
+  .scene-type {
+    animation: scene-sink linear both;
+    animation-timeline: view();
+    animation-range: cover;
+  }
+
+  @keyframes scene-sink {
+    from {
+      transform: translate3d(0, -4%, 0);
+    }
+    to {
+      transform: translate3d(0, 4%, 0);
+    }
+  }
+
+  /* Parallax is genuine motion the visitor did not ask for, so both layers
+     stop dead under reduced motion. The scene keeps its depth from the bloom
+     and the layering, which do not move. */
+  @media (prefers-reduced-motion: reduce) {
+    .scene-object,
+    .scene-type {
+      animation: none;
+      transform: none;
+    }
+  }
+
   .header-rule {
     animation: rule-draw 760ms cubic-bezier(0.65, 0, 0.35, 1) 120ms both;
   }

@@ -4,6 +4,7 @@ import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/ui-brand/magnetic";
 import { Spotlight } from "@/components/ui-brand/spotlight";
+import { BrandObject } from "@/components/brand/hero-object";
 
 interface FinalCtaProps {
   title?: string;
@@ -14,6 +15,15 @@ interface FinalCtaProps {
 /**
  * Closing CTA. Reused on every page except /contact, which is itself the CTA.
  * `on-dark` flips the focus ring to lime so it stays visible on the slab.
+ *
+ * Carries the brand object, which closes the loop the hero opens: the object
+ * appears at the top of the page, again at the mid-page scene, and once more
+ * here. Three appearances make it a motif; one made it a decoration on the
+ * hero that the rest of the site never acknowledged.
+ *
+ * It sits half-bled off the right edge and behind the content, so it reads as
+ * part of the slab rather than as an illustration parked next to the text, and
+ * it is hidden below lg where it would only crowd the buttons.
  */
 export function FinalCta({
   title = "Tell us what you're building",
@@ -25,7 +35,19 @@ export function FinalCta({
       <div className="container-tl">
         <Reveal>
           <Spotlight className="slab-dark on-dark slab-bloom relative overflow-hidden p-10 md:p-16 lg:p-20">
-            <div className="relative flex flex-col gap-8">
+            {/* Decorative: the heading and buttons carry all the meaning. */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-16 -bottom-24 hidden w-[380px] opacity-90 lg:block xl:-right-8 xl:w-[440px]"
+            >
+              <div className="scene-bloom absolute inset-[-18%] -z-10" />
+              <BrandObject
+                className="animate-hero-float w-full drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)]"
+                sizes="440px"
+              />
+            </div>
+
+            <div className="relative flex max-w-[min(100%,660px)] flex-col gap-8 lg:max-w-[62%]">
               <div className="flex flex-col gap-5">
                 <h2 className="type-display max-w-3xl text-white">{title}</h2>
                 <p className="measure t-lead text-white/70">
