@@ -31,7 +31,10 @@ export function Manifesto() {
   // froze at a constant transform. `clip` clips the bled-off outline type
   // identically without creating a scrollport.
   return (
-    <section className="scene on-dark relative isolate overflow-clip py-24 md:py-36">
+    <section
+      data-toad-solo
+      className="scene on-dark relative isolate overflow-clip py-24 md:py-36"
+    >
       {/* Giant outline word behind everything, bled off both edges. */}
       <OutlineType
         onDark
