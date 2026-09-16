@@ -7,7 +7,6 @@ import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
 import { ActionLink } from "@/components/ui-brand/action";
 import { ServicesLedger } from "@/components/sections/services-ledger";
-import { Process } from "@/components/sections/process";
 import { FinalCta } from "@/components/sections/final-cta";
 
 export const metadata: Metadata = {
@@ -102,8 +101,6 @@ export default function ServicesPage() {
       <section className="section" aria-label="Services in detail">
         <ServicesLedger services={services} />
       </section>
-
-      <Process />
 
       <Section surface="white" className="border-y border-[rgba(11,12,10,0.1)]">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">

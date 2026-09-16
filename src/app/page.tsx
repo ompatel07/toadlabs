@@ -4,8 +4,6 @@ import { siteConfig } from "@/config/site";
 import { Hero } from "@/components/sections/hero";
 import { TrustStrip } from "@/components/sections/trust-strip";
 import { MetricsBand } from "@/components/sections/metrics-band";
-import { Sectors } from "@/components/sections/sectors";
-import { StandardsBar } from "@/components/sections/standards-bar";
 import { Pillars } from "@/components/sections/pillars";
 import { ServicesRail } from "@/components/sections/services-rail";
 import { SecurityPreview } from "@/components/sections/security-preview";
@@ -85,7 +83,6 @@ export default function HomePage() {
           (sectors), then evidence and objections. */}
       <Hero />
       <TrustStrip />
-      <StandardsBar />
       <Pillars />
       {/* Placed after Pillars, not before StandardsBar: both bands are dark
           slabs, and stacking them left the page with two ink blocks separated
@@ -96,7 +93,6 @@ export default function HomePage() {
       <SecurityPreview />
       <Process />
       <Guarantees />
-      <Sectors />
       <SelectedWork />
       <StackMarquee />
       <Faq />

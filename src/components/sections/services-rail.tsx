@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { services } from "@/config/services";
+import { services, homeServiceIds } from "@/config/services";
 import { Asterisk } from "@/components/brand/decor";
 import { tones, accentAt } from "@/lib/tones";
 import { cn } from "@/lib/utils";
@@ -11,8 +11,12 @@ import { cn } from "@/lib/utils";
  * On a large screen with a fine pointer the section pins and the track pans
  * sideways as you scroll through it — vertical scrolling drives horizontal
  * movement. It is the one place on the site where the interaction itself is
- * the surprise, and it suits a list of ten services far better than a grid,
- * which would either truncate them or turn into a wall.
+ * the surprise.
+ *
+ * Shows six, not all ten. A pinned rail costs vertical scroll in proportion to
+ * its track length, and ten cards spent 2,880px — over three screens — on what
+ * is a teaser for a page one click away. `homeServiceIds` already existed for
+ * exactly this and was going unused.
  *
  * Everywhere else it degrades to the same rail, scrolled by hand: touch,
  * narrow screens and reduced motion all get a swipeable snap row. Pinning is
@@ -27,6 +31,10 @@ import { cn } from "@/lib/utils";
  * All CSS — a named view-timeline on the section — so there is no scroll
  * listener and nothing to desynchronise.
  */
+const railServices = homeServiceIds
+  .map((id) => services.find((service) => service.id === id))
+  .filter((service): service is (typeof services)[number] => Boolean(service));
+
 export function ServicesRail() {
   return (
     <section className="rail-section relative">
@@ -39,7 +47,7 @@ export function ServicesRail() {
                 Everything we build
               </p>
               <h2 className="type-h2 text-ink mt-5 max-w-xl">
-                Ten things we do, end to end
+                Six of the ten things we do
               </h2>
             </div>
             <p className="text-ink-soft measure-tight t-base">
@@ -47,13 +55,14 @@ export function ServicesRail() {
                   and is dragged by hand under reduced motion or on touch, so
                   the copy must not promise one specific behaviour. */}
               Scoped around the outcome you need rather than a package tier.
-              All ten, side by side.
+              These six are the most asked for — all ten are on the services
+              page.
             </p>
           </div>
 
           <div className="rail-viewport">
             <ul className="rail-track">
-              {services.map((service, index) => {
+              {railServices.map((service, index) => {
                 const tone = tones[accentAt(index, [0, 4, 8])];
                 return (
                   <li

@@ -36,6 +36,13 @@ export function SiteHeader() {
     pathname === href || pathname.startsWith(`${href}/`);
 
   return (
+    <>
+      {/* Reading-position line. Decorative in the accessibility sense — the
+          information it carries is already available from the scrollbar — so it
+          is hidden from assistive tech rather than announced as a progressbar
+          that never receives focus. */}
+      <div className="scroll-progress" aria-hidden="true" />
+
     <header className="sticky top-0 z-50 pt-3 sm:pt-5">
       <div className="container-tl">
         <div className="glass-pill flex h-14 items-center justify-between gap-3 pr-2 pl-4 sm:h-16 sm:pr-3 sm:pl-5">
@@ -124,5 +131,6 @@ export function SiteHeader() {
         </div>
       </div>
     </header>
+    </>
   );
 }

@@ -899,8 +899,12 @@
   @media (min-width: 1024px) and (pointer: fine) {
     @supports (animation-timeline: view()) {
       .rail-section {
-        /* Height controls how much scrolling the pan consumes. */
-        height: 320vh;
+        /* Height controls how much scrolling the pan consumes, and it has to
+           track the length of the rail: the pan covers (track - viewport), so
+           leaving this at the ten-card value after cutting to six would pan the
+           shorter track across the same scroll distance and feel sluggish.
+           200vh keeps the original pan speed for a six-card track. */
+        height: 200vh;
       }
 
       .rail-sticky {
@@ -1027,6 +1031,50 @@
       transform: scaleX(1);
     }
   }
+
+  /* Scroll-as-navigation: a progress line pinned to the top of the viewport
+     that fills as the document scrolls. Pure CSS on a scroll() timeline, so
+     there is no listener, nothing to desynchronise, and no work on the main
+     thread during scroll.
+
+     Reading position matters more here than on most sites: the pages are long
+     and dense, and the one thing a visitor cannot tell from a sticky header is
+     how much is left. Deliberately 2px and lime-on-nothing — an indicator, not
+     a feature. */
+  .scroll-progress {
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline: 0;
+    z-index: 60;
+    height: 2px;
+    background: var(--lime-deep);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    animation: scroll-progress-grow linear both;
+    animation-timeline: scroll(root block);
+    pointer-events: none;
+  }
+
+  @keyframes scroll-progress-grow {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* No scroll-timeline support: show nothing rather than a bar stuck at zero,
+     which reads as a broken loading state. */
+  @supports not (animation-timeline: scroll(root block)) {
+    .scroll-progress {
+      display: none;
+    }
+  }
+
+  /* Not gated on prefers-reduced-motion. The line does not animate on its own
+     — it only ever reflects scroll position the visitor is already causing,
+     which is the same category as a scrollbar. */
 
   .header-rule {
     animation: rule-draw 760ms cubic-bezier(0.65, 0, 0.35, 1) 120ms both;

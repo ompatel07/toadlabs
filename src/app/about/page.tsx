@@ -6,7 +6,6 @@ import { Section, SectionHeading } from "@/components/layout/section";
 import { MetricsBand } from "@/components/sections/metrics-band";
 import { Sectors } from "@/components/sections/sectors";
 import { PrinciplesIndex } from "@/components/sections/principles-index";
-import { Guarantees } from "@/components/sections/guarantees";
 import { FinalCta } from "@/components/sections/final-cta";
 
 export const metadata: Metadata = {
@@ -168,7 +167,6 @@ export default function AboutPage() {
 
       <Sectors />
 
-      <Guarantees />
 
       <FinalCta
         title="Work with us"
