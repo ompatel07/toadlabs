@@ -73,30 +73,33 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Oversized wordmark sign-off in the hero's display face, clipped at
-            the baseline so it reads as a printed edge rather than a heading —
-            and the object's resting place. It recurs down every page and this
-            is where it stops, sitting on the wordmark just past the full stop,
-            so the site ends on the thing it opened with. */}
-        <div
-          aria-hidden="true"
-          className="relative mt-16 -mb-4 md:mt-20 md:-mb-8"
-        >
-          <div className="overflow-hidden">
+        {/* Sign-off: the object, then the oversized wordmark beneath it.
+            It sat ON the wordmark in the first version, which covered the
+            closing "S." so the name read "TOAD LAB", and the footer rule cut
+            across its feet. Giving it its own line costs a little height and
+            fixes both — it now reads as a mark above the name rather than
+            something dropped on top of it. */}
+        <div className="mt-16 flex flex-col items-center md:mt-20">
+          <div
+            aria-hidden="true"
+            className="relative w-[clamp(72px,9vw,124px)]"
+          >
+            <div className="scene-bloom absolute inset-[-30%] -z-10 opacity-75" />
+            <BrandObject
+              className="object-settled w-full drop-shadow-[0_16px_30px_rgba(11,12,10,0.28)]"
+              sizes="124px"
+            />
+          </div>
+
+          {/* Clipped at the baseline so it reads as a printed edge rather than
+              a heading. */}
+          <div
+            aria-hidden="true"
+            className="mt-5 -mb-4 w-full overflow-hidden md:-mb-8"
+          >
             <p className="numeral text-ink/8 text-center text-[clamp(3.5rem,15vw,13rem)] leading-[0.8] whitespace-nowrap select-none">
               TOAD LABS.
             </p>
-          </div>
-
-          {/* Anchored to the wordmark's own box, so it stays beside the full
-              stop as that type scales with the viewport instead of drifting
-              away from it at one width and colliding at another. */}
-          <div className="pointer-events-none absolute right-[1%] bottom-[2%] w-[13vw] min-w-[60px] max-w-[120px]">
-            <div className="scene-bloom absolute inset-[-28%] -z-10 opacity-70" />
-            <BrandObject
-              className="object-settled w-full drop-shadow-[0_18px_34px_rgba(11,12,10,0.3)]"
-              sizes="(max-width: 640px) 80px, 132px"
-            />
           </div>
         </div>
 

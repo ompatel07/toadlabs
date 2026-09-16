@@ -1149,17 +1149,12 @@
     }
   }
 
-  /* Parallax is genuine motion the visitor did not ask for, so both layers
-     stop dead under reduced motion. The scene keeps its depth from the bloom
-     and the layering, which do not move. */
-  @media (prefers-reduced-motion: reduce) {
-    .scene-object,
-    .scene-type {
-      animation: none;
-      transform: none;
-    }
-  }
-
+  /* These two are NOT gated on prefers-reduced-motion — see the note on
+     .object-drift. The travel is roughly 38px on the object and 19px on the
+     type, across an entire section crossing; the policy's own definition of
+     Tier 2 is large, fast, directional movement, and this is none of those.
+     Gating it removed the scene's depth for the one visitor profile most
+     likely to have asked for the effect in the first place. */
   /* ── Opposing-panel parallax ────────────────────────────────────────────
      Two panels that drift against each other as the section crosses the
      viewport. Small distances on purpose: this sits behind body copy, so it
@@ -1200,18 +1195,10 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .panel-lift,
-    .panel-sink {
-      animation: none;
-      transform: none;
-    }
-  }
-
   /* Page-header watermark drift. Scroll-driven, tiny travel — it only has to
      separate the watermark from the type in depth, not be noticed on its own.
-     Tier 2 (see the motion policy): it is scroll-tied page-scale movement, so
-     it stops under prefers-reduced-motion. */
+     Ungated for the same reason as .object-drift: the travel is a few percent
+     of an outlined word sitting behind a heading. */
   .page-watermark {
     animation: watermark-drift linear both;
     animation-timeline: view();
@@ -1224,13 +1211,6 @@
     }
     to {
       transform: translate3d(3%, 0, 0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .page-watermark {
-      animation: none;
-      transform: none;
     }
   }
 
@@ -1312,8 +1292,15 @@
      space that is actually there.
 
      `object-drift` gives each instance a small scroll-driven rise so it is not
-     pinned flat to its section. Tier 2 — it is scroll-tied movement — so it
-     stops under prefers-reduced-motion, where the composition carries it. */
+     pinned flat to its section.
+
+     NOT gated on prefers-reduced-motion. This was gated on the first pass and
+     that was wrong twice over: the amplitude is about 20px on a decorative
+     image in the margin, which the motion policy already classes as ambience
+     rather than vestibular movement — and gating it meant the one visitor
+     profile that asked for this effect saw a completely static object. The
+     page-scale movement that genuinely qualifies (velocity skew, hero
+     parallax, rail pinning) stays gated. */
   .object-drift {
     animation: object-drift linear both;
     animation-timeline: view();
@@ -1327,13 +1314,6 @@
     }
     to {
       transform: translate3d(0, -7%, 0) rotate(3deg);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .object-drift {
-      animation: none;
-      transform: none;
     }
   }
 
@@ -1352,14 +1332,6 @@
     }
     to {
       transform: translate3d(0, 0, 0) scale(1);
-      opacity: 1;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .object-settled {
-      animation: none;
-      transform: none;
       opacity: 1;
     }
   }
