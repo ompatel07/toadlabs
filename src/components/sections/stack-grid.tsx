@@ -89,7 +89,7 @@ export function StackGrid() {
                 >
                   <span
                     className={cn(
-                      "inline-flex cursor-default items-center rounded-full border px-3.5 py-1.5 t-sm font-medium transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:hover:-translate-y-0.5",
+                      "inline-flex cursor-default items-center rounded-full border px-3.5 py-1.5 t-sm font-medium transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5",
                       lane.dark
                         ? "border-white/22 text-white/85 hover:border-lime hover:bg-lime hover:text-ink"
                         : "border-[rgba(11,12,10,0.18)] text-ink hover:border-ink hover:bg-ink hover:text-white",

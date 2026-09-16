@@ -45,7 +45,7 @@ export function CostDrivers() {
                     by colour alone. */}
                 <span
                   className={cn(
-                    "inline-flex size-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover/cost:-rotate-6",
+                    "inline-flex size-11 shrink-0 items-center justify-center rounded-xl transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cost:-rotate-6",
                     down ? "bg-lime text-ink" : "bg-ink text-white",
                   )}
                 >
@@ -58,7 +58,7 @@ export function CostDrivers() {
 
                 <div className="flex flex-col gap-1.5">
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h3 className="font-display text-ink t-lead font-bold transition-transform duration-300 ease-out motion-safe:md:group-hover/cost:translate-x-1.5">
+                    <h3 className="font-display text-ink t-lead font-bold transition-transform duration-300 ease-out md:group-hover/cost:translate-x-1.5">
                       {driver.title}
                     </h3>
                     <span className="label-mono text-ink-soft">

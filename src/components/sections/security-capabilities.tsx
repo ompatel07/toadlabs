@@ -44,7 +44,7 @@ export function SecurityCapabilities({
             <article
               id={service.id}
               className={cn(
-                "group/cap relative flex h-full scroll-mt-28 flex-col gap-3.5 overflow-hidden rounded-2xl p-6 transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:hover:-translate-y-1",
+                "group/cap relative flex h-full scroll-mt-28 flex-col gap-3.5 overflow-hidden rounded-2xl p-6 transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1",
                 dark ? "slab-dark on-dark" : "card-solid",
               )}
             >
@@ -53,7 +53,7 @@ export function SecurityCapabilities({
                   clutter. */}
               {dark ? (
                 <service.icon
-                  className="pointer-events-none absolute -right-8 -bottom-8 size-44 text-white/[0.05] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover/cap:-rotate-12"
+                  className="pointer-events-none absolute -right-8 -bottom-8 size-44 text-white/[0.05] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cap:-rotate-12"
                   strokeWidth={0.75}
                   aria-hidden="true"
                 />

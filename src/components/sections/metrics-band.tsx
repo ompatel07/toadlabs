@@ -2,41 +2,44 @@
 
 import { useEffect, useRef, useState } from "react";
 import { metrics } from "@/config/proof";
-import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { Asterisk } from "@/components/brand/decor";
 
 /**
- * Track record band.
+ * Track record.
  *
- * The figures roll like an odometer rather than counting up. A plain count-up
- * reads as a number that happens to change; digit reels read as a mechanism,
- * and on a four-figure band that difference is the whole effect — the previous
- * version animated correctly and still went unnoticed.
+ * Was four equal cells in a row: every figure claiming the same weight, so the
+ * eye assigned none of them any, and the number that actually matters — how
+ * much work has shipped — read as one item in a list.
+ *
+ * Now the lead figure dominates at display scale with a ghost copy of itself
+ * outlined behind it, and the other three sit as a hairline index beside it.
+ * A hierarchy is a design decision; a 4-up grid is the absence of one.
+ *
+ * MOTION POLICY
+ * The reels run for everyone. prefers-reduced-motion is for large, fast,
+ * directional movement that can trigger a vestibular response — a digit
+ * turning over inside its own em box is none of those, and gating it meant
+ * anyone with the OS setting on saw a static site with no indication anything
+ * was ever meant to move. Parallax and page-scale drift stay gated; this does
+ * not. (Tier definitions are in globals.css.)
  *
  * Each reel is 0-9 printed twice and translated to (10 + target), so every
- * digit makes one full revolution before it lands. Without the doubled strip a
- * digit whose target is 0 would travel nowhere and sit still while its
- * neighbours span, which is exactly the case for two of the three digits in
- * "500".
+ * digit makes a full revolution before it lands. Without the doubled strip a
+ * digit whose target is 0 travels nowhere and sits still while its neighbours
+ * spin — which is two of the three digits in "500".
  *
- * Accessibility:
- *  - the true figure is rendered server-side in a visually-hidden span, so it
- *    is what a screen reader announces and what a no-JS visitor sees; the reels
- *    are aria-hidden and never announce intermediate values
- *  - under reduced motion no reel is built at all — the figure is simply
- *    printed, with no transform to settle
- *  - tabular-nums plus a fixed per-digit width stops the row reflowing as the
- *    digits change
+ * The true figure stays in a visually-hidden span, so assistive tech and a
+ * no-JS render get the number and never the intermediate digits.
  */
 export function MetricsBand() {
+  const [lead, ...rest] = metrics;
+
   return (
     <section className="slab-dark on-dark relative isolate overflow-clip py-16 md:py-24">
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-[0.07]" />
-      {/* Lime wash rising behind the figures, so the row sits in light rather
-          than on a flat black field. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 -bottom-1/3 -z-10 h-[90%] bg-[radial-gradient(60%_70%_at_50%_100%,rgba(199,242,60,0.22)_0%,rgba(199,242,60,0)_70%)]"
+        className="pointer-events-none absolute -bottom-1/4 left-0 -z-10 h-[85%] w-[70%] bg-[radial-gradient(60%_70%_at_30%_100%,rgba(199,242,60,0.26)_0%,rgba(199,242,60,0)_70%)]"
       />
 
       <div className="container-tl relative">
@@ -45,30 +48,58 @@ export function MetricsBand() {
           Track record
         </h2>
 
-        <ul className="mt-10 grid gap-px overflow-hidden rounded-2xl bg-white/12 sm:grid-cols-2 lg:grid-cols-4">
-          {metrics.map((metric, index) => (
-            <li
-              key={metric.label}
-              className="group/metric bg-deep relative flex flex-col gap-2 p-7 transition-colors duration-500 ease-out hover:bg-[#162116] md:p-8"
+        <div className="mt-10 grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:items-center lg:gap-16">
+          {/* Lead figure. */}
+          <div className="relative">
+            {/* Outlined ghost of the same number, bled off the left edge. */}
+            <span
+              aria-hidden="true"
+              className="numeral pointer-events-none absolute -top-6 -left-[6%] -z-10 text-[clamp(9rem,20vw,17rem)] leading-none whitespace-nowrap select-none"
+              style={{ WebkitTextStroke: "1.5px rgba(199,242,60,0.16)", color: "transparent" }}
             >
-              <Odometer
-                value={metric.value}
-                suffix={metric.suffix}
-                delay={index * 140}
-              />
-              <p className="font-display t-lead font-bold text-white">
-                {metric.label}
-              </p>
-              <p className="t-sm leading-relaxed text-white/60">{metric.detail}</p>
+              {lead.value}
+            </span>
 
-              {/* Lime rule that draws across the cell on hover. */}
-              <span
-                aria-hidden="true"
-                className="bg-lime absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover/metric:scale-x-100"
-              />
-            </li>
-          ))}
-        </ul>
+            <Odometer
+              value={lead.value}
+              suffix={lead.suffix}
+              delay={0}
+              className="text-[clamp(5rem,13vw,11rem)]"
+            />
+
+            <p className="font-display mt-4 type-h3 font-bold text-white">
+              {lead.label}
+            </p>
+            <p className="measure mt-3 t-base leading-relaxed text-white/60">
+              {lead.detail}
+            </p>
+          </div>
+
+          {/* Supporting figures as a hairline index. */}
+          <ul className="border-t border-white/15">
+            {rest.map((metric, index) => (
+              <li
+                key={metric.label}
+                className="group/row grid grid-cols-[auto_1fr] items-baseline gap-5 border-b border-white/15 py-6 transition-colors duration-400 ease-out hover:bg-white/[0.04] md:gap-8"
+              >
+                <Odometer
+                  value={metric.value}
+                  suffix={metric.suffix}
+                  delay={240 + index * 160}
+                  className="text-[clamp(2.75rem,6vw,4.25rem)]"
+                />
+                <div>
+                  <p className="font-display t-lead font-bold text-white transition-transform duration-400 ease-out md:group-hover/row:translate-x-1.5">
+                    {metric.label}
+                  </p>
+                  <p className="mt-1.5 t-sm leading-relaxed text-white/55">
+                    {metric.detail}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );
@@ -80,79 +111,72 @@ function Odometer({
   value,
   suffix,
   delay,
+  className,
 }: {
   value: number;
   suffix?: string;
   delay: number;
+  className?: string;
 }) {
-  const reduced = useReducedMotion();
   const ref = useRef<HTMLSpanElement>(null);
   const [rolled, setRolled] = useState(false);
 
   useEffect(() => {
-    if (reduced) return;
     const node = ref.current;
     if (!node) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         if (!entries[0].isIntersecting) return;
         observer.disconnect();
         setRolled(true);
       },
-      { threshold: 0.35 },
+      { threshold: 0.3 },
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [reduced]);
+  }, []);
 
   const digits = String(value).split("");
 
   return (
-    <span ref={ref} className="numeral numeral-lg text-lime leading-none">
+    <span
+      ref={ref}
+      className={`numeral text-lime block leading-none ${className ?? ""}`}
+    >
       <span className="sr-only">
         {value}
         {suffix}
       </span>
 
       <span aria-hidden="true" className="flex items-end tabular-nums">
-        {reduced ? (
-          <>
-            {value}
-            {suffix}
-          </>
-        ) : (
-          <>
-            {digits.map((digit, index) => (
-              <span
-                key={index}
-                className="relative inline-block h-[1em] overflow-hidden"
-                style={{ width: "0.62em" }}
-              >
-                <span
-                  className="absolute inset-x-0 top-0 flex flex-col transition-transform duration-[1600ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-                  style={{
-                    // em, NOT %. A percentage translateY resolves against
-                    // the element's OWN height, and this reel is 20 rows tall
-                    // — so -1500% travelled 300em and put every digit off
-                    // screen. Each row is exactly 1em, so em maps 1:1 to rows.
-                    transform: rolled
-                      ? `translateY(-${10 + Number(digit)}em)`
-                      : "translateY(0)",
-                    transitionDelay: `${delay + index * 90}ms`,
-                  }}
-                >
-                  {DIGITS.map((d, i) => (
-                    <span key={i} className="block h-[1em] text-center leading-[1em]">
-                      {d}
-                    </span>
-                  ))}
+        {digits.map((digit, index) => (
+          <span
+            key={index}
+            className="relative inline-block h-[1em] overflow-hidden"
+            style={{ width: "0.62em" }}
+          >
+            <span
+              className="absolute inset-x-0 top-0 flex flex-col transition-transform duration-[1700ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+              style={{
+                // em, NOT %. A percentage translateY resolves against the
+                // element's OWN height, and this reel is 20 rows tall — so
+                // -1500% travelled 300em and put every digit off screen. Each
+                // row is exactly 1em, so em maps 1:1 to rows.
+                transform: rolled
+                  ? `translateY(-${10 + Number(digit)}em)`
+                  : "translateY(0)",
+                transitionDelay: `${delay + index * 100}ms`,
+              }}
+            >
+              {DIGITS.map((d, i) => (
+                <span key={i} className="block h-[1em] text-center leading-[1em]">
+                  {d}
                 </span>
-              </span>
-            ))}
-            {suffix}
-          </>
-        )}
+              ))}
+            </span>
+          </span>
+        ))}
+        {suffix}
       </span>
     </span>
   );

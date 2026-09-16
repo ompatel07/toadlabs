@@ -47,7 +47,7 @@ export function ServicesLedger({ services }: { services: Service[] }) {
             <span
               aria-hidden="true"
               className={cn(
-                "pointer-events-none absolute inset-0 origin-left scale-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover/row:scale-x-100",
+                "pointer-events-none absolute inset-0 origin-left scale-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/row:scale-x-100",
                 dark ? "bg-white/[0.04]" : "bg-[rgba(199,242,60,0.16)]",
               )}
             />
@@ -73,7 +73,7 @@ export function ServicesLedger({ services }: { services: Service[] }) {
 
                   <span
                     className={cn(
-                      "inline-flex size-13 shrink-0 items-center justify-center rounded-2xl transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover/row:-rotate-6",
+                      "inline-flex size-13 shrink-0 items-center justify-center rounded-2xl transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/row:-rotate-6",
                       dark ? "bg-lime text-ink" : "bg-ink text-white",
                     )}
                   >
@@ -86,7 +86,7 @@ export function ServicesLedger({ services }: { services: Service[] }) {
               <div className="flex flex-col gap-4">
                 <h2
                   className={cn(
-                    "font-display type-h2 font-bold transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:lg:group-hover/row:translate-x-2",
+                    "font-display type-h2 font-bold transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] lg:group-hover/row:translate-x-2",
                     dark ? "text-white" : "text-ink",
                   )}
                 >

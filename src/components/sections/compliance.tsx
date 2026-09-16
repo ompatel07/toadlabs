@@ -109,7 +109,7 @@ export function Compliance() {
               style={{ animationDelay: `${Math.min(index, 5) * 70}ms` }}
             >
               <div className="flex items-start justify-between gap-4">
-                <span className="bg-ink inline-flex size-11 items-center justify-center rounded-xl text-white transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover/prac:-rotate-6">
+                <span className="bg-ink inline-flex size-11 items-center justify-center rounded-xl text-white transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/prac:-rotate-6">
                   <practice.icon
                     className="size-5"
                     strokeWidth={1.75}

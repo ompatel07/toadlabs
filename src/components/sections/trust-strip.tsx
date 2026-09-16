@@ -16,8 +16,11 @@ import { cn } from "@/lib/utils";
  * to ink rather than from it, which keeps one cell visually dominant without
  * giving it a different interaction.
  *
- * Every transform is behind motion-safe; the colour change alone carries the
- * hover state for anyone who has asked for less movement.
+ * The wipe is NOT gated on prefers-reduced-motion. That setting exists for
+ * large, fast, directional movement that can trigger a vestibular response; a
+ * fill rising inside a card the visitor is pointing at is none of those, and
+ * gating it meant anyone with the OS setting on got four inert boxes with no
+ * sign the site had any behaviour at all. Page-scale parallax stays gated.
  */
 export function TrustStrip() {
   return (
@@ -61,7 +64,7 @@ export function TrustStrip() {
                     <span
                       aria-hidden="true"
                       className={cn(
-                        "pointer-events-none absolute inset-0 -z-10 origin-bottom scale-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover/cell:scale-y-100",
+                        "pointer-events-none absolute inset-0 -z-10 origin-bottom scale-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cell:scale-y-100",
                         accent ? "bg-ink" : "bg-ink",
                       )}
                     />
@@ -81,7 +84,7 @@ export function TrustStrip() {
 
                     <span
                       className={cn(
-                        "inline-flex size-11 items-center justify-center rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-safe:group-hover/cell:rotate-[-8deg]",
+                        "inline-flex size-11 items-center justify-center rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cell:rotate-[-8deg]",
                         accent
                           ? "bg-ink text-lime group-hover/cell:bg-lime group-hover/cell:text-ink"
                           : "bg-canvas text-ink group-hover/cell:bg-lime",

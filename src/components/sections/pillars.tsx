@@ -152,7 +152,7 @@ export function Pillars() {
               >
                 {entry.cta.label}
                 <ArrowUpRight
-                  className="size-4 transition-transform duration-300 ease-out motion-safe:group-hover/cta:translate-x-0.5 motion-safe:group-hover/cta:-translate-y-0.5"
+                  className="size-4 transition-transform duration-300 ease-out group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5"
                   aria-hidden="true"
                 />
               </a>
