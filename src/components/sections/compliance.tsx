@@ -97,8 +97,8 @@ export function Compliance() {
       <Section>
         <SectionHeading
           eyebrow="Built to be auditable"
-          title="What makes a build compliance-compatible"
-          description="Every vendor says they support compliance. These are the six decisions that decide whether an audit is a review or a rewrite — and they are taken in the first week, not the last."
+          title="What makes software straightforward to audit"
+          description="Every vendor says they support compliance. These six decisions determine whether your audit is a review or a rewrite — and they get made in the first week of a build, not the last."
         />
 
         <ul className="mt-12 grid gap-px overflow-hidden rounded-3xl bg-[rgba(11,12,10,0.14)] md:grid-cols-2 xl:grid-cols-3">

@@ -92,37 +92,37 @@ export const guarantees: Guarantee[] = [
   {
     title: "You own everything",
     description:
-      "Your repository, your cloud accounts, your domains, from the first commit. No proprietary layer you have to keep paying to keep running.",
+      "Your repository, your cloud accounts, your domains — from the first commit. Nothing proprietary that you have to keep paying us to keep running.",
     icon: GitPullRequest,
   },
   {
     title: "Retest is included",
     description:
-      "A finding is not closed because someone says it is fixed. We verify it and reissue the report, so closure is evidenced rather than claimed.",
+      "A finding is not closed because someone says it is fixed. We verify it and reissue the report, so you can prove it closed rather than claim it.",
     icon: RefreshCw,
   },
   {
     title: "Least-privilege access",
     description:
-      "We ask for the narrowest access that lets us do the agreed work, on named accounts you can revoke, and we tell you what we intend to touch before we touch it.",
+      "We ask for the least access that lets us do the agreed work, on named accounts you can revoke at any time — and we tell you what we intend to touch before we touch it.",
     icon: KeyRound,
   },
   {
     title: "Data returned or destroyed",
     description:
-      "Test data, credentials and evidence are handed back or securely destroyed when the engagement ends, and we confirm it in writing.",
+      "When the engagement ends, all test data, credentials and evidence are handed back or securely destroyed — and we confirm it in writing.",
     icon: Trash2,
   },
   {
     title: "NDA before scoping",
     description:
-      "Happy to sign yours before you tell us anything about the system. The scoping conversation happens under it, not after.",
+      "We will sign yours before you tell us anything about the system. The scoping conversation happens under it, not after.",
     icon: ScrollText,
   },
   {
     title: "Findings you can act on",
     description:
-      "Reproduction steps, real-world impact, and a concrete fix for every finding. If we cannot explain how it would be exploited, it does not go in as a finding.",
+      "Every finding comes with steps to reproduce it, its real-world impact, and a specific fix. If we cannot explain how it would be exploited, it does not go in the report as a finding.",
     icon: FileSearch,
   },
 ];
@@ -139,7 +139,7 @@ export const deliverables: Deliverable[] = [
   {
     title: "Technical report",
     description:
-      "Written for the engineers who have to fix it, not to pad a page count.",
+      "Written for the engineers who have to fix it — not padded to justify a page count.",
     detail: [
       "Reproduction steps for every finding",
       "Affected endpoints, parameters, and versions",
@@ -151,7 +151,7 @@ export const deliverables: Deliverable[] = [
   {
     title: "Severity breakdown",
     description:
-      "Prioritised by exploitability in your actual deployment, not raw scanner output.",
+      "Ordered by what is genuinely exploitable in your deployment, not by raw scanner output.",
     detail: [
       "Critical through informational, with reasoning",
       "Business impact stated in plain language",
@@ -163,7 +163,7 @@ export const deliverables: Deliverable[] = [
   {
     title: "Retest & sign-off",
     description:
-      "The part most vendors charge extra for. It is part of the engagement.",
+      "The part most vendors charge extra for. With us it is part of the price.",
     detail: [
       "Retest after you remediate",
       "Updated report showing what closed",

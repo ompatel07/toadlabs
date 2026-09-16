@@ -24,19 +24,19 @@ const whatHappensNext = [
     when: "Within a day",
     title: "An engineer reads it",
     copy:
-      "Not a sales team, not a routing rule. The person who replies is one of the people who would do the work.",
+      "Not a sales team, not a routing rule. Whoever replies is one of the people who would actually do the work.",
   },
   {
     when: "The reply",
     title: "A real answer, or a real no",
     copy:
-      "If it is a fit, we propose a 30-minute call and tell you what we would want to see beforehand. If it is not, we say so and point you somewhere better where we can.",
+      "If it is a fit, we propose a 30-minute call and tell you what would help us to see beforehand. If it is not, we say so — and point you somewhere better where we can.",
   },
   {
     when: "The call",
     title: "Scoping, not a pitch",
     copy:
-      "We spend it on your system and your constraints. You leave with an approach and a rough shape of cost, whether or not you hire us.",
+      "We spend it on your system and your constraints, not on slides. You leave with an approach and a rough shape of the cost, whether or not you hire us.",
   },
 ];
 
@@ -46,7 +46,7 @@ export default function ContactPage() {
       <PageHeader
         eyebrow="Contact"
         title="Start with the problem, not the spec"
-        description="Describe what is actually going wrong, or what you need tested. You get a direct answer from the engineers who would do the work — including if the answer is that you need less than you think."
+        description="Tell us what is actually going wrong, or what you need tested. You get a straight answer from the engineers who would do the work — including if that answer is that you need less than you think."
       />
 
       <TickerStrip

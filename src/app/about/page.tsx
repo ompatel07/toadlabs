@@ -57,7 +57,7 @@ export default function AboutPage() {
       <PageHeader
         eyebrow="About"
         title="We maintain what we build. That changes how we build."
-        description="A founder-led studio in Ahmedabad running its own products alongside client work. The habits that make software cheap to change in year two are the ones we already need for ourselves — you inherit them by default."
+        description="A founder-led studio in Ahmedabad, running its own products alongside client work. The habits that keep software cheap to change in year two are ones we already need for ourselves — you inherit them by default."
       />
 
       <TickerStrip
@@ -157,7 +157,7 @@ export default function AboutPage() {
         <SectionHeading
           eyebrow="Principles"
           title="How we actually work"
-          description="Not values on a wall. These are the rules that decide arguments when a project gets tight."
+          description="Not values on a wall. These are the rules that settle arguments when a project gets tight."
         />
 
         <div className="mt-12">
@@ -170,7 +170,7 @@ export default function AboutPage() {
 
       <FinalCta
         title="Work with us"
-        description="Tell us what you're building, or what you need tested. We'll tell you honestly whether we're the right studio for it."
+        description="Tell us what you are building, or what you need tested. We will tell you honestly whether we are the right studio for it."
       />
     </>
   );

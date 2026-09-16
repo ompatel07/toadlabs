@@ -9,7 +9,7 @@ export function Deliverables({ dense = false }: { dense?: boolean }) {
     <Section dense={dense}>
       <SectionHeading
         eyebrow="What you get"
-        title="Three things land, and one of them is the retest"
+        title="What lands at the end — including the retest"
         description="A security engagement should end with something your engineers can act on and something your buyers can read. Not a scanner export with a logo on it."
       />
 

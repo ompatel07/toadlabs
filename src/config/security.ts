@@ -32,7 +32,7 @@ export const securityServices: SecurityService[] = [
     id: "vapt",
     title: "VAPT",
     summary:
-      "Assessment and penetration testing across applications, APIs and network surface. Tooling for coverage, hands on keyboard for everything that requires understanding your business logic.",
+      "Assessment and penetration testing across your applications, APIs and network. Tools give us coverage; a tester on the keyboard finds everything that requires understanding how your business actually works.",
     scope: [
       "External and internal network testing",
       "Web application and API assessment",
@@ -46,7 +46,7 @@ export const securityServices: SecurityService[] = [
     id: "pentesting",
     title: "Web & mobile penetration testing",
     summary:
-      "Goal-oriented manual testing. Scanners find known signatures; the findings that matter usually come from chaining three low-severity issues into one that ends with your data.",
+      "Manual testing with a goal, not a checklist. Scanners find known signatures — the findings that matter usually come from chaining three 'low severity' issues into one that ends with your data.",
     scope: [
       "Authentication, session and token handling",
       "Authorisation and multi-tenant isolation",
@@ -60,7 +60,7 @@ export const securityServices: SecurityService[] = [
     id: "audits",
     title: "Security audits",
     summary:
-      "A structured review of how the system is built and operated, mapped to a verification standard so you get measured coverage rather than a list of one engineer's opinions.",
+      "A structured review of how your system is built and run, mapped to a published verification standard. You get measured coverage you can point at — not one engineer's list of opinions.",
     scope: [
       "Architecture and trust-boundary review",
       "Control coverage against a chosen ASVS level",
@@ -74,7 +74,7 @@ export const securityServices: SecurityService[] = [
     id: "code-review",
     title: "Secure code review",
     summary:
-      "Reading the source, not just probing the surface. Broken object-level authorisation is close to invisible from outside and obvious the moment you read the handler.",
+      "We read the source, not just probe the surface. Some of the most damaging flaws — like a user being able to load another customer's records — are nearly invisible from outside and obvious the moment you read the code.",
     scope: [
       "Authorisation logic and access-control paths",
       "Injection, deserialisation and SSRF sinks",
@@ -88,7 +88,7 @@ export const securityServices: SecurityService[] = [
     id: "cloud",
     title: "Cloud security posture",
     summary:
-      "Review of your AWS, GCP or Azure footprint — IAM, exposure, storage, and the defaults nobody revisited after the first deploy went out under deadline.",
+      "A review of your AWS, GCP or Azure setup: permissions, what is exposed to the internet, how data is stored, and the defaults nobody revisited after the first deploy went out under deadline.",
     scope: [
       "IAM roles, policies and privilege creep",
       "Public exposure and network segmentation",
@@ -102,7 +102,7 @@ export const securityServices: SecurityService[] = [
     id: "compliance",
     title: "Compliance readiness",
     summary:
-      "Preparation for the questionnaire or audit ahead of you. We get your evidence in order and answer the technical questions — we do not certify you, and nobody honest will promise you a pass.",
+      "Preparation for the audit or security questionnaire in front of you. We get your evidence in order and answer the technical questions. We do not issue certificates, and nobody honest will promise you a pass.",
     scope: [
       "Gap analysis against your target framework",
       "Evidence collection and control mapping",
@@ -116,7 +116,7 @@ export const securityServices: SecurityService[] = [
     id: "incident-response",
     title: "Incident response readiness",
     summary:
-      "Deciding who does what before it happens, rather than at 2am in a group chat. Runbooks and tabletop exercises, built while there is time to think.",
+      "Decide who does what before it happens, rather than at 2am in a group chat. Runbooks and practice drills, built while there is still time to think clearly.",
     scope: [
       "Response runbooks and escalation paths",
       "Tabletop exercises with your team",
@@ -141,42 +141,42 @@ export const engagementPhases: EngagementPhase[] = [
     number: "01",
     title: "Scope & rules of engagement",
     description:
-      "We agree exactly what is in scope, what is explicitly out, when we test, and who to call if something goes wrong. Signed before anything is touched.",
+      "We agree exactly what is in scope, what is off limits, when we test, and who to call if something goes wrong. All of it signed before anything is touched.",
     outputs: ["Signed scope document", "Rules of engagement", "Named contacts"],
   },
   {
     number: "02",
     title: "Reconnaissance & mapping",
     description:
-      "We map the real attack surface — endpoints, roles, trust boundaries, third-party integrations — rather than assuming the documented one is complete.",
+      "We map what is really exposed — endpoints, user roles, trust boundaries, third-party integrations — rather than trusting that the documentation is complete. It rarely is.",
     outputs: ["Attack surface map", "Trust boundary diagram", "Test plan"],
   },
   {
     number: "03",
     title: "Testing",
     description:
-      "Manual testing supported by tooling, against the agreed standards. Critical findings are reported the moment we confirm them, not held back for the report.",
+      "Manual testing supported by tools, against the standards we agreed. Anything critical reaches you the moment we confirm it — we do not sit on it until the report.",
     outputs: ["Live critical alerts", "Working proof-of-concepts", "Daily notes"],
   },
   {
     number: "04",
     title: "Reporting",
     description:
-      "Findings written for engineers and summarised for decision-makers, prioritised by exploitability in your deployment rather than by raw scanner severity.",
+      "Findings written for your engineers and summarised for whoever signs off, ordered by what is genuinely exploitable in your deployment rather than by raw scanner severity.",
     outputs: ["Technical report", "Severity breakdown", "Executive summary"],
   },
   {
     number: "05",
     title: "Remediation support",
     description:
-      "We stay available while you fix things. Questions about a finding go to the person who found it, not to a support queue.",
+      "We stay available while you fix things. A question about a finding goes straight to the person who found it — not into a support queue.",
     outputs: ["Fix guidance", "Engineer-to-engineer calls"],
   },
   {
     number: "06",
     title: "Retest & sign-off",
     description:
-      "We verify the fixes and reissue the report showing what closed and what remains. This is included, not a separate engagement.",
+      "We verify your fixes and reissue the report showing exactly what closed and what is still open. This is included in the price, not a separate engagement.",
     outputs: ["Retest report", "Closure evidence", "Procurement-ready document"],
   },
 ];
@@ -199,35 +199,35 @@ export const severityModel: Severity[] = [
     label: "Critical",
     token: "bg-sev-critical",
     meaning:
-      "Directly exploitable, leads to system compromise or mass data exposure.",
+      "Exploitable right now, and it leads to system compromise or mass data exposure.",
     response: "Reported on discovery, same day.",
   },
   {
     label: "High",
     token: "bg-sev-high",
     meaning:
-      "Exploitable with limited constraints; significant data or integrity impact.",
+      "Exploitable with few obstacles, with serious impact on your data or its integrity.",
     response: "Reported within 24 hours.",
   },
   {
     label: "Medium",
     token: "bg-sev-medium",
     meaning:
-      "Exploitable under specific conditions, or a meaningful weakening of defence in depth.",
+      "Exploitable under specific conditions, or a real weakening of your defences.",
     response: "Included in the report.",
   },
   {
     label: "Low",
     token: "bg-sev-low",
     meaning:
-      "Limited impact or difficult to exploit, but a real deviation from good practice.",
+      "Hard to exploit or limited in impact, but still a genuine departure from good practice.",
     response: "Included in the report.",
   },
   {
     label: "Informational",
     token: "bg-sev-info",
     meaning:
-      "No direct security impact; hardening opportunities and observations.",
+      "No direct security impact — hardening opportunities and things worth knowing.",
     response: "Included as an appendix.",
   },
 ];
@@ -236,31 +236,31 @@ export const securityFaqs = [
   {
     question: "Will testing take our production system down?",
     answer:
-      "That risk is what the rules of engagement exist to manage. We agree testing windows, rate limits, and any techniques that are off the table before we start, and we prefer a staging environment that mirrors production where one exists. If we do test production, you get a named contact who can reach us immediately, and we stop on request.",
+      "No — and managing that risk is exactly what the rules of engagement are for. Before we start we agree testing windows, rate limits and any techniques that are off the table, and we prefer a staging environment that mirrors production where you have one. If we do test production, you get a named contact who can reach us instantly, and we stop the moment you ask.",
   },
   {
     question: "Do you test systems you did not build?",
     answer:
-      "Most of our security work is on other people's code — built by in-house teams or by other vendors. We have no interest in blaming whoever built it; the report is about what to fix and in what order.",
+      "Yes — most of our security work is on other people's code, built by in-house teams or other vendors. We have no interest in blaming whoever built it. The report is about what to fix, and in what order.",
   },
   {
     question: "Can you certify us for ISO 27001 or SOC 2?",
     answer:
-      "No, and be careful with anyone who says they can — certification comes from an accredited auditor, not from a testing vendor. What we do is readiness work: gap analysis against the framework, getting evidence in order, and answering the technical questions an auditor or an enterprise questionnaire will ask.",
+      "No — and be careful with anyone who says they can. Certification comes from an accredited auditor, never from a testing vendor. What we do is get you ready: a gap analysis against the framework, your evidence in order, and straight answers to the technical questions an auditor or an enterprise questionnaire will put to you.",
   },
   {
     question: "What access do you need?",
     answer:
-      "The narrowest access that lets us do the agreed work, on named accounts we can hand back. For an authenticated application test that usually means one account per role. We tell you what we intend to touch before we touch it, and test data and credentials are returned or destroyed at the end.",
+      "The least access that lets us do the agreed work, on named accounts you can revoke. For a logged-in application test that usually means one account per user role. We tell you what we intend to touch before we touch it, and all test data and credentials are returned or destroyed when we finish.",
   },
   {
     question: "How soon do we hear about a serious finding?",
     answer:
-      "Immediately. Critical findings are reported the moment we confirm them, with enough detail to act on, rather than being held back for the final report. You should never learn about a critical issue for the first time in a PDF two weeks later.",
+      "Immediately. We report critical findings the moment we confirm them, with enough detail for your team to act that day. You should never learn about a critical issue for the first time in a PDF two weeks later.",
   },
   {
     question: "Is the retest really included?",
     answer:
-      "Yes. A finding is not closed because someone says it is fixed — we verify it and reissue the report showing what actually closed. Charging separately for that would make the original report the product, when the point is the fix.",
+      "Yes. A finding is not closed because someone says it is fixed — we verify it and reissue the report showing what actually closed. Charging extra for that would make the report the product, when the whole point is the fix.",
   },
 ];

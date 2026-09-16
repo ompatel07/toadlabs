@@ -16,9 +16,9 @@ export const siteConfig = {
   name: "Toad Labs",
   /** Used for metadata, sitemap and canonical URLs. TODO: real domain. */
   siteUrl: "https://toadlabs.in",
-  tagline: "Software built to survive production, and tested like an adversary.",
+  tagline: "Software built to last in production — and attacked before it ships.",
   description:
-    "Toad Labs is a product studio and security practice in Ahmedabad. We build web and mobile products, MVPs, SaaS and AI automation — then test them against OWASP ASVS and PTES like an attacker would.",
+    "Toad Labs builds web and mobile products, MVPs, SaaS platforms and AI automation — and runs the security testing that proves they hold up. Build and offensive security in one team, from Ahmedabad, for clients across India and beyond.",
 
   /** TODO: replace with the real inbox. */
   email: "hello@toadlabs.in",

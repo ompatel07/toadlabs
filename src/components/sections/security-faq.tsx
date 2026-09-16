@@ -16,7 +16,7 @@ export function SecurityFaq() {
       <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
         <SectionHeading
           eyebrow="Before you ask"
-          title="The questions that actually decide this"
+          title="The questions buyers actually ask"
           description="Mostly about risk, access, and whether we will overstate what we can do."
         />
 

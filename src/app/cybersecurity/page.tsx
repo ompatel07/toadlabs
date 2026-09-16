@@ -65,8 +65,8 @@ export default function CybersecurityPage() {
 
       <PageHeader
         eyebrow="Cybersecurity"
-        title="We test the way an attacker would, then hand you the fix"
-        description="Offensive testing run by engineers who ship production software. Every finding arrives with reproduction steps, real-world impact, and a fix that compiles in your codebase — never a scanner ID and a severity label."
+        title="We attack your software, then hand you the fix"
+        description="Security testing run by engineers who ship production software. Every finding arrives with steps to reproduce it, its real-world impact, and a fix that compiles in your codebase — never just a scanner ID and a severity label."
         aside={
           <div className="card-solid flex flex-col gap-4 rounded-3xl p-6 lg:w-[320px]">
             <p className="label-mono text-ink-soft">Every engagement includes</p>
@@ -100,7 +100,7 @@ export default function CybersecurityPage() {
       <Section dense className="border-t border-[rgba(11,12,10,0.1)]">
         <SectionHeading
           eyebrow="Capabilities"
-          title="Seven ways we test"
+          title="Seven ways we test your systems"
           description="Each mapped to the public standard it is measured against, so you can see the coverage rather than take our word for it."
         />
 

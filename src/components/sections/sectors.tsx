@@ -19,8 +19,8 @@ export function Sectors() {
       <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
         <SectionHeading
           eyebrow="Domains"
-          title="Where the work has been"
-          description="Industry matters less than most agencies claim and more than none at all. What carries over is knowing which constraints are real in a domain before someone has to explain them."
+          title="Industries we already know"
+          description="Industry experience matters less than most agencies claim, and more than nothing. What carries over is knowing which constraints are real in your field before you have to explain them to us."
         />
 
         <ul className="border-t-2 border-[rgba(11,12,10,0.85)]">

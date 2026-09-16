@@ -23,7 +23,7 @@ export default function SecurityPolicyPage() {
     <>
       <PageHeader
         eyebrow="Security & disclosure"
-        title="How to report an issue, and how we handle yours"
+        title="Report a vulnerability, and how we handle yours"
         description="A security vendor should be held to the standard it sells. This page is the policy we operate under — published, dated, and machine-readable."
         aside={
           <div className="card-solid flex flex-col gap-4 rounded-3xl p-6 lg:w-[320px]">
@@ -222,7 +222,7 @@ export default function SecurityPolicyPage() {
       </Section>
 
       <FinalCta
-        title="Questions about how we work?"
+        title="Still have a question?"
         description="Ask before you scope. We would rather answer an awkward question early than have it surface mid-engagement."
       />
     </>

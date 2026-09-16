@@ -46,8 +46,8 @@ export default function NotFound() {
           </h1>
 
           <p className="text-ink-soft measure mt-5 t-lead leading-relaxed">
-            Either the link is wrong or we moved something and did not redirect
-            it properly. If it was our fault, we would genuinely like to know —
+            Either the link is wrong, or we moved something and did not redirect
+            it properly. If that was our fault we would genuinely like to know —
             a broken link is a bug like any other.
           </p>
 

@@ -31,7 +31,7 @@ export const services: Service[] = [
     id: "websites",
     title: "Websites",
     description:
-      "A site that loads fast on a mid-range phone, survives an SEO audit, and can be edited without a developer on standby.",
+      "A site that loads fast on a mid-range phone, holds up to an SEO audit, and your team can edit without a developer on standby.",
     points: [
       "Static generation, Core Web Vitals budgets in CI",
       "Semantic markup and WCAG AA as the baseline",
@@ -43,7 +43,7 @@ export const services: Service[] = [
     id: "web-mobile-apps",
     title: "Web & mobile apps",
     description:
-      "One product that behaves properly on every screen your users actually own, sharing a domain layer instead of drifting into two codebases.",
+      "One product that works properly on every screen your customers actually own — sharing one core instead of drifting into two codebases that disagree.",
     points: [
       "React and React Native over one shared core",
       "Offline-tolerant state and conflict resolution",
@@ -55,7 +55,7 @@ export const services: Service[] = [
     id: "mvp",
     title: "MVP development",
     description:
-      "The smallest honest version of your product, in front of real users while the runway still allows you to act on what they do.",
+      "The smallest honest version of your product, in front of real users while you still have the runway to act on what they do.",
     points: [
       "Scope negotiation — what gets cut, and why, in writing",
       "Auth, permissions and audit built early; polish deferred",
@@ -68,7 +68,7 @@ export const services: Service[] = [
     id: "saas",
     title: "SaaS products",
     description:
-      "Multi-tenant products with the unglamorous parts that decide whether you can sell upmarket: isolation, roles, billing, audit trails.",
+      "Multi-tenant software with the unglamorous parts that decide whether you can sell to bigger customers: tenant isolation, roles, billing and audit trails.",
     points: [
       "Tenant isolation enforced at the data layer, not the UI",
       "RBAC, subscription billing, usage metering",
@@ -81,7 +81,7 @@ export const services: Service[] = [
     id: "crm",
     title: "CRM",
     description:
-      "A pipeline your team fills in because it saves them time, shaped around how you actually sell rather than how a vendor assumed you would.",
+      "A pipeline your team actually keeps up to date, because it saves them time — shaped around how you really sell, not how a vendor assumed you would.",
     points: [
       "Custom stages, permissions and record models",
       "Email, calendar and WhatsApp integration",
@@ -93,7 +93,7 @@ export const services: Service[] = [
     id: "ai-automation",
     title: "AI automation",
     description:
-      "Automating the specific repetitive work that eats your team's week, with a human checkpoint wherever a wrong answer would be expensive.",
+      "We automate the specific repetitive work eating your team's week, and put a human checkpoint anywhere a wrong answer would be expensive.",
     points: [
       "Document extraction, triage, summarisation, routing",
       "Human-in-the-loop review on consequential steps",
@@ -105,7 +105,7 @@ export const services: Service[] = [
     id: "whatsapp-automation",
     title: "WhatsApp automation",
     description:
-      "Reaching customers where they already reply, without anyone watching an inbox at midnight. Built on the official Business Platform, not a scraped workaround.",
+      "Reach customers where they already reply, without anyone watching an inbox at midnight. Built on the official WhatsApp Business Platform — not a workaround that gets your number banned.",
     points: [
       "Template design and approval, opt-in handling",
       "Notifications, reminders, order and booking flows",
@@ -119,7 +119,7 @@ export const services: Service[] = [
     description:
       "An assistant grounded in your own content that says \"I don't know\" instead of inventing an answer — because a confident wrong reply costs more than no reply.",
     points: [
-      "Retrieval grounded in your documentation, with citations",
+      "Answers grounded in your own documentation, with citations",
       "Refusal behaviour and escalation paths defined up front",
       "Conversation logging and ongoing quality review",
     ],
@@ -129,7 +129,7 @@ export const services: Service[] = [
     id: "ai-voice",
     title: "AI voice assistants",
     description:
-      "Voice agents that handle the calls which follow a script and hand over the ones that do not, at a latency callers will actually tolerate.",
+      "Voice agents that handle the calls which follow a script and hand the rest to a person — fast enough that callers stay on the line.",
     points: [
       "Inbound qualification, booking and callbacks",
       "Low-latency speech pipelines and barge-in handling",
@@ -141,7 +141,7 @@ export const services: Service[] = [
     id: "custom",
     title: "Custom solutions",
     description:
-      "The work that does not fit a category — internal tools, integrations, migrations, and the systems quietly holding your operations together.",
+      "The work that fits no category — internal tools, integrations, migrations, and the unglamorous systems quietly holding your operations together.",
     points: [
       "Internal tools and admin systems",
       "Third-party and legacy integrations",

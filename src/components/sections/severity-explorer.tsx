@@ -48,8 +48,8 @@ export function SeverityExplorer() {
       <SectionHeading
         className="kinetic"
         eyebrow="How we rate findings"
-        title="Severity means exploitability here, not scanner output"
-        description="A scanner's 'critical' is often unreachable in your deployment, and its 'medium' is sometimes the one that gets you. Pick a level to see what it means and when you would hear about it."
+        title="We rank findings by what an attacker can actually reach"
+        description="A scanner's 'critical' is often unreachable in your setup, and its 'medium' is sometimes the one that gets you. Pick a level to see what it means and how fast you would hear about it."
       />
 
       <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-14">

@@ -45,26 +45,26 @@ export const metrics: Metric[] = [
     suffix: "+",
     label: "Projects delivered",
     detail:
-      "Websites, products, internal systems and security engagements taken from scope to production.",
+      "Websites, products, internal systems and security engagements — taken from first scope to live in production.",
   },
   {
     value: 75,
     suffix: "+",
     label: "Clients served",
     detail:
-      "From first-time founders to established teams with an in-house engineering function.",
+      "From first-time founders to established companies with their own engineering teams.",
   },
   {
     value: 10,
     label: "Disciplines in-house",
     detail:
-      "Build and security under one roof, so testing is not a handover to a third party.",
+      "Build and security under one roof, so testing your software is never a handover to a third party.",
   },
   {
     value: 7,
     label: "Public standards",
     detail:
-      "Methodologies our work is measured against — OWASP, PTES, NIST and CIS among them.",
+      "Public methodologies our work is measured against — OWASP, PTES, NIST and CIS among them.",
   },
 ];
 
@@ -84,32 +84,32 @@ export interface Sector {
 export const sectors: Sector[] = [
   {
     name: "Fintech & payments",
-    note: "Ledger accuracy, reconciliation, and keeping card data out of scope.",
+    note: "Getting the numbers right, reconciling them, and keeping card data out of scope.",
     icon: Landmark,
   },
   {
     name: "Healthcare",
-    note: "Patient data handling, access separation, and retained audit trails.",
+    note: "Handling patient data, separating who can see what, and keeping audit trails that last.",
     icon: Stethoscope,
   },
   {
     name: "Logistics",
-    note: "Fleet and consignment tracking that stays correct when the network drops.",
+    note: "Fleet and consignment tracking that stays correct when the network drops out.",
     icon: Truck,
   },
   {
     name: "E-commerce & retail",
-    note: "Checkout reliability, inventory integrity, and peak-load behaviour.",
+    note: "Checkouts that do not fail, stock counts that stay accurate, and sites that hold up at peak.",
     icon: ShoppingCart,
   },
   {
     name: "SaaS & B2B platforms",
-    note: "Multi-tenant isolation, roles, billing, and the audit trail buyers ask for.",
+    note: "Keeping tenants separated, roles, billing, and the audit trail your buyers will ask for.",
     icon: Package,
   },
   {
     name: "Manufacturing & enterprise",
-    note: "Integrations with systems that predate the team maintaining them.",
+    note: "Integrating with systems that are older than the team now maintaining them.",
     icon: Building2,
   },
 ];
@@ -125,18 +125,18 @@ export const complianceProgramme = {
   framework: "ISO 27001",
   full: "ISO/IEC 27001 Information Security Management",
   summary:
-    "We prepare you for the audit and answer the technical questions it raises. The certificate itself is issued by an accredited certification body after their audit — not by us, and not by any testing vendor.",
+    "We get you ready for the audit and answer the technical questions it raises. The certificate itself is issued by an accredited certification body after their own audit — not by us, and not by any testing vendor.",
   weDo: [
-    "Gap analysis against Annex A controls, with findings ranked by effort and risk",
-    "Control mapping from the standard down to the system that actually implements it",
-    "Evidence collection: logs, access reviews, change records, in the form an auditor expects",
-    "Policy and procedure documentation support, written to match how you really operate",
-    "Technical answers for auditors and for enterprise security questionnaires",
-    "Remediation of the technical gaps we find, since we are the engineers anyway",
+    "A gap analysis against Annex A controls, ranked by effort and risk",
+    "Mapping each control down to the system that actually implements it",
+    "Evidence gathered in the form an auditor expects: logs, access reviews, change records",
+    "Policies and procedures written to match how you actually operate",
+    "Straight technical answers for auditors and enterprise security questionnaires",
+    "Fixing the technical gaps we find — we are the engineers anyway",
   ],
   weDoNot: [
     "Issue certificates — only an accredited certification body can",
-    "Guarantee a pass, because no honest party can promise another organisation's audit result",
+    "Guarantee a pass — nobody honest can promise you another organisation's audit result",
     "Act as your certification auditor, which would be a conflict of interest",
   ],
 };
@@ -158,37 +158,37 @@ export const compliancePractices: CompliancePractice[] = [
   {
     title: "Audit trails from day one",
     description:
-      "Every change to a sensitive record is written with actor, timestamp, and what it was before. This is the evidence an auditor asks for first, and it cannot be reconstructed after the fact.",
+      "Every change to a sensitive record is logged with who did it, when, and what it was before. This is the first evidence an auditor asks for, and it cannot be reconstructed after the fact.",
     icon: History,
   },
   {
     title: "Access control at the data layer",
     description:
-      "Roles and tenant isolation enforced where the query runs, not in the interface. A UI-level check is a suggestion; anything that reaches the API bypasses it.",
+      "Roles and tenant separation enforced where the query runs, not in the interface. A check in the interface is only a suggestion — anything reaching the API goes straight past it.",
     icon: KeySquare,
   },
   {
     title: "Encryption in transit and at rest",
     description:
-      "TLS everywhere, storage encrypted by default, and keys held in a managed service with rotation that does not require a redeploy to perform.",
+      "Encrypted in transit and at rest by default, with keys held in a managed service you can rotate without redeploying the application.",
     icon: Lock,
   },
   {
     title: "Data residency and retention",
     description:
-      "Where records live and how long they are kept are configuration, not assumptions buried in code — so a residency requirement or a deletion request is a setting rather than a migration.",
+      "Where records live and how long they are kept are settings, not assumptions buried in code. A new residency requirement or a deletion request becomes a configuration change rather than a migration.",
     icon: MapPinned,
   },
   {
     title: "Identity and session handling",
     description:
-      "Authentication, session lifetime, and privileged-action re-verification built to a verification standard rather than to whatever the framework scaffolded.",
+      "Logins, session lifetimes and re-checks before sensitive actions built to a published standard — not to whatever the framework generated by default.",
     icon: Fingerprint,
   },
   {
     title: "Change records that hold up",
     description:
-      "Reviewed pull requests, a release history, and a deployment trail. When an auditor asks who approved a change and when, the answer is already written down.",
+      "Reviewed code changes, a release history and a deployment trail. When an auditor asks who approved a change and when, the answer is already written down.",
     icon: ClipboardList,
   },
 ];
