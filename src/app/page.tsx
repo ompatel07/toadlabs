@@ -6,7 +6,6 @@ import { TrustStrip } from "@/components/sections/trust-strip";
 import { MetricsBand } from "@/components/sections/metrics-band";
 import { Pillars } from "@/components/sections/pillars";
 import { ServicesRail } from "@/components/sections/services-rail";
-import { SecurityPreview } from "@/components/sections/security-preview";
 import { Process } from "@/components/sections/process";
 import { Manifesto } from "@/components/sections/manifesto";
 import { Guarantees } from "@/components/sections/guarantees";
@@ -84,13 +83,13 @@ export default function HomePage() {
       <Hero />
       <TrustStrip />
       <Pillars />
-      {/* Placed after Pillars, not before StandardsBar: both bands are dark
-          slabs, and stacking them left the page with two ink blocks separated
-          by a thin strip of canvas. */}
+      {/* SecurityPreview used to sit below the scene. It was removed when
+          Pillars became a light/dark split: its dark slab, its "we break what
+          we build" positioning and its lime CTA to /cybersecurity were all
+          restated by the SECURE panel three sections earlier. */}
       <MetricsBand />
       <ServicesRail />
       <Manifesto />
-      <SecurityPreview />
       <Process />
       <Guarantees />
       <SelectedWork />
