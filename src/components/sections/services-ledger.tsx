@@ -131,7 +131,7 @@ export function ServicesLedger({ services }: { services: Service[] }) {
                 <a
                   href="/contact"
                   className={cn(
-                    "mt-2 inline-flex w-fit cursor-pointer items-center gap-1.5 t-sm font-medium underline-offset-4 transition-colors duration-200 ease-out hover:underline",
+                    "mt-2 inline-flex w-fit cursor-pointer items-center gap-1.5 py-1.5 t-sm font-medium underline-offset-4 transition-colors duration-200 ease-out hover:underline",
                     dark ? "text-lime" : "text-ink",
                   )}
                 >

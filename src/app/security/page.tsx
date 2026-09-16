@@ -41,7 +41,7 @@ export default function SecurityPolicyPage() {
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="text-ink-soft hover:text-ink inline-flex cursor-pointer items-center gap-2 t-sm underline underline-offset-4"
+              className="text-ink-soft hover:text-ink inline-flex cursor-pointer items-center gap-2 py-1.5 t-sm underline underline-offset-4"
             >
               <Mail className="size-4" aria-hidden="true" />
               {siteConfig.email}

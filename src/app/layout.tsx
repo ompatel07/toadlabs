@@ -84,7 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="grain flex min-h-full flex-col overflow-x-hidden">
         <a
           href="#main"
-          className="bg-ink sr-only cursor-pointer rounded-full focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:px-5 focus:py-3 focus:text-sm focus:font-medium focus:text-white"
+          className="skip-link cursor-pointer"
         >
           Skip to content
         </a>

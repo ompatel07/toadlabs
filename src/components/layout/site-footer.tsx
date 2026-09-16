@@ -24,7 +24,7 @@ export function SiteFooter() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 transition-colors duration-200 ease-out"
+                  className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
                 >
                   <Mail className="size-4" aria-hidden="true" />
                   {siteConfig.email}
@@ -35,7 +35,7 @@ export function SiteFooter() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 transition-colors duration-200 ease-out"
+                  className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
                 >
                   <MessageCircle className="size-4" aria-hidden="true" />
                   WhatsApp
@@ -60,7 +60,7 @@ export function SiteFooter() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-ink hover:text-ink-soft cursor-pointer t-base transition-colors duration-200 ease-out"
+                        className="text-ink hover:text-ink-soft inline-block cursor-pointer py-1.5 t-base transition-colors duration-200 ease-out"
                       >
                         {item.label}
                       </Link>

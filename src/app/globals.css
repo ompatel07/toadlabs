@@ -625,10 +625,15 @@
      Section headings rise and settle as they enter. CSS scroll-driven, so it
      costs no JS and degrades to a static heading where unsupported. */
   @supports (animation-timeline: view()) {
+      /* NO scale here. This animates section headings, which are block-level:
+         a scale shrinks the box around its centre and pushes the left edge
+         inward, so a heading at rest sat 12-22px right of every other heading
+         on the page. Two sections were visibly out of alignment with the rest
+         of the site because of it. translateY moves nothing horizontally. */
       @keyframes kinetic-in {
         from {
           opacity: 0;
-          transform: translateY(26px) scale(0.965);
+          transform: translateY(26px);
         }
         to {
           opacity: 1;
@@ -1315,6 +1320,42 @@
     to {
       transform: translate3d(0, -7%, 0) rotate(3deg);
     }
+  }
+
+  /* Skip link.
+     Written by hand rather than composed from `sr-only` + `focus:not-sr-only`
+     utilities. That combination left the link clipped to 1x1 with
+     clip-path: inset(50%) even while focused, so a keyboard user tabbing into
+     the page landed on a focused element they could not see — WCAG 2.4.7.
+     A dedicated rule cannot be undone by utility ordering. */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .skip-link:focus-visible,
+  .skip-link:focus {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 200;
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    height: auto;
+    padding: 0.75rem 1.25rem;
+    overflow: visible;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    outline: 3px solid var(--lime);
+    outline-offset: 2px;
   }
 
   .header-rule {
