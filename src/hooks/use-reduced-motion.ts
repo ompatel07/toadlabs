@@ -1,27 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribe(onChange: () => void) {
+  const query = window.matchMedia(QUERY);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
 
 /**
- * Tracks `prefers-reduced-motion`.
+ * Tracks `prefers-reduced-motion` as an external store.
  *
- * Starts as `false` so server and first client render agree; the effect
- * corrects it immediately on mount. Nothing actually moves in the meantime —
- * the CSS `prefers-reduced-motion` block disables the animations regardless.
- * This hook only decides what to *render* (a static list instead of a marquee,
- * and whether the pause control is meaningful).
+ * The server snapshot is `true` — "reduced" — so prerendered HTML never ships
+ * motion that a visitor who asked for none would see for a frame before
+ * hydration corrects it. Subscribing through useSyncExternalStore rather than
+ * mirroring the query into state from an effect avoids the extra render pass.
  */
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(query.matches);
-
-    const onChange = (event: MediaQueryListEvent) => setReduced(event.matches);
-    query.addEventListener("change", onChange);
-    return () => query.removeEventListener("change", onChange);
-  }, []);
-
-  return reduced;
+  return useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(QUERY).matches,
+    () => true,
+  );
 }

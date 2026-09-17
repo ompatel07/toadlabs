@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 /**
  * The hero wordmark: SVG text under a turbulence/displacement filter.
@@ -22,16 +22,7 @@ import { useEffect, useState } from "react";
  *    animation run for a frame for users who asked for no motion.
  */
 export function WavyWordmark({ text = "Toad Labs." }: { text?: string }) {
-  const [animate, setAnimate] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setAnimate(!query.matches);
-
-    const onChange = (event: MediaQueryListEvent) => setAnimate(!event.matches);
-    query.addEventListener("change", onChange);
-    return () => query.removeEventListener("change", onChange);
-  }, []);
+  const animate = !useReducedMotion();
 
   return (
     <svg

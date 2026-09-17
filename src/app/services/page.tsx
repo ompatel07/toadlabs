@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLd } from "@/lib/json-ld";
 import { ArrowRight } from "lucide-react";
 import { services } from "@/config/services";
 import { siteConfig } from "@/config/site";
@@ -39,7 +40,7 @@ export default function ServicesPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={jsonLd(structuredData)}
       />
 
       <TickerStrip

@@ -38,35 +38,6 @@ export function WaveDivider({
   );
 }
 
-/** Scalloped edge — a row of half-circles. */
-export function ScallopDivider({
-  className,
-  fill = "var(--canvas)",
-  flip = false,
-}: {
-  className?: string;
-  fill?: string;
-  flip?: boolean;
-}) {
-  return (
-    <div
-      aria-hidden="true"
-      className={cn("pointer-events-none relative w-full leading-[0]", className)}
-    >
-      <svg
-        viewBox="0 0 1200 40"
-        preserveAspectRatio="none"
-        className={cn("block h-6 w-full md:h-10", flip && "rotate-180")}
-      >
-        <path
-          d="M0 40V16c25 0 25-16 50-16s25 16 50 16 25-16 50-16 25 16 50 16 25-16 50-16 25 16 50 16 25-16 50-16 25 16 50 16 25-16 50-16 25 16 50 16 25-16 50-16 25 16 50 16 25-16 50-16 25 16 50 16 25-16 50-16 25 16 50 16 25-16 50-16 25 16 50 16 25-16 50-16 25 16 50 16 25-16 50-16 25 16 50 16v24Z"
-          fill={fill}
-        />
-      </svg>
-    </div>
-  );
-}
-
 /**
  * Ticker strip — a continuously scrolling band.
  *
@@ -163,45 +134,6 @@ export function Asterisk({ className }: { className?: string }) {
   );
 }
 
-/** Hand-drawn style underline swash, sits under a word. */
-export function Squiggle({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 200 12"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      className={cn("block w-full", className)}
-    >
-      <path
-        d="M2 8c18-6 36-7 54-3s36 9 54 5 36-9 54-6 32 4 34 4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-/** Faint blueprint grid — reads as engineering rather than decoration. */
-export function GridLines({ className }: { className?: string }) {
-  return (
-    <div
-      aria-hidden="true"
-      className={cn("pointer-events-none absolute inset-0", className)}
-      style={{
-        backgroundImage:
-          "linear-gradient(to right, rgba(255, 255, 255, 0.063) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.063) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
-        maskImage:
-          "radial-gradient(ellipse 90% 70% at 50% 40%, #000 40%, transparent 100%)",
-        WebkitMaskImage:
-          "radial-gradient(ellipse 90% 70% at 50% 40%, #000 40%, transparent 100%)",
-      }}
-    />
-  );
-}
-
 /** Dot matrix block, for corners and margins. */
 export function DotGrid({ className }: { className?: string }) {
   return (
@@ -214,24 +146,6 @@ export function DotGrid({ className }: { className?: string }) {
         backgroundSize: "14px 14px",
       }}
     />
-  );
-}
-
-/** Crosshair tick — placed at grid intersections, like a print registration mark. */
-export function CrossMark({ className }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 16 16"
-      aria-hidden="true"
-      className={cn("pointer-events-none absolute", className)}
-    >
-      <path
-        d="M8 1v14M1 8h14"
-        stroke="currentColor"
-        strokeWidth="1.25"
-        strokeLinecap="round"
-      />
-    </svg>
   );
 }
 

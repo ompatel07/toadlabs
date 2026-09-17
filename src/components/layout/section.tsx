@@ -36,19 +36,6 @@ export function Section({
   );
 }
 
-/** Small uppercase mono label that sits above a section heading. */
-export function Eyebrow({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <p className={cn("label-mono text-ink-soft", className)}>{children}</p>
-  );
-}
-
 interface SectionHeadingProps {
   eyebrow?: string;
   title: React.ReactNode;

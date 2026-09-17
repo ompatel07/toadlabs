@@ -175,8 +175,6 @@ export const secureStack = [
   "NIST SP 800-115",
 ] as const;
 
-/** Flat list, kept for anything that wants the whole set. */
-export const techStack: string[] = [...buildStack, ...secureStack];
 
 export interface FaqItem {
   question: string;

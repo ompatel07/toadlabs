@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { jsonLd } from "@/lib/json-ld";
 import { ArrowRight, Check } from "lucide-react";
 import {
-  securityFaqs,
   securityServices,
 } from "@/config/security";
 import { standards } from "@/config/trust";
@@ -46,7 +46,7 @@ export default function CybersecurityPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={jsonLd(structuredData)}
       />
 
       <TickerStrip

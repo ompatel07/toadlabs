@@ -31,9 +31,11 @@ preview, but not to launch.
 | The three case studies | `src/config/work.ts` | Placeholder, `noindex` |
 | `noindex` preview guard | `netlify.toml` | Remove at launch |
 
-The contact form logs a console warning rather than faking success, so a
+The contact form logs a console warning (never the visitor's details) so a
 broken form cannot go unnoticed. Wire `submitContact()` to a Netlify Function
-or an email API before launch.
+or an email API before launch. If that endpoint is on another origin, add it to
+`CONNECT_SRC` in `scripts/security-headers.mjs`, or the Content-Security-Policy
+will block the request.
 
 ---
 
@@ -84,8 +86,9 @@ component.
 
 ## Hero assets
 
-The hero image derivatives are committed, but if you replace
-`public/hero/toad-3d.png`, regenerate them:
+The hero image derivatives are committed, but if you replace the master at
+`assets/toad-3d.png` (kept out of `public/` so it is never deployed), regenerate
+them:
 
 ```bash
 node scripts/generate-hero-assets.mjs

@@ -36,14 +36,13 @@ import { cn } from "@/lib/utils";
  */
 export function SiteHeader() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  // The sheet remembers the route it was opened on, so navigating closes it
+  // by derivation — no effect resetting state after the route changes.
+  const [openedOn, setOpenedOn] = useState<string | null>(null);
+  const open = openedOn === pathname;
+  const setOpen = (next: boolean) => setOpenedOn(next ? pathname : null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const sheetRef = useRef<HTMLDivElement>(null);
-
-  // Route change closes the sheet.
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -57,7 +56,7 @@ export function SiteHeader() {
 
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setOpen(false);
+        setOpenedOn(null);
         toggleRef.current?.focus();
         return;
       }
@@ -187,6 +186,9 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
+                // Navigating closes the sheet by itself, but tapping the page
+                // you are already on changes no route — close it explicitly.
+                onClick={() => setOpenedOn(null)}
                 style={{ animationDelay: `${60 + index * 55}ms` }}
                 className={cn(
                   "nav-sheet-item group/nav flex items-center justify-between gap-4 border-b border-[rgba(255,255,255,0.1)] py-5",
@@ -207,7 +209,7 @@ export function SiteHeader() {
               className="nav-sheet-item mt-8 flex flex-col gap-3"
               style={{ animationDelay: `${60 + mainNav.length * 55}ms` }}
             >
-              <ActionLink href="/contact" className="w-full">
+              <ActionLink href="/contact" className="w-full" onClick={() => setOpenedOn(null)}>
                 Book a call
               </ActionLink>
               <a

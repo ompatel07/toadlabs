@@ -63,24 +63,4 @@ export function ActionLink({
   );
 }
 
-interface ActionButtonProps
-  extends React.ComponentPropsWithoutRef<"button">,
-    ActionVariants {}
-
-export function ActionButton({
-  variant,
-  size,
-  className,
-  type = "button",
-  ...props
-}: ActionButtonProps) {
-  return (
-    <button
-      type={type}
-      className={cn(actionVariants({ variant, size }), className)}
-      {...props}
-    />
-  );
-}
-
 export { actionVariants };

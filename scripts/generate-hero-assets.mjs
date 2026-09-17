@@ -6,7 +6,8 @@
  * widths therefore have to be produced ahead of time and referenced from a
  * <picture> element.
  *
- * Source: public/hero/toad-3d.png (transparent PNG)
+ * Source: assets/toad-3d.png (transparent PNG, 1.5 MB). Kept outside public/
+ * so the full-size master is not deployed as a public URL nobody should load.
  * Output: toad-3d-<width>.{avif,webp,png}
  *
  * Run: node scripts/generate-hero-assets.mjs
@@ -19,7 +20,7 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dir = join(root, "public", "hero");
-const source = join(dir, "toad-3d.png");
+const source = join(root, "assets", "toad-3d.png");
 
 if (!existsSync(source)) {
   console.error(`Missing source image: ${source}`);

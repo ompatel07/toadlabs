@@ -1,8 +1,17 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertCircle, ArrowRight, Boxes, CheckCircle2, Loader2, MessageCircle, ShieldCheck } from "lucide-react";
-import { BUDGET_OPTIONS, submitContact, type ContactPayload } from "@/lib/contact";
+import {
+  BUDGET_OPTIONS,
+  BUILD_SERVICES,
+  CONTACT_LIMITS,
+  EMAIL_PATTERN,
+  MESSAGE_MIN,
+  SECURE_SERVICES,
+  submitContact,
+  type ContactPayload,
+} from "@/lib/contact";
 import { cn } from "@/lib/utils";
 
 /**
@@ -34,34 +43,21 @@ const PATHS: { id: Path; label: string; hint: string; icon: typeof Boxes }[] = [
   { id: "other", label: "Something else", hint: "Partnership, advice, other", icon: MessageCircle },
 ];
 
-const BUILD_SERVICES = [
-  "Not sure yet",
-  "Website",
-  "Web or mobile app",
-  "MVP development",
-  "SaaS product",
-  "CRM",
-  "AI automation",
-  "WhatsApp automation",
-  "AI chatbot",
-  "AI voice assistant",
-  "Custom solution",
-];
+/**
+ * Bot friction without a CAPTCHA.
+ *  - A honeypot field humans never see. Bots that fill every input fill it.
+ *  - A minimum time between the form appearing and being sent; scripted
+ *    submissions arrive in milliseconds.
+ * Either trip shows the normal success screen and sends nothing, so a bot
+ * learns nothing about which check it failed. Neither replaces server-side
+ * rate limiting on the real endpoint — they only cut the cheapest spam.
+ */
+const MIN_FILL_MS = 3000;
 
-const SECURE_SERVICES = [
-  "Not sure yet",
-  "VAPT",
-  "Web application pentest",
-  "Mobile application pentest",
-  "Secure code review",
-  "Cloud posture review",
-  "Compliance readiness",
-  "Incident response readiness",
-];
+type Fields = Omit<ContactPayload, "topic">;
+type Errors = Partial<Record<keyof Fields, string>>;
 
-type Errors = Partial<Record<keyof ContactPayload, string>>;
-
-const EMPTY: ContactPayload = {
+const EMPTY: Fields = {
   name: "",
   email: "",
   company: "",
@@ -72,12 +68,18 @@ const EMPTY: ContactPayload = {
 
 export function ContactForm() {
   const [path, setPath] = useState<Path | null>(null);
-  const [values, setValues] = useState<ContactPayload>(EMPTY);
+  const [values, setValues] = useState<Fields>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "busy" | "sent" | "failed">("idle");
   const formRef = useRef<HTMLFormElement>(null);
+  const trap = useRef<HTMLInputElement>(null);
+  const shownAt = useRef(0);
 
-  const set = (field: keyof ContactPayload) => (value: string) => {
+  useEffect(() => {
+    shownAt.current = Date.now();
+  }, []);
+
+  const set = (field: keyof Fields) => (value: string) => {
     setValues((previous) => ({ ...previous, [field]: value }));
     setErrors((previous) => ({ ...previous, [field]: undefined }));
   };
@@ -87,22 +89,22 @@ export function ContactForm() {
   const serviceOptions = path === "secure" ? SECURE_SERVICES : BUILD_SERVICES;
 
   const progress = useMemo(() => {
-    const required: (keyof ContactPayload)[] = ["name", "email", "message"];
+    const required: (keyof Fields)[] = ["name", "email", "message"];
     const done = required.filter((f) => values[f].trim().length > 0).length;
     return Math.round(((path ? 1 : 0) + done) / (required.length + 1) * 100);
   }, [values, path]);
 
-  function validate(payload: ContactPayload): Errors {
+  function validate(payload: Fields): Errors {
     const next: Errors = {};
     if (!payload.name.trim()) next.name = "Please tell us your name.";
     if (!payload.email.trim()) {
       next.email = "We need an email address to reply to.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email.trim())) {
+    } else if (!EMAIL_PATTERN.test(payload.email.trim())) {
       next.email = "That email address does not look right.";
     }
     if (!payload.message.trim()) {
       next.message = "Tell us what is going on.";
-    } else if (payload.message.trim().length < 20) {
+    } else if (payload.message.trim().length < MESSAGE_MIN) {
       next.message = "A sentence or two more would help us reply usefully.";
     }
     return next;
@@ -110,6 +112,9 @@ export function ContactForm() {
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // A second click while the first request is in flight must not send twice.
+    if (status === "busy") return;
+
     const found = validate(values);
     setErrors(found);
 
@@ -120,10 +125,18 @@ export function ContactForm() {
       return;
     }
 
+    const looksAutomated =
+      Boolean(trap.current?.value) || Date.now() - shownAt.current < MIN_FILL_MS;
+    if (looksAutomated) {
+      setStatus("sent");
+      return;
+    }
+
     setStatus("busy");
     const result = await submitContact({
       ...values,
-      service: values.service || `${path ?? "unspecified"} — not specified`,
+      topic: path ?? "unspecified",
+      service: values.service || "Not sure yet",
     });
     if (result.ok) {
       setStatus("sent");
@@ -164,6 +177,13 @@ export function ContactForm() {
       noValidate
       className="panel-feature panel-edge flex flex-col gap-8 rounded-xl p-6 md:p-9"
     >
+      {/* Honeypot. Off-screen rather than display:none, which some bots skip;
+          hidden from assistive tech and the tab order so no person reaches it. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor="website">Leave this field empty</label>
+        <input ref={trap} id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
       {/* Path choice. Asking this first is what lets the rest of the form ask
           fewer, more relevant questions. */}
       <fieldset className="flex flex-col gap-3">
@@ -189,7 +209,7 @@ export function ContactForm() {
               >
                 <option.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
                 <span className="font-display t-base font-bold">{option.label}</span>
-                <span className={cn("t-xs", active ? "text-ink/70" : "text-ink-soft")}>
+                <span className={cn("t-xs", active ? "text-canvas/75" : "text-ink-soft")}>
                   {option.hint}
                 </span>
               </button>
@@ -202,9 +222,9 @@ export function ContactForm() {
           to parse than the height they save. */}
       <div className="flex flex-col gap-5">
         <p className="label-mono text-ink-soft">02 — About you</p>
-        <Field label="Your name" name="name" required value={values.name} onChange={set("name")} error={errors.name} autoComplete="name" />
-        <Field label="Email" name="email" type="email" required value={values.email} onChange={set("email")} error={errors.email} autoComplete="email" />
-        <Field label="Company" name="company" optional value={values.company} onChange={set("company")} autoComplete="organization" />
+        <Field label="Your name" name="name" required value={values.name} onChange={set("name")} error={errors.name} autoComplete="name" maxLength={CONTACT_LIMITS.name} />
+        <Field label="Email" name="email" type="email" required value={values.email} onChange={set("email")} error={errors.email} autoComplete="email" maxLength={CONTACT_LIMITS.email} />
+        <Field label="Company" name="company" optional value={values.company} onChange={set("company")} autoComplete="organization" maxLength={CONTACT_LIMITS.company} />
       </div>
 
       {path ? (
@@ -216,7 +236,7 @@ export function ContactForm() {
             optional
             value={values.service}
             onChange={set("service")}
-            options={serviceOptions}
+            options={[...serviceOptions]}
           />
           {asksBudget ? (
             <SelectField
@@ -243,6 +263,7 @@ export function ContactForm() {
           value={values.message}
           onChange={set("message")}
           error={errors.message}
+          maxLength={CONTACT_LIMITS.message}
           hint="The problem is more useful to us than a feature list. Two or three sentences is plenty."
         />
       </div>
@@ -313,7 +334,7 @@ function ProgressRing({ value }: { value: number }) {
 
 interface FieldProps {
   label: string;
-  name: keyof ContactPayload;
+  name: keyof Fields;
   value: string;
   onChange: (value: string) => void;
   type?: string;
@@ -323,11 +344,12 @@ interface FieldProps {
   error?: string;
   hint?: string;
   autoComplete?: string;
+  maxLength?: number;
 }
 
 function Field({
   label, name, value, onChange, type = "text",
-  required, optional, multiline, error, hint, autoComplete,
+  required, optional, multiline, error, hint, autoComplete, maxLength,
 }: FieldProps) {
   const hintId = hint ? `${name}-hint` : undefined;
   const errorId = error ? `${name}-error` : undefined;
@@ -338,6 +360,7 @@ function Field({
     name,
     value,
     autoComplete,
+    maxLength,
     "aria-invalid": error ? (true as const) : undefined,
     "aria-describedby": describedBy,
     onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
@@ -374,7 +397,7 @@ function SelectField({
   label, name, value, onChange, options, optional,
 }: {
   label: string;
-  name: keyof ContactPayload;
+  name: keyof Fields;
   value: string;
   onChange: (value: string) => void;
   options: string[];

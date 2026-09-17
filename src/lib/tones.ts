@@ -97,7 +97,3 @@ export const tones: Record<ToneName, Tone> = {
 export function accentAt(index: number, limePositions: number[] = [0, 4]): ToneName {
   return limePositions.includes(index) ? "lime" : "paper";
 }
-
-export function toneCycle(names: ToneName[], index: number): Tone {
-  return tones[names[index % names.length]];
-}

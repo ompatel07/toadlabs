@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLd } from "@/lib/json-ld";
 import { faqs } from "@/config/home";
 import { siteConfig } from "@/config/site";
 import { Hero } from "@/components/sections/hero";
@@ -73,7 +74,7 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         // Content is authored by us in typed config, not user input.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={jsonLd(structuredData)}
       />
       {/* Order is a credibility argument: what we claim (trust strip), the
           track record behind it (metrics), what measures it (standards), what

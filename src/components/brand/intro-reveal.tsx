@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const KEY = "toadlabs:intro-seen";
 
@@ -21,7 +22,7 @@ const KEY = "toadlabs:intro-seen";
  */
 export function IntroReveal() {
   const [phase, setPhase] = useState<"idle" | "playing" | "done">("idle");
-  const [reduced, setReduced] = useState(false);
+  const reduced = useReducedMotion();
 
   useEffect(() => {
     let seen = false;
@@ -30,13 +31,12 @@ export function IntroReveal() {
     } catch {
       // Private mode: treat as unseen. Worst case it plays once more.
     }
-    if (seen) {
-      setPhase("done");
-      return;
-    }
+    // Already seen: phase stays "idle", which renders nothing.
+    if (seen) return;
 
-    setReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-    setPhase("playing");
+    // Started from a frame callback rather than the effect body, so mounting
+    // does not force a second synchronous render pass.
+    const start = window.requestAnimationFrame(() => setPhase("playing"));
 
     try {
       sessionStorage.setItem(KEY, "1");
@@ -51,13 +51,14 @@ export function IntroReveal() {
     window.addEventListener("pointerdown", skip, { once: true });
 
     return () => {
+      window.cancelAnimationFrame(start);
       window.clearTimeout(timer);
       window.removeEventListener("keydown", skip);
       window.removeEventListener("pointerdown", skip);
     };
   }, []);
 
-  if (phase === "idle" || phase === "done") return null;
+  if (phase !== "playing") return null;
 
   return (
     <div

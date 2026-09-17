@@ -100,6 +100,9 @@ const writeStore = (key: string, value: string) => {
 
 const buzz = (ms: number) => {
   try {
+    // Without a live user gesture Chrome refuses and logs an intervention
+    // warning to the console, so only ask when the browser would say yes.
+    if (navigator.userActivation && !navigator.userActivation.isActive) return;
     navigator.vibrate?.(ms);
   } catch {
     /* unsupported */
@@ -134,7 +137,7 @@ export function InteractiveToad({
   const buttonRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<{ text: string; id: number } | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const [effect, setEffect] = useState<Effect | null>(null);
   const [sleeping, setSleeping] = useState(false);
@@ -165,7 +168,9 @@ export function InteractiveToad({
   /* ── speech ─────────────────────────────────────────────────────────── */
 
   const say = useCallback((text: string, ms = 2800, announce = true) => {
-    setMessage(text);
+    // A fresh id per remark re-keys the bubble, so repeating the same line
+    // still replays its entrance.
+    setMessage((previous) => ({ text, id: (previous?.id ?? 0) + 1 }));
     if (announce) setAnnouncement(text);
     window.clearTimeout(timers.current.message);
     timers.current.message = window.setTimeout(() => setMessage(null), ms);
@@ -630,11 +635,11 @@ export function InteractiveToad({
       <div className="pointer-events-none absolute -top-[4%] left-1/2 z-30 flex w-max max-w-[min(15rem,80vw)] -translate-x-1/2 flex-col items-center gap-2">
         {message ? (
           <p
-            key={message + effectId.current}
+            key={message.id}
             aria-hidden="true"
             className="toad-bubble-in relative rounded-xl border border-[rgba(255,255,255,0.14)] bg-[var(--surface-2)] px-3.5 py-2 text-center t-sm leading-snug font-medium text-ink shadow-[0_12px_30px_-10px_rgba(0,0,0,0.8)]"
           >
-            {message}
+            {message.text}
             <span
               aria-hidden="true"
               className="absolute -bottom-[6px] left-1/2 size-2.5 -translate-x-1/2 rotate-45 border-r border-b border-[rgba(255,255,255,0.14)] bg-[var(--surface-2)]"

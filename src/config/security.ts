@@ -5,7 +5,6 @@ import {
   Code2,
   FileSearch,
   Radar,
-  ShieldCheck,
   Siren,
   type LucideIcon,
 } from "lucide-react";
