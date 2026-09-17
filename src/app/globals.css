@@ -1637,6 +1637,166 @@
     to { opacity: 1; transform: translate(-50%, 0) scale(1); }
   }
 
+  /* ── Interactive toad: eyes, sleep, charge ──────────────────────────────
+     All positioned against the measured pupil centres. These live INSIDE the
+     wrapper that carries the float / scroll drift, so they move with the image
+     instead of sliding off the pupils as it drifts. */
+
+  /* Specular highlight that slides toward the pointer: reads as the eyes
+     following you. --lx / --ly are written in px by the component. */
+  .toad-look {
+    position: absolute;
+    width: 4.2%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(
+      circle,
+      #ffffff 0%,
+      rgba(236, 255, 180, 0.9) 34%,
+      rgba(236, 255, 180, 0) 72%
+    );
+    mix-blend-mode: screen;
+    transform: translate(
+      calc(-50% + var(--lx, 0px)),
+      calc(-50% + var(--ly, 0px))
+    );
+    transition: opacity 600ms ease;
+  }
+
+  /* Dimmer laid over each pupil while asleep. */
+  .toad-lid {
+    position: absolute;
+    width: 12%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    pointer-events: none;
+    translate: -50% -50%;
+    background: radial-gradient(
+      circle,
+      rgba(8, 10, 14, 0.92) 42%,
+      rgba(8, 10, 14, 0) 72%
+    );
+    opacity: 0;
+    transition: opacity 900ms ease;
+  }
+
+  [data-sleeping="true"] .toad-lid {
+    opacity: 1;
+  }
+
+  [data-sleeping="true"] .toad-look {
+    opacity: 0;
+  }
+
+  .toad-asleep {
+    filter: saturate(0.55) brightness(0.8);
+    transition: filter 900ms ease;
+  }
+
+  .toad-awake {
+    filter: none;
+    transition: filter 400ms ease;
+  }
+
+  /* Floating z's. */
+  .toad-zzz {
+    position: absolute;
+    pointer-events: none;
+    display: flex;
+    gap: 0.1em;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    color: var(--lime);
+  }
+
+  .toad-zzz i {
+    font-style: normal;
+    opacity: 0;
+    animation: toad-z 2.4s ease-out infinite;
+  }
+
+  /* Sized against the toad, not the text scale: at body-text sizes the z's
+     were too small to register on a 500px object. */
+  .toad-zzz i {
+    text-shadow: 0 0 14px rgba(60, 230, 141, 0.75);
+  }
+
+  .toad-zzz i:nth-child(1) { font-size: clamp(1rem, 2.4vw, 1.5rem); }
+  .toad-zzz i:nth-child(2) { font-size: clamp(1.3rem, 3.2vw, 2rem); animation-delay: 0.5s; }
+  .toad-zzz i:nth-child(3) { font-size: clamp(1.6rem, 4vw, 2.6rem); animation-delay: 1s; }
+
+  @keyframes toad-z {
+    0% { opacity: 0; transform: translate(0, 14px); }
+    30% { opacity: 1; }
+    100% { opacity: 0; transform: translate(18px, -52px); }
+  }
+
+  /* Charge: eyes power up and a ring fills under the feet. Both driven by
+     --charge (0..1), written every frame while the pointer is held. */
+  .toad-power {
+    position: absolute;
+    width: 16%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    pointer-events: none;
+    translate: -50% -50%;
+    background: radial-gradient(
+      circle,
+      rgba(225, 255, 140, 1) 0%,
+      rgba(199, 242, 60, 0.6) 32%,
+      rgba(199, 242, 60, 0) 70%
+    );
+    mix-blend-mode: screen;
+    opacity: var(--charge, 0);
+    scale: calc(0.5 + var(--charge, 0) * 0.9);
+  }
+
+  .toad-charge-ring {
+    position: absolute;
+    left: 50%;
+    bottom: 3%;
+    width: 76%;
+    aspect-ratio: 3.2;
+    border-radius: 50%;
+    pointer-events: none;
+    translate: -50% 0;
+    background: conic-gradient(
+      from 180deg,
+      var(--lime) calc(var(--charge, 0) * 360deg),
+      rgba(255, 255, 255, 0.08) 0
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+    opacity: min(1, calc(var(--charge, 0) * 8));
+  }
+
+  /* Bubble entrance for the column layout. The older .toad-bubble keyframes
+     bake in translate(-50%) for a bubble positioned on its own; inside the
+     centred column that would offset it twice. */
+  .toad-bubble-in {
+    animation: toad-bubble-in 380ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes toad-bubble-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.85); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .toad-ping-late {
+    animation-delay: 140ms;
+  }
+
+  /* Book-a-call pill that appears at a poke milestone. */
+  .toad-cta {
+    animation: toad-cta-in 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes toad-cta-in {
+    from { opacity: 0; transform: translateY(6px) scale(0.9); }
+    to { opacity: 1; transform: none; }
+  }
+
   .header-rule {
     animation: rule-draw 760ms cubic-bezier(0.65, 0, 0.35, 1) 120ms both;
   }

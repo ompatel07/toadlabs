@@ -51,9 +51,9 @@ export function Manifesto() {
               aria-hidden="true"
               className="scene-bloom pointer-events-none absolute inset-[-22%] -z-10"
             />
-            <InteractiveToad className="w-full">
+            <InteractiveToad className="w-full" motionClassName="scene-object">
               <BrandObject
-                className="scene-object w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
+                className="w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
                 sizes="(max-width: 767px) 62vw, 34vw"
               />
             </InteractiveToad>

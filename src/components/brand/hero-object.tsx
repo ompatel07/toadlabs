@@ -27,7 +27,15 @@ const srcSet = (extension: string) =>
     ", ",
   );
 
-export function HeroObject({ className }: { className?: string }) {
+export function HeroObject({
+  className,
+  float = true,
+}: {
+  className?: string;
+  /** Turn off when a wrapper applies the float instead, so anything layered
+      over the image (the interactive toad's eyes) moves with it. */
+  float?: boolean;
+}) {
   return (
     <>
       {/* React hoists this to <head>. Responsive so the preload matches the
@@ -60,7 +68,7 @@ export function HeroObject({ className }: { className?: string }) {
               fetchPriority="high"
               decoding="async"
               alt=""
-              className="animate-hero-float block h-full w-full object-contain select-none"
+              className={`${float ? "animate-hero-float " : ""}block h-full w-full object-contain select-none`}
               draggable={false}
             />
           </picture>

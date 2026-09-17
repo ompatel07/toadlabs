@@ -88,8 +88,8 @@ export function HeroObjectInteractive({ className }: { className?: string }) {
       style={{ willChange: "transform" }}
     >
       <div className="hero-parallax h-full w-full">
-        <InteractiveToad className="h-full w-full">
-          <HeroObject className="h-full w-full" />
+        <InteractiveToad className="h-full w-full" motionClassName="animate-hero-float" hint>
+          <HeroObject className="h-full w-full" float={false} />
         </InteractiveToad>
       </div>
     </div>

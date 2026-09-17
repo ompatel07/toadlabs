@@ -129,9 +129,9 @@ export function PageHeader({
               )}
             >
               <div aria-hidden="true" className="scene-bloom pointer-events-none absolute inset-[-22%] -z-10" />
-              <InteractiveToad>
+              <InteractiveToad motionClassName="object-drift">
                 <BrandObject
-                  className="object-drift w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
+                  className="w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
                   sizes={aside ? "280px" : "400px"}
                 />
               </InteractiveToad>

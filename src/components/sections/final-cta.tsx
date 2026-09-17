@@ -43,9 +43,9 @@ export function FinalCta({
                 carry the meaning, the toad is just something to poke. */}
             <div className="absolute -right-16 -bottom-24 hidden w-[380px] lg:block xl:-right-6 xl:w-[440px]">
               <div aria-hidden="true" className="scene-bloom pointer-events-none absolute inset-[-18%] -z-10" />
-              <InteractiveToad>
+              <InteractiveToad motionClassName="animate-hero-float">
                 <BrandObject
-                  className="animate-hero-float w-full drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)]"
+                  className="w-full drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)]"
                   sizes="440px"
                 />
               </InteractiveToad>
