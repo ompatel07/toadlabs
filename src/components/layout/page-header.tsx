@@ -19,18 +19,9 @@ interface PageHeaderProps {
 /**
  * Page header.
  *
- * Every non-home page opens with this, so five pages stand or fall on it. The
- * previous version had the right ideas — a watermark, a drawn rule, a split
- * title — but every one of them was a whisper on cream: an outline at 70%
- * opacity, a dot field, a hairline. Against a home page that opens with a
- * glossy object, a giant wordmark and a live particle field, an inner page
- * opened with a paragraph.
- *
- * So it opens on the dark ground instead, and carries the hero's own particle
- * network. Reusing the actual hero component rather than imitating it is the
- * point: the inner pages now belong to the same site as the front door, and
- * the cream body that follows gains a hard edge to start against instead of
- * fading up from more cream.
+ * Every non-home page opens with this. It carries the hero's own particle
+ * network — reusing the component rather than imitating it — so the inner
+ * pages belong to the same site as the front door.
  *
  * The watermark drifts on the page's scroll timeline, so the header has a layer
  * that moves independently of the type — the same depth trick as the mid-page

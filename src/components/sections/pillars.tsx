@@ -6,16 +6,9 @@ import { cn } from "@/lib/utils";
 /**
  * Build / Secure — as two opposing halves.
  *
- * The section's own copy says "two halves of one studio", and the layout used
- * to say nothing of the kind: a sticky label and two ruled text blocks, all on
- * the same cream, differing only in their numeral. It sat immediately after a
- * hero full of depth and colour and was the exact point where the page went
- * flat.
- *
- * Now the layout argues the same thing the words do. Two panels meeting at a
- * hard seam, one light and one dark, sized equally because neither half of the
- * studio is the junior one. It also gives the page its first real contrast
- * within a screen of the hero rather than five sections later.
+ * The layout argues what the copy says — "two halves of one studio": two
+ * panels meeting at a hard seam, sized equally because neither half is the
+ * junior one.
  *
  * The panels drift against each other on the section's own view timeline —
  * the same device as the mid-page scene, at a fraction of the distance because

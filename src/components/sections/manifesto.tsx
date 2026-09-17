@@ -6,18 +6,8 @@ import { SplitText } from "@/components/brand/split-text";
 /**
  * The mid-page scene.
  *
- * This section used to be one centred sentence on flat cream. Its job — pacing,
- * a rest between dense blocks — was right, but it was doing that job with
- * nothing but type, on a page where every other section was also type on cream.
- *
- * The real problem it now solves is bigger than pacing. The hero sets up a
- * visual language (an object with real depth, a lime bloom, layered type) and
- * the page abandoned every part of it below 900px. A visitor saw the hero, got
- * a promise, scrolled, and landed in a text document. That gap is what made the
- * site read as plainer than its own first screen.
- *
- * So this restates the hero's composition once, inverted: the same object, the
- * same bloom, giant type behind rather than in front, on dark instead of light.
+ * A rest between dense blocks that restates the hero's composition once: the
+ * same object, the same bloom, giant type behind rather than in front.
  * Rhyming with the opening rather than repeating it is what makes a page feel
  * designed end to end instead of front-loaded.
  *
@@ -33,7 +23,6 @@ export function Manifesto() {
   // identically without creating a scrollport.
   return (
     <section
-      data-toad-solo
       className="scene on-dark relative isolate overflow-clip py-24 md:py-36"
     >
       {/* Giant outline word behind everything, bled off both edges. */}

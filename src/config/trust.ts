@@ -26,8 +26,8 @@ import {
  *
  * What is here is verifiable by inspection: public methodologies anyone can
  * look up, deliverables that either arrive or do not, and commitments that are
- * either honoured or not. See proofSlots at the bottom for the places logos
- * and testimonials go once there is written permission for them.
+ * either honoured or not. Logos and testimonials get added only once there is
+ * written permission for them.
  */
 
 /**
@@ -173,21 +173,3 @@ export const deliverables: Deliverable[] = [
     icon: ShieldCheck,
   },
 ];
-
-/**
- * PROOF SLOTS — where real evidence goes once it exists.
- *
- * Flip `enabled` to true and fill the arrays; the components read these flags
- * and render nothing while they are false, so no empty section ever ships.
- */
-export const proofSlots = {
-  clientLogos: { enabled: false, items: [] as { name: string; src: string }[] },
-  testimonials: {
-    enabled: false,
-    items: [] as { quote: string; author: string; role: string }[],
-  },
-  certifications: {
-    enabled: false,
-    items: [] as { name: string; issuer: string; year: string }[],
-  },
-} as const;

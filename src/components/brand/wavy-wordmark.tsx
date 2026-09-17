@@ -14,7 +14,7 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
  *
  * 2. `textLength` + `lengthAdjust="spacingAndGlyphs"` pins the wordmark to the
  *    viewBox width. Without it the span would depend on the loaded font's
- *    metrics, and would visibly reflow between the fallback and Clash Display.
+ *    metrics, and would visibly reflow between the fallback and the web font.
  *    With it, the wordmark touches both edges at every width, in every font.
  *
  * 3. The SMIL <animate> is only mounted client-side once reduced motion is

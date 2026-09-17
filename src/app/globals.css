@@ -1,19 +1,10 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
 /* ==========================================================================
    TOAD LABS — "Instrument Dark"
 
-   WHY THIS REPLACED "STUDIO LIGHT"
-   The previous system was a warm cream canvas, a yellow-lime accent, a bubbly
-   rounded display face and 24px pill radii. Every one of those signals is
-   read by a visitor as hospitality or fast-casual retail, not engineering —
-   warm cream plus yellow-green is close to a sandwich chain's palette, and a
-   rounded single-weight display face is the type voice of a consumer brand.
-   The feedback was that it "felt like ordering from Subway", which was fair.
-
-   What reads as engineering instead, and what this system now does:
+   The system is built to read as an engineering company:
      ground      near-black with a blue undertone, not warm paper
      type        one tight neo-grotesque; numerals in monospace, never a
                  rounded display face — technical work counts in mono
@@ -31,9 +22,12 @@
    Dark-only. No theme switch.
    ========================================================================== */
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
+  /* FAQ accordion open/close. The keyframes ship in shadcn/tailwind.css; these
+     two tokens are all that was used from tw-animate-css, so it was dropped. */
+  --animate-accordion-down: accordion-down 200ms ease-out;
+  --animate-accordion-up: accordion-up 200ms ease-out;
+
   /* --- Brand --- */
   --color-canvas: var(--canvas);
   --color-ink: var(--ink);
@@ -536,7 +530,7 @@
     border-radius: var(--radius-card);
   }
 
-  /* Frosted cream card. Distinct from .glass: hairline border, generous
+  /* Frosted card. Distinct from .glass: hairline border, generous
      radius, and only the faintest shadow — the hero cards should sit on the
      canvas, not hover loudly above it. */
   .glass-soft {
@@ -556,11 +550,9 @@
   }
 
   /* Anchor slab.
-     Inverted along with everything else. On the light system this was the dark
-     block that broke a run of cream; on a dark ground the same job — set this
-     section apart from the page — is done by going LIGHTER, not darker. It is
-     an elevated panel with a hairline, and `on-dark` text colours still apply
-     because the panel is still darker than the text. */
+     Sets a section apart from the page. On a dark ground that is done by going
+     LIGHTER, not darker: an elevated panel with a hairline. `on-dark` text
+     colours still apply because the panel is still darker than the text. */
   .slab-dark {
     background:
       radial-gradient(
@@ -1155,12 +1147,8 @@
 
   /* ── The mid-page scene ─────────────────────────────────────────────────
      The hero establishes a visual language — depth, a lime bloom, glass, the
-     object itself — and until now the page abandoned all of it the moment you
-     scrolled past. Everything below was flat cream with black type, which is
-     why the site read as plainer than its own first screen.
-
-     This is that language restated once, inverted to dark, at the page's
-     natural resting point. */
+     object itself. This restates it once at the page's natural resting point,
+     so the page does not read as plainer than its own first screen. */
 
   .scene {
     background:
@@ -2410,14 +2398,5 @@
   }
 
 
-  /* Opacity-only variant of the split reveal. */
-  @keyframes split-fade {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
 }
 

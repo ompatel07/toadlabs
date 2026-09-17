@@ -112,15 +112,11 @@ export default function CybersecurityPage() {
       <SeverityExplorer />
       <Deliverables dense />
 
-      {/* Methodology. Dark: this page previously ran nine consecutive light
-          sections below the header, and a standards table is the natural second
-          anchor — it is reference material, and setting it apart is how a
-          reader knows to stop skimming. */}
-      {/* A plain <section>, not <Section surface=...>. Section always emits a
-          surface utility (bg-canvas by default) and that utility is defined
-          later in the stylesheet than the .slab-dark component class, so it
-          painted cream straight over the dark ground and left white text on
-          cream at 1.16:1. */}
+      {/* Methodology, set apart on a slab: it is reference material, and
+          setting it apart is how a reader knows to stop skimming.
+          A plain <section>, not <Section>: Section always emits a surface
+          utility, which is defined later than .slab-dark and would paint over
+          it. */}
       <section className="section-dense slab-dark on-dark relative overflow-clip">
         <div className="container-tl grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
           <SectionHeading

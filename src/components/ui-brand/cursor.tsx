@@ -61,7 +61,12 @@ export function Cursor() {
       ringX += (mouseX - ringX) * EASE;
       ringY += (mouseY - ringY) * EASE;
       ring.style.transform = `translate3d(${ringX.toFixed(2)}px, ${ringY.toFixed(2)}px, 0) translate(-50%, -50%)`;
-      frame = requestAnimationFrame(tick);
+      // Stop once the ring has caught up; the next pointer move restarts it.
+      // Left running, this loop cost a frame of work forever after the first
+      // mouse move, including while the pointer sat still.
+      const settled =
+        Math.abs(mouseX - ringX) < 0.1 && Math.abs(mouseY - ringY) < 0.1;
+      frame = settled ? 0 : requestAnimationFrame(tick);
     };
 
     const onMove = (event: PointerEvent) => {
@@ -75,8 +80,8 @@ export function Cursor() {
         ringY = mouseY;
         dot.style.opacity = "1";
         ring.style.opacity = "1";
-        frame = requestAnimationFrame(tick);
       }
+      if (!frame) frame = requestAnimationFrame(tick);
 
       const target = (event.target as Element | null)?.closest?.(
         "[data-cursor], a, button, input, textarea, select, summary",

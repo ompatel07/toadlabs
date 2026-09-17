@@ -65,18 +65,21 @@ Two consequences of static export worth knowing:
 
 ```
 src/
-  app/                 routes (home, services, cybersecurity, work, about, contact)
+  app/                 routes (home, services, cybersecurity, work, about, contact, security)
   components/
-    brand/             wordmark, hero object, cursor parallax
+    brand/             wordmark, hero object, interactive toad, particle field
     layout/            header, footer, section + page-header primitives
     sections/          composable page sections
-    ui/                shadcn primitives
+    ui/                shadcn accordion (FAQ)
     ui-brand/          brand buttons/links
   config/              all copy lives here as typed TS — no CMS
-  hooks/
-  lib/
+  hooks/               reduced motion, scroll velocity
+  lib/                 contact form submission, JSON-LD escaping, card tones
 scripts/
-  generate-hero-assets.mjs
+  generate-hero-assets.mjs   hero image sizes from assets/toad-3d.png
+  security-headers.mjs       CSP + security headers (runs after build)
+assets/                source masters, not deployed
+public/.well-known/security.txt   vulnerability disclosure contact (RFC 9116)
 ```
 
 **All content is in `src/config/`.** Editing copy does not require touching a
@@ -95,8 +98,8 @@ node scripts/generate-hero-assets.mjs
 ```
 
 Emits AVIF, WebP and PNG at 400/600/900/1254px. Uses `sharp`, which ships with
-Next — no extra dependency. The source PNG is 1.39MB; the AVIF at full width is
-87KB.
+Next — no extra dependency. The master PNG is 1.5MB; the AVIF at full width is
+96KB.
 
 ---
 
@@ -105,12 +108,14 @@ Next — no extra dependency. The source PNG is 1.39MB; the AVIF at full width i
 - **Static export.** Every route prerenders. Keep it that way unless there's a
   strong reason.
 - **No invented proof.** No fake client logos, testimonials, certifications or
-  statistics anywhere. `src/config/trust.ts` has `proofSlots` with `enabled`
-  flags — components render nothing while they're false, so no empty section
-  ships. Flip them on when real evidence exists.
+  statistics anywhere. Track-record figures are the owner's own and live only
+  in `src/config/proof.ts`; compliance is always "readiness", never
+  certification. Add logos or testimonials only with written permission.
 - **Reveal animations are CSS-only** (`animation-timeline: view()`), so content
   ships visible and is never left hidden if JS fails.
 - **Contrast floor is 4.5:1**, verified against rendered output rather than
   assumed from the palette.
-- **Light-only.** There is no dark mode; the cybersecurity page gets its weight
-  from density, not darkness.
+- **Dark-only.** One theme ("Instrument Dark", tokens at the top of
+  `globals.css`); there is no theme switch.
+- **Security headers are generated.** See "Security headers" above — never
+  hand-edit `out/_headers` or duplicate those headers in `netlify.toml`.

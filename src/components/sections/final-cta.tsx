@@ -21,11 +21,6 @@ interface FinalCtaProps {
  * it reads as part of the slab rather than an illustration parked beside the
  * text. This closes every page on it.
  *
- * It was briefly removed while a fixed scroll companion was settling over this
- * slab — two copies of the same object in one viewport read as clip art. That
- * companion is gone, and taking the object with it left the right half of the
- * CTA empty on every page.
- *
  * Hidden below lg, where the slab narrows and the object would crowd the
  * buttons rather than sit behind them.
  */
