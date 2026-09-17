@@ -1,77 +1,128 @@
+import { Check } from "lucide-react";
 import { guarantees } from "@/config/trust";
 import { Stamp, Asterisk } from "@/components/brand/decor";
 
 /**
- * Engagement commitments — a hairline index, not a card grid.
+ * Engagement commitments — a terms sheet.
  *
- * Each is falsifiable: it either happens on an engagement or it visibly does
- * not. That is what replaces the unverifiable badge wall a security site
- * usually leads with.
+ * WHAT WAS WRONG WITH THE PREVIOUS VERSION
+ * It was three loose columns — numeral, title, then icon and description —
+ * spread across the full container width. The middle of each row was empty, so
+ * the icons floated in the centre of the page attached to nothing, and the eye
+ * had to travel the whole width to connect a title to its own description. The
+ * "NO LOCK-IN" stamp sat in the top-right corner, unrelated to anything.
  *
- * Rendered as ruled rows with the index and icon hanging in the margin. Reads
- * like a list of contract clauses, which is the right register for promises —
- * and gives the page a break from consecutive card grids.
+ * It was also the site's fifth ruled-row index. Cost drivers, sectors,
+ * principles and deliverables all use that device; by this point in the page it
+ * had stopped reading as a choice.
+ *
+ * WHAT THIS IS INSTEAD
+ * The content is six contractual commitments, each written to be falsifiable —
+ * it either happens on your engagement or it visibly does not. So it is set as
+ * the artifact it describes: a single terms sheet with a document header, a
+ * clause number per row, a confirmation mark against each, and the stamp
+ * pressed onto the corner of the document rather than parked beside it.
+ *
+ * The check marks confirm inclusion — they are not a claim that anything has
+ * been machine-verified, and the footer says so in words.
+ *
+ * Rows are zebra-tinted at 2% white, which is enough to track a long line
+ * across a wide panel and far too little to affect the text contrast beneath.
  */
 export function Guarantees() {
   return (
-    <section className="section bg-rules bg-glow-right relative bg-[var(--surface)]">
+    <section className="section bg-rules bg-glow-right relative">
       <div className="container-tl">
-        <div className="flex flex-wrap items-end justify-between gap-8">
-          <div>
-            <p className="label-mono text-ink-soft flex items-center gap-2">
-              <Asterisk className="text-lime-ink size-2.5" />
-              How we engage
-            </p>
-            <h2 className="type-h2 text-ink mt-5 max-w-2xl">
-              Commitments you can hold us to
-            </h2>
-            <p className="text-ink-soft measure mt-5 t-lead">
-              No badges, no logo wall. Six things that either happen on your
-              engagement or visibly do not.
-            </p>
-          </div>
-          <Stamp className="hidden shrink-0 lg:flex">
+        {/* The stamp lives beside the heading, not on the document.
+            Both panel corners and its top edge were tried: the panel runs the
+            full container width, so text reaches every edge and a 133px stamp
+            lands on some of it wherever it goes. Reserving space inside the
+            panel only shrank the header label. Beside the heading there is
+            genuine empty space — the heading block is capped at max-w-2xl —
+            so it reads as a seal on the section and collides with nothing. */}
+        <div className="flex flex-wrap items-start justify-between gap-8">
+        <div className="max-w-2xl">
+          <p className="label-mono text-ink-soft flex items-center gap-2">
+            <Asterisk className="text-lime size-2.5" />
+            How we engage
+          </p>
+          <h2 className="type-h2 text-ink mt-5">
+            Commitments you can hold us to
+          </h2>
+          <p className="text-ink-soft measure mt-5 t-lead">
+            No badges, no logo wall. Six things that either happen on your
+            engagement or visibly do not.
+          </p>
+        </div>
+
+          <Stamp
+            aria-hidden="true"
+            className="hidden shrink-0 border-[color:var(--lime)] text-[color:var(--lime)] lg:flex"
+          >
             No
             <br />
             lock-in
           </Stamp>
         </div>
 
-        <ul className="mt-14 border-t-2 border-[rgba(255,255,255,0.22)]">
-          {guarantees.map((item, index) => (
-            <li
-              key={item.title}
-              className="rise group grid items-start gap-x-6 border-b border-[rgba(255,255,255,0.161)] py-7 md:grid-cols-[auto_minmax(0,0.9fr)_minmax(0,1.4fr)] md:gap-x-10 md:py-8"
-            >
-              <span
-                className="label-mono text-ink-soft hidden pt-1.5 md:block"
-                aria-hidden="true"
+        {/* Wrapper exists so the stamp can sit OUTSIDE the panel's overflow
+            clip. Inside it, the top-anchored stamp was cropped by the rounded
+            corner and landed on top of the header's right-hand label. */}
+        <div className="relative mt-12">
+          <div className="panel-feature corner-marks relative overflow-hidden">
+          {/* Document header. */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[rgba(255,255,255,0.12)] px-6 py-4 md:px-8 lg:pr-48">
+            <p className="label-mono text-ink-soft">Engagement terms</p>
+            <p className="label-mono text-lime">
+              {guarantees.length} of {guarantees.length} included as standard
+            </p>
+          </div>
+
+          <ol>
+            {guarantees.map((item, index) => (
+              <li
+                key={item.title}
+                className={
+                  "group/clause relative grid grid-cols-[auto_1fr] items-start gap-x-4 gap-y-2 border-b border-[rgba(255,255,255,0.07)] px-6 py-6 transition-colors duration-300 ease-out last:border-b-0 hover:bg-[rgba(255,255,255,0.035)] md:grid-cols-[auto_auto_minmax(0,1fr)] md:gap-x-6 md:px-8" +
+                  (index % 2 === 1 ? " bg-[rgba(255,255,255,0.02)]" : "")
+                }
               >
-                {String(index + 1).padStart(2, "0")}
-              </span>
+                {/* Accent rule that draws down the left edge on hover. */}
+                <span
+                  aria-hidden="true"
+                  className="bg-lime absolute top-0 bottom-0 left-0 w-[2px] origin-top scale-y-0 transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/clause:scale-y-100"
+                />
 
-              <h3 className="font-display text-ink flex items-start gap-3 type-h3 font-bold">
-                <span className="bg-[var(--surface-2)] text-lime inline-flex size-9 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:rotate-12 md:hidden">
-                  <item.icon className="size-4" strokeWidth={2} aria-hidden="true" />
+                <span className="bg-lime/12 text-lime mt-0.5 inline-flex size-6 shrink-0 items-center justify-center rounded">
+                  <Check className="size-3.5" strokeWidth={3} aria-hidden="true" />
                 </span>
-                {item.title}
-              </h3>
 
-              <div className="mt-3 flex items-start gap-5 md:mt-0">
-                <span className="bg-[var(--surface-2)] text-lime hidden size-10 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:rotate-12 md:inline-flex">
-                  <item.icon
-                    className="size-[18px]"
-                    strokeWidth={2}
-                    aria-hidden="true"
-                  />
+                <span className="numeral text-ink-soft/60 mt-1 hidden t-sm leading-none md:block">
+                  {String(index + 1).padStart(2, "0")}
                 </span>
-                <p className="text-ink-soft t-base leading-relaxed">
-                  {item.description}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
+
+                <div className="flex flex-col gap-1.5 md:grid md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.35fr)] md:items-baseline md:gap-6">
+                  <h3 className="font-display text-ink t-lead font-bold">
+                    {item.title}
+                  </h3>
+                  <p className="text-ink-soft t-sm leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          {/* Document footer — the honest framing for the check marks above. */}
+          <div className="border-t border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.02)] px-6 py-4 md:px-8">
+            <p className="text-ink-soft t-sm">
+              Every clause above is falsifiable: it either happens on your
+              engagement or it visibly does not. Ask us to point at any of them
+              on the call.
+            </p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

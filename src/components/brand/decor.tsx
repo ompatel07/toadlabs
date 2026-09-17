@@ -239,12 +239,11 @@ export function CrossMark({ className }: { className?: string }) {
 export function Stamp({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+  ...rest
+}: React.ComponentPropsWithoutRef<"span">) {
   return (
     <span
+      {...rest}
       className={cn(
         "border-ink text-ink label-mono flex size-24 shrink-0 -rotate-12 items-center justify-center rounded-full border-2 text-center leading-[1.3] md:size-28",
         className,
