@@ -6,6 +6,11 @@ function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
   return (
     <AccordionPrimitive.Root
       data-slot="accordion"
+      // Closed panels stay in the HTML as hidden="until-found" instead of being
+      // unmounted. Without this the FAQ answers did not exist in the static
+      // page at all, so crawlers indexed the questions but never the answers,
+      // and browser find-in-page could not reach them either.
+      hiddenUntilFound
       className={cn("flex w-full flex-col", className)}
       {...props}
     />

@@ -1,4 +1,7 @@
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import type { SecurityService } from "@/config/security";
+import { pageForServiceId, servicePagePath } from "@/config/service-pages";
 import { cn } from "@/lib/utils";
 
 /**
@@ -33,6 +36,7 @@ export function SecurityCapabilities({
   return (
     <ul className="mt-12 grid gap-3 md:grid-cols-2 xl:grid-cols-6">
       {services.map((service, index) => {
+        const detail = pageForServiceId(service.id);
         const { span = "xl:col-span-2", dark = false } =
           LAYOUT[service.id] ?? {};
         return (
@@ -143,6 +147,19 @@ export function SecurityCapabilities({
                   </li>
                 ))}
               </ul>
+
+              {detail ? (
+                <Link
+                  href={servicePagePath(detail)}
+                  className={cn(
+                    "relative inline-flex w-fit cursor-pointer items-center gap-1.5 py-1 t-sm font-medium underline-offset-4 transition-colors duration-200 ease-out hover:underline",
+                    dark ? "text-lime" : "text-ink hover:text-[color:var(--lime)]",
+                  )}
+                >
+                  {detail.name} details
+                  <ArrowUpRight className="size-4" aria-hidden="true" />
+                </Link>
+              ) : null}
             </article>
           </li>
         );

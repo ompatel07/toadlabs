@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { services, homeServiceIds } from "@/config/services";
+import { pageForServiceId, servicePagePath } from "@/config/service-pages";
 import { Asterisk } from "@/components/brand/decor";
 import { tones, accentAt } from "@/lib/tones";
 import { cn } from "@/lib/utils";
@@ -64,13 +65,14 @@ export function ServicesRail() {
             <ul className="rail-track">
               {railServices.map((service, index) => {
                 const tone = tones[accentAt(index, [0, 4, 8])];
+                const detail = pageForServiceId(service.id);
                 return (
                   <li
                     key={service.id}
                     className="rail-card w-[78vw] shrink-0 sm:w-[380px]"
                   >
                     <Link
-                      href={`/services#${service.id}`}
+                      href={detail ? servicePagePath(detail) : `/services#${service.id}`}
                       data-cursor="Explore"
                       className={cn(
                         "group relative flex h-full min-h-[320px] cursor-pointer flex-col gap-4 overflow-hidden rounded-xl border p-7 transition-colors duration-300 ease-out hover:border-ink md:p-8",

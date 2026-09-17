@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { jsonLd } from "@/lib/json-ld";
 import { ArrowRight } from "lucide-react";
 import { services } from "@/config/services";
-import { siteConfig } from "@/config/site";
+import { buildPages, servicePagePath } from "@/config/service-pages";
+import { absoluteUrl, breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
 import { ActionLink } from "@/components/ui-brand/action";
@@ -11,28 +12,32 @@ import { StackGrid } from "@/components/sections/stack-grid";
 import { CostDrivers } from "@/components/sections/cost-drivers";
 import { FinalCta } from "@/components/sections/final-cta";
 
-export const metadata: Metadata = {
-  title: "Services",
+export const metadata: Metadata = pageMetadata({
+  title: "Software Development Services in Ahmedabad",
   description:
-    "Websites, web and mobile apps, MVPs, SaaS products, CRM, AI automation, WhatsApp automation, chatbots and voice assistants — built by Toad Labs in Ahmedabad.",
-  alternates: { canonical: "/services" },
-};
+    "Website, mobile app, MVP, SaaS, CRM and custom software development, plus AI automation, WhatsApp automation, chatbots and voice agents from Toad Labs, Ahmedabad.",
+  path: "/services",
+  image: "services",
+});
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Toad Labs services",
-  itemListElement: services.map((service, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    item: {
-      "@type": "Service",
-      name: service.title,
-      description: service.description,
-      provider: { "@type": "Organization", name: siteConfig.name },
-      url: `${siteConfig.siteUrl}/services#${service.id}`,
+  "@graph": [
+    {
+      "@type": "ItemList",
+      name: "Toad Labs software development services",
+      itemListElement: buildPages.map((page, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: absoluteUrl(servicePagePath(page)),
+        name: page.name,
+      })),
     },
-  })),
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Services", path: "/services" },
+    ]),
+  ],
 };
 
 export default function ServicesPage() {
@@ -60,9 +65,9 @@ export default function ServicesPage() {
       />
 
       <PageHeader
-        eyebrow="Services"
-        title="Ten things we build, held to one standard"
-        description="We scope around the outcome you need, not a package tier. Whatever we build ships with tests that mean something, a release process your team can run, and every account in your name."
+        eyebrow="Software development services"
+        title="Software development services, held to one standard"
+        description="Websites, web and mobile apps, MVPs, SaaS, CRM and AI automation, built in Ahmedabad for businesses across India and beyond. Scoped around the outcome you need, shipped with tests that mean something, and every account in your name."
         aside={
           <div className="panel-feature panel-edge flex flex-col gap-3 p-6 lg:w-[300px]">
             <p className="label-mono text-ink-soft">Not sure which you need?</p>

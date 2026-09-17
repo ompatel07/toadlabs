@@ -16,7 +16,7 @@ export function SiteFooter() {
               {/* City and full stop are joined into one string. As separate
                   JSX nodes the browser could break between them, which left a
                   lone "." on its own line — on every page. */}
-              {siteConfig.tagline} An IT services and cybersecurity studio in{" "}
+              {siteConfig.tagline} An IT services and cybersecurity company in{" "}
               {`${siteConfig.location.city}.`}
             </p>
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { ArrowUpRight, Bug, Clock, Mail, MapPin, MessageCircle, ShieldCheck } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/config/site";
 import { Asterisk, TickerStrip } from "@/components/brand/decor";
@@ -6,11 +7,12 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Section } from "@/components/layout/section";
 import { ContactForm } from "@/components/sections/contact-form";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: `Talk to Toad Labs about a build or a security engagement. Based in ${siteConfig.location.full}.`,
-  alternates: { canonical: "/contact" },
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Toad Labs in Ahmedabad",
+  description:
+    "Talk to Toad Labs about software development, AI automation, VAPT or penetration testing. Book a call or message us on WhatsApp. Based in Ahmedabad, Gujarat, India.",
+  path: "/contact",
+});
 
 /**
  * What actually happens after someone sends the form.

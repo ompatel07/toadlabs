@@ -60,7 +60,7 @@ export function Hero() {
   return (
     <section className="relative flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-x-clip pb-6 md:h-[calc(100svh-var(--header-h))] md:min-h-0">
       {/* Node network behind the composition. A network graph is the right
-          motif for a studio that builds and tests systems — and it responds to
+          motif for a company that builds and tests systems — and it responds to
           the pointer, so the hero is something you can push around. */}
       <ParticleNetwork className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
       {/* Meta row */}
@@ -103,12 +103,18 @@ export function Hero() {
       {/* Stage */}
       <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center md:block">
         {/* Layer 1: wordmark, pinned to the top of the stage. */}
-        <h1 className="mt-2 w-[92vw] md:absolute md:top-0 md:left-1/2 md:mt-0 md:-translate-x-1/2">
-          <span className="sr-only">Toad Labs</span>
-          {/* Decorative here — the accessible name is the hidden text above, so
-              it is not announced twice. */}
+        <div className="mt-2 w-[92vw] md:absolute md:top-0 md:left-1/2 md:mt-0 md:-translate-x-1/2">
+          {/* The visible wordmark is decorative, so the heading's text lives
+              here. It names what the company is, in the words people search
+              for, and matches the page title and the copy directly below. */}
+          <h1 className="sr-only">
+            Toad Labs: IT services and cybersecurity company in Ahmedabad
+          </h1>
+          {/* Decorative, and deliberately outside the h1: its SVG text is
+              readable by crawlers and would otherwise be appended to the
+              heading ("…in AhmedabadTOAD LABS."). */}
           <WavyWordmark />
-        </h1>
+        </div>
 
         {/* Layer 2: the object, anchored to the bottom of the stage and sized
             by stage height. Bottom-anchored plus height-sized is what keeps it

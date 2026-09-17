@@ -1,5 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import type { Service } from "@/config/services";
+import { pageForServiceId, servicePagePath } from "@/config/service-pages";
 import { Asterisk } from "@/components/brand/decor";
 import { cn } from "@/lib/utils";
 
@@ -48,6 +50,7 @@ export function ServicesLedger({ services }: { services: Service[] }) {
       <ul className="border-t border-[rgba(255,255,255,0.16)]">
         {services.map((service, index) => {
           const feature = FEATURED.has(service.id);
+          const detail = pageForServiceId(service.id);
           return (
             <li
               key={service.id}
@@ -146,13 +149,24 @@ export function ServicesLedger({ services }: { services: Service[] }) {
                       ))}
                     </ul>
 
-                    <a
-                      href="/contact"
-                      className="text-ink mt-2 inline-flex w-fit cursor-pointer items-center gap-1.5 py-1.5 t-sm font-medium underline-offset-4 transition-colors duration-200 ease-out hover:text-[color:var(--lime)] hover:underline"
-                    >
-                      Talk about {service.title.toLowerCase()}
-                      <ArrowUpRight className="size-4" aria-hidden="true" />
-                    </a>
+                    <div className="mt-2 flex flex-wrap items-center gap-x-6 gap-y-1">
+                      {detail ? (
+                        <Link
+                          href={servicePagePath(detail)}
+                          className="text-lime inline-flex w-fit cursor-pointer items-center gap-1.5 py-1.5 t-sm font-medium underline-offset-4 hover:underline"
+                        >
+                          {detail.name}: full details
+                          <ArrowUpRight className="size-4" aria-hidden="true" />
+                        </Link>
+                      ) : null}
+                      <Link
+                        href="/contact"
+                        className="text-ink inline-flex w-fit cursor-pointer items-center gap-1.5 py-1.5 t-sm font-medium underline-offset-4 transition-colors duration-200 ease-out hover:text-[color:var(--lime)] hover:underline"
+                      >
+                        Talk to us about this
+                        <ArrowUpRight className="size-4" aria-hidden="true" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </article>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { jsonLd } from "@/lib/json-ld";
+import { absoluteUrl, pageMetadata } from "@/lib/seo";
 import { faqs } from "@/config/home";
 import { siteConfig } from "@/config/site";
 import { Hero } from "@/components/sections/hero";
@@ -15,57 +16,29 @@ import { StackMarquee } from "@/components/sections/stack-marquee";
 import { Faq } from "@/components/sections/faq";
 import { FinalCta } from "@/components/sections/final-cta";
 
-export const metadata: Metadata = {
-  // Home uses the layout's default title rather than the "%s — Toad Labs"
-  // template, so the brand name is not repeated.
-  title: {
-    absolute: `${siteConfig.name} — ${siteConfig.tagline}`,
-  },
+export const metadata: Metadata = pageMetadata({
+  // Brand first, then the category people search for. The home page skips
+  // the "%s — Toad Labs" template so the name is not repeated.
+  title: `${siteConfig.name} — ${siteConfig.category}`,
   description: siteConfig.description,
-  alternates: { canonical: "/" },
-};
+  path: "/",
+  absoluteTitle: true,
+});
 
 /**
- * Organization + FAQPage structured data. The FAQ entries are generated from
- * the same config the accordion renders, so the markup can never drift from
- * what is on the page.
+ * FAQPage structured data. The entries are generated from the same config the
+ * accordion renders, so the markup can never drift from what is on the page.
+ * The Organization and WebSite nodes are emitted site-wide by the layout.
  */
 const structuredData = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "ProfessionalService",
-      "@id": `${siteConfig.siteUrl}/#organization`,
-      name: siteConfig.name,
-      description: siteConfig.description,
-      url: siteConfig.siteUrl,
-      email: siteConfig.email,
-      areaServed: "Worldwide",
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: siteConfig.location.city,
-        addressRegion: siteConfig.location.region,
-        addressCountry: "IN",
-      },
-      knowsAbout: [
-        "Web application development",
-        "Mobile application development",
-        "SaaS product development",
-        "AI automation",
-        "Penetration testing",
-        "Vulnerability assessment",
-      ],
-    },
-    {
-      "@type": "FAQPage",
-      "@id": `${siteConfig.siteUrl}/#faq`,
-      mainEntity: faqs.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-  ],
+  "@type": "FAQPage",
+  "@id": `${absoluteUrl("/")}#faq`,
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
 };
 
 export default function HomePage() {

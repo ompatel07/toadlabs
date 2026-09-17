@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SplitText } from "@/components/brand/split-text";
 import { Asterisk, DotGrid, OutlineType } from "@/components/brand/decor";
 import { ParticleNetwork } from "@/components/brand/particle-network";
@@ -11,6 +12,8 @@ interface PageHeaderProps {
   description?: React.ReactNode;
   /** Optional right-hand slot: actions, stats, or a summary card. */
   aside?: React.ReactNode;
+  /** Trail above the eyebrow, ending at the current page (not linked). */
+  breadcrumbs?: { name: string; href: string }[];
   /** Oversized outlined word behind the title. Defaults to the eyebrow. */
   watermark?: string;
   className?: string;
@@ -43,6 +46,7 @@ export function PageHeader({
   title,
   description,
   aside,
+  breadcrumbs,
   watermark,
   className,
 }: PageHeaderProps) {
@@ -78,6 +82,34 @@ export function PageHeader({
       <div className="container-tl relative">
         <div className="grid gap-12 lg:grid-cols-[1.45fr_1fr] lg:items-end">
           <div className="flex flex-col gap-5">
+            {breadcrumbs?.length ? (
+              <nav aria-label="Breadcrumb">
+                <ol className="text-ink-soft flex flex-wrap items-center gap-x-2 gap-y-1 t-sm">
+                  {breadcrumbs.map((crumb, index) => {
+                    const last = index === breadcrumbs.length - 1;
+                    return (
+                      <li key={crumb.href} className="flex items-center gap-2">
+                        {last ? (
+                          <span aria-current="page" className="text-ink">
+                            {crumb.name}
+                          </span>
+                        ) : (
+                          <>
+                            <Link
+                              href={crumb.href}
+                              className="hover:text-ink cursor-pointer py-1 underline-offset-4 transition-colors duration-200 ease-out hover:underline"
+                            >
+                              {crumb.name}
+                            </Link>
+                            <span aria-hidden="true">/</span>
+                          </>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </nav>
+            ) : null}
             <p className="label-mono text-lime flex items-center gap-2.5">
               <Asterisk className="size-2.5" />
               {eyebrow}

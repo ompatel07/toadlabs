@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Check, FileText, Mail, ShieldCheck, X } from "lucide-react";
 import {
   dataHandling,
@@ -11,12 +12,13 @@ import { Section } from "@/components/layout/section";
 import { Asterisk } from "@/components/brand/decor";
 import { FinalCta } from "@/components/sections/final-cta";
 
-export const metadata: Metadata = {
-  title: "Security & disclosure",
+export const metadata: Metadata = pageMetadata({
+  title: "Security & Vulnerability Disclosure Policy",
   description:
-    "Toad Labs' vulnerability disclosure policy, how we handle client data during an engagement, and the structure of our deliverables.",
-  alternates: { canonical: "/security" },
-};
+    "Toad Labs' vulnerability disclosure policy, how we protect client data during security engagements, and what our VAPT and penetration testing reports contain.",
+  path: "/security",
+  image: "cybersecurity",
+});
 
 export default function SecurityPolicyPage() {
   return (

@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { jsonLd } from "@/lib/json-ld";
 import { ArrowRight, Check } from "lucide-react";
-import {
-  securityServices,
-} from "@/config/security";
+import { securityFaqs, securityServices } from "@/config/security";
 import { standards } from "@/config/trust";
-import { siteConfig } from "@/config/site";
+import { securityPages, servicePagePath } from "@/config/service-pages";
+import { absoluteUrl, breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
 import { Section, SectionHeading } from "@/components/layout/section";
@@ -18,27 +17,40 @@ import { Deliverables } from "@/components/sections/deliverables";
 import { SecurityFaq } from "@/components/sections/security-faq";
 import { FinalCta } from "@/components/sections/final-cta";
 
-export const metadata: Metadata = {
-  title: "Cybersecurity",
+export const metadata: Metadata = pageMetadata({
+  title: "Cybersecurity & VAPT Company in Ahmedabad",
   description:
-    "VAPT, web and mobile penetration testing, security audits, secure code review, cloud posture, compliance readiness and incident response readiness — tested against OWASP ASVS, PTES and NIST SP 800-115.",
-  alternates: { canonical: "/cybersecurity" },
-};
+    "VAPT, web and mobile penetration testing, security audits, code review, cloud security and ISO 27001 readiness from Toad Labs, a cybersecurity company in Ahmedabad.",
+  path: "/cybersecurity",
+  image: "cybersecurity",
+});
 
 const structuredData = {
   "@context": "https://schema.org",
-  "@type": "Service",
-  serviceType: "Cybersecurity testing and assessment",
-  provider: { "@type": "Organization", name: siteConfig.name },
-  areaServed: "Worldwide",
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Cybersecurity services",
-    itemListElement: securityServices.map((service) => ({
-      "@type": "Offer",
-      itemOffered: { "@type": "Service", name: service.title },
-    })),
-  },
+  "@graph": [
+    {
+      "@type": "ItemList",
+      name: "Toad Labs cybersecurity services",
+      itemListElement: securityPages.map((page, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: absoluteUrl(servicePagePath(page)),
+        name: page.name,
+      })),
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: securityFaqs.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: { "@type": "Answer", text: item.answer },
+      })),
+    },
+    breadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Cybersecurity", path: "/cybersecurity" },
+    ]),
+  ],
 };
 
 export default function CybersecurityPage() {
@@ -64,9 +76,9 @@ export default function CybersecurityPage() {
       />
 
       <PageHeader
-        eyebrow="Cybersecurity"
-        title="We attack your software, then hand you the fix"
-        description="Security testing run by engineers who ship production software. Every finding arrives with steps to reproduce it, its real-world impact, and a fix that compiles in your codebase — never just a scanner ID and a severity label."
+        eyebrow="Cybersecurity services · VAPT · Pentesting"
+        title="VAPT and penetration testing that ends in a fix"
+        description="VAPT and penetration testing from Ahmedabad, run by engineers who ship production software. Every finding arrives with steps to reproduce it, its real-world impact, and a fix that compiles in your codebase — never just a scanner ID and a severity label."
         aside={
           <div className="panel-feature panel-edge flex flex-col gap-4 rounded-xl p-6 lg:w-[320px]">
             <p className="label-mono text-ink-soft">Every engagement includes</p>

@@ -1,10 +1,13 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Inter,
   Inter_Tight,
   JetBrains_Mono,
 } from "next/font/google";
 import { siteConfig } from "@/config/site";
+import { servicePages, servicePagePath } from "@/config/service-pages";
+import { absoluteUrl, pageMetadata } from "@/lib/seo";
+import { jsonLd } from "@/lib/json-ld";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { PageTransition } from "@/components/layout/page-transition";
@@ -32,27 +35,115 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
+const defaults = pageMetadata({
+  title: `${siteConfig.name} — ${siteConfig.category}`,
+  description: siteConfig.description,
+  path: "/",
+  absoluteTitle: true,
+});
+
 export const metadata: Metadata = {
+  ...defaults,
   metadataBase: new URL(siteConfig.siteUrl),
   title: {
-    default: `${siteConfig.name} — ${siteConfig.tagline}`,
+    default: `${siteConfig.name} — ${siteConfig.category}`,
     template: `%s — ${siteConfig.name}`,
   },
-  description: siteConfig.description,
-  openGraph: {
-    type: "website",
-    locale: "en_IN",
-    siteName: siteConfig.name,
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
-    url: siteConfig.siteUrl,
+  // No layout-level canonical: it would be inherited by any page that forgot
+  // its own and point that page at the home page.
+  alternates: undefined,
+  applicationName: siteConfig.name,
+  category: "technology",
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  formatDetection: { telephone: false, email: false, address: false },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
-  twitter: {
-    card: "summary_large_image",
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
-    description: siteConfig.description,
-  },
-  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0c11",
+  colorScheme: "dark",
+};
+
+/**
+ * Site-wide entity data, on every page. Search engines use it to understand
+ * WHAT Toad Labs is — an IT services and cybersecurity company in Ahmedabad —
+ * and to connect every page's own structured data back to one organisation
+ * through its @id.
+ */
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": `${siteConfig.siteUrl}/#organization`,
+      name: siteConfig.name,
+      description: siteConfig.description,
+      slogan: siteConfig.tagline,
+      url: absoluteUrl("/"),
+      logo: `${siteConfig.siteUrl}/icon.png`,
+      image: `${siteConfig.siteUrl}/og/default.png`,
+      email: siteConfig.email,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: siteConfig.location.city,
+        addressRegion: siteConfig.location.region,
+        addressCountry: "IN",
+      },
+      areaServed: [
+        { "@type": "City", name: "Ahmedabad" },
+        { "@type": "State", name: "Gujarat" },
+        { "@type": "Country", name: "India" },
+        "Worldwide",
+      ],
+      knowsAbout: [
+        "Website development",
+        "Web application development",
+        "Mobile app development",
+        "MVP development",
+        "SaaS development",
+        "CRM development",
+        "AI automation",
+        "WhatsApp Business API automation",
+        "AI chatbot development",
+        "AI voice agents",
+        "Custom software development",
+        "Cybersecurity",
+        "VAPT",
+        "Penetration testing",
+        "Security audits",
+        "Secure code review",
+        "Cloud security",
+        "ISO 27001 readiness",
+        "SOC 2 readiness",
+        "Incident response",
+      ],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "IT services and cybersecurity services",
+        itemListElement: servicePages.map((page) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: page.name,
+            url: absoluteUrl(servicePagePath(page)),
+          },
+        })),
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteConfig.siteUrl}/#website`,
+      name: siteConfig.name,
+      url: absoluteUrl("/"),
+      inLanguage: "en-IN",
+      publisher: { "@id": `${siteConfig.siteUrl}/#organization` },
+    },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -68,6 +159,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={jsonLd(organizationJsonLd)}
+        />
         {/* Drifting colour field behind the whole site. Decorative, fixed,
             and pointer-transparent; the grain overlay above it hides the
             banding that large soft gradients cause on 8-bit displays. */}

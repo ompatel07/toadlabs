@@ -9,22 +9,37 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-/** Objection-handling for security buyers — the questions that decide a deal. */
-export function SecurityFaq() {
+interface FaqSectionProps {
+  items?: { question: string; answer: string }[];
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+}
+
+/**
+ * Question-and-answer section. Defaults to the security buyer questions on
+ * /cybersecurity; service pages pass their own.
+ */
+export function SecurityFaq({
+  items = securityFaqs,
+  eyebrow = "Before you ask",
+  title = "The questions buyers actually ask",
+  description = "Mostly about risk, access, and whether we will overstate what we can do.",
+}: FaqSectionProps) {
   return (
     <Section dense className="tex-rules glow-right relative">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
         <SectionHeading
-          eyebrow="Before you ask"
-          title="The questions buyers actually ask"
-          description="Mostly about risk, access, and whether we will overstate what we can do."
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
         />
 
         <Accordion
           multiple={false}
           className="border-t border-[rgba(255,255,255,0.138)]"
         >
-          {securityFaqs.map((item) => (
+          {items.map((item) => (
             <AccordionItem
               key={item.question}
               value={item.question}

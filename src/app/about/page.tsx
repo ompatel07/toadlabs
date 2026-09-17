@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { siteConfig } from "@/config/site";
 import { PageHeader } from "@/components/layout/page-header";
 import { TickerStrip } from "@/components/brand/decor";
@@ -8,12 +9,12 @@ import { Sectors } from "@/components/sections/sectors";
 import { PrinciplesIndex } from "@/components/sections/principles-index";
 import { FinalCta } from "@/components/sections/final-cta";
 
-export const metadata: Metadata = {
-  title: "About",
+export const metadata: Metadata = pageMetadata({
+  title: "About Us: IT Services & Cybersecurity Team",
   description:
-    "Toad Labs is a founder-led engineering studio in Ahmedabad. We build software and services for clients, and run the offensive security testing that proves it holds up.",
-  alternates: { canonical: "/about" },
-};
+    "Toad Labs is a founder-led IT services and cybersecurity company in Ahmedabad. One team builds your software and runs the security testing that proves it holds up.",
+  path: "/about",
+});
 
 /**
  * NOTE ON CONTENT
@@ -39,7 +40,7 @@ const principles = [
   },
   {
     title: "Build it, then attack it",
-    copy: "Running security testing in the same studio changes how we build. You write authorisation differently when you know the person reviewing it will be trying to bypass it next month.",
+    copy: "Running security testing in the same team changes how we build. You write authorisation differently when you know the person reviewing it will be trying to bypass it next month.",
   },
   {
     title: "No lock-in by design",
@@ -57,7 +58,7 @@ export default function AboutPage() {
       <PageHeader
         eyebrow="About"
         title="We maintain what we build. That changes how we build."
-        description="A founder-led studio in Ahmedabad, running its own products alongside client work. The habits that keep software cheap to change in year two are ones we already need for ourselves — you inherit them by default."
+        description="A founder-led IT services and cybersecurity company in Ahmedabad, running its own products alongside client work. The habits that keep software cheap to change in year two are ones we already need for ourselves — you inherit them by default."
       />
 
       <TickerStrip
@@ -170,7 +171,7 @@ export default function AboutPage() {
 
       <FinalCta
         title="Work with us"
-        description="Tell us what you are building, or what you need tested. We will tell you honestly whether we are the right studio for it."
+        description="Tell us what you are building, or what you need tested. We will tell you honestly whether we are the right team for it."
       />
     </>
   );

@@ -52,7 +52,7 @@ export function WriteupAnatomy() {
       <SectionHeading
         eyebrow="Anatomy"
         title="What a write-up contains"
-        description="Every case study on this site follows the same four-part structure, because those are the four things that let you judge a studio you have not worked with yet."
+        description="Every case study on this site follows the same four-part structure, because those are the four things that let you judge a company you have not worked with yet."
       />
 
       <div className="mt-14 grid gap-12 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-16">

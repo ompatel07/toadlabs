@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 /**
  * Build / Secure — as two opposing halves.
  *
- * The layout argues what the copy says — "two halves of one studio": two
+ * The layout argues what the copy says — "two halves of one team": two
  * panels meeting at a hard seam, sized equally because neither half is the
  * junior one.
  *
@@ -30,7 +30,7 @@ export function Pillars() {
         <div className="max-w-3xl">
           <p className="label-mono text-ink-soft flex items-center gap-2">
             <Asterisk className="text-lime-ink size-2.5" />
-            Two halves of one studio
+            Two halves of one team
           </p>
           <h2 className="type-h2 text-ink mt-5">
             Build it properly.{" "}

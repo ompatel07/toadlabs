@@ -25,7 +25,7 @@ export const hero = {
   wordmark: "Toad Labs.",
   statement: "Software built to last in production — and attacked before it ships.",
   subtitle:
-    "One team designs your system, builds it, then attacks it. Most companies buy those from two vendors — and pay for the argument in between.",
+    "IT services and cybersecurity from Ahmedabad. One team builds your website, app, SaaS or AI automation, then tests it with VAPT and penetration testing — instead of two vendors arguing in between.",
   primaryCta: { label: "Book a call", href: "/contact" },
   secondaryCta: { label: "See our work", href: "/work" },
   /** Honest floating cards. No invented metrics. */

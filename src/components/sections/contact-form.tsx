@@ -157,7 +157,7 @@ export function ContactForm() {
         <p className="text-ink-soft measure t-lead">
           It goes to the engineers who would do the work, not a sales queue. You
           will get either a time to talk or an honest note that we are not the
-          right studio for it.
+          right team for it.
         </p>
         <button
           type="button"

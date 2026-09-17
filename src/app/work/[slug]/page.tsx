@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AlertTriangle, ArrowLeft, ArrowRight } from "lucide-react";
@@ -18,14 +19,14 @@ export async function generateMetadata({
   const study = getCaseStudy(slug);
   if (!study) return {};
 
-  return {
+  return pageMetadata({
     title: study.title,
     description: study.summary,
-    alternates: { canonical: `/work/${study.slug}` },
+    path: `/work/${study.slug}`,
     // A placeholder case study must never be indexed and mistaken for a real
     // client reference.
-    ...(study.isPlaceholder ? { robots: { index: false, follow: false } } : {}),
-  };
+    noindex: study.isPlaceholder,
+  });
 }
 
 /** Problem → Approach → Stack → Outcome, in that fixed order. */

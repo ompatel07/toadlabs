@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { AlertTriangle } from "lucide-react";
 import { caseStudies, hasPlaceholderWork } from "@/config/work";
 import { PageHeader } from "@/components/layout/page-header";
@@ -8,14 +9,14 @@ import { WorkIndex } from "@/components/sections/work-index";
 import { WriteupAnatomy } from "@/components/sections/writeup-anatomy";
 import { FinalCta } from "@/components/sections/final-cta";
 
-export const metadata: Metadata = {
-  title: "Work",
+export const metadata: Metadata = pageMetadata({
+  title: "Our Work: Software & Security Case Studies",
   description:
-    "How Toad Labs approaches a build: problem, approach, stack, outcome. Illustrative case studies.",
-  alternates: { canonical: "/work" },
+    "How Toad Labs approaches software development and security engagements: the problem, our approach, the stack and the outcome. Illustrative case studies.",
+  path: "/work",
   // Placeholder work must not be indexed as if it were real client evidence.
-  ...(hasPlaceholderWork ? { robots: { index: false, follow: true } } : {}),
-};
+  noindex: hasPlaceholderWork,
+});
 
 export default function WorkPage() {
   return (

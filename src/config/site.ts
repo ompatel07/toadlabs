@@ -17,8 +17,12 @@ export const siteConfig = {
   /** Used for metadata, sitemap and canonical URLs. TODO: real domain. */
   siteUrl: "https://toadlabs.in",
   tagline: "Software built to last in production — and attacked before it ships.",
+  /** What the business is, in the words people search for. Leads every
+   *  default title and link preview, so a shared link says "IT services and
+   *  cybersecurity", not just a slogan. */
+  category: "IT Services & Cybersecurity Company in Ahmedabad",
   description:
-    "Toad Labs builds web and mobile products, MVPs, SaaS platforms and AI automation — and runs the security testing that proves they hold up. Build and offensive security in one team, from Ahmedabad, for clients across India and beyond.",
+    "Toad Labs is an IT services and cybersecurity company in Ahmedabad: websites, web and mobile apps, SaaS and AI automation, plus VAPT and penetration testing.",
 
   /** TODO: replace with the real inbox. */
   email: "hello@toadlabs.in",
@@ -49,31 +53,33 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: "Build",
     items: [
-      { label: "Websites", href: "/services#websites" },
-      { label: "Web & mobile apps", href: "/services#web-mobile-apps" },
-      { label: "MVP development", href: "/services#mvp" },
-      { label: "SaaS products", href: "/services#saas" },
-      { label: "CRM", href: "/services#crm" },
+      { label: "Websites", href: "/services/website-development" },
+      { label: "Web & mobile apps", href: "/services/web-mobile-app-development" },
+      { label: "MVP development", href: "/services/mvp-development" },
+      { label: "SaaS products", href: "/services/saas-development" },
+      { label: "CRM", href: "/services/custom-crm-development" },
     ],
   },
   {
     heading: "Automate",
     items: [
-      { label: "AI automation", href: "/services#ai-automation" },
-      { label: "WhatsApp automation", href: "/services#whatsapp-automation" },
-      { label: "AI chatbots", href: "/services#ai-chatbots" },
-      { label: "AI voice assistants", href: "/services#ai-voice" },
-      { label: "Custom solutions", href: "/services#custom" },
+      { label: "AI automation", href: "/services/ai-automation" },
+      { label: "WhatsApp automation", href: "/services/whatsapp-automation" },
+      { label: "AI chatbots", href: "/services/ai-chatbot-development" },
+      { label: "AI voice assistants", href: "/services/ai-voice-assistant-development" },
+      { label: "Custom software", href: "/services/custom-software-development" },
     ],
   },
   {
     heading: "Secure",
     items: [
-      { label: "VAPT", href: "/cybersecurity#vapt" },
-      { label: "Penetration testing", href: "/cybersecurity#pentesting" },
-      { label: "Security audits", href: "/cybersecurity#audits" },
-      { label: "Secure code review", href: "/cybersecurity#code-review" },
-      { label: "Cloud security", href: "/cybersecurity#cloud" },
+      { label: "VAPT", href: "/cybersecurity/vapt-services" },
+      { label: "Penetration testing", href: "/cybersecurity/penetration-testing" },
+      { label: "Security audits", href: "/cybersecurity/security-audit" },
+      { label: "Secure code review", href: "/cybersecurity/secure-code-review" },
+      { label: "Cloud security", href: "/cybersecurity/cloud-security-assessment" },
+      { label: "ISO 27001 & SOC 2 readiness", href: "/cybersecurity/iso-27001-soc-2-readiness" },
+      { label: "Incident response", href: "/cybersecurity/incident-response-readiness" },
     ],
   },
   {
