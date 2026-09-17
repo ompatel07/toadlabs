@@ -151,7 +151,7 @@ export default function ContactPage() {
       {/* Promoted out of the sidebar. This is the answer to the question every
           visitor has before they press send, and it was hiding in a small box
           under two other small boxes. */}
-      <Section className="pt-4 md:pt-8">
+      <Section className="bg-grid edge-rules relative pt-4 md:pt-8">
         <p className="label-mono text-ink-soft mb-8">
           After you press send
         </p>

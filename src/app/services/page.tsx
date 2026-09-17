@@ -63,7 +63,7 @@ export default function ServicesPage() {
         title="Ten things we build, held to one standard"
         description="We scope around the outcome you need, not a package tier. Whatever we build ships with tests that mean something, a release process your team can run, and every account in your name."
         aside={
-          <div className="card-solid flex flex-col gap-3 p-6 lg:w-[300px]">
+          <div className="panel-feature panel-edge flex flex-col gap-3 p-6 lg:w-[300px]">
             <p className="label-mono text-ink-soft">Not sure which you need?</p>
             <p className="text-ink t-base">
               Describe the problem rather than the solution — scoping it
@@ -99,7 +99,7 @@ export default function ServicesPage() {
         </div>
       </nav>
 
-      <section className="section" aria-label="Services in detail">
+      <section className="section bg-grid bg-glow-left relative" aria-label="Services in detail">
         <ServicesLedger services={services} />
       </section>
 

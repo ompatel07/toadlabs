@@ -1888,6 +1888,49 @@
     );
   }
 
+  /* Feature panel.
+     For the few blocks that carry a section on their own — the hero aside, the
+     closing CTA, the NDA card. Everything .card-solid has, plus an accent
+     corner wash and a brighter top edge, so it reads as the lit object in the
+     composition rather than one more tile.
+
+     Used sparingly. If every panel is a feature panel, none of them is. */
+  .panel-feature {
+    position: relative;
+    background:
+      radial-gradient(
+        80% 100% at 0% 0%,
+        rgba(60, 230, 141, 0.09) 0%,
+        rgba(60, 230, 141, 0) 58%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(255, 255, 255, 0) 40%
+      ),
+      var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-card);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* A hairline that runs along the top of a panel and fades at both ends —
+     the drawn-edge treatment, scoped to a container instead of a section. */
+  .panel-edge::before {
+    content: "";
+    position: absolute;
+    inset-inline: 12%;
+    top: -1px;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(60, 230, 141, 0.55),
+      transparent
+    );
+  }
+
   /* Fine horizontal ruling, like a ledger. For dense/tabular sections. */
   .bg-rules {
     position: relative;

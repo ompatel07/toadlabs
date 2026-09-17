@@ -68,7 +68,7 @@ export default function CybersecurityPage() {
         title="We attack your software, then hand you the fix"
         description="Security testing run by engineers who ship production software. Every finding arrives with steps to reproduce it, its real-world impact, and a fix that compiles in your codebase — never just a scanner ID and a severity label."
         aside={
-          <div className="card-solid flex flex-col gap-4 rounded-xl p-6 lg:w-[320px]">
+          <div className="panel-feature panel-edge flex flex-col gap-4 rounded-xl p-6 lg:w-[320px]">
             <p className="label-mono text-ink-soft">Every engagement includes</p>
             <ul className="flex flex-col gap-2.5">
               {[

@@ -26,7 +26,7 @@ export default function SecurityPolicyPage() {
         title="Report a vulnerability, and how we handle yours"
         description="A security vendor should be held to the standard it sells. This page is the policy we operate under — published, dated, and machine-readable."
         aside={
-          <div className="card-solid flex flex-col gap-4 rounded-xl p-6 lg:w-[320px]">
+          <div className="panel-feature panel-edge flex flex-col gap-4 rounded-xl p-6 lg:w-[320px]">
             <p className="label-mono text-ink-soft">Machine-readable</p>
             <p className="text-ink-soft t-base">
               Our disclosure contact is published to RFC 9116, so scanners and
@@ -186,7 +186,7 @@ export default function SecurityPolicyPage() {
       </section>
 
       {/* Report structure */}
-      <Section dense>
+      <Section dense className="bg-grid bg-glow-right relative">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="label-mono text-ink-soft">Deliverable</p>

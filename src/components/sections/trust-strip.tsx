@@ -36,7 +36,7 @@ export function TrustStrip() {
         ]}
       />
 
-      <section className="section-dense relative">
+      <section className="section-dense bg-grid bg-glow-right relative">
         <div className="container-tl">
           <h2 className="sr-only">How we work</h2>
 

@@ -162,7 +162,7 @@ export function ContactForm() {
       ref={formRef}
       onSubmit={onSubmit}
       noValidate
-      className="card-solid flex flex-col gap-8 rounded-xl p-6 md:p-9"
+      className="panel-feature panel-edge flex flex-col gap-8 rounded-xl p-6 md:p-9"
     >
       {/* Path choice. Asking this first is what lets the rest of the form ask
           fewer, more relevant questions. */}

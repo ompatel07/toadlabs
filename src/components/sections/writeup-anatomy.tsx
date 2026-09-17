@@ -63,7 +63,7 @@ export function WriteupAnatomy() {
           {/* A second sheet behind, to read as a document rather than a card. */}
           <div className="absolute inset-x-6 top-4 -z-10 h-full rounded-lg border border-[rgba(255,255,255,0.09)] bg-[var(--surface-2)]" />
 
-          <div className="card-solid relative flex flex-col gap-5 rounded-lg p-6 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.8)] md:p-8">
+          <div className="panel-feature corner-marks relative flex flex-col gap-5 rounded-lg p-6 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.8)] md:p-8">
             <div className="flex items-center justify-between gap-4">
               <span className="label-mono text-ink-soft">Case study</span>
               <span className="bg-lime text-canvas rounded-full px-2.5 py-1 label-mono">

@@ -12,7 +12,7 @@ import {
 /** Objection-handling for security buyers — the questions that decide a deal. */
 export function SecurityFaq() {
   return (
-    <Section dense>
+    <Section dense className="bg-rules bg-glow-right relative">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
         <SectionHeading
           eyebrow="Before you ask"
