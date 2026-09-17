@@ -59,7 +59,7 @@ export default function ContactPage() {
         speed="42s"
       />
 
-      <Section className="bg-dots bg-glow-right relative pt-10 md:pt-14">
+      <Section className="tex-sonar glow-right relative pt-10 md:pt-14">
         {/* Form first in DOM order so keyboard and screen-reader users reach it
             without traversing the contact rail. */}
         <div className="grid gap-8 lg:grid-cols-[1.55fr_1fr] lg:gap-12">
@@ -151,7 +151,7 @@ export default function ContactPage() {
       {/* Promoted out of the sidebar. This is the answer to the question every
           visitor has before they press send, and it was hiding in a small box
           under two other small boxes. */}
-      <Section className="bg-grid edge-rules relative pt-4 md:pt-8">
+      <Section className="tex-circuit edge-rules relative pt-4 md:pt-8">
         <p className="label-mono text-ink-soft mb-8">
           After you press send
         </p>

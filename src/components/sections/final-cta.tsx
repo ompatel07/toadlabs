@@ -34,7 +34,7 @@ export function FinalCta({
   primaryLabel = "Book a call",
 }: FinalCtaProps) {
   return (
-    <section className="section bg-glow-left relative">
+    <section className="section glow-left relative">
       <div className="container-tl">
         <Reveal>
           <Spotlight className="slab-dark on-dark slab-bloom relative overflow-hidden p-10 md:p-16 lg:p-20">

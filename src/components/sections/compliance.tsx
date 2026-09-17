@@ -24,7 +24,7 @@ import { Asterisk } from "@/components/brand/decor";
 export function Compliance() {
   return (
     <>
-      <Section surface="white" className="bg-grid edge-rules relative border-y border-[rgba(255,255,255,0.115)]">
+      <Section surface="white" className="tex-hatch edge-rules relative border-y border-[rgba(255,255,255,0.115)]">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <div>
             <SectionHeading
@@ -94,7 +94,7 @@ export function Compliance() {
         </div>
       </Section>
 
-      <Section className="bg-dots bg-glow-left relative">
+      <Section className="tex-hatch glow-left relative">
         <SectionHeading
           eyebrow="Built to be auditable"
           title="What makes software straightforward to audit"

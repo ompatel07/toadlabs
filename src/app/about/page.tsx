@@ -76,7 +76,7 @@ export default function AboutPage() {
 
       {/* Story — the one place on the site that breaks the card grid, set as a
           narrow measure offset left so it reads as writing rather than UI. */}
-      <Section className="bg-dots bg-glow-left relative">
+      <Section className="tex-sonar glow-left relative">
         <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-20">
           <div className="flex flex-col gap-6">
             <h2 className="font-display text-ink type-h2 font-bold">
@@ -153,7 +153,7 @@ export default function AboutPage() {
 
       {/* Principles — ruled rows rather than cards, to keep this page reading
           as an editorial piece. */}
-      <Section surface="white" className="bg-grid edge-rules relative border-y border-[rgba(255,255,255,0.115)]">
+      <Section surface="white" className="tex-circuit edge-rules relative border-y border-[rgba(255,255,255,0.115)]">
         <SectionHeading
           eyebrow="Principles"
           title="How we actually work"

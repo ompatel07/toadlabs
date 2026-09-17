@@ -21,7 +21,7 @@ import { Asterisk, OutlineType } from "@/components/brand/decor";
  */
 export function EngagementPhases() {
   return (
-    <section className="slab-dark on-dark bg-grid relative isolate overflow-clip py-20 md:py-28">
+    <section className="slab-dark on-dark tex-circuit relative isolate overflow-clip py-20 md:py-28">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_60%_at_85%_0%,rgba(60,230,141,0.16)_0%,rgba(60,230,141,0)_65%)]"

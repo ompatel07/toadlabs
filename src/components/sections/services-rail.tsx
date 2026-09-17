@@ -37,7 +37,7 @@ const railServices = homeServiceIds
 
 export function ServicesRail() {
   return (
-    <section className="rail-section bg-grid relative">
+    <section className="rail-section tex-circuit relative">
       <div className="rail-sticky">
         <div className="w-full">
           <div className="container-tl mb-10 flex flex-wrap items-end justify-between gap-6">

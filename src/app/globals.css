@@ -1762,59 +1762,98 @@
      Sections were flat colour, which is what made large areas feel empty
      rather than spacious. These are all sub-6% contrast: felt, not seen. */
 
-  /* Engineering grid. Masked so it fades out rather than ending on a hard
-     edge, which would read as a stray graphic. */
-  .bg-grid {
-    position: relative;
-  }
+  /* ── Ground textures ────────────────────────────────────────────────────
+     A 56px square grid and a dot matrix used to live here. Both are the
+     default texture of every dark SaaS template on the internet — the
+     shadcn/Vercel house look — and a visitor reads them, correctly, as a sign
+     that nobody chose anything. Replaced with three that mean something for a
+     studio which builds software and then attacks it.
 
-  .bg-grid::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 25%, transparent 82%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 25%, transparent 82%);
-  }
-
-  /* ── Background system ──────────────────────────────────────────────────
-     A near-black page needs layers or it reads as an empty screen. These are
-     the four treatments sections draw from. All are ::before/::after on the
-     section itself, pointer-events:none, and none of them costs an element.
+     All three are pure CSS or one inlined SVG: no network request, nothing to
+     ship, and each radially masked so it fades out before reaching the text.
 
      Rule of use: ONE per section, alternating down the page. Two at once is
-     noise, and the point is texture, not pattern.  */
+     noise, and the point is texture rather than pattern.
 
-  /* Dot matrix. Quieter than the grid — for text-heavy sections where a ruled
-     grid would fight the baseline. */
-  .bg-dots {
+     NAMING — do not prefix any of these with `bg-`. Every className here goes
+     through tailwind-merge, which groups utilities by prefix and keeps only
+     the last of a group. While these were `bg-circuit`, `bg-hatch` and so on,
+     a section written as `bg-hatch bg-glow-right` shipped as `bg-glow-right`:
+     tailwind-merge read them as two competing background utilities and deleted
+     one, at build time, silently, on every section that carried a texture and
+     a glow together. They are decorative ::before layers, not background
+     colours, so they live outside that namespace now.  */
+
+  /* Circuit traces. Orthogonal paths with 45-degree elbows, junction vias and
+     two component outlines. The brand object wears a microchip, so this is the
+     house pattern rather than a stock one.
+
+     Every fragment is self-contained and none touches a tile edge, which is
+     what lets it tile with no seam to align. */
+  .tex-circuit {
     position: relative;
   }
 
-  .bg-dots::before {
+  .tex-circuit::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background-image: radial-gradient(
-      rgba(255, 255, 255, 0.075) 1px,
-      transparent 1px
-    );
-    background-size: 26px 26px;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27220%27%20height%3D%27220%27%20viewBox%3D%270%200%20220%20220%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23fff%27%20stroke-opacity%3D%270.09%27%20stroke-width%3D%271.1%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M24%2040%20H74%20L92%2058%20V96%27%2F%3E%3Cpath%20d%3D%27M150%2028%20V64%20L132%2082%20H96%27%2F%3E%3Cpath%20d%3D%27M40%20150%20H78%20L96%20132%20V104%27%2F%3E%3Cpath%20d%3D%27M196%20120%20H160%20L142%20138%20V176%27%2F%3E%3Cpath%20d%3D%27M30%2096%20H62%27%2F%3E%3Cpath%20d%3D%27M118%20196%20V166%20L136%20148%27%2F%3E%3Cpath%20d%3D%27M172%2076%20H196%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27%23fff%27%20fill-opacity%3D%270.14%27%3E%3Ccircle%20cx%3D%2792%27%20cy%3D%2796%27%20r%3D%272.4%27%2F%3E%3Ccircle%20cx%3D%2796%27%20cy%3D%2782%27%20r%3D%272.4%27%2F%3E%3Ccircle%20cx%3D%2796%27%20cy%3D%27104%27%20r%3D%272.4%27%2F%3E%3Ccircle%20cx%3D%27142%27%20cy%3D%27138%27%20r%3D%272.4%27%2F%3E%3Ccircle%20cx%3D%27136%27%20cy%3D%27148%27%20r%3D%272.4%27%2F%3E%3Ccircle%20cx%3D%2730%27%20cy%3D%2796%27%20r%3D%272%27%2F%3E%3Ccircle%20cx%3D%27172%27%20cy%3D%2776%27%20r%3D%272%27%2F%3E%3Ccircle%20cx%3D%2724%27%20cy%3D%2740%27%20r%3D%272%27%2F%3E%3C%2Fg%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23fff%27%20stroke-opacity%3D%270.07%27%3E%3Crect%20x%3D%2784%27%20y%3D%2788%27%20width%3D%2716%27%20height%3D%2716%27%20rx%3D%272%27%2F%3E%3Crect%20x%3D%27130%27%20y%3D%27130%27%20width%3D%2714%27%20height%3D%2714%27%20rx%3D%272%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    background-size: 220px 220px;
     mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 20%, transparent 80%);
     -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 20%, transparent 80%);
   }
 
+  /* Sonar. Concentric rings expanding from below the section — a detection
+     sweep, which is the other half of what this studio does. One gradient, no
+     markup, no image. */
+  .tex-sonar {
+    position: relative;
+  }
+
+  .tex-sonar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: repeating-radial-gradient(
+      circle at 50% 118%,
+      transparent 0 62px,
+      rgba(255, 255, 255, 0.05) 62px 63px
+    );
+    mask-image: radial-gradient(ellipse 95% 85% at 50% 55%, #000 10%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse 95% 85% at 50% 55%, #000 10%, transparent 78%);
+  }
+
+  /* Engineering hatch. Fine 45-degree ruling, the way a section cut is filled
+     on a technical drawing. For dense and tabular blocks, where a pattern with
+     its own rhythm would fight the rows. */
+  .tex-hatch {
+    position: relative;
+  }
+
+  .tex-hatch::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent 0 9px,
+      rgba(255, 255, 255, 0.034) 9px 10px
+    );
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, #000 15%, transparent 82%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 45%, #000 15%, transparent 82%);
+  }
+
   /* An accent glow bleeding in from one edge. Gives a section a light source
      so its corners fall off into shadow instead of sitting flat. */
-  .bg-glow-left::after,
-  .bg-glow-right::after {
+  .glow-left::after,
+  .glow-right::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -1823,11 +1862,11 @@
     opacity: 0.7;
   }
 
-  .bg-glow-left {
+  .glow-left {
     position: relative;
   }
 
-  .bg-glow-left::after {
+  .glow-left::after {
     background: radial-gradient(
       55% 60% at 0% 45%,
       rgba(60, 230, 141, 0.11) 0%,
@@ -1835,11 +1874,11 @@
     );
   }
 
-  .bg-glow-right {
+  .glow-right {
     position: relative;
   }
 
-  .bg-glow-right::after {
+  .glow-right::after {
     background: radial-gradient(
       55% 60% at 100% 40%,
       rgba(63, 217, 232, 0.09) 0%,
@@ -1871,11 +1910,11 @@
 
   /* Vignette. Darkens the outer edges so the centre of a section reads as lit.
      Subtle on purpose — it should be felt, not seen. */
-  .bg-vignette {
+  .vignette {
     position: relative;
   }
 
-  .bg-vignette::after {
+  .vignette::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -1932,11 +1971,11 @@
   }
 
   /* Fine horizontal ruling, like a ledger. For dense/tabular sections. */
-  .bg-rules {
+  .tex-rules {
     position: relative;
   }
 
-  .bg-rules::before {
+  .tex-rules::before {
     content: "";
     position: absolute;
     inset: 0;

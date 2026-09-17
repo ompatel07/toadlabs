@@ -25,7 +25,7 @@ const routes = [
 export default function NotFound() {
   return (
     <>
-      <section className="section bg-grid bg-glow-left relative overflow-hidden">
+      <section className="section tex-circuit glow-left relative overflow-hidden">
         {/* Ghost numerals behind the message. Decorative and aria-hidden — the
             page's actual heading carries the meaning. */}
         <span
@@ -73,7 +73,7 @@ export default function NotFound() {
         reverse
       />
 
-      <section className="section-dense bg-dots relative">
+      <section className="section-dense tex-sonar relative">
         <div className="container-tl">
           <ul className="border-t border-[rgba(255,255,255,0.184)]">
             {routes.map((route, index) => (

@@ -69,7 +69,7 @@ export function PageHeader({
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(70%_80%_at_18%_100%,rgba(60,230,141,0.2)_0%,rgba(60,230,141,0)_68%)]"
       />
-      <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-[0.06]" />
+      <div aria-hidden="true" className="tex-circuit pointer-events-none absolute inset-0 -z-10 opacity-[0.06]" />
 
       <ParticleNetwork className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-70" />
 

@@ -31,7 +31,7 @@ import { Stamp, Asterisk } from "@/components/brand/decor";
  */
 export function Guarantees() {
   return (
-    <section className="section bg-rules bg-glow-right relative">
+    <section className="section tex-rules glow-right relative">
       <div className="container-tl">
         {/* The stamp lives beside the heading, not on the document.
             Both panel corners and its top edge were tried: the panel runs the

@@ -58,7 +58,7 @@ function HeroCard({
 
 export function Hero() {
   return (
-    <section className="bg-grid relative flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-x-clip pb-6 md:h-[calc(100svh-var(--header-h))] md:min-h-0">
+    <section className="tex-circuit relative flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-x-clip pb-6 md:h-[calc(100svh-var(--header-h))] md:min-h-0">
       {/* Node network behind the composition. A network graph is the right
           motif for a studio that builds and tests systems — and it responds to
           the pointer, so the hero is something you can push around. */}

@@ -51,7 +51,7 @@ export default function SecurityPolicyPage() {
       />
 
       {/* Disclosure policy */}
-      <Section dense className="bg-dots relative">
+      <Section dense className="tex-hatch relative">
         <p className="text-ink measure t-h4 leading-relaxed">
           {disclosure.intro}
         </p>
@@ -186,7 +186,7 @@ export default function SecurityPolicyPage() {
       </section>
 
       {/* Report structure */}
-      <Section dense className="bg-grid bg-glow-right relative">
+      <Section dense className="tex-hatch glow-right relative">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="label-mono text-ink-soft">Deliverable</p>

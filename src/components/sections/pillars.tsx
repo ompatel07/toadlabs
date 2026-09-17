@@ -32,7 +32,7 @@ export function Pillars() {
   ];
 
   return (
-    <section className="section bg-dots bg-glow-left relative overflow-clip">
+    <section className="section tex-sonar glow-left relative overflow-clip">
       <div className="container-tl">
         <div className="max-w-3xl">
           <p className="label-mono text-ink-soft flex items-center gap-2">

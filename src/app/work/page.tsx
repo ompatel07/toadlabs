@@ -66,7 +66,7 @@ export default function WorkPage() {
         </div>
       ) : null}
 
-      <Section className="bg-dots relative pt-12 md:pt-16">
+      <Section className="tex-sonar relative pt-12 md:pt-16">
         {/* The cards' titles are h3, so this level has to exist for the
             document outline to be unbroken. */}
         <h2 className="sr-only">Case studies</h2>

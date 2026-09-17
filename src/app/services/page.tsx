@@ -99,7 +99,7 @@ export default function ServicesPage() {
         </div>
       </nav>
 
-      <section className="section bg-grid bg-glow-left relative" aria-label="Services in detail">
+      <section className="section tex-circuit glow-left relative" aria-label="Services in detail">
         <ServicesLedger services={services} />
       </section>
 

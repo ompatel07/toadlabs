@@ -36,7 +36,7 @@ export function StackMarquee() {
     // over-scaled, so its bounding box is wider than the viewport.
     <section
       aria-labelledby="stack-heading"
-      className="bg-dots relative overflow-x-clip py-16 md:py-24"
+      className="tex-sonar relative overflow-x-clip py-16 md:py-24"
     >
       <div className="container-tl mb-6 flex items-center justify-between gap-4">
         <h2 id="stack-heading" className="label-mono text-ink-soft">

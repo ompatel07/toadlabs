@@ -44,7 +44,7 @@ export function SeverityExplorer() {
   const active = severityModel[selected];
 
   return (
-    <Section dense className="bg-rules bg-glow-left relative">
+    <Section dense className="tex-rules glow-left relative">
       <SectionHeading
         className="kinetic"
         eyebrow="How we rate findings"
