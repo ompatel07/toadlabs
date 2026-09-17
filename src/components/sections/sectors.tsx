@@ -29,7 +29,7 @@ export function Sectors() {
               key={sector.name}
               className="group/sec flex items-start gap-5 border-b border-[rgba(255,255,255,0.184)] py-5 md:gap-7"
             >
-              <span className="bg-canvas text-ink inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.161)] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/sec:-rotate-6">
+              <span className="bg-[var(--surface-2)] text-lime inline-flex size-11 shrink-0 items-center justify-center rounded-xl border border-[rgba(255,255,255,0.161)] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/sec:-rotate-6">
                 <sector.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
               </span>
               <div className="flex flex-col gap-1">

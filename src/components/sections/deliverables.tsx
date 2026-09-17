@@ -18,7 +18,7 @@ export function Deliverables({ dense = false }: { dense?: boolean }) {
           <Reveal as="li" key={item.title} index={index}>
             <div className="card-solid lift flex h-full flex-col gap-4 p-7 md:p-8">
               <div className="flex items-center justify-between gap-3">
-                <span className="bg-canvas text-ink inline-flex size-11 items-center justify-center rounded-lg">
+                <span className="bg-[var(--surface-2)] text-lime inline-flex size-11 items-center justify-center rounded-lg">
                   <item.icon className="size-5" strokeWidth={1.75} aria-hidden="true" />
                 </span>
                 <span

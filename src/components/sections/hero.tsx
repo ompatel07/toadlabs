@@ -124,16 +124,25 @@ export function Hero() {
           <p className="text-ink-soft mt-2 t-base">{hero.subtitle}</p>
         </div>
 
-        {/* Circular on desktop, full-width button on phones. */}
+        {/* The SECONDARY action, not the primary one.
+            This was a second "Book a call" — the same label, the same colour,
+            sitting directly below the sticky header's own "Book a call". On
+            scroll the two collided at the top-right corner and read as a
+            rendering fault rather than a choice.
+
+            The header carries the primary conversion on every page and is
+            always on screen, so repeating it here bought nothing. Offering the
+            other path instead gives the hero a job of its own and removes the
+            collision. Circular on desktop, full-width button on phones. */}
         <Link
-          href={hero.primaryCta.href}
+          href={hero.secondaryCta.href}
           className={cn(
-            "bg-lime text-canvas group inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 ease-out hover:bg-[#d3f95c] hover:shadow-[0_10px_30px_-8px_rgba(31,190,112,0.7)]",
+            "bg-lime text-canvas group inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-full font-semibold transition-all duration-300 ease-out hover:bg-[color:var(--lime-ink)] hover:shadow-[0_10px_30px_-8px_rgba(31,190,112,0.7)]",
             "h-12 w-full px-6 t-base",
             "sm:size-26 sm:flex-col sm:gap-1 sm:px-0 t-xs sm:leading-tight",
           )}
         >
-          {hero.primaryCta.label}
+          {hero.secondaryCta.label}
           <ArrowUpRight
             className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden="true"

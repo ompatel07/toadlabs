@@ -51,14 +51,14 @@ export function Guarantees() {
               </span>
 
               <h3 className="font-display text-ink flex items-start gap-3 type-h3 font-bold">
-                <span className="bg-canvas text-ink inline-flex size-9 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:rotate-12 md:hidden">
+                <span className="bg-[var(--surface-2)] text-lime inline-flex size-9 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:rotate-12 md:hidden">
                   <item.icon className="size-4" strokeWidth={2} aria-hidden="true" />
                 </span>
                 {item.title}
               </h3>
 
               <div className="mt-3 flex items-start gap-5 md:mt-0">
-                <span className="bg-canvas text-ink hidden size-10 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:rotate-12 md:inline-flex">
+                <span className="bg-[var(--surface-2)] text-lime hidden size-10 shrink-0 items-center justify-center rounded-full transition-transform duration-300 ease-out group-hover:rotate-12 md:inline-flex">
                   <item.icon
                     className="size-[18px]"
                     strokeWidth={2}

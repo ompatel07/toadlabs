@@ -1,26 +1,27 @@
 import { trustStrip } from "@/config/home";
-import { TickerStrip, CrossMark } from "@/components/brand/decor";
-import { cn } from "@/lib/utils";
+import { TickerStrip } from "@/components/brand/decor";
 
 /**
- * Capability statements.
+ * How we work — a spec manifest.
  *
- * These were four flat bordered cells, one of them filled lime — structurally
- * correct and completely inert. They are the first thing under the hero, so
- * "inert" was the wrong thing to be.
+ * REPLACES a four-card grid that had gone wrong on two axes at once.
  *
- * Now each cell is a surface that responds: an ink wipe that rises from the
- * bottom edge on hover, taking the type and the icon to their inverted state
- * with it, over an oversized ghost numeral that stays put. The lime cell keeps
- * its emphasis by inverting the other way — it is already filled, so it wipes
- * to ink rather than from it, which keeps one cell visually dominant without
- * giving it a different interaction.
+ * Visually it was incoherent: one lime card sat between three dark ones, and
+ * the icon chips were `bg-canvas`, which after the palette inversion is the
+ * page ground — darker than the card they sit on, so each one read as a hole
+ * punched in the panel rather than a chip.
  *
- * The wipe is NOT gated on prefers-reduced-motion. That setting exists for
- * large, fast, directional movement that can trigger a vestibular response; a
- * fill rising inside a card the visitor is pointing at is none of those, and
- * gating it meant anyone with the OS setting on got four inert boxes with no
- * sign the site had any behaviour at all. Page-scale parallax stays gated.
+ * Functionally it was broken: the cells carried an "ink wipe" hover, written
+ * when ink was near-black and the text went white on hover. Inverted, the wipe
+ * turns the card LIGHT and the text was still going light — so pointing at a
+ * card made its own text disappear.
+ *
+ * Rather than patch a device that no longer suited the system, this is the
+ * form the content always wanted. These are four claims about how the studio
+ * operates; a spec sheet states claims, a card grid decorates them. No fills,
+ * no chips, no hover inversion — a ruled row of columns with mono indices, an
+ * accent rule that draws in on hover, and the type doing the work. It also
+ * removes four opportunities for a tone to go wrong.
  */
 export function TrustStrip() {
   return (
@@ -39,75 +40,41 @@ export function TrustStrip() {
         <div className="container-tl">
           <h2 className="sr-only">How we work</h2>
 
-          <ul className="grid gap-0 sm:grid-cols-2 lg:grid-cols-4">
-            {trustStrip.map((item, index) => {
-              // The third cell is the lime one. It starts filled, so its wipe
-              // runs to ink instead of from it.
-              const accent = index === 2;
-              return (
-                <li key={item.title} className="rise relative">
-                  {/* Registration mark at each cell's top-left corner. */}
-                  <CrossMark className="text-ink/25 -top-2 -left-2 size-4" />
+          {/* Hairline grid. The rules are the design — a 1px column separator
+              at each boundary, and a heavier rule closing the top. */}
+          <ul className="grid border-t border-[rgba(255,255,255,0.22)] sm:grid-cols-2 lg:grid-cols-4">
+            {trustStrip.map((item, index) => (
+              <li
+                key={item.title}
+                className="group/spec rise relative flex flex-col gap-4 border-b border-[rgba(255,255,255,0.1)] py-8 pr-6 lg:border-b-0 lg:border-r lg:last:border-r-0 lg:pr-8 lg:pl-8 lg:first:pl-0"
+                style={{ animationDelay: `${index * 70}ms` }}
+              >
+                {/* Accent rule that draws across the column on hover. Sits on
+                    the top border, so nothing moves and no fill is needed. */}
+                <span
+                  aria-hidden="true"
+                  className="bg-lime absolute -top-px left-0 h-px w-full origin-left scale-x-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/spec:scale-x-100 lg:left-8 lg:w-[calc(100%-2rem)] lg:first:left-0"
+                />
 
-                  <div
-                    className={cn(
-                      "group/cell relative isolate flex h-full flex-col gap-3.5 overflow-clip border p-6 transition-colors duration-500 ease-out",
-                      // Collapse the shared borders into single rules.
-                      "-mt-px -ml-px",
-                      accent
-                        ? "bg-lime border-ink text-canvas"
-                        : "border-[rgba(255,255,255,0.184)] bg-[var(--surface)] text-ink hover:border-ink",
-                    )}
-                  >
-                    {/* The wipe. Rises from the bottom edge behind the
-                        content, so nothing reflows and no shadow is needed. */}
-                    <span
-                      aria-hidden="true"
-                      className={cn(
-                        "pointer-events-none absolute inset-0 -z-10 origin-bottom scale-y-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cell:scale-y-100",
-                        accent ? "bg-ink" : "bg-ink",
-                      )}
-                    />
+                <div className="flex items-center justify-between gap-4">
+                  <span className="numeral text-ink-soft/50 t-sm leading-none" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <item.icon
+                    className="text-lime size-[18px] transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/spec:-rotate-6"
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                  />
+                </div>
 
-                    {/* Oversized ghost numeral, bled off the corner. */}
-                    <span
-                      aria-hidden="true"
-                      className={cn(
-                        "numeral pointer-events-none absolute -right-3 -bottom-7 -z-10 text-[5.5rem] leading-none select-none transition-colors duration-500 ease-out",
-                        accent
-                          ? "text-ink/[0.07] group-hover/cell:text-white/[0.07]"
-                          : "text-ink/[0.06] group-hover/cell:text-white/[0.08]",
-                      )}
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-
-                    <span
-                      className={cn(
-                        "inline-flex size-11 items-center justify-center rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/cell:rotate-[-8deg]",
-                        accent
-                          ? "bg-ink text-lime group-hover/cell:bg-lime group-hover/cell:text-canvas"
-                          : "bg-canvas text-canvas group-hover/cell:bg-lime",
-                      )}
-                    >
-                      <item.icon className="size-[18px]" strokeWidth={2} aria-hidden="true" />
-                    </span>
-
-                    <h3 className="font-display t-base font-bold transition-colors duration-500 ease-out group-hover/cell:text-ink">
-                      {item.title}
-                    </h3>
-                    <p
-                      className={cn(
-                        "t-sm leading-snug transition-colors duration-500 ease-out group-hover/cell:text-white/70",
-                        accent ? "text-ink/75" : "text-ink-soft",
-                      )}
-                    >
-                      {item.description}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
+                <h3 className="font-display text-ink t-lead leading-snug font-bold">
+                  {item.title}
+                </h3>
+                <p className="text-ink-soft t-sm leading-relaxed">
+                  {item.description}
+                </p>
+              </li>
+            ))}
           </ul>
         </div>
       </section>

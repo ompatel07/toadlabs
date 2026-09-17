@@ -134,7 +134,7 @@ export default async function CaseStudyPage({
               {study.tags.map((tag) => (
                 <li
                   key={tag}
-                  className="label-mono text-ink-soft bg-canvas rounded-full px-2.5 py-1"
+                  className="label-mono text-ink-soft bg-[var(--surface-2)] rounded-full px-2.5 py-1"
                 >
                   {tag}
                 </li>
