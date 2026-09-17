@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin, MessageCircle } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { footerNav, siteConfig, whatsappUrl } from "@/config/site";
 import { Wordmark } from "@/components/brand/wordmark";
 
@@ -28,6 +28,15 @@ export function SiteFooter() {
                 >
                   <Mail className="size-4" aria-hidden="true" />
                   {siteConfig.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`tel:${siteConfig.phone}`}
+                  className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
+                >
+                  <Phone className="size-4" aria-hidden="true" />
+                  {siteConfig.phoneDisplay}
                 </a>
               </li>
               <li>

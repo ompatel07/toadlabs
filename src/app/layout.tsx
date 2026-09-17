@@ -88,6 +88,14 @@ const organizationJsonLd = {
       logo: `${siteConfig.siteUrl}/icon.png`,
       image: `${siteConfig.siteUrl}/og/default.png`,
       email: siteConfig.email,
+      telephone: siteConfig.phone,
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: siteConfig.phone,
+        contactType: "sales",
+        areaServed: "IN",
+        availableLanguage: "English",
+      },
       address: {
         "@type": "PostalAddress",
         addressLocality: siteConfig.location.city,

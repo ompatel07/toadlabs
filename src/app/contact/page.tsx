@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
-import { ArrowUpRight, Bug, Clock, Mail, MapPin, MessageCircle, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Bug, Clock, Mail, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 import { siteConfig, whatsappUrl } from "@/config/site";
 import { Asterisk, TickerStrip } from "@/components/brand/decor";
 import { PageHeader } from "@/components/layout/page-header";
@@ -82,6 +82,15 @@ export default function ContactPage() {
                   >
                     <Mail className="size-4 shrink-0" aria-hidden="true" />
                     {siteConfig.email}
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`tel:${siteConfig.phone}`}
+                    className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 t-base transition-colors duration-200 ease-out"
+                  >
+                    <Phone className="size-4 shrink-0" aria-hidden="true" />
+                    {siteConfig.phoneDisplay}
                   </a>
                 </li>
                 <li>

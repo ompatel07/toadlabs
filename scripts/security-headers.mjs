@@ -79,7 +79,9 @@ function csp(hashes) {
     "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'none'",
-    "form-action 'self'",
+    // The contact form's no-JavaScript fallback submits to wa.me, which
+    // redirects to api.whatsapp.com — form-action is enforced on redirects too.
+    "form-action 'self' https://wa.me https://api.whatsapp.com",
     "frame-ancestors 'none'",
     "upgrade-insecure-requests",
   ].join("; ");
