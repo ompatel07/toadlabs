@@ -59,7 +59,7 @@ export default function ContactPage() {
         speed="42s"
       />
 
-      <Section className="pt-10 md:pt-14">
+      <Section className="bg-dots bg-glow-right relative pt-10 md:pt-14">
         {/* Form first in DOM order so keyboard and screen-reader users reach it
             without traversing the contact rail. */}
         <div className="grid gap-8 lg:grid-cols-[1.55fr_1fr] lg:gap-12">

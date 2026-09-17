@@ -48,7 +48,7 @@ const parts = [
 
 export function WriteupAnatomy() {
   return (
-    <Section surface="white" className="overflow-clip border-y border-[rgba(255,255,255,0.115)]">
+    <Section surface="white" className="bg-grid edge-rules relative overflow-clip border-y border-[rgba(255,255,255,0.115)]">
       <SectionHeading
         eyebrow="Anatomy"
         title="What a write-up contains"

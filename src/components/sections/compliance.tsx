@@ -94,7 +94,7 @@ export function Compliance() {
         </div>
       </Section>
 
-      <Section>
+      <Section className="bg-dots bg-glow-left relative">
         <SectionHeading
           eyebrow="Built to be auditable"
           title="What makes software straightforward to audit"

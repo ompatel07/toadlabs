@@ -14,7 +14,7 @@ import { Stamp, Asterisk } from "@/components/brand/decor";
  */
 export function Guarantees() {
   return (
-    <section className="section bg-rules relative bg-[var(--surface)]">
+    <section className="section bg-rules bg-glow-right relative bg-[var(--surface)]">
       <div className="container-tl">
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div>

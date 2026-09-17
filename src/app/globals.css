@@ -486,13 +486,56 @@
   /* --- Surfaces ---------------------------------------------------------- */
 
   /* Solid white card floating on the canvas. */
-  /* Raised panel. On a dark ground elevation is read from a hairline and a
-     lighter fill, not from a drop shadow — a shadow on near-black is invisible
-     and only adds paint cost. */
+  /* Raised panel.
+     Elevation on a dark ground comes from three things, not one: a fill a step
+     above the page, a hairline, and a single inset highlight along the top
+     edge. That last line is what a flat 1px box is missing — it reads as light
+     catching the leading edge of a physical panel, and it is the difference
+     between a rectangle and a surface.
+
+     The fill is a very shallow gradient rather than a flat colour, so a large
+     card has some vertical fall-off instead of reading as one printed block. */
   .card-solid {
-    background: var(--surface);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.035) 0%,
+        rgba(255, 255, 255, 0) 45%
+      ),
+      var(--surface);
+    border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: var(--radius-card);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  /* Corner registration marks. Draws four short rules at the corners of a
+     panel, the way a technical drawing crops a frame. Purely decorative, and
+     it gives a large empty card something to hold its corners with. */
+  .corner-marks {
+    position: relative;
+  }
+
+  .corner-marks::before,
+  .corner-marks::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    border-color: rgba(255, 255, 255, 0.28);
+    border-style: solid;
+  }
+
+  .corner-marks::before {
+    top: 10px;
+    left: 10px;
+    border-width: 1px 0 0 1px;
+  }
+
+  .corner-marks::after {
+    right: 10px;
+    bottom: 10px;
+    border-width: 0 1px 1px 0;
   }
 
   /* Translucent glass. Kept above 0.72 alpha so text on it stays legible
@@ -533,10 +576,17 @@
      an elevated panel with a hairline, and `on-dark` text colours still apply
      because the panel is still darker than the text. */
   .slab-dark {
-    background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+    background:
+      radial-gradient(
+        90% 70% at 15% 0%,
+        rgba(60, 230, 141, 0.07) 0%,
+        rgba(60, 230, 141, 0) 60%
+      ),
+      linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
     color: var(--ink);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-slab);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
   }
 
   .hairline {
@@ -669,8 +719,12 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    opacity: 0.42;
-    mix-blend-mode: multiply;
+    /* soft-light, NOT multiply. multiply(x, near-black) is near-black, so on
+       the dark ground this layer was mathematically incapable of showing
+       anything — it had been painting nothing since the palette inverted.
+       soft-light lets the noise lift the ground instead of crushing it. */
+    opacity: 0.55;
+    mix-blend-mode: soft-light;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
   }
 
@@ -1662,7 +1716,11 @@
     inset: -20vmax;
     z-index: 0;
     pointer-events: none;
-    mix-blend-mode: multiply;
+    /* screen, NOT multiply — same reason as .grain. These are glows: on a dark
+       ground they have to ADD light. Under multiply all three blobs resolved
+       to the background colour and the page had no ambient light at all, which
+       is most of why large areas read as empty. */
+    mix-blend-mode: screen;
     contain: strict;
   }
 
@@ -1717,11 +1775,117 @@
     z-index: 0;
     pointer-events: none;
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.057) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.057) 1px, transparent 1px);
-    background-size: 64px 64px;
-    mask-image: radial-gradient(ellipse 75% 60% at 50% 45%, #000 30%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 45%, #000 30%, transparent 78%);
+      linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 25%, transparent 82%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 25%, transparent 82%);
+  }
+
+  /* ── Background system ──────────────────────────────────────────────────
+     A near-black page needs layers or it reads as an empty screen. These are
+     the four treatments sections draw from. All are ::before/::after on the
+     section itself, pointer-events:none, and none of them costs an element.
+
+     Rule of use: ONE per section, alternating down the page. Two at once is
+     noise, and the point is texture, not pattern.  */
+
+  /* Dot matrix. Quieter than the grid — for text-heavy sections where a ruled
+     grid would fight the baseline. */
+  .bg-dots {
+    position: relative;
+  }
+
+  .bg-dots::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.075) 1px,
+      transparent 1px
+    );
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 20%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 40%, #000 20%, transparent 80%);
+  }
+
+  /* An accent glow bleeding in from one edge. Gives a section a light source
+     so its corners fall off into shadow instead of sitting flat. */
+  .bg-glow-left::after,
+  .bg-glow-right::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .bg-glow-left {
+    position: relative;
+  }
+
+  .bg-glow-left::after {
+    background: radial-gradient(
+      55% 60% at 0% 45%,
+      rgba(60, 230, 141, 0.11) 0%,
+      rgba(60, 230, 141, 0) 70%
+    );
+  }
+
+  .bg-glow-right {
+    position: relative;
+  }
+
+  .bg-glow-right::after {
+    background: radial-gradient(
+      55% 60% at 100% 40%,
+      rgba(63, 217, 232, 0.09) 0%,
+      rgba(63, 217, 232, 0) 70%
+    );
+  }
+
+  /* Top and bottom edge rules that fade out toward the gutters, so a section
+     boundary reads as a drawn line rather than a hard box edge. */
+  .edge-rules {
+    position: relative;
+  }
+
+  .edge-rules::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(255, 255, 255, 0.16) 22%,
+      rgba(255, 255, 255, 0.16) 78%,
+      transparent 100%
+    );
+  }
+
+  /* Vignette. Darkens the outer edges so the centre of a section reads as lit.
+     Subtle on purpose — it should be felt, not seen. */
+  .bg-vignette {
+    position: relative;
+  }
+
+  .bg-vignette::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 90% 80% at 50% 50%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
   }
 
   /* Fine horizontal ruling, like a ledger. For dense/tabular sections. */

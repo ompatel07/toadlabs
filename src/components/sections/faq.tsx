@@ -18,7 +18,7 @@ export function Faq() {
       {/* flipped: paints canvas DOWN into the white band */}
       <WaveDivider fill="var(--canvas)" flip className="-mt-px" />
 
-      <Section surface="white" className="relative overflow-hidden !pt-4">
+      <Section surface="white" className="bg-dots relative overflow-hidden !pt-4">
         <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr] lg:gap-14">
         {/* Sticky lime panel — the page's single warm anchor, and it keeps the
             CTA in view while the list is read. */}

@@ -21,7 +21,7 @@ import { OutlineType } from "@/components/brand/decor";
  */
 export function Process() {
   return (
-    <section className="section relative overflow-clip bg-[var(--surface)]">
+    <section className="section edge-rules bg-glow-right relative overflow-clip bg-[var(--surface)]">
       <OutlineType className="absolute -top-4 right-0 text-[clamp(4rem,13vw,10rem)]">
         PROCESS
       </OutlineType>

@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
  */
 export function SelectedWork() {
   return (
-    <Section className="relative">
+    <Section className="bg-dots relative">
       <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <SectionHeading
           className="kinetic"

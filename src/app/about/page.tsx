@@ -153,7 +153,7 @@ export default function AboutPage() {
 
       {/* Principles — ruled rows rather than cards, to keep this page reading
           as an editorial piece. */}
-      <Section surface="white" className="border-y border-[rgba(255,255,255,0.115)]">
+      <Section surface="white" className="bg-grid edge-rules relative border-y border-[rgba(255,255,255,0.115)]">
         <SectionHeading
           eyebrow="Principles"
           title="How we actually work"

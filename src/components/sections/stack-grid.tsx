@@ -40,7 +40,7 @@ export function StackGrid() {
   ];
 
   return (
-    <Section className="overflow-clip">
+    <Section className="bg-grid relative overflow-clip">
       <SectionHeading
         eyebrow="Toolchain"
         title="What we actually build with"

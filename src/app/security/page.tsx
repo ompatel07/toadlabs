@@ -51,7 +51,7 @@ export default function SecurityPolicyPage() {
       />
 
       {/* Disclosure policy */}
-      <Section dense>
+      <Section dense className="bg-dots relative">
         <p className="text-ink measure t-h4 leading-relaxed">
           {disclosure.intro}
         </p>

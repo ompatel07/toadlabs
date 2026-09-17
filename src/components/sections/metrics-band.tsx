@@ -35,7 +35,7 @@ export function MetricsBand() {
   const [lead, ...rest] = metrics;
 
   return (
-    <section className="slab-dark on-dark relative isolate overflow-clip py-16 md:py-24">
+    <section className="slab-dark on-dark bg-vignette relative isolate overflow-clip py-16 md:py-24">
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 opacity-[0.07]" />
       <div
         aria-hidden="true"
