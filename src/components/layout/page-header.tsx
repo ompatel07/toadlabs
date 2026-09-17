@@ -2,6 +2,7 @@ import { SplitText } from "@/components/brand/split-text";
 import { Asterisk, DotGrid, OutlineType } from "@/components/brand/decor";
 import { ParticleNetwork } from "@/components/brand/particle-network";
 import { BrandObject } from "@/components/brand/hero-object";
+import { InteractiveToad } from "@/components/brand/interactive-toad";
 import { cn } from "@/lib/utils";
 
 interface PageHeaderProps {
@@ -115,20 +116,25 @@ export function PageHeader({
           <div className="hidden flex-col items-end lg:flex">
             {aside}
 
+            {/* No longer aria-hidden or pointer-events-none: the toad is an
+                interactive button now, and a button inside an aria-hidden
+                subtree is focusable but unannounced. Only the bloom stays
+                decorative. */}
             <div
-              aria-hidden="true"
               className={cn(
-                "pointer-events-none relative",
+                "relative",
                 aside
                   ? "-mr-10 -mb-24 w-[240px] xl:-mr-4 xl:w-[280px]"
                   : "-mr-6 -mb-28 w-[340px] xl:-mr-2 xl:w-[400px]",
               )}
             >
-              <div className="scene-bloom absolute inset-[-22%] -z-10" />
-              <BrandObject
-                className="object-drift w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
-                sizes={aside ? "280px" : "400px"}
-              />
+              <div aria-hidden="true" className="scene-bloom pointer-events-none absolute inset-[-22%] -z-10" />
+              <InteractiveToad>
+                <BrandObject
+                  className="object-drift w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
+                  sizes={aside ? "280px" : "400px"}
+                />
+              </InteractiveToad>
             </div>
           </div>
 

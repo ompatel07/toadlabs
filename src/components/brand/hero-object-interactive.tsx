@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { HeroObject } from "@/components/brand/hero-object";
+import { InteractiveToad } from "@/components/brand/interactive-toad";
 
 /**
  * Wraps the hero object with a damped cursor parallax.
@@ -87,7 +88,9 @@ export function HeroObjectInteractive({ className }: { className?: string }) {
       style={{ willChange: "transform" }}
     >
       <div className="hero-parallax h-full w-full">
-        <HeroObject className="h-full w-full" />
+        <InteractiveToad className="h-full w-full">
+          <HeroObject className="h-full w-full" />
+        </InteractiveToad>
       </div>
     </div>
   );
