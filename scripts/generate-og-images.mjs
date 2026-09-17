@@ -9,8 +9,8 @@
  *   public/og/{default,services,cybersecurity}.png   1200x630
  *   src/app/icon.png        512x512   (Next.js icon file convention)
  *   src/app/apple-icon.png  180x180
- *   src/app/favicon.ico     16, 32 and 48px (transparent, for browser tabs
- *                           and Google's search-result favicon)
+ *   src/app/favicon.ico     16, 32 and 48px (browser tabs, Google results)
+ * Icons use assets/brand/toad-favicon.png; preview cards use the 3D toad.
  *
  * Run: node scripts/generate-og-images.mjs
  */
@@ -90,37 +90,41 @@ for (const [name, card] of Object.entries(CARDS)) {
   console.log("wrote", out);
 }
 
-// App icons: the toad on the brand ground, with breathing room so rounded
-// launcher masks do not clip it.
-async function icon(size, file) {
-  const inner = Math.round(size * 0.82);
-  const art = await sharp(toad).resize(inner, inner, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } }).toBuffer();
-  await sharp({ create: { width: size, height: size, channels: 4, background: CANVAS } })
-    .composite([{ input: art, gravity: "center" }])
-    .png({ compressionLevel: 9, palette: true, quality: 90 })
-    .toFile(file);
+// App icons come from the flat brand mark (assets/brand/toad-favicon.png), not
+// the 3D render: a flat shape with two lime eyes stays legible at 16px, where
+// the render's detail blurs into noise. The mark's transparent margin is
+// trimmed so the tile fills the icon.
+const mark = await sharp(join(root, "assets", "brand", "toad-favicon.png"))
+  .trim({ threshold: 1 })
+  .toBuffer();
+
+async function icon(size, file, { opaque = false } = {}) {
+  let image = sharp(mark).resize(size, size, {
+    fit: "contain",
+    background: { r: 0, g: 0, b: 0, alpha: 0 },
+  });
+  // iOS draws its own rounded mask and turns transparency black, so the
+  // Apple icon is a full square rather than a pre-rounded tile.
+  if (opaque) image = image.flatten({ background: "#000000" });
+  await image.png({ compressionLevel: 9, palette: true, quality: 95 }).toFile(file);
   console.log("wrote", file);
 }
 await icon(512, join(root, "src", "app", "icon.png"));
-await icon(180, join(root, "src", "app", "apple-icon.png"));
+await icon(180, join(root, "src", "app", "apple-icon.png"), { opaque: true });
 
 /**
  * favicon.ico — browser tabs, bookmarks, and the icon Google shows next to a
- * search result. Transparent rather than on the dark tile, so the toad reads
- * on both light and dark browser chrome; the full toad stays recognisable at
- * 16px where a head-only crop turned into two dots.
+ * search result, at 16, 32 and 48px.
  *
  * sharp cannot write ICO, so the container is assembled by hand: ICO allows
  * PNG-encoded images, which every current browser accepts.
  */
 async function favicon(file) {
-  const trimmed = await sharp(join(root, "public", "hero", "toad-3d-1254.png")).trim().toBuffer();
   const sizes = [16, 32, 48];
   const images = await Promise.all(
     sizes.map((size) =>
-      sharp(trimmed)
+      sharp(mark)
         .resize(size, size, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
-        .sharpen()
         .png({ compressionLevel: 9 })
         .toBuffer(),
     ),
