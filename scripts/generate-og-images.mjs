@@ -9,11 +9,13 @@
  *   public/og/{default,services,cybersecurity}.png   1200x630
  *   src/app/icon.png        512x512   (Next.js icon file convention)
  *   src/app/apple-icon.png  180x180
+ *   src/app/favicon.ico     16, 32 and 48px (transparent, for browser tabs
+ *                           and Google's search-result favicon)
  *
  * Run: node scripts/generate-og-images.mjs
  */
 import sharp from "sharp";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -101,3 +103,50 @@ async function icon(size, file) {
 }
 await icon(512, join(root, "src", "app", "icon.png"));
 await icon(180, join(root, "src", "app", "apple-icon.png"));
+
+/**
+ * favicon.ico — browser tabs, bookmarks, and the icon Google shows next to a
+ * search result. Transparent rather than on the dark tile, so the toad reads
+ * on both light and dark browser chrome; the full toad stays recognisable at
+ * 16px where a head-only crop turned into two dots.
+ *
+ * sharp cannot write ICO, so the container is assembled by hand: ICO allows
+ * PNG-encoded images, which every current browser accepts.
+ */
+async function favicon(file) {
+  const trimmed = await sharp(join(root, "public", "hero", "toad-3d-1254.png")).trim().toBuffer();
+  const sizes = [16, 32, 48];
+  const images = await Promise.all(
+    sizes.map((size) =>
+      sharp(trimmed)
+        .resize(size, size, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+        .sharpen()
+        .png({ compressionLevel: 9 })
+        .toBuffer(),
+    ),
+  );
+
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0); // reserved
+  header.writeUInt16LE(1, 2); // type: icon
+  header.writeUInt16LE(sizes.length, 4);
+
+  let offset = 6 + 16 * sizes.length;
+  const entries = images.map((image, index) => {
+    const entry = Buffer.alloc(16);
+    entry.writeUInt8(sizes[index] % 256, 0); // width (0 would mean 256)
+    entry.writeUInt8(sizes[index] % 256, 1); // height
+    entry.writeUInt8(0, 2); // palette colours
+    entry.writeUInt8(0, 3); // reserved
+    entry.writeUInt16LE(1, 4); // colour planes
+    entry.writeUInt16LE(32, 6); // bits per pixel
+    entry.writeUInt32LE(image.length, 8);
+    entry.writeUInt32LE(offset, 12);
+    offset += image.length;
+    return entry;
+  });
+
+  writeFileSync(file, Buffer.concat([header, ...entries, ...images]));
+  console.log("wrote", file);
+}
+await favicon(join(root, "src", "app", "favicon.ico"));
