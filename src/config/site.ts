@@ -1,10 +1,10 @@
 /**
  * Global site configuration.
  *
- * ⚠️ PLACEHOLDER CONTACT DETAILS — replace before going live.
- * `email`, `whatsappNumber` and `siteUrl` below are stand-ins so the UI can be
- * built and reviewed. Every one of them is referenced in exactly one place
- * (this file), so swapping in the real values updates the whole site.
+ * Contact details live only here, so changing a value updates the whole site.
+ *
+ * ⚠️ STILL PLACEHOLDER: `siteUrl` and `email` (the domain is not set up yet).
+ * The phone / WhatsApp number is real.
  */
 
 export interface NavItem {
@@ -26,8 +26,12 @@ export const siteConfig = {
 
   /** TODO: replace with the real inbox. */
   email: "hello@toadlabs.in",
-  /** International format, digits only — used to build the wa.me link. TODO: real number. */
-  whatsappNumber: "919000000000",
+  /** International format, digits only — used to build wa.me links, and the
+   *  number the contact form delivers enquiries to on WhatsApp. */
+  whatsappNumber: "918780876920",
+  /** Same number for calls, in E.164 and in the display format used in India. */
+  phone: "+918780876920",
+  phoneDisplay: "+91 87808 76920",
   whatsappMessage: "Hi Toad Labs — I'd like to talk about a project.",
 
   location: {

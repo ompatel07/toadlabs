@@ -1,22 +1,20 @@
 /**
- * Contact form submission — STUB.
+ * Contact form delivery — via WhatsApp.
  *
- * ⚠️ THIS DOES NOT SEND ANYTHING YET. It validates and normalises the payload,
- * then returns success so the UI can be built and reviewed end to end. Wire it
- * up before launch or enquiries will silently vanish.
+ * The site is a static export with no server, so the form does not POST
+ * anywhere. Instead it composes the enquiry into a WhatsApp message addressed
+ * to siteConfig.whatsappNumber and opens it; the visitor presses send in
+ * WhatsApp (the app on a phone, WhatsApp Web on a desktop).
  *
- * The site builds with `output: "export"`, so there is no Next.js API route to
- * post to. Point this at one of:
- *   - a Netlify Function / serverless endpoint
- *   - a transactional email API (Resend, Postmark, SES)
- *   - a form service (Formspree, Basin)
+ * Why this rather than a form service: it needs no third-party account or API
+ * key, nothing is stored anywhere in between, the reply channel is the one the
+ * team already answers on, and the visitor can see exactly what is being sent
+ * before it goes.
  *
- * When you do, also add that endpoint's origin to `connect-src` in the
- * Content-Security-Policy (scripts/security-headers.mjs), or the browser will
- * block the request. A same-origin Netlify Function needs no change.
- *
- * Replace only the marked block; the types and the calling component stay as
- * they are.
+ * The limitation to know about: the message only arrives if the visitor
+ * presses send in WhatsApp. If an email-based form is added later, validate
+ * and rate-limit on that endpoint too — nothing a browser sends can be
+ * trusted — and add its origin to CONNECT_SRC in scripts/security-headers.mjs.
  */
 
 export const CONTACT_TOPICS = ["build", "secure", "other", "unspecified"] as const;
@@ -79,7 +77,9 @@ export const CONTACT_LIMITS = {
   company: 120,
   service: 80,
   budget: 40,
-  message: 5000,
+  // The whole enquiry travels in a wa.me URL, so the message is capped well
+  // below what an encoded URL can safely carry.
+  message: 2000,
 } as const satisfies Record<Exclude<keyof ContactPayload, "topic">, number>;
 
 export const MESSAGE_MIN = 20;
@@ -131,46 +131,49 @@ export function normaliseContact(payload: ContactPayload): ContactPayload {
   };
 }
 
-export type ContactResult =
-  | { ok: true }
-  | { ok: false; error: string };
+const TOPIC_LABEL: Record<ContactTopic, string> = {
+  build: "Build something",
+  secure: "Test something (security)",
+  other: "Something else",
+  unspecified: "Not specified",
+};
 
-export async function submitContact(
-  payload: ContactPayload,
-): Promise<ContactResult> {
+/**
+ * Builds the wa.me link for an enquiry. Everything is normalised and
+ * allowlisted first, then URL-encoded, so nothing a visitor types can change
+ * the destination number or break out of the text parameter.
+ */
+export function contactWhatsappUrl(payload: ContactPayload, phone: string): string {
   const clean = normaliseContact(payload);
-  if (
-    !clean.name ||
-    !EMAIL_PATTERN.test(clean.email) ||
-    clean.message.length < MESSAGE_MIN
-  ) {
-    return { ok: false, error: "Some required details are missing." };
-  }
+  const NL = String.fromCharCode(10);
+  const lines = [
+    "Hi Toad Labs, I'd like to talk about a project.",
+    "",
+    `*Name:* ${clean.name}`,
+    `*Email:* ${clean.email}`,
+    clean.company ? `*Company:* ${clean.company}` : null,
+    `*Looking for:* ${TOPIC_LABEL[clean.topic]}`,
+    clean.topic !== "other" && clean.topic !== "unspecified"
+      ? `*Service:* ${clean.service}`
+      : null,
+    clean.topic !== "other" && clean.topic !== "unspecified"
+      ? `*Budget:* ${clean.budget}`
+      : null,
+    "",
+    "*Message:*",
+    clean.message,
+  ].filter((line): line is string => line !== null);
 
-  // ---------------------------------------------------------------------
-  // TODO: REPLACE THIS BLOCK WITH A REAL ENDPOINT CALL.
-  //
-  // const response = await fetch("/.netlify/functions/contact", {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/json" },
-  //   body: JSON.stringify(clean),
-  // });
-  // if (!response.ok) {
-  //   return { ok: false, error: "Something went wrong. Please email us instead." };
-  // }
-  // return { ok: true };
-  // ---------------------------------------------------------------------
+  const digits = phone.replace(/[^0-9]/g, "");
+  return `https://wa.me/${digits}?text=${encodeURIComponent(lines.join(NL))}`;
+}
 
-  // Loud on purpose: a silent fake-success is how a broken contact form goes
-  // unnoticed for months. The payload itself is NOT logged — it is a
-  // visitor's name, email and message, and the console is readable by browser
-  // extensions and anyone looking at a shared screen.
-  console.warn(
-    "[Toad Labs] Contact form is still a stub — this enquiry was NOT sent.",
+/** Server-side-style check, repeated here so a tampered form cannot skip it. */
+export function isDeliverable(payload: ContactPayload): boolean {
+  const clean = normaliseContact(payload);
+  return (
+    clean.name.length > 0 &&
+    EMAIL_PATTERN.test(clean.email) &&
+    clean.message.length >= MESSAGE_MIN
   );
-
-  // Simulate latency so the busy state is actually exercised in review.
-  await new Promise((resolve) => setTimeout(resolve, 700));
-
-  return { ok: true };
 }

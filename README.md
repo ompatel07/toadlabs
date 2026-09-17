@@ -21,11 +21,26 @@ Node 20+ required (CI uses 22).
 
 ## ⚠️ Before this goes live
 
-Four things are deliberately placeholder. The site is safe to deploy as a
-preview, but not to launch.
+Three things are still placeholder. The site is safe to deploy as a preview,
+but not to launch.
 
 | What | Where | Status |
 |------|-------|--------|
+| Domain and email | `src/config/site.ts` (`siteUrl`, `email`) | Placeholder values |
+| The three case studies | `src/config/work.ts` | Placeholder, `noindex` |
+| `noindex` preview guard | `netlify.toml` | Remove at launch |
+
+Done: the phone / WhatsApp number (`whatsappNumber`, `phone`) is real, and the
+contact form works.
+
+**How the contact form delivers.** There is no server, so the form composes
+the enquiry into a WhatsApp message to `whatsappNumber` and opens it
+(`src/lib/contact.ts`); the visitor presses send in WhatsApp. If an email
+endpoint is added later, validate and rate-limit there too, and add its origin
+to `CONNECT_SRC` in `scripts/security-headers.mjs` or the Content-Security-Policy
+will block the request.
+
+------|-------|--------|
 | Email, WhatsApp number, domain | `src/config/site.ts` | Placeholder values |
 | Contact form submission | `src/lib/contact.ts` | **Stub — does not send** |
 | The three case studies | `src/config/work.ts` | Placeholder, `noindex` |

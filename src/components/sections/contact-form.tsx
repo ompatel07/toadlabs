@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { AlertCircle, ArrowRight, Boxes, CheckCircle2, Loader2, MessageCircle, ShieldCheck } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { AlertCircle, Boxes, CheckCircle2, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 import {
   BUDGET_OPTIONS,
   BUILD_SERVICES,
@@ -9,9 +9,11 @@ import {
   EMAIL_PATTERN,
   MESSAGE_MIN,
   SECURE_SERVICES,
-  submitContact,
+  contactWhatsappUrl,
+  isDeliverable,
   type ContactPayload,
 } from "@/lib/contact";
+import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
 /**
@@ -43,16 +45,10 @@ const PATHS: { id: Path; label: string; hint: string; icon: typeof Boxes }[] = [
   { id: "other", label: "Something else", hint: "Partnership, advice, other", icon: MessageCircle },
 ];
 
-/**
- * Bot friction without a CAPTCHA.
- *  - A honeypot field humans never see. Bots that fill every input fill it.
- *  - A minimum time between the form appearing and being sent; scripted
- *    submissions arrive in milliseconds.
- * Either trip shows the normal success screen and sends nothing, so a bot
- * learns nothing about which check it failed. Neither replaces server-side
- * rate limiting on the real endpoint — they only cut the cheapest spam.
+/*
+ * No honeypot or timing trap: delivery happens in WhatsApp, where a person has
+ * to press send, so a bot filling this form cannot deliver anything.
  */
-const MIN_FILL_MS = 3000;
 
 type Fields = Omit<ContactPayload, "topic">;
 type Errors = Partial<Record<keyof Fields, string>>;
@@ -70,14 +66,10 @@ export function ContactForm() {
   const [path, setPath] = useState<Path | null>(null);
   const [values, setValues] = useState<Fields>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<"idle" | "busy" | "sent" | "failed">("idle");
+  // The wa.me link for the last valid submission. Kept so the confirmation
+  // screen can reopen WhatsApp if the first attempt was blocked or closed.
+  const [sentUrl, setSentUrl] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const trap = useRef<HTMLInputElement>(null);
-  const shownAt = useRef(0);
-
-  useEffect(() => {
-    shownAt.current = Date.now();
-  }, []);
 
   const set = (field: keyof Fields) => (value: string) => {
     setValues((previous) => ({ ...previous, [field]: value }));
@@ -110,80 +102,121 @@ export function ContactForm() {
     return next;
   }
 
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // A second click while the first request is in flight must not send twice.
-    if (status === "busy") return;
 
     const found = validate(values);
     setErrors(found);
 
     const firstInvalid = Object.keys(found)[0];
     if (firstInvalid) {
-      setStatus("idle");
-      formRef.current?.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus();
+      document.getElementById(firstInvalid)?.focus();
       return;
     }
 
-    const looksAutomated =
-      Boolean(trap.current?.value) || Date.now() - shownAt.current < MIN_FILL_MS;
-    if (looksAutomated) {
-      setStatus("sent");
-      return;
-    }
-
-    setStatus("busy");
-    const result = await submitContact({
+    const payload: ContactPayload = {
       ...values,
       topic: path ?? "unspecified",
       service: values.service || "Not sure yet",
-    });
-    if (result.ok) {
-      setStatus("sent");
-      setValues(EMPTY);
-      setPath(null);
-    } else {
-      setStatus("failed");
-    }
+    };
+    if (!isDeliverable(payload)) return;
+
+    const url = contactWhatsappUrl(payload, siteConfig.whatsappNumber);
+    // Opened synchronously inside the submit handler, while the browser still
+    // counts it as a user action. Any await before this line and popup
+    // blockers would stop it. On phones wa.me hands over to the WhatsApp app.
+    window.open(url, "_blank", "noopener,noreferrer");
+    setSentUrl(url);
   }
 
-  if (status === "sent") {
+  if (sentUrl) {
     return (
-      <div className="card-solid flex flex-col items-start gap-4 rounded-xl p-8 md:p-10" role="status">
+      <div
+        className="card-solid flex flex-col items-start gap-5 rounded-xl p-8 md:p-10"
+        role="status"
+      >
         <span className="bg-lime text-canvas inline-flex size-14 items-center justify-center rounded-lg">
           <CheckCircle2 className="size-7" strokeWidth={2} aria-hidden="true" />
         </span>
-        <h2 className="font-display text-ink type-h2 font-bold">That&apos;s with us</h2>
-        <p className="text-ink-soft measure t-lead">
-          It goes to the engineers who would do the work, not a sales queue. You
-          will get either a time to talk or an honest note that we are not the
-          right team for it.
-        </p>
-        <button
-          type="button"
-          onClick={() => setStatus("idle")}
-          className="text-ink cursor-pointer t-base underline underline-offset-4"
+        <h2
+          ref={(node) => node?.focus()}
+          tabIndex={-1}
+          className="font-display text-ink type-h2 font-bold outline-none"
         >
-          Send another message
-        </button>
+          Almost there: press send in WhatsApp
+        </h2>
+        <p className="text-ink-soft measure t-lead">
+          We opened WhatsApp with your enquiry already written. It reaches us
+          the moment you press send, and an engineer who would do the work
+          replies, usually within a working day.
+        </p>
+
+        <p className="text-ink-soft t-sm">
+          WhatsApp didn&apos;t open, or you closed it? Open it again, or call us.
+        </p>
+        <div className="-mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+          <a
+            href={sentUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-lime text-canvas inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-6 t-base font-semibold transition-colors duration-200 ease-out hover:bg-[color:var(--lime-ink)]"
+          >
+            <MessageCircle className="size-4" aria-hidden="true" />
+            Open WhatsApp
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+          <a
+            href={`tel:${siteConfig.phone}`}
+            className="text-ink inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-[rgba(255,255,255,0.2)] px-6 t-base font-medium transition-colors duration-200 ease-out hover:border-[rgba(255,255,255,0.4)]"
+          >
+            <Phone className="size-4" aria-hidden="true" />
+            Call {siteConfig.phoneDisplay}
+          </a>
+        </div>
+
+        <div className="flex flex-wrap gap-x-6 gap-y-2">
+          <button
+            type="button"
+            onClick={() => setSentUrl(null)}
+            className="text-ink cursor-pointer py-1 t-base underline underline-offset-4"
+          >
+            Edit my message
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setSentUrl(null);
+              setValues(EMPTY);
+              setErrors({});
+              setPath(null);
+            }}
+            className="text-ink-soft hover:text-ink cursor-pointer py-1 t-base underline underline-offset-4"
+          >
+            Start a new message
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
+    // action/method/target only matter if Send is pressed before the page's
+    // JavaScript has loaded (a slow phone connection). Without them the
+    // browser would submit to this page and put the visitor's name and email
+    // in our URL. With them it opens a WhatsApp chat to us instead, with the
+    // message pre-filled, because wa.me reads the `text` parameter — which is
+    // why the message field is submitted under that name. Once hydrated,
+    // onSubmit prevents the native submit and builds the full message.
     <form
       ref={formRef}
       onSubmit={onSubmit}
+      action={`https://wa.me/${siteConfig.whatsappNumber}`}
+      method="get"
+      target="_blank"
+      rel="noopener noreferrer"
       noValidate
       className="panel-feature panel-edge flex flex-col gap-8 rounded-xl p-6 md:p-9"
     >
-      {/* Honeypot. Off-screen rather than display:none, which some bots skip;
-          hidden from assistive tech and the tab order so no person reaches it. */}
-      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
-        <label htmlFor="website">Leave this field empty</label>
-        <input ref={trap} id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
-      </div>
-
       {/* Path choice. Asking this first is what lets the rest of the form ask
           fewer, more relevant questions. */}
       <fieldset className="flex flex-col gap-3">
@@ -258,6 +291,7 @@ export function ContactForm() {
         <Field
           label={path === "secure" ? "What are you worried about?" : "What is going wrong?"}
           name="message"
+          submitName="text"
           required
           multiline
           value={values.message}
@@ -276,33 +310,24 @@ export function ContactForm() {
           </span>
         </div>
 
-        <button
-          type="submit"
-          aria-busy={status === "busy"}
-          className="btn-liquid btn-liquid-ink bg-ink inline-flex h-13 cursor-pointer items-center justify-center gap-2 rounded-full px-7 t-base font-medium text-canvas transition-colors duration-250 ease-out aria-busy:opacity-80"
-        >
-          {status === "busy" ? (
-            <>
-              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-              Sending…
-            </>
-          ) : (
-            <>
-              Send enquiry
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </>
-          )}
-        </button>
+        <div className="flex flex-col items-stretch gap-2 sm:items-end">
+          <button
+            type="submit"
+            className="btn-liquid btn-liquid-ink bg-ink inline-flex h-13 cursor-pointer items-center justify-center gap-2 rounded-full px-7 t-base font-medium text-canvas transition-colors duration-250 ease-out"
+          >
+            <MessageCircle className="size-4" aria-hidden="true" />
+            Send via WhatsApp
+          </button>
+          <p className="text-ink-soft t-xs sm:text-right">
+            Opens WhatsApp with your message ready to send.
+          </p>
+        </div>
       </div>
 
-      <p role="status" aria-live="polite" className="sr-only">
-        {status === "busy" ? "Sending your enquiry" : ""}
-      </p>
-
-      {status === "failed" ? (
+      {Object.values(errors).some(Boolean) ? (
         <p role="alert" className="text-destructive flex items-start gap-2 t-sm">
           <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-          That didn&apos;t send. Please email us directly and we&apos;ll pick it up.
+          A couple of details need fixing before this can be sent.
         </p>
       ) : null}
     </form>
@@ -345,11 +370,13 @@ interface FieldProps {
   hint?: string;
   autoComplete?: string;
   maxLength?: number;
+  /** Name used for a native (pre-hydration) submit, when it must differ. */
+  submitName?: string;
 }
 
 function Field({
   label, name, value, onChange, type = "text",
-  required, optional, multiline, error, hint, autoComplete, maxLength,
+  required, optional, multiline, error, hint, autoComplete, maxLength, submitName,
 }: FieldProps) {
   const hintId = hint ? `${name}-hint` : undefined;
   const errorId = error ? `${name}-error` : undefined;
@@ -357,7 +384,7 @@ function Field({
 
   const shared = {
     id: name,
-    name,
+    name: submitName ?? name,
     value,
     autoComplete,
     maxLength,
