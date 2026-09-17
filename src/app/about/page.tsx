@@ -11,7 +11,7 @@ import { FinalCta } from "@/components/sections/final-cta";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Toad Labs is a founder-led product studio in Ahmedabad applying product-builder discipline to client software and security work.",
+    "Toad Labs is a founder-led engineering studio in Ahmedabad. We build software and services for clients, and run the offensive security testing that proves it holds up.",
   alternates: { canonical: "/about" },
 };
 

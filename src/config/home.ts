@@ -16,7 +16,11 @@ import {
  */
 
 export const hero = {
-  eyebrow: "Product studio & security practice",
+  /* The three words on the logo. "Product studio" undersold the half of the
+     business that is services — websites, apps, CRM, automation — and named a
+     shape rather than a capability. These cover both halves and are already
+     the brand's own line, so the badge and the mark now say the same thing. */
+  eyebrow: ["Build", "Protect", "Scale"],
   /** Set at display size in the hero, like a title card. */
   wordmark: "Toad Labs.",
   statement: "Software built to last in production — and attacked before it ships.",

@@ -65,12 +65,35 @@ export function Hero() {
       <ParticleNetwork className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
       {/* Meta row */}
       <div className="container-tl relative z-10 flex shrink-0 items-start justify-between gap-4 pt-3">
-        <span className="glass-pill text-ink inline-flex items-center gap-2 px-3.5 py-2 t-xs font-medium">
-          <span
-            aria-hidden="true"
-            className="bg-lime-deep inline-block size-1.5 shrink-0 rounded-full"
-          />
-          {hero.eyebrow}
+        {/* Capability badge.
+            Three segments divided by lime dots, which is how the words are set
+            on the logo itself — so the badge reads as part of the mark rather
+            than as a caption sitting near it. Each word is its own element, so
+            the middle one can carry the accent without a nested span. */}
+        <span className="glass-pill text-ink inline-flex items-center gap-0 overflow-hidden py-2 pr-1 pl-1 t-xs font-medium">
+          {hero.eyebrow.map((word, index) => (
+            <span key={word} className="inline-flex items-center">
+              {index > 0 ? (
+                <>
+                  {/* The dots are decorative, so without a real separator the
+                      accessible text was "BuildProtectScale" — one word. */}
+                  <span className="sr-only">, </span>
+                  <span
+                    aria-hidden="true"
+                    className="bg-lime mx-0.5 inline-block size-1 shrink-0 rounded-full"
+                  />
+                </>
+              ) : null}
+              <span
+                className={cn(
+                  "label-mono px-2.5 py-0.5 tracking-[0.14em]",
+                  index === 1 ? "text-lime" : "text-ink",
+                )}
+              >
+                {word}
+              </span>
+            </span>
+          ))}
         </span>
         <span className="label-mono text-ink-soft hidden pt-2 sm:block">
           {siteConfig.location.city}, {siteConfig.location.country}
