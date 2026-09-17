@@ -71,10 +71,7 @@ export function PageHeader({
       />
       <div aria-hidden="true" className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-[0.06]" />
 
-      <ParticleNetwork
-        tone="light"
-        className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-70"
-      />
+      <ParticleNetwork className="pointer-events-none absolute inset-0 -z-10 h-full w-full opacity-70" />
 
       {/* Watermark, bled off the left edge, drifting against the type. */}
       <OutlineType

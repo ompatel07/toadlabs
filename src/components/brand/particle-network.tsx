@@ -19,14 +19,7 @@ import { useEffect, useRef } from "react";
  *  - an IntersectionObserver stops the loop entirely when the hero is offscreen
  *  - the whole thing is skipped under reduced motion and on coarse pointers
  */
-export function ParticleNetwork({
-  className,
-  tone = "ink",
-}: {
-  className?: string;
-  /** Ink particles vanish on a dark ground; "light" swaps them for white. */
-  tone?: "ink" | "light";
-}) {
+export function ParticleNetwork({ className }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -35,9 +28,18 @@ export function ParticleNetwork({
     const context = canvas.getContext("2d", { alpha: true });
     if (!context) return;
 
-    const LINE_RGB = tone === "light" ? "255, 255, 255" : "11, 12, 10";
-    const NODE_FILL =
-      tone === "light" ? "rgba(255, 255, 255, 0.34)" : "rgba(255, 255, 255, 0.414)";
+    // Light only. This used to take a `tone` prop that defaulted to near-black
+    // ink, for the light canvas the site no longer has — so the hero, which
+    // never passed the prop, was drawing rgba(11,12,10) lines and nodes onto a
+    // rgb(10,12,17) ground and rendering an invisible field. Only the page
+    // headers had been updated to ask for "light".
+    //
+    // The prop is gone rather than re-defaulted: with no light surface left on
+    // the site, a switch whose wrong value renders nothing is a trap for the
+    // next person. These are canvas fillStyle strings, which is also why every
+    // CSS-level colour sweep passed straight over them.
+    const LINE_RGB = "255, 255, 255";
+    const NODE_FILL = "rgba(255, 255, 255, 0.4)";
 
     // Runs under reduced motion as well, at a slower drift. Nodes move ~0.1px
     // per frame with no directional sweep, which is ambience rather than the
@@ -124,7 +126,7 @@ export function ParticleNetwork({
           const dy = nodes[i].y - nodes[j].y;
           const distance = Math.hypot(dx, dy);
           if (distance > LINK_DISTANCE) continue;
-          const alpha = (1 - distance / LINK_DISTANCE) * 0.42;
+          const alpha = (1 - distance / LINK_DISTANCE) * 0.5;
           context.strokeStyle = `rgba(${LINE_RGB}, ${alpha.toFixed(3)})`;
           context.beginPath();
           context.moveTo(nodes[i].x, nodes[i].y);
@@ -139,7 +141,7 @@ export function ParticleNetwork({
           Math.hypot(node.x - pointerX, node.y - pointerY) < POINTER_RADIUS;
         context.fillStyle = near ? "rgba(60, 230, 141, 0.95)" : NODE_FILL;
         context.beginPath();
-        context.arc(node.x, node.y, near ? 2.6 : 1.8, 0, Math.PI * 2);
+        context.arc(node.x, node.y, near ? 2.8 : 1.9, 0, Math.PI * 2);
         context.fill();
       }
 
@@ -190,7 +192,7 @@ export function ParticleNetwork({
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("pointerleave", onPointerLeave);
     };
-  }, [tone]);
+  }, []);
 
   return (
     <canvas
