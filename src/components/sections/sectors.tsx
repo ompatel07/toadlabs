@@ -15,7 +15,7 @@ import { Section, SectionHeading } from "@/components/layout/section";
  */
 export function Sectors() {
   return (
-    <Section dense className="tex-circuit edge-rules relative">
+    <Section dense className="field-top edge-rules relative">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
         <SectionHeading
           eyebrow="Domains"

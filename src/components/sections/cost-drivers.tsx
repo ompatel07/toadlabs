@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
  */
 export function CostDrivers() {
   return (
-    <Section className="tex-hatch glow-right relative">
+    <Section className="tex-rules glow-right relative">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.45fr] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading

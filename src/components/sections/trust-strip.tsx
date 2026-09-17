@@ -36,7 +36,7 @@ export function TrustStrip() {
         ]}
       />
 
-      <section className="section-dense tex-circuit glow-right relative">
+      <section className="section-dense field-top glow-right relative">
         <div className="container-tl">
           <h2 className="sr-only">How we work</h2>
 

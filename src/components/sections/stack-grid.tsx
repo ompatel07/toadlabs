@@ -40,7 +40,7 @@ export function StackGrid() {
   ];
 
   return (
-    <Section className="tex-circuit relative overflow-clip">
+    <Section className="field-top relative overflow-clip">
       <SectionHeading
         eyebrow="Toolchain"
         title="What we actually build with"

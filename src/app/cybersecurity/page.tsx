@@ -97,7 +97,7 @@ export default function CybersecurityPage() {
 
       {/* Services — denser grid and tighter rhythm than /services, which is
           what gives this page its technical weight without a dark theme. */}
-      <Section dense className="tex-sonar glow-left relative border-t border-[rgba(255,255,255,0.115)]">
+      <Section dense className="field-base glow-left relative border-t border-[rgba(255,255,255,0.115)]">
         <SectionHeading
           eyebrow="Capabilities"
           title="Seven ways we test your systems"

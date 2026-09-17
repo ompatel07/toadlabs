@@ -6,7 +6,7 @@ import { Reveal } from "@/components/motion/reveal";
 /** What actually lands at the end of a security engagement. */
 export function Deliverables({ dense = false }: { dense?: boolean }) {
   return (
-    <Section dense={dense} className="tex-sonar glow-left relative">
+    <Section dense={dense} className="field-base glow-left relative">
       <SectionHeading
         eyebrow="What you get"
         title="What lands at the end — including the retest"

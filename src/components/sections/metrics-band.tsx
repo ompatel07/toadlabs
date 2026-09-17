@@ -36,7 +36,7 @@ export function MetricsBand() {
 
   return (
     <section className="slab-dark on-dark vignette relative isolate overflow-clip py-16 md:py-24">
-      <div aria-hidden="true" className="tex-circuit pointer-events-none absolute inset-0 opacity-[0.07]" />
+      <div aria-hidden="true" className="field-top pointer-events-none absolute inset-0 opacity-[0.07]" />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -bottom-1/4 left-0 -z-10 h-[85%] w-[70%] bg-[radial-gradient(60%_70%_at_30%_100%,rgba(60,230,141,0.26)_0%,rgba(60,230,141,0)_70%)]"
