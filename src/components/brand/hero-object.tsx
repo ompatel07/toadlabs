@@ -23,7 +23,7 @@ const SIZES =
   "(max-width: 767px) 72vw, (max-width: 1023px) 46vw, (max-width: 1439px) 38vw, 560px";
 
 const srcSet = (extension: string) =>
-  WIDTHS.map((width) => `/hero/toad-3d-${width}.${extension} ${width}w`).join(
+  WIDTHS.map((width) => `/hero/offscript-hero-${width}.${extension} ${width}w`).join(
     ", ",
   );
 
@@ -33,7 +33,7 @@ export function HeroObject({
 }: {
   className?: string;
   /** Turn off when a wrapper applies the float instead, so anything layered
-      over the image (the interactive toad's eyes) moves with it. */
+      over the image (the interactive object's glints) moves with it. */
   float?: boolean;
 }) {
   return (
@@ -44,7 +44,7 @@ export function HeroObject({
         rel="preload"
         as="image"
         type="image/avif"
-        href="/hero/toad-3d-900.avif"
+        href="/hero/offscript-hero-900.avif"
         imageSrcSet={srcSet("avif")}
         imageSizes={SIZES}
         fetchPriority="high"
@@ -60,11 +60,11 @@ export function HeroObject({
             <source type="image/avif" srcSet={srcSet("avif")} sizes={SIZES} />
             <source type="image/webp" srcSet={srcSet("webp")} sizes={SIZES} />
             <img
-              src="/hero/toad-3d-1254.png"
+              src="/hero/offscript-hero-1254.png"
               srcSet={srcSet("png")}
               sizes={SIZES}
-              width={1254}
-              height={1254}
+              width={1312}
+              height={1199}
               fetchPriority="high"
               decoding="async"
               alt=""
@@ -98,11 +98,11 @@ export function BrandObject({
       <source type="image/avif" srcSet={srcSet("avif")} sizes={sizes} />
       <source type="image/webp" srcSet={srcSet("webp")} sizes={sizes} />
       <img
-        src="/hero/toad-3d-900.png"
+        src="/hero/offscript-hero-900.png"
         srcSet={srcSet("png")}
         sizes={sizes}
-        width={1254}
-        height={1254}
+        width={1312}
+        height={1199}
         loading="lazy"
         decoding="async"
         alt=""

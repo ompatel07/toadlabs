@@ -8,66 +8,75 @@ import { cn } from "@/lib/utils";
 /**
  * The brand object, as a character.
  *
+ * The artwork is a developer in a beanbag with a laptop, ringed by six
+ * floating cards (code, analytics, image, shield, megaphone, idea). Every
+ * effect is anchored to something IN that picture — the sunglasses, the laptop
+ * screen, a card — rather than floating over it generically.
+ *
  * GESTURES
- *   tap / click     hop with squash-and-stretch, eyes flash, sonar ping, a line
- *   hold            charge: it crouches, eyes power up, a ring fills under its
- *                   feet. Release to launch, higher the longer you held
+ *   tap / click     bob with squash-and-stretch, the screen flares, and the
+ *                   next card in the ring lights up. A line appears
+ *   hold            build: the character leans in, the screen brightens, and a
+ *                   progress ring fills. Release to ship it — the harder the
+ *                   charge, the bigger the release
  *   rub / stroke    wiggle: "that tickles"
- *   5 fast taps     pentest mode: 3D spin, laser scan, "0 criticals"
+ *   5 fast taps     audit mode: 3D spin, a scan sweep, "0 criticals"
  *
  * AMBIENT LIFE
- *   eyes            a highlight in each pupil slides toward the pointer anywhere
- *                   on the page, or the finger on a phone. When nobody is moving
- *                   it glances around by itself
+ *   glints          a highlight in each sunglass lens slides toward the
+ *                   pointer anywhere on the page, or the finger on a phone.
+ *                   When nobody is moving it glances around by itself
+ *   screen          the laptop screen glows, and breathes while idle
  *   tilt            3D lean toward a pointer resting on it
- *   sleep           20s with no activity and it dozes: eyes dim, colour drains,
- *                   z's float up. Any activity wakes it with a startle
+ *   sleep           20s with no activity and it dozes: the screen dims, colour
+ *                   drains, z's float up from the head. Any activity wakes it
  *   memory          pokes are counted across the whole visit. At milestones it
  *                   comments, and from 20 it offers a "Book a call" link
- *   hint            one toad per page can show "tap · hold · rub" once a visit
+ *   hint            one object per page can show "tap · hold · rub" once
  *
  * LAYERING: every moving part owns exactly one transform on its own element.
  *   button   tilt (spring in a rAF loop that stops itself when settled)
- *   body     hop / wiggle / spin / launch via the Web Animations API, and the
- *            charge crouch via inline style while held
- *   motion   the caller's float or scroll drift. The eye overlays live INSIDE
- *            this wrapper so they move with the image; layered over the bare
- *            image they would slide off the pupils as it drifted
+ *   body     bob / wiggle / spin / ship via the Web Animations API, and the
+ *            charge lean via inline style while held
+ *   motion   the caller's float or scroll drift. The overlays live INSIDE this
+ *            wrapper so they move with the image; layered over the bare image
+ *            they would slide off the lenses as it drifted
  *   children the image itself
  *
- * Eye positions are measured, not guessed: lime-pixel centroids in the 1254px
- * derivative put the pupils at (26.7%, 21.3%) and (75.0%, 22.2%).
+ * Anchors are measured off the 1312x1199 master, as percentages of the
+ * rendered box: lenses at (51.0%, 40.8%) and (58.4%, 41.8%), the laptop screen
+ * at (63%, 63%), and the six cards around the ring.
  *
- * TOUCH: touch-action pan-y, so vertical swipes still scroll the page over a
- * toad that fills most of a phone screen. A drag never counts as a tap or a
+ * TOUCH: touch-action pan-y, so vertical swipes still scroll the page over an
+ * object that fills most of a phone screen. A drag never counts as a tap or a
  * charge. Long-press context menus are suppressed so a hold can charge.
  *
- * COST: the look/tilt loop runs only while the toad is on screen
+ * COST: the look/tilt loop runs only while the object is on screen
  * (IntersectionObserver) and stops the moment values settle.
  *
  * ACCESSIBILITY: a real <button> with a label, so Enter/Space poke it. Replies
  * the visitor caused go to a polite live region; automatic remarks (waking up)
- * are shown but not announced, so a screen reader is never interrupted by a
- * toad nobody touched.
+ * are shown but not announced, so a screen reader is never interrupted by
+ * something nobody touched.
  */
 
 const LINES = [
-  "Ribbit. That's hello in production.",
-  "Poke harder — I'm load-tested.",
+  "Deploying. Don't look away.",
+  "That click? Tracked as a conversion.",
   "I don't break. I get pentested.",
-  "Build. Protect. Scale. Also: hop.",
-  "Zero bugs found in that poke.",
-  "No lock-in. I could leave. I won't.",
-  "Retest included. Poke again.",
-  "Shipping since my first commit.",
+  "Attract. Build. Protect. In that order.",
+  "Zero criticals found in that poke.",
+  "No lock-in. Everything's in your name.",
+  "Cost per enquiry: still the only metric.",
+  "Shipping since the first commit.",
 ];
-const TICKLE = ["Heh — that tickles.", "Stop, I'm ticklish!", "Okay, okay, I'm awake."];
+const TICKLE = ["Hey — I'm typing here.", "Stop, that tickles.", "Okay, okay, I'm awake."];
 const WAKE = [
   "Wasn't asleep. Was compiling.",
-  "Huh? I'm up. Deploying.",
+  "Huh? I'm up. Shipping.",
   "Back online. Zero downtime. Mostly.",
 ];
-const SCAN_LINE = "Pentest mode: scanning you… 0 criticals. You're clean.";
+const SCAN_LINE = "Audit mode: scanning you… 0 criticals. You're clean.";
 
 const MILESTONES: Record<number, { text: string; cta?: boolean }> = {
   10: { text: "Ten pokes. You'd make a good tester." },
@@ -79,10 +88,10 @@ const SLEEP_AFTER_MS = 20000;
 const HOLD_DELAY_MS = 240;
 const CHARGE_MS = 900;
 const COUNT_KEY = "offscript:pokes";
-const MET_KEY = "offscript:toad-met";
+const MET_KEY = "offscript:object-met";
 
-// sessionStorage can throw (private mode, blocked storage). A toad that
-// forgets is fine; a toad that crashes the page is not.
+// sessionStorage can throw (private mode, blocked storage). An object that
+// forgets is fine; one that crashes the page is not.
 const readStore = (key: string) => {
   try {
     return window.sessionStorage.getItem(key);
@@ -111,26 +120,41 @@ const buzz = (ms: number) => {
 
 const clamp = (v: number, min = -1, max = 1) => Math.max(min, Math.min(max, v));
 
-type Effect = { id: number; kind: "poke" | "scan" | "launch" };
+type Effect = { id: number; kind: "poke" | "scan" | "ship"; card: number };
 
-const EYES = [
-  { left: "26.7%", top: "21.3%" },
-  { left: "75%", top: "22.2%" },
+/** Sunglass lens centres, measured on the master. */
+const LENSES = [
+  { left: "51%", top: "40.8%" },
+  { left: "58.4%", top: "41.8%" },
 ];
 
-export function InteractiveToad({
+/** The laptop screen, where "working" is shown. */
+const SCREEN = { left: "63%", top: "63%" };
+
+/** The six floating cards, clockwise from the code panel. Poking lights the
+    next one, so repeated taps travel around the ring. */
+const CARDS = [
+  { left: "28%", top: "15%" },
+  { left: "80%", top: "27%" },
+  { left: "81%", top: "46%" },
+  { left: "85%", top: "62%" },
+  { left: "13%", top: "57%" },
+  { left: "17%", top: "38%" },
+];
+
+export function InteractiveObject({
   children,
   className,
   motionClassName,
   hint = false,
-  label = "Poke the OFFSCRIPT toad",
+  label = "Poke the OFFSCRIPT character",
 }: {
   children: React.ReactNode;
   className?: string;
   /** Float or scroll-drift class, applied to the wrapper that also holds the
       eye overlays so they stay on the pupils while the image moves. */
   motionClassName?: string;
-  /** Show the one-time "tap · hold · rub" hint. Use on one toad per page. */
+  /** Show the one-time "tap · hold · rub" hint. Use on one object per page. */
   hint?: boolean;
   label?: string;
 }) {
@@ -146,6 +170,7 @@ export function InteractiveToad({
 
   const effectId = useRef(0);
   const lineIndex = useRef(0);
+  const cardIndex = useRef(0);
   const taps = useRef<number[]>([]);
   const timers = useRef<{ message?: number; cta?: number }>({});
   const sleepingRef = useRef(false);
@@ -263,12 +288,12 @@ export function InteractiveToad({
   }, []);
 
   const noteActivity = useCallback(
-    (fromToad: boolean) => {
+    (fromObject: boolean) => {
       s.current.lastActivity = Date.now();
       if (!sleepingRef.current) return;
       setAsleep(false);
       // A poke has its own reaction; only a passive wake gets a remark.
-      if (!fromToad && s.current.visible) {
+      if (!fromObject && s.current.visible) {
         hop(8);
         say(WAKE[Math.floor(Math.random() * WAKE.length)], 2600, false);
       }
@@ -296,14 +321,15 @@ export function InteractiveToad({
         950,
         "cubic-bezier(0.45, 0, 0.55, 1)",
       );
-      setEffect({ id: effectId.current, kind: "scan" });
+      setEffect({ id: effectId.current, kind: "scan", card: cardIndex.current });
       say(SCAN_LINE, 3600);
       buzz(40);
       return;
     }
 
     hop();
-    setEffect({ id: effectId.current, kind: "poke" });
+    cardIndex.current = (cardIndex.current + 1) % CARDS.length;
+    setEffect({ id: effectId.current, kind: "poke", card: cardIndex.current });
     if (!countAndMaybeCelebrate()) {
       say(LINES[lineIndex.current % LINES.length]);
       lineIndex.current += 1;
@@ -339,9 +365,9 @@ export function InteractiveToad({
         700 + 350 * c,
         "cubic-bezier(0.3, 1.25, 0.6, 1)",
       );
-      setEffect({ id: effectId.current, kind: "launch" });
+      setEffect({ id: effectId.current, kind: "ship", card: cardIndex.current });
       if (!countAndMaybeCelebrate()) {
-        say(c > 0.95 ? "Full-power launch." : c > 0.55 ? "Big jump!" : "Hop.");
+        say(c > 0.95 ? "Shipped. All systems lit." : c > 0.55 ? "Deployed." : "Pushed a commit.");
       }
       buzz(c > 0.95 ? 45 : 25);
     },
@@ -427,7 +453,7 @@ export function InteractiveToad({
     };
   }, [hint]);
 
-  /* ── on the toad: tilt, tap, hold-to-charge, rub ────────────────────── */
+  /* ── on the object: tilt, tap, hold-to-charge, rub ──────────────────── */
 
   useEffect(() => {
     const button = buttonRef.current;
@@ -572,7 +598,7 @@ export function InteractiveToad({
         onClick={(event) => {
           if (event.detail === 0) poke();
         }}
-        className="relative block h-full w-full cursor-pointer rounded-[28%] bg-transparent p-0 outline-offset-4 select-none [touch-action:pan-y] [transform-style:preserve-3d] [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none]"
+        className="relative block h-full w-full cursor-pointer rounded-2xl bg-transparent p-0 outline-offset-4 select-none [touch-action:pan-y] [transform-style:preserve-3d] [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none]"
       >
         <div ref={bodyRef} className="relative h-full w-full [transform-origin:50%_92%]">
           <div
@@ -580,25 +606,26 @@ export function InteractiveToad({
             className={cn(
               "relative h-full w-full",
               motionClassName,
-              sleeping ? "toad-asleep" : "toad-awake",
+              sleeping ? "obj-asleep" : "obj-awake",
             )}
           >
             {children}
 
             <span aria-hidden="true" className="pointer-events-none absolute inset-0">
-              {EYES.map((eye) => (
-                <span key={`look-${eye.left}`} className="toad-look" style={eye} />
+              {LENSES.map((eye) => (
+                <span key={`look-${eye.left}`} className="obj-look" style={eye} />
               ))}
-              {EYES.map((eye) => (
-                <span key={`lid-${eye.left}`} className="toad-lid" style={eye} />
+              {LENSES.map((eye) => (
+                <span key={`power-${eye.left}`} className="obj-power" style={eye} />
               ))}
-              {EYES.map((eye) => (
-                <span key={`power-${eye.left}`} className="toad-power" style={eye} />
-              ))}
-              <span className="toad-charge-ring" />
+
+              {/* The laptop screen: breathes while idle, brightens with the
+                  charge, goes dark asleep. */}
+              <span className="obj-screen" style={SCREEN} />
+              <span className="obj-charge-ring" />
 
               {sleeping ? (
-                <span className="toad-zzz" style={{ left: "74%", top: "-4%" }}>
+                <span className="obj-zzz" style={{ left: "62%", top: "6%" }}>
                   <i>z</i>
                   <i>z</i>
                   <i>z</i>
@@ -607,16 +634,33 @@ export function InteractiveToad({
 
               {effect ? (
                 <span key={effect.id} className="absolute inset-0">
-                  {EYES.map((eye) => (
-                    <span key={`flash-${eye.left}`} className="toad-eye" style={eye} />
+                  {LENSES.map((eye) => (
+                    <span key={`flash-${eye.left}`} className="obj-eye" style={eye} />
                   ))}
-                  {effect.kind === "scan" ? (
-                    <span className="toad-scan" />
-                  ) : (
-                    <span className="toad-ping" />
+                  <span className="obj-flare" style={SCREEN} />
+
+                  {/* A poke lights the next card; shipping lights all six in
+                      sequence, which reads as the whole system reacting. */}
+                  {(effect.kind === "ship" ? CARDS : [CARDS[effect.card]]).map(
+                    (card, index) => (
+                      <span
+                        key={`card-${card.left}-${card.top}`}
+                        className="obj-card"
+                        style={{
+                          ...card,
+                          animationDelay: `${effect.kind === "ship" ? index * 80 : 0}ms`,
+                        }}
+                      />
+                    ),
                   )}
-                  {effect.kind === "launch" ? (
-                    <span className="toad-ping toad-ping-late" />
+
+                  {effect.kind === "scan" ? (
+                    <span className="obj-scan" />
+                  ) : (
+                    <span className="obj-ping" />
+                  )}
+                  {effect.kind === "ship" ? (
+                    <span className="obj-ping obj-ping-late" />
                   ) : null}
                 </span>
               ) : null}
@@ -637,7 +681,7 @@ export function InteractiveToad({
           <p
             key={message.id}
             aria-hidden="true"
-            className="toad-bubble-in relative rounded-xl border border-[rgba(255,255,255,0.14)] bg-[var(--surface-2)] px-3.5 py-2 text-center t-sm leading-snug font-medium text-ink shadow-[0_12px_30px_-10px_rgba(0,0,0,0.8)]"
+            className="obj-bubble-in relative rounded-xl border border-[rgba(255,255,255,0.14)] bg-[var(--surface-2)] px-3.5 py-2 text-center t-sm leading-snug font-medium text-ink shadow-[0_12px_30px_-10px_rgba(0,0,0,0.8)]"
           >
             {message.text}
             <span
@@ -648,7 +692,7 @@ export function InteractiveToad({
         ) : showHint ? (
           <p
             aria-hidden="true"
-            className="toad-bubble-in label-mono rounded-full border border-[rgba(255,255,255,0.14)] bg-[var(--surface-2)] px-3 py-1.5 text-ink-soft"
+            className="obj-bubble-in label-mono rounded-full border border-[rgba(255,255,255,0.14)] bg-[var(--surface-2)] px-3 py-1.5 text-ink-soft"
           >
             tap · hold · rub
           </p>
@@ -657,7 +701,7 @@ export function InteractiveToad({
         {showCta ? (
           <Link
             href="/contact"
-            className="toad-cta bg-lime text-canvas pointer-events-auto inline-flex h-10 items-center gap-1.5 rounded-full px-4 t-sm font-semibold"
+            className="obj-cta bg-lime text-canvas pointer-events-auto inline-flex h-10 items-center gap-1.5 rounded-full px-4 t-sm font-semibold"
           >
             Book a call
             <ArrowUpRight className="size-4" aria-hidden="true" />

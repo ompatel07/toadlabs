@@ -122,7 +122,7 @@ export function Hero() {
             overlapping the wordmark's lower half at every aspect ratio. */}
         <HeroObjectInteractive
           className={cn(
-            "relative z-10 mt-0 aspect-square w-[64vw] max-w-[380px]",
+            "relative z-10 mt-0 aspect-[1312/1199] w-[74vw] max-w-[420px]",
             "md:absolute md:bottom-0 md:left-1/2 md:mt-0 md:h-[84%] md:w-auto md:max-w-[52vw] md:-translate-x-1/2",
           )}
         />

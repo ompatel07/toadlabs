@@ -86,7 +86,7 @@ src/
   app/                 routes (home, services, marketing, cybersecurity, work,
                        about, contact, security)
   components/
-    brand/             wordmark + mark, hero object, interactive toad,
+    brand/             wordmark + mark, hero object, interactive object,
                        particle field
     layout/            header, footer, section + page-header primitives
     sections/          composable page sections
@@ -98,7 +98,7 @@ src/
   hooks/               reduced motion, scroll velocity
   lib/                 contact form submission, JSON-LD escaping, card tones
 scripts/
-  generate-hero-assets.mjs   hero image sizes from assets/toad-3d.png
+  generate-hero-assets.mjs   hero sizes from assets/offscript-hero.png
   generate-og-images.mjs     link-preview cards, favicon and app icons
   security-headers.mjs       CSP + security headers (runs after build)
 assets/                source masters, not deployed
@@ -121,9 +121,11 @@ The mark keeps its own colours (lime `#d3ff38`, ink `#111426`, coral
 `#fa5b3d`) — a logo is fixed, not themed. The site itself keeps the
 "Instrument Dark" system, so the accent in the UI is still the site green.
 
-⚠️ The 3D object in the hero is still the old one and says "TOAD LABS" on its
-chest. Replace `assets/toad-3d.png` and run
-`node scripts/generate-hero-assets.mjs`.
+The 3D object is `assets/offscript-hero.png`; `node scripts/generate-hero-assets.mjs`
+rebuilds the served AVIF/WebP/PNG sizes. Its interactions live in
+`src/components/brand/interactive-object.tsx`, anchored to points measured on
+that artwork (the sunglass lenses, the laptop screen, the six floating cards) —
+so replacing the image means re-measuring those anchors.
 
 ---
 
@@ -177,16 +179,16 @@ it is removed (see "Before this goes live").
 ## Hero assets
 
 The hero image derivatives are committed, but if you replace the master at
-`assets/toad-3d.png` (kept out of `public/` so it is never deployed), regenerate
-them:
+`assets/offscript-hero.png` (kept out of `public/` so it is never deployed),
+regenerate them:
 
 ```bash
 node scripts/generate-hero-assets.mjs
 ```
 
 Emits AVIF, WebP and PNG at 400/600/900/1254px. Uses `sharp`, which ships with
-Next — no extra dependency. The master PNG is 1.5MB; the AVIF at full width is
-96KB.
+Next — no extra dependency. The master PNG is 1.3MB; the AVIF at full width is
+81KB.
 
 ---
 
