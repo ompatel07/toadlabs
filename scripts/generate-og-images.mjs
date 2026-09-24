@@ -11,7 +11,7 @@
  *   src/app/apple-icon.png  180x180
  *   src/app/favicon.ico     16, 32 and 48px (browser tabs, Google results)
  * Icons are the OFFSCRIPT mark (assets/brand/offscript-mark.svg); the preview
- * cards keep the 3D object until its replacement arrives.
+ * cards use the 3D object from public/hero/.
  *
  * Run: node scripts/generate-og-images.mjs
  */
@@ -21,7 +21,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const toad = join(root, "public", "hero", "toad-3d-600.png");
+const object = join(root, "public", "hero", "offscript-hero-600.png");
 
 const CANVAS = "#0a0c11";
 const LIME = "#3ce68d";
@@ -35,9 +35,9 @@ const escape = (text) =>
 
 const CARDS = {
   default: {
-    eyebrow: "BUILD  ·  PROTECT  ·  SCALE",
-    lines: ["IT services &", "cybersecurity company"],
-    detail: "Websites · Apps · SaaS · AI automation · VAPT · Pentesting",
+    eyebrow: "ATTRACT  ·  BUILD  ·  PROTECT",
+    lines: ["Marketing, software", "& cybersecurity"],
+    detail: "SEO · Ads · Websites · Apps · SaaS · VAPT",
   },
   services: {
     eyebrow: "SOFTWARE DEVELOPMENT SERVICES",
@@ -85,12 +85,14 @@ function cardSvg({ eyebrow, lines, detail }) {
 
 mkdirSync(join(root, "public", "og"), { recursive: true });
 
-const toadCard = await sharp(toad).resize(430, 430, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } }).toBuffer();
+const objectCard = await sharp(object)
+  .resize(430, 400, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  .toBuffer();
 
 for (const [name, card] of Object.entries(CARDS)) {
   const out = join(root, "public", "og", `${name}.png`);
   await sharp(Buffer.from(cardSvg(card)))
-    .composite([{ input: toadCard, left: 740, top: 150 }])
+    .composite([{ input: objectCard, left: 760, top: 170 }])
     .png({ compressionLevel: 9, palette: true, quality: 90 })
     .toFile(out);
   console.log("wrote", out);

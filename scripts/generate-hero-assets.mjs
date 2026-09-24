@@ -6,9 +6,9 @@
  * widths therefore have to be produced ahead of time and referenced from a
  * <picture> element.
  *
- * Source: assets/toad-3d.png (transparent PNG, 1.5 MB). Kept outside public/
+ * Source: assets/offscript-hero.png (transparent PNG). Kept outside public/
  * so the full-size master is not deployed as a public URL nobody should load.
- * Output: toad-3d-<width>.{avif,webp,png}
+ * Output: offscript-hero-<width>.{avif,webp,png}
  *
  * Run: node scripts/generate-hero-assets.mjs
  * Uses sharp, which ships with Next — no extra dependency.
@@ -20,7 +20,7 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dir = join(root, "public", "hero");
-const source = join(root, "assets", "toad-3d.png");
+const source = join(root, "assets", "offscript-hero.png");
 
 if (!existsSync(source)) {
   console.error(`Missing source image: ${source}`);
@@ -35,27 +35,27 @@ const WIDTHS = [400, 600, 900, 1254];
 const meta = await sharp(source).metadata();
 console.log(`source ${meta.width}x${meta.height}, alpha: ${meta.hasAlpha}`);
 
+// Aspect ratio is preserved rather than padded into a square: the overlays
+// that make the object interactive are positioned as percentages of the
+// rendered box, so a letterboxed canvas would shift every one of them.
 for (const width of WIDTHS) {
   if (width > meta.width) continue;
-  const base = sharp(source).resize(width, width, {
-    fit: "contain",
-    background: { r: 0, g: 0, b: 0, alpha: 0 },
-  });
+  const base = sharp(source).resize({ width });
 
   await base
     .clone()
     .avif({ quality: 58, effort: 6 })
-    .toFile(join(dir, `toad-3d-${width}.avif`));
+    .toFile(join(dir, `offscript-hero-${width}.avif`));
 
   await base
     .clone()
     .webp({ quality: 82, effort: 6, alphaQuality: 90 })
-    .toFile(join(dir, `toad-3d-${width}.webp`));
+    .toFile(join(dir, `offscript-hero-${width}.webp`));
 
   await base
     .clone()
     .png({ compressionLevel: 9, palette: true, quality: 90 })
-    .toFile(join(dir, `toad-3d-${width}.png`));
+    .toFile(join(dir, `offscript-hero-${width}.png`));
 
   console.log(`  wrote ${width}px (avif, webp, png)`);
 }

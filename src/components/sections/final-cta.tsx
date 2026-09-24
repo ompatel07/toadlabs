@@ -5,7 +5,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/ui-brand/magnetic";
 import { Spotlight } from "@/components/ui-brand/spotlight";
 import { BrandObject } from "@/components/brand/hero-object";
-import { InteractiveToad } from "@/components/brand/interactive-toad";
+import { InteractiveObject } from "@/components/brand/interactive-object";
 
 interface FinalCtaProps {
   title?: string;
@@ -35,15 +35,15 @@ export function FinalCta({
         <Reveal>
           <Spotlight className="slab-dark on-dark slab-bloom relative overflow-hidden p-10 md:p-16 lg:p-20">
             {/* Interactive, so not aria-hidden: the heading and buttons still
-                carry the meaning, the toad is just something to poke. */}
+                carry the meaning, the object is just something to poke. */}
             <div className="absolute -right-16 -bottom-24 hidden w-[380px] lg:block xl:-right-6 xl:w-[440px]">
               <div aria-hidden="true" className="scene-bloom pointer-events-none absolute inset-[-18%] -z-10" />
-              <InteractiveToad motionClassName="animate-hero-float">
+              <InteractiveObject motionClassName="animate-hero-float">
                 <BrandObject
                   className="w-full drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)]"
                   sizes="440px"
                 />
-              </InteractiveToad>
+              </InteractiveObject>
             </div>
 
             <div className="relative flex max-w-[min(100%,660px)] flex-col gap-8 lg:max-w-[62%]">

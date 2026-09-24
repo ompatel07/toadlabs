@@ -3,7 +3,7 @@ import { SplitText } from "@/components/brand/split-text";
 import { Asterisk, DotGrid, OutlineType } from "@/components/brand/decor";
 import { ParticleNetwork } from "@/components/brand/particle-network";
 import { BrandObject } from "@/components/brand/hero-object";
-import { InteractiveToad } from "@/components/brand/interactive-toad";
+import { InteractiveObject } from "@/components/brand/interactive-object";
 import { cn } from "@/lib/utils";
 
 interface PageHeaderProps {
@@ -139,7 +139,7 @@ export function PageHeader({
           <div className="hidden flex-col items-end lg:flex">
             {aside}
 
-            {/* No longer aria-hidden or pointer-events-none: the toad is an
+            {/* No longer aria-hidden or pointer-events-none: the object is an
                 interactive button now, and a button inside an aria-hidden
                 subtree is focusable but unannounced. Only the bloom stays
                 decorative. */}
@@ -152,12 +152,12 @@ export function PageHeader({
               )}
             >
               <div aria-hidden="true" className="scene-bloom pointer-events-none absolute inset-[-22%] -z-10" />
-              <InteractiveToad motionClassName="object-drift">
+              <InteractiveObject motionClassName="object-drift">
                 <BrandObject
                   className="w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
                   sizes={aside ? "280px" : "400px"}
                 />
-              </InteractiveToad>
+              </InteractiveObject>
             </div>
           </div>
 

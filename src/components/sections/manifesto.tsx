@@ -1,5 +1,5 @@
 import { BrandObject } from "@/components/brand/hero-object";
-import { InteractiveToad } from "@/components/brand/interactive-toad";
+import { InteractiveObject } from "@/components/brand/interactive-object";
 import { OutlineType } from "@/components/brand/decor";
 import { SplitText } from "@/components/brand/split-text";
 
@@ -40,12 +40,12 @@ export function Manifesto() {
               aria-hidden="true"
               className="scene-bloom pointer-events-none absolute inset-[-22%] -z-10"
             />
-            <InteractiveToad className="w-full" motionClassName="scene-object">
+            <InteractiveObject className="w-full" motionClassName="scene-object">
               <BrandObject
                 className="w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
                 sizes="(max-width: 767px) 62vw, 34vw"
               />
-            </InteractiveToad>
+            </InteractiveObject>
           </div>
 
           <div className="scene-type flex flex-col items-center gap-7 text-center">
