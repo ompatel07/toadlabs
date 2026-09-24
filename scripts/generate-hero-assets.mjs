@@ -6,9 +6,12 @@
  * widths therefore have to be produced ahead of time and referenced from a
  * <picture> element.
  *
- * Source: assets/offscript-hero.png (transparent PNG). Kept outside public/
- * so the full-size master is not deployed as a public URL nobody should load.
+ * Sources, both kept outside public/ so the full-size masters are not
+ * deployed as public URLs nobody should load:
+ *   assets/offscript-hero.png    the seated composition, hero only
+ *   assets/offscript-figure.png  the standing figure, everywhere else
  * Output: offscript-hero-<width>.{avif,webp,png}
+ *         offscript-figure-<width>.{avif,webp,png}
  *
  * Run: node scripts/generate-hero-assets.mjs
  * Uses sharp, which ships with Next — no extra dependency.
@@ -20,44 +23,40 @@ import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const dir = join(root, "public", "hero");
-const source = join(root, "assets", "offscript-hero.png");
-
-if (!existsSync(source)) {
-  console.error(`Missing source image: ${source}`);
-  process.exit(1);
-}
-
 mkdirSync(dir, { recursive: true });
 
 // Covers ~72vw on a 390px phone at 2x through ~38vw on a 1920px display at 2x.
 const WIDTHS = [400, 600, 900, 1254];
 
-const meta = await sharp(source).metadata();
-console.log(`source ${meta.width}x${meta.height}, alpha: ${meta.hasAlpha}`);
+/**
+ * The figure appears at 240-340 CSS px. Its master is 647px wide, so that is
+ * the top of the ladder — upscaling past the source would add bytes and no
+ * detail. 647 still covers the largest placement at roughly 1.9x.
+ */
+const SETS = [
+  { name: "offscript-hero", file: "offscript-hero.png", widths: WIDTHS },
+  { name: "offscript-figure", file: "offscript-figure.png", widths: [220, 340, 460, 647] },
+];
 
-// Aspect ratio is preserved rather than padded into a square: the overlays
-// that make the object interactive are positioned as percentages of the
-// rendered box, so a letterboxed canvas would shift every one of them.
-for (const width of WIDTHS) {
-  if (width > meta.width) continue;
-  const base = sharp(source).resize({ width });
+for (const set of SETS) {
+  const file = join(root, "assets", set.file);
+  if (!existsSync(file)) {
+    console.error(`Missing source image: ${file}`);
+    process.exit(1);
+  }
+  const meta = await sharp(file).metadata();
+  console.log(`${set.name}: source ${meta.width}x${meta.height}, alpha: ${meta.hasAlpha}`);
 
-  await base
-    .clone()
-    .avif({ quality: 58, effort: 6 })
-    .toFile(join(dir, `offscript-hero-${width}.avif`));
+  for (const width of set.widths) {
+    if (width > meta.width) continue;
+    const base = sharp(file).resize({ width });
 
-  await base
-    .clone()
-    .webp({ quality: 82, effort: 6, alphaQuality: 90 })
-    .toFile(join(dir, `offscript-hero-${width}.webp`));
+    await base.clone().avif({ quality: 58, effort: 6 }).toFile(join(dir, `${set.name}-${width}.avif`));
+    await base.clone().webp({ quality: 82, effort: 6, alphaQuality: 90 }).toFile(join(dir, `${set.name}-${width}.webp`));
+    await base.clone().png({ compressionLevel: 9, palette: true, quality: 90 }).toFile(join(dir, `${set.name}-${width}.png`));
 
-  await base
-    .clone()
-    .png({ compressionLevel: 9, palette: true, quality: 90 })
-    .toFile(join(dir, `offscript-hero-${width}.png`));
-
-  console.log(`  wrote ${width}px (avif, webp, png)`);
+    console.log(`  wrote ${width}px (avif, webp, png)`);
+  }
 }
 
 console.log("done");

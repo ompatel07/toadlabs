@@ -27,6 +27,14 @@ const srcSet = (extension: string) =>
     ", ",
   );
 
+/** The standing figure used everywhere except the hero. */
+const FIGURE_WIDTHS = [220, 340, 460, 647] as const;
+
+const figureSrcSet = (extension: string) =>
+  FIGURE_WIDTHS.map(
+    (width) => `/hero/offscript-figure-${width}.${extension} ${width}w`,
+  ).join(", ");
+
 export function HeroObject({
   className,
   float = true,
@@ -86,23 +94,31 @@ export function HeroObject({
  * never competes with the LCP image for bandwidth. The brand's strongest asset
  * was being used exactly once on the entire site; this is what lets it recur.
  */
+/**
+ * The standing figure, used on every page section that is not the hero.
+ *
+ * A different pose from the hero deliberately: the hero is the wide seated
+ * composition with its ring of floating cards, and repeating it further down
+ * the page made the object read as clip art rather than a character. This one
+ * is portrait (647x1126), so it fits the narrow columns those sections have.
+ */
 export function BrandObject({
   className,
-  sizes = "(max-width: 767px) 80vw, 46vw",
+  sizes = "(max-width: 767px) 60vw, 340px",
 }: {
   className?: string;
   sizes?: string;
 }) {
   return (
     <picture>
-      <source type="image/avif" srcSet={srcSet("avif")} sizes={sizes} />
-      <source type="image/webp" srcSet={srcSet("webp")} sizes={sizes} />
+      <source type="image/avif" srcSet={figureSrcSet("avif")} sizes={sizes} />
+      <source type="image/webp" srcSet={figureSrcSet("webp")} sizes={sizes} />
       <img
-        src="/hero/offscript-hero-900.png"
-        srcSet={srcSet("png")}
+        src="/hero/offscript-figure-647.png"
+        srcSet={figureSrcSet("png")}
         sizes={sizes}
-        width={1312}
-        height={1199}
+        width={647}
+        height={1126}
         loading="lazy"
         decoding="async"
         alt=""

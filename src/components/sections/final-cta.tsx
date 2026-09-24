@@ -36,12 +36,12 @@ export function FinalCta({
           <Spotlight className="slab-dark on-dark slab-bloom relative overflow-hidden p-10 md:p-16 lg:p-20">
             {/* Interactive, so not aria-hidden: the heading and buttons still
                 carry the meaning, the object is just something to poke. */}
-            <div className="absolute -right-16 -bottom-24 hidden w-[380px] lg:block xl:-right-6 xl:w-[440px]">
+            <div className="absolute -right-4 -bottom-8 hidden w-[220px] lg:block xl:right-6 xl:w-[250px]">
               <div aria-hidden="true" className="scene-bloom pointer-events-none absolute inset-[-18%] -z-10" />
-              <InteractiveObject motionClassName="animate-hero-float">
+              <InteractiveObject artwork="figure" floatClassName="animate-figure-float">
                 <BrandObject
                   className="w-full drop-shadow-[0_30px_70px_rgba(0,0,0,0.55)]"
-                  sizes="440px"
+                  sizes="270px"
                 />
               </InteractiveObject>
             </div>

@@ -35,15 +35,20 @@ export function Manifesto() {
       <div className="container-tl relative">
         <div className="relative flex flex-col items-center gap-10">
           {/* The object, with its bloom behind it. */}
-          <div className="relative flex w-[min(62vw,340px)] shrink-0 items-center justify-center md:w-[min(34vw,420px)]">
+          <div className="relative flex w-[min(38vw,190px)] shrink-0 items-center justify-center md:w-[min(18vw,240px)]">
             <div
               aria-hidden="true"
               className="scene-bloom pointer-events-none absolute inset-[-22%] -z-10"
             />
-            <InteractiveObject className="w-full" motionClassName="scene-object">
+            <InteractiveObject
+              className="w-full"
+              artwork="figure"
+              motionClassName="scene-object"
+              floatClassName="animate-figure-float"
+            >
               <BrandObject
                 className="w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
-                sizes="(max-width: 767px) 62vw, 34vw"
+                sizes="(max-width: 767px) 38vw, 240px"
               />
             </InteractiveObject>
           </div>
