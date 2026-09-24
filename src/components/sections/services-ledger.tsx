@@ -33,9 +33,16 @@ import { cn } from "@/lib/utils";
  */
 
 /** Rows that get the feature treatment. Declared, not derived from order. */
-const FEATURED = new Set(["mvp", "saas", "custom"]);
+const DEFAULT_FEATURED = ["mvp", "saas", "custom"];
 
-export function ServicesLedger({ services }: { services: Service[] }) {
+export function ServicesLedger({
+  services,
+  featured = DEFAULT_FEATURED,
+}: {
+  services: Service[];
+  featured?: string[];
+}) {
+  const FEATURED = new Set(featured);
   return (
     <div className="relative">
       {/* Spine. Sits in the page gutter on wide screens, where there is room

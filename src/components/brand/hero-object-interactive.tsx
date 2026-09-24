@@ -84,7 +84,7 @@ export function HeroObjectInteractive({ className }: { className?: string }) {
     <div
       ref={wrapperRef}
       className={className}
-      data-cursor="Toad Labs"
+      data-cursor="OFFSCRIPT"
       style={{ willChange: "transform" }}
     >
       <div className="hero-parallax h-full w-full">

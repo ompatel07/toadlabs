@@ -11,20 +11,24 @@ import { siteConfig } from "@/config/site";
  * and description inherited from the layout.
  */
 
-export type OgImage = "default" | "services" | "cybersecurity";
+export type OgImage = "default" | "services" | "marketing" | "cybersecurity";
 
 const OG_IMAGES: Record<OgImage, { url: string; alt: string }> = {
   default: {
     url: "/og/default.png",
-    alt: "Toad Labs — IT services and cybersecurity company in Ahmedabad",
+    alt: "OFFSCRIPT — digital marketing, software and cybersecurity company in Ahmedabad",
   },
   services: {
     url: "/og/services.png",
-    alt: "Toad Labs software development services: websites, apps, SaaS and AI automation",
+    alt: "OFFSCRIPT software development services: websites, apps, SaaS and AI automation",
+  },
+  marketing: {
+    url: "/og/marketing.png",
+    alt: "OFFSCRIPT digital marketing services: SEO, paid ads, social media and brand",
   },
   cybersecurity: {
     url: "/og/cybersecurity.png",
-    alt: "Toad Labs cybersecurity services: VAPT, penetration testing and security audits",
+    alt: "OFFSCRIPT cybersecurity services: VAPT, penetration testing and security audits",
   },
 };
 
@@ -39,7 +43,7 @@ export function absoluteUrl(path = "/"): string {
 }
 
 interface PageMetadataInput {
-  /** Page title, before the " — Toad Labs" suffix. */
+  /** Page title, before the " — OFFSCRIPT" suffix. */
   title: string;
   description: string;
   path: string;

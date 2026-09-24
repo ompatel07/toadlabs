@@ -18,7 +18,7 @@ import { FinalCta } from "@/components/sections/final-cta";
 
 export const metadata: Metadata = pageMetadata({
   // Brand first, then the category people search for. The home page skips
-  // the "%s — Toad Labs" template so the name is not repeated.
+  // the "%s — OFFSCRIPT" template so the name is not repeated.
   title: `${siteConfig.name} — ${siteConfig.category}`,
   description: siteConfig.description,
   path: "/",

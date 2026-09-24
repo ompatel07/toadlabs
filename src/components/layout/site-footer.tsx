@@ -16,7 +16,8 @@ export function SiteFooter() {
               {/* City and full stop are joined into one string. As separate
                   JSX nodes the browser could break between them, which left a
                   lone "." on its own line — on every page. */}
-              {siteConfig.tagline} An IT services and cybersecurity company in{" "}
+              {siteConfig.tagline} Digital marketing, software and cybersecurity
+              in{" "}
               {`${siteConfig.location.city}.`}
             </p>
 
@@ -58,7 +59,7 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
             {footerNav.map((group) => (
               <div key={group.heading}>
                 <h2 className="label-mono text-ink-soft mb-4">
@@ -88,7 +89,7 @@ export function SiteFooter() {
           className="mt-16 -mb-4 overflow-hidden md:mt-20 md:-mb-8"
         >
           <p className="numeral text-ink/8 text-center text-[clamp(3.5rem,15vw,13rem)] leading-[0.8] whitespace-nowrap select-none">
-            TOAD LABS.
+            OFFSCRIPT.
           </p>
         </div>
 

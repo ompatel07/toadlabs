@@ -20,7 +20,7 @@ import { FinalCta } from "@/components/sections/final-cta";
 export const metadata: Metadata = pageMetadata({
   title: "Cybersecurity & VAPT Company in Ahmedabad",
   description:
-    "VAPT, web and mobile penetration testing, security audits, code review, cloud security and ISO 27001 readiness from Toad Labs, a cybersecurity company in Ahmedabad.",
+    "VAPT, web and mobile penetration testing, security audits, code review, cloud security and ISO 27001 readiness from OFFSCRIPT, a cybersecurity company in Ahmedabad.",
   path: "/cybersecurity",
   image: "cybersecurity",
 });
@@ -30,7 +30,7 @@ const structuredData = {
   "@graph": [
     {
       "@type": "ItemList",
-      name: "Toad Labs cybersecurity services",
+      name: "OFFSCRIPT cybersecurity services",
       itemListElement: securityPages.map((page, index) => ({
         "@type": "ListItem",
         position: index + 1,

@@ -15,7 +15,7 @@ import { FinalCta } from "@/components/sections/final-cta";
 export const metadata: Metadata = pageMetadata({
   title: "Security & Vulnerability Disclosure Policy",
   description:
-    "Toad Labs' vulnerability disclosure policy, how we protect client data during security engagements, and what our VAPT and penetration testing reports contain.",
+    "OFFSCRIPT' vulnerability disclosure policy, how we protect client data during security engagements, and what our VAPT and penetration testing reports contain.",
   path: "/security",
   image: "cybersecurity",
 });

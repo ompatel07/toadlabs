@@ -1,7 +1,7 @@
 /**
  * Generates the link-preview images (Open Graph / Twitter cards) and app icons.
  *
- * These are what WhatsApp, LinkedIn, Slack, X and Google show when a Toad Labs
+ * These are what WhatsApp, LinkedIn, Slack, X and Google show when a OFFSCRIPT
  * link is shared, so they state what the company IS — IT services and
  * cybersecurity — rather than only a slogan.
  *
@@ -10,7 +10,8 @@
  *   src/app/icon.png        512x512   (Next.js icon file convention)
  *   src/app/apple-icon.png  180x180
  *   src/app/favicon.ico     16, 32 and 48px (browser tabs, Google results)
- * Icons use assets/brand/toad-favicon.png; preview cards use the 3D toad.
+ * Icons are the OFFSCRIPT mark (assets/brand/offscript-mark.svg); the preview
+ * cards keep the 3D object until its replacement arrives.
  *
  * Run: node scripts/generate-og-images.mjs
  */
@@ -43,6 +44,11 @@ const CARDS = {
     lines: ["Websites, apps, SaaS", "& AI automation"],
     detail: "Web & mobile apps · MVPs · CRM · WhatsApp · Chatbots",
   },
+  marketing: {
+    eyebrow: "DIGITAL MARKETING",
+    lines: ["Marketing that ends", "in enquiries"],
+    detail: "SEO · Google Ads · Paid social · Content · Brand · Analytics",
+  },
   cybersecurity: {
     eyebrow: "CYBERSECURITY SERVICES",
     lines: ["VAPT &", "penetration testing"],
@@ -67,7 +73,7 @@ function cardSvg({ eyebrow, lines, detail }) {
   <rect width="1200" height="630" fill="${CANVAS}"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
   <rect x="0" y="0" width="1200" height="6" fill="${LIME}"/>
-  <text x="72" y="118" font-family="${SANS}" font-size="40" font-weight="800" fill="${INK}" letter-spacing="-0.5">Toad Labs</text>
+  <text x="72" y="118" font-family="${SANS}" font-size="40" font-weight="800" fill="${INK}" letter-spacing="-0.5">OFFSCRIPT</text>
   <text x="72" y="176" font-family="${MONO}" font-size="22" fill="${LIME}" letter-spacing="3">${escape(eyebrow)}</text>
   ${headline}
   <text x="72" y="470" font-family="${SANS}" font-size="26" fill="${SOFT}">${escape(detail)}</text>
@@ -90,22 +96,21 @@ for (const [name, card] of Object.entries(CARDS)) {
   console.log("wrote", out);
 }
 
-// App icons come from the flat brand mark (assets/brand/toad-favicon.png), not
-// the 3D render: a flat shape with two lime eyes stays legible at 16px, where
-// the render's detail blurs into noise. The mark's transparent margin is
-// trimmed so the tile fills the icon.
-const mark = await sharp(join(root, "assets", "brand", "toad-favicon.png"))
-  .trim({ threshold: 1 })
-  .toBuffer();
+// App icons are the OFFSCRIPT mark, rasterised from its SVG at each size so
+// the glyph stays crisp at 16px instead of being resampled from one bitmap.
+const MARK_SVG = join(root, "assets", "brand", "offscript-mark.svg");
+const TILE = "#d3ff38"; // the mark's own lime, not the site accent
+
+async function mark(size) {
+  return sharp(MARK_SVG, { density: 384 }).resize(size, size).png().toBuffer();
+}
 
 async function icon(size, file, { opaque = false } = {}) {
-  let image = sharp(mark).resize(size, size, {
-    fit: "contain",
-    background: { r: 0, g: 0, b: 0, alpha: 0 },
-  });
-  // iOS draws its own rounded mask and turns transparency black, so the
-  // Apple icon is a full square rather than a pre-rounded tile.
-  if (opaque) image = image.flatten({ background: "#000000" });
+  let image = sharp(await mark(size));
+  // iOS applies its own rounded mask and turns transparency black, so the
+  // Apple icon is flattened onto the tile's own lime: the corners then match
+  // the tile instead of framing it in black.
+  if (opaque) image = image.flatten({ background: TILE });
   await image.png({ compressionLevel: 9, palette: true, quality: 95 }).toFile(file);
   console.log("wrote", file);
 }
@@ -121,14 +126,7 @@ await icon(180, join(root, "src", "app", "apple-icon.png"), { opaque: true });
  */
 async function favicon(file) {
   const sizes = [16, 32, 48];
-  const images = await Promise.all(
-    sizes.map((size) =>
-      sharp(mark)
-        .resize(size, size, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
-        .png({ compressionLevel: 9 })
-        .toBuffer(),
-    ),
-  );
+  const images = await Promise.all(sizes.map((size) => mark(size)));
 
   const header = Buffer.alloc(6);
   header.writeUInt16LE(0, 0); // reserved

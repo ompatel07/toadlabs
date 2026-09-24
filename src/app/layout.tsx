@@ -71,7 +71,7 @@ export const viewport: Viewport = {
 
 /**
  * Site-wide entity data, on every page. Search engines use it to understand
- * WHAT Toad Labs is — an IT services and cybersecurity company in Ahmedabad —
+ * WHAT OFFSCRIPT is — a digital marketing, software and cybersecurity company
  * and to connect every page's own structured data back to one organisation
  * through its @id.
  */
@@ -109,6 +109,14 @@ const organizationJsonLd = {
         "Worldwide",
       ],
       knowsAbout: [
+        "Digital marketing",
+        "Search engine optimisation",
+        "Google Ads",
+        "Pay-per-click advertising",
+        "Social media marketing",
+        "Content marketing",
+        "Brand strategy",
+        "Conversion rate optimisation",
         "Website development",
         "Web application development",
         "Mobile app development",
@@ -132,7 +140,7 @@ const organizationJsonLd = {
       ],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
-        name: "IT services and cybersecurity services",
+        name: "Digital marketing, software and cybersecurity services",
         itemListElement: servicePages.map((page) => ({
           "@type": "Offer",
           itemOffered: {

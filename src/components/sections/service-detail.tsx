@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { services } from "@/config/services";
 import { securityServices } from "@/config/security";
+import { marketingServices } from "@/config/marketing";
 import {
   getServicePage,
   servicePagePath,
@@ -29,14 +30,19 @@ import { FinalCta } from "@/components/sections/final-cta";
  */
 export function ServiceDetail({ page }: { page: ServicePage }) {
   const isSecurity = page.category === "security";
+  const isGrowth = page.category === "growth";
   const parent = isSecurity
     ? { name: "Cybersecurity", href: "/cybersecurity" }
-    : { name: "Services", href: "/services" };
+    : isGrowth
+      ? { name: "Marketing", href: "/marketing" }
+      : { name: "Services", href: "/services" };
   const path = servicePagePath(page);
 
   const summary = isSecurity
     ? securityServices.find((service) => service.id === page.serviceId)
-    : services.find((service) => service.id === page.serviceId);
+    : isGrowth
+      ? marketingServices.find((service) => service.id === page.serviceId)
+      : services.find((service) => service.id === page.serviceId);
   const capabilities = summary
     ? "scope" in summary
       ? summary.scope
@@ -47,7 +53,9 @@ export function ServiceDetail({ page }: { page: ServicePage }) {
   const related = page.related
     .map(
       (slug) =>
-        getServicePage("build", slug) ?? getServicePage("security", slug),
+        getServicePage("build", slug) ??
+        getServicePage("growth", slug) ??
+        getServicePage("security", slug),
     )
     .filter((item): item is ServicePage => Boolean(item));
 
@@ -67,7 +75,11 @@ export function ServiceDetail({ page }: { page: ServicePage }) {
           { "@type": "Country", name: "India" },
           "Worldwide",
         ],
-        category: isSecurity ? "Cybersecurity" : "Software development",
+        category: isSecurity
+          ? "Cybersecurity"
+          : isGrowth
+            ? "Digital marketing"
+            : "Software development",
       },
       breadcrumbJsonLd([
         { name: "Home", path: "/" },
@@ -98,8 +110,14 @@ export function ServiceDetail({ page }: { page: ServicePage }) {
           parent,
           { name: page.name, href: path },
         ]}
-        eyebrow={isSecurity ? "Cybersecurity service" : "Development service"}
-        watermark={isSecurity ? "Secure" : "Build"}
+        eyebrow={
+          isSecurity
+            ? "Cybersecurity service"
+            : isGrowth
+              ? "Marketing service"
+              : "Development service"
+        }
+        watermark={isSecurity ? "Secure" : isGrowth ? "Grow" : "Build"}
         title={page.h1}
         description={page.intro[0]}
         aside={
@@ -131,7 +149,11 @@ export function ServiceDetail({ page }: { page: ServicePage }) {
         <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <div className="flex flex-col gap-5">
             <h2 className="type-h2 text-ink">
-              {isSecurity ? "Why this testing matters" : "What we build, and why it holds up"}
+              {isSecurity
+                ? "Why this testing matters"
+                : isGrowth
+                  ? "What this actually changes"
+                  : "What we build, and why it holds up"}
             </h2>
             {page.intro.slice(1).map((paragraph) => (
               <p key={paragraph} className="text-ink-soft measure t-lead leading-relaxed">
@@ -198,7 +220,13 @@ export function ServiceDetail({ page }: { page: ServicePage }) {
       <Section className="field-top relative">
         <SectionHeading
           eyebrow="How it works"
-          title={isSecurity ? "How the engagement runs" : "How the project runs"}
+          title={
+            isSecurity
+              ? "How the engagement runs"
+              : isGrowth
+                ? "How the work runs"
+                : "How the project runs"
+          }
         />
         <ol className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
           {page.process.map((step, index) => (
@@ -250,11 +278,19 @@ export function ServiceDetail({ page }: { page: ServicePage }) {
       ) : null}
 
       <FinalCta
-        title={isSecurity ? "Get it tested properly" : "Tell us what you're building"}
+        title={
+          isSecurity
+            ? "Get it tested properly"
+            : isGrowth
+              ? "Let's talk about growth"
+              : "Tell us what you're building"
+        }
         description={
           isSecurity
             ? "Tell us what you have built and who is asking about its security. We will recommend the engagement that actually fits."
-            : "A short call, a direct answer on whether we're the right fit, and a written scope if we are."
+            : isGrowth
+              ? "Tell us what you sell and who you sell it to. You get an honest read on which channel is worth your budget first — including if the answer is none of them yet."
+              : "A short call, a direct answer on whether we're the right fit, and a written scope if we are."
         }
       />
     </>

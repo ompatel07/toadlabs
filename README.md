@@ -1,7 +1,10 @@
-# Toad Labs
+# OFFSCRIPT
 
-Marketing site for Toad Labs — an IT services and cybersecurity studio in
-Ahmedabad, Gujarat.
+Marketing site for OFFSCRIPT — a digital marketing, software and cybersecurity
+company in Ahmedabad, Gujarat.
+
+Three parts to the offer, and the site is organised around them: **Grow**
+(`/marketing`), **Build** (`/services`) and **Secure** (`/cybersecurity`).
 
 Next.js (App Router) · TypeScript · Tailwind v4 · shadcn/ui · fully static export.
 
@@ -80,18 +83,23 @@ Two consequences of static export worth knowing:
 
 ```
 src/
-  app/                 routes (home, services, cybersecurity, work, about, contact, security)
+  app/                 routes (home, services, marketing, cybersecurity, work,
+                       about, contact, security)
   components/
-    brand/             wordmark, hero object, interactive toad, particle field
+    brand/             wordmark + mark, hero object, interactive toad,
+                       particle field
     layout/            header, footer, section + page-header primitives
     sections/          composable page sections
     ui/                shadcn accordion (FAQ)
     ui-brand/          brand buttons/links
   config/              all copy lives here as typed TS — no CMS
+                       services.ts / marketing.ts / security.ts = the three
+                       offers; service-pages.ts = their detail pages
   hooks/               reduced motion, scroll velocity
   lib/                 contact form submission, JSON-LD escaping, card tones
 scripts/
   generate-hero-assets.mjs   hero image sizes from assets/toad-3d.png
+  generate-og-images.mjs     link-preview cards, favicon and app icons
   security-headers.mjs       CSP + security headers (runs after build)
 assets/                source masters, not deployed
 public/.well-known/security.txt   vulnerability disclosure contact (RFC 9116)
@@ -99,6 +107,23 @@ public/.well-known/security.txt   vulnerability disclosure contact (RFC 9116)
 
 **All content is in `src/config/`.** Editing copy does not require touching a
 component.
+
+---
+
+## Brand
+
+The site was renamed from Toad Labs to **OFFSCRIPT**. The mark lives at
+`assets/brand/offscript-mark.svg` and is inlined by
+`src/components/brand/wordmark.tsx`; `node scripts/generate-og-images.mjs`
+rebuilds the favicon, app icons and link-preview cards from it.
+
+The mark keeps its own colours (lime `#d3ff38`, ink `#111426`, coral
+`#fa5b3d`) — a logo is fixed, not themed. The site itself keeps the
+"Instrument Dark" system, so the accent in the UI is still the site green.
+
+⚠️ The 3D object in the hero is still the old one and says "TOAD LABS" on its
+chest. Replace `assets/toad-3d.png` and run
+`node scripts/generate-hero-assets.mjs`.
 
 ---
 

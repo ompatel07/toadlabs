@@ -10,9 +10,9 @@ import { PrinciplesIndex } from "@/components/sections/principles-index";
 import { FinalCta } from "@/components/sections/final-cta";
 
 export const metadata: Metadata = pageMetadata({
-  title: "About Us: IT Services & Cybersecurity Team",
+  title: "About Us: Marketing, Software & Security Team",
   description:
-    "Toad Labs is a founder-led IT services and cybersecurity company in Ahmedabad. One team builds your software and runs the security testing that proves it holds up.",
+    "OFFSCRIPT is a founder-led marketing, software and cybersecurity company in Ahmedabad. One team brings in the leads, builds the product and tests that it holds up.",
   path: "/about",
 });
 
@@ -58,7 +58,7 @@ export default function AboutPage() {
       <PageHeader
         eyebrow="About"
         title="We maintain what we build. That changes how we build."
-        description="A founder-led IT services and cybersecurity company in Ahmedabad, running its own products alongside client work. The habits that keep software cheap to change in year two are ones we already need for ourselves — you inherit them by default."
+        description="A founder-led digital marketing, software and cybersecurity company in Ahmedabad, running its own products alongside client work. The habits that keep software cheap to change in year two are ones we already need for ourselves — you inherit them by default."
       />
 
       <TickerStrip
@@ -100,7 +100,7 @@ export default function AboutPage() {
                 weird bit.
               </p>
               <p>
-                Toad Labs builds its own products. That means the second set of
+                OFFSCRIPT builds its own products. That means the second set of
                 habits is the one we already have, and client work gets it by
                 default rather than as an upsell. Typed boundaries, tests where
                 they earn their cost, CI and rollback from the first week,
