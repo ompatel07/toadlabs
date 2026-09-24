@@ -13,16 +13,16 @@ export interface NavItem {
 }
 
 export const siteConfig = {
-  name: "Toad Labs",
+  name: "OFFSCRIPT",
   /** Used for metadata, sitemap and canonical URLs. TODO: real domain. */
   siteUrl: "https://toadlabs.in",
   tagline: "Software built to last in production — and attacked before it ships.",
   /** What the business is, in the words people search for. Leads every
    *  default title and link preview, so a shared link says "IT services and
    *  cybersecurity", not just a slogan. */
-  category: "IT Services & Cybersecurity Company in Ahmedabad",
+  category: "Digital Marketing, Software & Cybersecurity",
   description:
-    "Toad Labs is an IT services and cybersecurity company in Ahmedabad: websites, web and mobile apps, SaaS and AI automation, plus VAPT and penetration testing.",
+    "OFFSCRIPT is a digital marketing, software and cybersecurity company in Ahmedabad: SEO and paid ads, websites, apps, SaaS, AI automation, VAPT and pentesting.",
 
   /** TODO: replace with the real inbox. */
   email: "hello@toadlabs.in",
@@ -32,7 +32,7 @@ export const siteConfig = {
   /** Same number for calls, in E.164 and in the display format used in India. */
   phone: "+918780876920",
   phoneDisplay: "+91 87808 76920",
-  whatsappMessage: "Hi Toad Labs — I'd like to talk about a project.",
+  whatsappMessage: "Hi OFFSCRIPT — I'd like to talk about a project.",
 
   location: {
     city: "Ahmedabad",
@@ -48,6 +48,7 @@ export const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${en
 
 export const mainNav: NavItem[] = [
   { label: "Services", href: "/services" },
+  { label: "Marketing", href: "/marketing" },
   { label: "Cybersecurity", href: "/cybersecurity" },
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
@@ -62,6 +63,17 @@ export const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: "MVP development", href: "/services/mvp-development" },
       { label: "SaaS products", href: "/services/saas-development" },
       { label: "CRM", href: "/services/custom-crm-development" },
+    ],
+  },
+  {
+    heading: "Grow",
+    items: [
+      { label: "SEO services", href: "/marketing/seo-services" },
+      { label: "Google Ads & PPC", href: "/marketing/google-ads-ppc" },
+      { label: "Social media marketing", href: "/marketing/social-media-marketing" },
+      { label: "Content marketing", href: "/marketing/content-marketing" },
+      { label: "Brand strategy & creative", href: "/marketing/brand-strategy-creative" },
+      { label: "Conversion & analytics", href: "/marketing/conversion-rate-optimisation" },
     ],
   },
   {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
-const KEY = "toadlabs:intro-seen";
+const KEY = "offscript:intro-seen";
 
 /**
  * First-load curtain.
@@ -68,13 +68,13 @@ export function IntroReveal() {
     >
       <div className="intro-panel intro-panel-top">
         <div className="intro-inner">
-          <span className="intro-word">TOAD LABS.</span>
+          <span className="intro-word">OFFSCRIPT.</span>
           <span className="intro-rule" />
         </div>
       </div>
       <div className="intro-panel intro-panel-bottom">
         <div className="intro-inner">
-          <span className="intro-word">TOAD LABS.</span>
+          <span className="intro-word">OFFSCRIPT.</span>
           <span className="intro-rule" />
         </div>
       </div>

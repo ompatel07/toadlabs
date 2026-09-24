@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 /**
  * Build / Secure — as two opposing halves.
  *
- * The layout argues what the copy says — "two halves of one team": two
- * panels meeting at a hard seam, sized equally because neither half is the
+ * The layout argues what the copy says — one team, three jobs: three panels
+ * meeting at hard seams, sized equally because none of the three is the
  * junior one.
  *
  * The panels drift against each other on the section's own view timeline —
@@ -20,8 +20,9 @@ import { cn } from "@/lib/utils";
  */
 export function Pillars() {
   const entries = [
-    { ...pillars.build, dark: false },
-    { ...pillars.secure, dark: true },
+    { ...pillars.grow, dark: false },
+    { ...pillars.build, dark: true },
+    { ...pillars.secure, dark: false },
   ];
 
   return (
@@ -30,10 +31,10 @@ export function Pillars() {
         <div className="max-w-3xl">
           <p className="label-mono text-ink-soft flex items-center gap-2">
             <Asterisk className="text-lime-ink size-2.5" />
-            Two halves of one team
+            One team, three jobs
           </p>
           <h2 className="type-h2 text-ink mt-5">
-            Build it properly.{" "}
+            Bring them in. Build it properly.{" "}
             {/* nowrap so the highlighted word and the full stop cannot be
                 split across lines, which stranded "it." on its own. */}
             {/* text-canvas explicitly: the span would otherwise inherit text-ink from
@@ -43,16 +44,17 @@ export function Pillars() {
             </span>
           </h2>
           <p className="text-ink-soft measure mt-6 t-lead">
-            Most companies buy these from two vendors and let them argue. We do
-            both, which means a security finding arrives with an engineer who
-            can fix it.
+            Most companies buy these from three suppliers and let them blame
+            each other. We do all three, which means the ad and the landing page
+            are planned together, and a security finding arrives with an
+            engineer who can fix it.
           </p>
         </div>
       </div>
 
       {/* The seam. gap-px over an ink ground draws the dividing line without a
           border that would double up against the dark panel's own edge. */}
-      <div className="mt-14 grid gap-px bg-[rgba(255,255,255,0.22)] lg:mt-20 lg:grid-cols-2">
+      <div className="mt-14 grid gap-px bg-[rgba(255,255,255,0.22)] lg:mt-20 lg:grid-cols-3">
         {entries.map((entry, index) => (
           <article
             key={entry.label}
@@ -62,25 +64,25 @@ export function Pillars() {
               index === 0 ? "panel-lift" : "panel-sink",
             )}
           >
-            {/* Oversized ghost numeral, bled off the panel's outer edge. */}
+            {/* Oversized ghost numeral. Anchored to the panel's own outer
+                edge — first left, last right, middle centred — so no two sit
+                either side of the same seam. */}
             <span
               aria-hidden="true"
               className={cn(
                 "numeral pointer-events-none absolute -top-6 -z-10 leading-none select-none text-[clamp(8rem,17vw,15rem)]",
-                entry.dark
-                  ? "right-[-2%] text-white/[0.055]"
-                  : "left-[-2%] text-ink/[0.055]",
+                entry.dark ? "text-white/[0.055]" : "text-ink/[0.055]",
+                index === 0
+                  ? "left-[-2%]"
+                  : index === entries.length - 1
+                    ? "right-[-2%]"
+                    : "left-1/2 -translate-x-1/2",
               )}
             >
               {String(index + 1).padStart(2, "0")}
             </span>
 
-            <div
-              className={cn(
-                "mx-auto flex w-full max-w-[36rem] flex-col",
-                entry.dark ? "lg:mr-auto lg:ml-0 lg:pl-10" : "lg:ml-auto lg:pr-10",
-              )}
-            >
+            <div className="mx-auto flex w-full max-w-[36rem] flex-col">
               <p
                 className={cn(
                   "label-mono flex items-center gap-2",

@@ -17,7 +17,7 @@
  * trusted — and add its origin to CONNECT_SRC in scripts/security-headers.mjs.
  */
 
-export const CONTACT_TOPICS = ["build", "secure", "other", "unspecified"] as const;
+export const CONTACT_TOPICS = ["grow", "build", "secure", "other", "unspecified"] as const;
 export type ContactTopic = (typeof CONTACT_TOPICS)[number];
 
 export interface ContactPayload {
@@ -30,6 +30,17 @@ export interface ContactPayload {
   budget: string;
   message: string;
 }
+
+export const GROWTH_SERVICES = [
+  "Not sure yet",
+  "SEO",
+  "Google Ads / PPC",
+  "Paid social",
+  "Social media marketing",
+  "Content marketing",
+  "Brand strategy & creative",
+  "Conversion & analytics",
+] as const;
 
 export const BUILD_SERVICES = [
   "Not sure yet",
@@ -109,7 +120,11 @@ function tidy(value: string, max: number, singleLine: boolean): string {
   return text.trim().slice(0, max);
 }
 
-const KNOWN_SERVICES = new Set<string>([...BUILD_SERVICES, ...SECURE_SERVICES]);
+const KNOWN_SERVICES = new Set<string>([
+  ...GROWTH_SERVICES,
+  ...BUILD_SERVICES,
+  ...SECURE_SERVICES,
+]);
 const KNOWN_BUDGETS = new Set<string>(BUDGET_OPTIONS);
 
 /**
@@ -132,6 +147,7 @@ export function normaliseContact(payload: ContactPayload): ContactPayload {
 }
 
 const TOPIC_LABEL: Record<ContactTopic, string> = {
+  grow: "Grow something (marketing)",
   build: "Build something",
   secure: "Test something (security)",
   other: "Something else",
@@ -147,7 +163,7 @@ export function contactWhatsappUrl(payload: ContactPayload, phone: string): stri
   const clean = normaliseContact(payload);
   const NL = String.fromCharCode(10);
   const lines = [
-    "Hi Toad Labs, I'd like to talk about a project.",
+    "Hi OFFSCRIPT, I'd like to talk about a project.",
     "",
     `*Name:* ${clean.name}`,
     `*Email:* ${clean.email}`,

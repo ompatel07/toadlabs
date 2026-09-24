@@ -20,19 +20,19 @@ export const hero = {
      business that is services — websites, apps, CRM, automation — and named a
      shape rather than a capability. These cover both halves and are already
      the brand's own line, so the badge and the mark now say the same thing. */
-  eyebrow: ["Build", "Protect", "Scale"],
+  eyebrow: ["Attract", "Build", "Protect"],
   /** Set at display size in the hero, like a title card. */
-  wordmark: "Toad Labs.",
+  wordmark: "OFFSCRIPT.",
   statement: "Software built to last in production — and attacked before it ships.",
   subtitle:
-    "IT services and cybersecurity from Ahmedabad. One team builds your website, app, SaaS or AI automation, then tests it with VAPT and penetration testing — instead of two vendors arguing in between.",
+    "Digital marketing, software and cybersecurity from Ahmedabad. One team brings in the leads, builds the site, app or product they land in, and attacks it before your customers trust it with their data.",
   primaryCta: { label: "Book a call", href: "/contact" },
   secondaryCta: { label: "See our work", href: "/work" },
   /** Honest floating cards. No invented metrics. */
   cards: {
     build: {
-      label: "Build",
-      copy: "Web, mobile, MVPs, SaaS, automation",
+      label: "Grow & build",
+      copy: "SEO, ads, websites, apps, SaaS",
     },
     secure: {
       label: "Secure",
@@ -75,9 +75,22 @@ export const trustStrip: TrustItem[] = [
 ];
 
 export const pillars = {
+  grow: {
+    label: "Grow",
+    title: "First, bring people who are ready to buy",
+    description:
+      "Most software projects are judged on a number nobody planned for: enquiries. We run the search, paid and content work that brings buyers in, and we build the pages they land on — so the campaign and the page are never two vendors blaming each other for the same drop-off.",
+    points: [
+      "SEO, Google Ads and paid social run against enquiries",
+      "Landing pages built in-house, not requested from someone else",
+      "Analytics and conversion tracking you can actually audit",
+      "Reporting that leads with cost per enquiry",
+    ],
+    cta: { label: "Digital marketing", href: "/marketing" },
+  },
   build: {
     label: "Build",
-    title: "Systems that are still cheap to change in year two",
+    title: "Then build something still cheap to change in year two",
     description:
       "Most software does not fail at launch. It fails eighteen months in, when a change that should take a day takes a fortnight because nobody wrote down why the database looks like that. We build for that moment: typed boundaries, migrations that run both ways, tests where they earn their cost, and every significant decision recorded with the trade-off behind it.",
     points: [
@@ -90,7 +103,7 @@ export const pillars = {
   },
   secure: {
     label: "Secure",
-    title: "Then we come back and attack it",
+    title: "Then come back and attack it",
     description:
       "Testing your own work sounds like a conflict of interest — until you see how differently an engineer writes access control knowing a colleague will spend a week trying to defeat it. We test against OWASP ASVS and PTES, rank findings by what is actually reachable in your deployment rather than by scanner score, and retest once you have fixed them.",
     points: [

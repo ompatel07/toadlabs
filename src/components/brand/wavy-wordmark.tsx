@@ -21,7 +21,7 @@ import { useReducedMotion } from "@/hooks/use-reduced-motion";
  *    ruled out. Rendering it on the server and removing it later would let the
  *    animation run for a frame for users who asked for no motion.
  */
-export function WavyWordmark({ text = "Toad Labs." }: { text?: string }) {
+export function WavyWordmark({ text = "OFFSCRIPT." }: { text?: string }) {
   const animate = !useReducedMotion();
 
   return (

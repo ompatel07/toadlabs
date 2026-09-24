@@ -78,8 +78,8 @@ const MILESTONES: Record<number, { text: string; cta?: boolean }> = {
 const SLEEP_AFTER_MS = 20000;
 const HOLD_DELAY_MS = 240;
 const CHARGE_MS = 900;
-const COUNT_KEY = "toadlabs:pokes";
-const MET_KEY = "toadlabs:toad-met";
+const COUNT_KEY = "offscript:pokes";
+const MET_KEY = "offscript:toad-met";
 
 // sessionStorage can throw (private mode, blocked storage). A toad that
 // forgets is fine; a toad that crashes the page is not.
@@ -123,7 +123,7 @@ export function InteractiveToad({
   className,
   motionClassName,
   hint = false,
-  label = "Poke the Toad Labs toad",
+  label = "Poke the OFFSCRIPT toad",
 }: {
   children: React.ReactNode;
   className?: string;

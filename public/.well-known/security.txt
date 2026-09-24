@@ -1,8 +1,8 @@
-# Toad Labs — vulnerability disclosure
+# OFFSCRIPT — vulnerability disclosure
 #
 # RFC 9116 (https://www.rfc-editor.org/rfc/rfc9116.html)
 #
-# If you have found a security issue in a Toad Labs property, tell us and we
+# If you have found a security issue in an OFFSCRIPT property, tell us and we
 # will work the report properly. We will not pursue legal action against
 # researchers acting in good faith under the policy linked below.
 #

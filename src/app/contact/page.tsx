@@ -8,9 +8,9 @@ import { Section } from "@/components/layout/section";
 import { ContactForm } from "@/components/sections/contact-form";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Contact Toad Labs in Ahmedabad",
+  title: "Contact OFFSCRIPT in Ahmedabad",
   description:
-    "Talk to Toad Labs about software development, AI automation, VAPT or penetration testing. Book a call or message us on WhatsApp. Based in Ahmedabad, Gujarat, India.",
+    "Talk to OFFSCRIPT about software development, AI automation, VAPT or penetration testing. Book a call or message us on WhatsApp. Based in Ahmedabad, Gujarat, India.",
   path: "/contact",
 });
 

@@ -1,11 +1,12 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { AlertCircle, Boxes, CheckCircle2, MessageCircle, Phone, ShieldCheck } from "lucide-react";
+import { AlertCircle, Boxes, CheckCircle2, MessageCircle, Phone, ShieldCheck, TrendingUp } from "lucide-react";
 import {
   BUDGET_OPTIONS,
   BUILD_SERVICES,
   CONTACT_LIMITS,
+  GROWTH_SERVICES,
   EMAIL_PATTERN,
   MESSAGE_MIN,
   SECURE_SERVICES,
@@ -37,10 +38,11 @@ import { cn } from "@/lib/utils";
  * are a radiogroup so arrow keys work the way a keyboard user expects.
  */
 
-type Path = "build" | "secure" | "other";
+type Path = "grow" | "build" | "secure" | "other";
 
 const PATHS: { id: Path; label: string; hint: string; icon: typeof Boxes }[] = [
-  { id: "build", label: "Build something", hint: "Product, app, MVP, automation", icon: Boxes },
+  { id: "grow", label: "Grow something", hint: "SEO, ads, content, brand", icon: TrendingUp },
+  { id: "build", label: "Build something", hint: "Website, app, MVP, automation", icon: Boxes },
   { id: "secure", label: "Test something", hint: "VAPT, pentest, code review", icon: ShieldCheck },
   { id: "other", label: "Something else", hint: "Partnership, advice, other", icon: MessageCircle },
 ];
@@ -76,9 +78,14 @@ export function ContactForm() {
     setErrors((previous) => ({ ...previous, [field]: undefined }));
   };
 
-  // Budget is only asked on the two paths where it means anything.
-  const asksBudget = path === "build" || path === "secure";
-  const serviceOptions = path === "secure" ? SECURE_SERVICES : BUILD_SERVICES;
+  // Budget is only asked on the paths where it means anything.
+  const asksBudget = path === "grow" || path === "build" || path === "secure";
+  const serviceOptions =
+    path === "secure"
+      ? SECURE_SERVICES
+      : path === "grow"
+        ? GROWTH_SERVICES
+        : BUILD_SERVICES;
 
   const progress = useMemo(() => {
     const required: (keyof Fields)[] = ["name", "email", "message"];
@@ -223,7 +230,7 @@ export function ContactForm() {
         <legend className="label-mono text-ink-soft mb-3">
           01 — What brings you here?
         </legend>
-        <div role="radiogroup" aria-label="What brings you here" className="grid gap-2.5 sm:grid-cols-3">
+        <div role="radiogroup" aria-label="What brings you here" className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
           {PATHS.map((option) => {
             const active = path === option.id;
             return (
@@ -264,7 +271,13 @@ export function ContactForm() {
         <div className="page-enter flex flex-col gap-5">
           <p className="label-mono text-ink-soft">03 — About the work</p>
           <SelectField
-            label={path === "secure" ? "What needs testing?" : "What are you building?"}
+            label={
+              path === "secure"
+                ? "What needs testing?"
+                : path === "grow"
+                  ? "What do you need help with?"
+                  : "What are you building?"
+            }
             name="service"
             optional
             value={values.service}
@@ -289,7 +302,13 @@ export function ContactForm() {
           {path ? "04" : "03"} — The problem
         </p>
         <Field
-          label={path === "secure" ? "What are you worried about?" : "What is going wrong?"}
+          label={
+            path === "secure"
+              ? "What are you worried about?"
+              : path === "grow"
+                ? "What are you trying to grow?"
+                : "What is going wrong?"
+          }
           name="message"
           submitName="text"
           required

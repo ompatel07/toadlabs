@@ -108,11 +108,12 @@ export function Hero() {
               here. It names what the company is, in the words people search
               for, and matches the page title and the copy directly below. */}
           <h1 className="sr-only">
-            Toad Labs: IT services and cybersecurity company in Ahmedabad
+            OFFSCRIPT: digital marketing, software and cybersecurity company in
+            Ahmedabad
           </h1>
           {/* Decorative, and deliberately outside the h1: its SVG text is
               readable by crawlers and would otherwise be appended to the
-              heading ("…in AhmedabadTOAD LABS."). */}
+              heading ("…in AhmedabadOFFSCRIPT."). */}
           <WavyWordmark />
         </div>
 

@@ -15,7 +15,7 @@ import { FinalCta } from "@/components/sections/final-cta";
 export const metadata: Metadata = pageMetadata({
   title: "Software Development Services in Ahmedabad",
   description:
-    "Website, mobile app, MVP, SaaS, CRM and custom software development, plus AI automation, WhatsApp automation, chatbots and voice agents from Toad Labs, Ahmedabad.",
+    "Website, mobile app, MVP, SaaS, CRM and custom software development, plus AI automation, WhatsApp automation, chatbots and voice agents from OFFSCRIPT, Ahmedabad.",
   path: "/services",
   image: "services",
 });
@@ -25,7 +25,7 @@ const structuredData = {
   "@graph": [
     {
       "@type": "ItemList",
-      name: "Toad Labs software development services",
+      name: "OFFSCRIPT software development services",
       itemListElement: buildPages.map((page, index) => ({
         "@type": "ListItem",
         position: index + 1,

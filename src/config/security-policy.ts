@@ -12,10 +12,10 @@
 
 export const disclosure = {
   intro:
-    "If you have found a security issue in a Toad Labs property, we want to hear about it. This page says exactly how to report one, what we will do, and what we ask of you.",
+    "If you have found a security issue in an OFFSCRIPT property, we want to hear about it. This page says exactly how to report one, what we will do, and what we ask of you.",
   inScope: [
     "toadlabs.in and its subdomains",
-    "Any Toad Labs-operated application or API",
+    "Any OFFSCRIPT-operated application or API",
     "Our public source repositories",
   ],
   outOfScope: [

@@ -12,7 +12,7 @@ import { FinalCta } from "@/components/sections/final-cta";
 export const metadata: Metadata = pageMetadata({
   title: "Our Work: Software & Security Case Studies",
   description:
-    "How Toad Labs approaches software development and security engagements: the problem, our approach, the stack and the outcome. Illustrative case studies.",
+    "How OFFSCRIPT approaches software development and security engagements: the problem, our approach, the stack and the outcome. Illustrative case studies.",
   path: "/work",
   // Placeholder work must not be indexed as if it were real client evidence.
   noindex: hasPlaceholderWork,
