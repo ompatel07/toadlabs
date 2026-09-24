@@ -2408,6 +2408,25 @@
     will-change: transform;
   }
 
+  /* The standing figure's idle float. Smaller and slower than the hero's, and
+     with a breath of rotation, because it appears at 160-250px where the
+     hero's 16px travel would read as a jiggle. It sits on an inner wrapper, so
+     it composes with a scroll-driven drift on the element above it. */
+  @keyframes figure-float {
+    0%,
+    100% {
+      transform: translate3d(0, -5px, 0) rotate(-0.4deg);
+    }
+    50% {
+      transform: translate3d(0, 5px, 0) rotate(0.4deg);
+    }
+  }
+
+  .animate-figure-float {
+    animation: figure-float 7.5s ease-in-out infinite;
+    will-change: transform;
+  }
+
   /* Soft lime bloom behind the hero object. A pseudo-element gradient, not a
      blur filter on the image — blurring the image itself would cost a repaint
      of a large bitmap on every frame of the float. */

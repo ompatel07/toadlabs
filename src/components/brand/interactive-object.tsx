@@ -122,35 +122,61 @@ const clamp = (v: number, min = -1, max = 1) => Math.max(min, Math.min(max, v));
 
 type Effect = { id: number; kind: "poke" | "scan" | "ship"; card: number };
 
-/** Sunglass lens centres, measured on the master. */
-const LENSES = [
-  { left: "51%", top: "40.8%" },
-  { left: "58.4%", top: "41.8%" },
-];
+/**
+ * Anchors per artwork, measured on each master rather than guessed — the two
+ * poses put the lenses, the laptop and the cards in completely different
+ * places, and an overlay a few percent out lands on a cheek instead of a lens.
+ *
+ *   hero    the wide seated composition (1312x1199), ringed by six cards
+ *   figure  the standing figure (647x1126), no cards to light
+ */
+type Anchor = { left: string; top: string };
 
-/** The laptop screen, where "working" is shown. */
-const SCREEN = { left: "63%", top: "63%" };
-
-/** The six floating cards, clockwise from the code panel. Poking lights the
-    next one, so repeated taps travel around the ring. */
-const CARDS = [
-  { left: "28%", top: "15%" },
-  { left: "80%", top: "27%" },
-  { left: "81%", top: "46%" },
-  { left: "85%", top: "62%" },
-  { left: "13%", top: "57%" },
-  { left: "17%", top: "38%" },
-];
+const ARTWORK: Record<
+  "hero" | "figure",
+  { lenses: Anchor[]; screen: Anchor; cards: Anchor[] }
+> = {
+  hero: {
+    lenses: [
+      { left: "51%", top: "40.8%" },
+      { left: "58.4%", top: "41.8%" },
+    ],
+    screen: { left: "63%", top: "63%" },
+    cards: [
+      { left: "28%", top: "15%" },
+      { left: "80%", top: "27%" },
+      { left: "81%", top: "46%" },
+      { left: "85%", top: "62%" },
+      { left: "13%", top: "57%" },
+      { left: "17%", top: "38%" },
+    ],
+  },
+  figure: {
+    lenses: [
+      { left: "37.4%", top: "25.9%" },
+      { left: "52%", top: "28%" },
+    ],
+    screen: { left: "68.5%", top: "37.2%" },
+    cards: [],
+  },
+};
 
 export function InteractiveObject({
   children,
   className,
   motionClassName,
   hint = false,
+  artwork = "hero",
+  floatClassName,
   label = "Poke the OFFSCRIPT character",
 }: {
   children: React.ReactNode;
   className?: string;
+  /** Which master is inside, so the overlays land on the right features. */
+  artwork?: "hero" | "figure";
+  /** Gentle idle float. Applied to an inner wrapper so it composes with a
+      scroll-driven drift on the outer one instead of overwriting it. */
+  floatClassName?: string;
   /** Float or scroll-drift class, applied to the wrapper that also holds the
       eye overlays so they stay on the pupils while the image moves. */
   motionClassName?: string;
@@ -158,6 +184,8 @@ export function InteractiveObject({
   hint?: boolean;
   label?: string;
 }) {
+  const { lenses: LENSES, screen: SCREEN, cards: CARDS } = ARTWORK[artwork];
+
   const buttonRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
@@ -328,14 +356,14 @@ export function InteractiveObject({
     }
 
     hop();
-    cardIndex.current = (cardIndex.current + 1) % CARDS.length;
+    cardIndex.current = CARDS.length ? (cardIndex.current + 1) % CARDS.length : 0;
     setEffect({ id: effectId.current, kind: "poke", card: cardIndex.current });
     if (!countAndMaybeCelebrate()) {
       say(LINES[lineIndex.current % LINES.length]);
       lineIndex.current += 1;
     }
     buzz(12);
-  }, [animateBody, countAndMaybeCelebrate, dismissHint, hop, noteActivity, say]);
+  }, [CARDS.length, animateBody, countAndMaybeCelebrate, dismissHint, hop, noteActivity, say]);
 
   const stopCharge = useCallback(() => {
     const dd = d.current;
@@ -609,9 +637,10 @@ export function InteractiveObject({
               sleeping ? "obj-asleep" : "obj-awake",
             )}
           >
-            {children}
+            <div className={cn("relative h-full w-full", floatClassName)}>
+              {children}
 
-            <span aria-hidden="true" className="pointer-events-none absolute inset-0">
+              <span aria-hidden="true" className="pointer-events-none absolute inset-0">
               {LENSES.map((eye) => (
                 <span key={`look-${eye.left}`} className="obj-look" style={eye} />
               ))}
@@ -641,7 +670,7 @@ export function InteractiveObject({
 
                   {/* A poke lights the next card; shipping lights all six in
                       sequence, which reads as the whole system reacting. */}
-                  {(effect.kind === "ship" ? CARDS : [CARDS[effect.card]]).map(
+                  {(effect.kind === "ship" ? CARDS : CARDS.slice(effect.card, effect.card + 1)).map(
                     (card, index) => (
                       <span
                         key={`card-${card.left}-${card.top}`}
@@ -664,7 +693,8 @@ export function InteractiveObject({
                   ) : null}
                 </span>
               ) : null}
-            </span>
+              </span>
+            </div>
           </div>
         </div>
       </button>

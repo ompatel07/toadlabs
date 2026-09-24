@@ -145,17 +145,23 @@ export function PageHeader({
                 decorative. */}
             <div
               className={cn(
+                // Narrower boxes than the old landscape object: this pose is
+                // portrait (647x1126), so the same width is far taller.
                 "relative",
                 aside
-                  ? "-mr-10 -mb-24 w-[240px] xl:-mr-4 xl:w-[280px]"
-                  : "-mr-6 -mb-28 w-[340px] xl:-mr-2 xl:w-[400px]",
+                  ? "-mr-8 -mb-20 w-[160px] xl:-mr-2 xl:w-[190px]"
+                  : "-mr-4 -mb-24 w-[220px] xl:-mr-0 xl:w-[250px]",
               )}
             >
               <div aria-hidden="true" className="scene-bloom pointer-events-none absolute inset-[-22%] -z-10" />
-              <InteractiveObject motionClassName="object-drift">
+              <InteractiveObject
+                artwork="figure"
+                motionClassName="object-drift"
+                floatClassName="animate-figure-float"
+              >
                 <BrandObject
                   className="w-full drop-shadow-[0_28px_60px_rgba(0,0,0,0.5)]"
-                  sizes={aside ? "280px" : "400px"}
+                  sizes={aside ? "190px" : "250px"}
                 />
               </InteractiveObject>
             </div>
