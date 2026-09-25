@@ -36,6 +36,32 @@ const OUT = join(dirname(fileURLToPath(import.meta.url)), "..", "out");
 /** Extra origins the contact form may post to. Empty while it is a stub. */
 const CONNECT_SRC = [];
 
+/**
+ * Razorpay checkout, allowed ONLY on the pages that can start a payment.
+ *
+ * The rest of the site keeps the tighter policy: no third-party script may
+ * run, nothing may be framed. Widening the whole site for one product page
+ * would hand every other page an attack surface it has no use for.
+ *
+ * script-src  checkout + cdn.razorpay.com    the widget, and the risk-detection
+ *                                            bundle it pulls in at runtime
+ *                                            (caught by testing, not guessed)
+ * frame-src   api.razorpay.com + checkout    the payment iframe and bank pages
+ * connect-src api + lumberjack               order calls and the SDK's telemetry
+ * img-src     razorpay CDNs                  method logos inside the widget
+ * form-action api.razorpay.com               bank redirects post through here
+ * Permissions-Policy payment=(self ...)      the Payment Request API the
+ *                                            widget uses for saved cards
+ */
+const RAZORPAY = {
+  routes: /^\/playbook(\/|$)/,
+  script: ["https://checkout.razorpay.com", "https://cdn.razorpay.com"],
+  frame: ["https://api.razorpay.com", "https://checkout.razorpay.com"],
+  connect: ["https://api.razorpay.com", "https://lumberjack.razorpay.com", "https://lumberjack-cx.razorpay.com"],
+  img: ["https://cdn.razorpay.com", "https://badges.razorpay.com"],
+  form: ["https://api.razorpay.com"],
+};
+
 function htmlFiles(dir) {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
@@ -65,23 +91,26 @@ function scriptHashes(file) {
   return [...hashes].sort();
 }
 
-function csp(hashes) {
+function csp(hashes, route) {
+  const pay = RAZORPAY.routes.test(route);
+  const list = (base, extra) => [base, ...(pay ? extra : [])].join(" ");
+
   return [
     "default-src 'self'",
-    `script-src 'self' ${hashes.join(" ")}`,
+    `script-src 'self' ${hashes.join(" ")}${pay ? " " + RAZORPAY.script.join(" ") : ""}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data:",
+    list("img-src 'self' data:", RAZORPAY.img),
     "font-src 'self'",
-    `connect-src ${["'self'", ...CONNECT_SRC].join(" ")}`,
+    `connect-src ${["'self'", ...CONNECT_SRC, ...(pay ? RAZORPAY.connect : [])].join(" ")}`,
     "media-src 'self'",
     "manifest-src 'self'",
     "worker-src 'none'",
-    "frame-src 'none'",
+    pay ? `frame-src ${RAZORPAY.frame.join(" ")}` : "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'none'",
     // The contact form's no-JavaScript fallback submits to wa.me, which
     // redirects to api.whatsapp.com — form-action is enforced on redirects too.
-    "form-action 'self' https://wa.me https://api.whatsapp.com",
+    list("form-action 'self' https://wa.me https://api.whatsapp.com", RAZORPAY.form),
     "frame-ancestors 'none'",
     "upgrade-insecure-requests",
   ].join("; ");
@@ -112,8 +141,18 @@ const pageRules = pages
   .flatMap((file) => {
     const routes = routesFor(file);
     if (routes.length === 0) return [];
-    const policy = csp(scriptHashes(file));
-    return routes.map((route) => [route, `  Content-Security-Policy: ${policy}`].join(NL));
+    const hashes = scriptHashes(file);
+    return routes.map((route) =>
+      [
+        route,
+        `  Content-Security-Policy: ${csp(hashes, route)}`,
+        // The site-wide Permissions-Policy denies payment; the checkout needs
+        // it. A per-route header overrides the wildcard one for these paths.
+        ...(RAZORPAY.routes.test(route)
+          ? [`  Permissions-Policy: accelerometer=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(self "https://api.razorpay.com" "https://checkout.razorpay.com"), usb=()`]
+          : []),
+      ].join(NL),
+    );
   })
   .sort();
 

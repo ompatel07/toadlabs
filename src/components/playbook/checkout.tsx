@@ -1,0 +1,252 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Loader2, Lock, ShieldCheck } from "lucide-react";
+import { assets, checkout, product } from "@/config/playbook";
+
+/**
+ * Razorpay checkout.
+ *
+ * WHAT THIS FILE IS NOT ALLOWED TO DO
+ * It never holds a key secret and it never decides the price. The browser
+ * sends nothing but an intent to buy; the Netlify Function reads the amount
+ * from its own constant, creates the order with Razorpay, and returns only the
+ * order id and the public key id. A tampered client can change nothing that
+ * matters — an order created for a different amount would not match the one
+ * the webhook later verifies.
+ *
+ * The success handler here is a convenience redirect, not proof of payment.
+ * The webhook is the only thing that marks an order paid, and the thank-you
+ * page asks the server, never the URL.
+ */
+
+const SDK = "https://checkout.razorpay.com/v1/checkout.js";
+
+type Status = "idle" | "loading" | "open" | "error";
+
+interface RazorpayOptions {
+  key: string;
+  order_id: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  theme?: { color?: string };
+  prefill?: { email?: string; contact?: string };
+  notes?: Record<string, string>;
+  handler: (response: { razorpay_order_id: string; razorpay_payment_id: string }) => void;
+  modal?: { ondismiss?: () => void };
+}
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: RazorpayOptions) => { open: () => void };
+  }
+}
+
+/**
+ * One shared attempt at loading the SDK.
+ *
+ * The obvious version — look for an existing <script> and wait for its load
+ * event — hangs on the second click: the tag is already loaded, the event
+ * fired long ago, and a listener added now never hears it. So the promise is
+ * remembered instead of the element, and a timeout turns a dead network into
+ * a visible error rather than a button that spins forever.
+ */
+let sdkPromise: Promise<void> | null = null;
+
+function loadSdk(): Promise<void> {
+  if (window.Razorpay) return Promise.resolve();
+
+  if (!sdkPromise) {
+    sdkPromise = new Promise<void>((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = SDK;
+      script.async = true;
+      script.onload = () =>
+        window.Razorpay ? resolve() : reject(new Error("sdk-loaded-but-absent"));
+      script.onerror = () => {
+        sdkPromise = null; // let a later click try again
+        script.remove();
+        reject(new Error("sdk-network"));
+      };
+      document.head.appendChild(script);
+    });
+  }
+
+  return Promise.race([
+    sdkPromise,
+    new Promise<void>((_, reject) =>
+      setTimeout(() => reject(new Error("sdk-timeout")), 12000),
+    ),
+  ]);
+}
+
+export function PlaybookCheckout() {
+  const router = useRouter();
+  const [status, setStatus] = useState<Status>("idle");
+  const [message, setMessage] = useState<string | null>(null);
+  const alive = useRef(true);
+
+  useEffect(() => () => { alive.current = false; }, []);
+
+  const pay = useCallback(async () => {
+    if (status === "loading" || status === "open") return;
+    setStatus("loading");
+    setMessage(null);
+
+    try {
+      await loadSdk();
+
+      const response = await fetch("/.netlify/functions/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // Deliberately empty: the amount, currency and product are decided by
+        // the function. Anything sent from here would have to be ignored.
+        body: JSON.stringify({}),
+      });
+      if (!response.ok) throw new Error("order");
+      const order = (await response.json()) as {
+        orderId: string;
+        amount: number;
+        currency: string;
+        keyId: string;
+      };
+      if (!order.orderId || !order.keyId) throw new Error("order");
+      if (!alive.current) return;
+      // Never leave the button mid-spin: if the SDK is somehow not here, that
+      // is an error the buyer should see, not a silent no-op.
+      if (!window.Razorpay) throw new Error("sdk-absent");
+
+      const checkoutInstance = new window.Razorpay({
+        key: order.keyId,
+        order_id: order.orderId,
+        amount: order.amount,
+        currency: order.currency,
+        name: "OFFSCRIPT",
+        description: product.name,
+        theme: { color: "#3fd9e8" },
+        notes: { product: "playbook" },
+        handler: (result) => {
+          // Convenience only. The thank-you page confirms with the server.
+          router.push(
+            `/playbook/thank-you/?order_id=${encodeURIComponent(result.razorpay_order_id)}`,
+          );
+        },
+        modal: {
+          ondismiss: () => {
+            if (alive.current) setStatus("idle");
+          },
+        },
+      });
+
+      setStatus("open");
+      checkoutInstance.open();
+    } catch {
+      if (!alive.current) return;
+      setStatus("error");
+      setMessage(checkout.errors.start);
+    }
+  }, [router, status]);
+
+  const busy = status === "loading" || status === "open";
+
+  return (
+    <div className="pb-panel-lit flex flex-col gap-5 p-6 md:p-8">
+      <div className="flex items-baseline gap-3">
+        <span className="numeral text-ink text-[clamp(2.2rem,8vw,3rem)] leading-none font-bold">
+          {product.priceLabel}
+        </span>
+        <span className="text-ink-soft t-sm">{product.priceNote}</span>
+      </div>
+
+      <ul className="flex flex-wrap gap-x-4 gap-y-1">
+        {product.terms.map((term) => (
+          <li key={term} className="label-mono pb-accent">
+            {term}
+          </li>
+        ))}
+      </ul>
+
+      <button
+        type="button"
+        onClick={pay}
+        aria-busy={busy}
+        className="pb-fill inline-flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-full px-8 text-base font-bold transition-transform duration-200 ease-out hover:-translate-y-0.5 aria-busy:opacity-80"
+      >
+        {busy ? (
+          <>
+            <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+            {checkout.processing}
+          </>
+        ) : (
+          <>
+            <Lock className="size-4" aria-hidden="true" />
+            {checkout.button}
+          </>
+        )}
+      </button>
+
+      <p role="status" aria-live="polite" className="text-ink-soft t-xs">
+        {message ?? checkout.secure}
+      </p>
+
+      <ul className="flex flex-col gap-3 border-t border-[rgba(255,255,255,0.1)] pt-5">
+        {checkout.trust.map((item) => (
+          <li key={item.title} className="flex items-start gap-3">
+            <ShieldCheck className="pb-accent mt-0.5 size-4 shrink-0" strokeWidth={2.2} aria-hidden="true" />
+            <span className="t-sm">
+              <span className="text-ink font-semibold">{item.title}. </span>
+              <span className="text-ink-soft">{item.copy}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** The checkout band: recap on the left, payment panel on the right. */
+export function PlaybookCheckoutSection() {
+  return (
+    <section
+      id="checkout"
+      aria-label="Buy the bundle"
+      className="pb-glow scroll-mt-16 border-t border-[rgba(255,255,255,0.08)] py-16 md:py-24"
+    >
+      <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">
+        <p className="label-mono pb-accent flex items-center gap-2.5">
+          <span aria-hidden="true" className="inline-block h-px w-6 bg-[color:var(--accent)]" />
+          {checkout.eyebrow}
+        </p>
+        <h2 className="font-display text-ink mt-5 type-h2 font-bold text-balance">
+          {checkout.headline}
+        </h2>
+
+        <div className="mt-10 grid gap-3 lg:grid-cols-[1.1fr_1fr] lg:gap-8">
+          <div className="pb-panel p-6 md:p-8">
+            <h3 className="font-display text-ink t-lead font-bold">{checkout.recapTitle}</h3>
+            <ul className="mt-5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
+              {assets.map((asset) => (
+                <li key={asset.id} className="text-ink-soft flex items-baseline gap-3 t-sm">
+                  <span aria-hidden="true" className="pb-accent">
+                    —
+                  </span>
+                  <span>
+                    <span className="text-ink font-medium">{asset.name}</span> · {asset.format}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-ink-soft mt-6 border-t border-[rgba(255,255,255,0.08)] pt-5 t-xs">
+              {checkout.afterNote}
+            </p>
+          </div>
+
+          <PlaybookCheckout />
+        </div>
+      </div>
+    </section>
+  );
+}

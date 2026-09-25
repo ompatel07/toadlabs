@@ -8,11 +8,6 @@ import { siteConfig } from "@/config/site";
 import { servicePages, servicePagePath } from "@/config/service-pages";
 import { absoluteUrl, pageMetadata } from "@/lib/seo";
 import { jsonLd } from "@/lib/json-ld";
-import { SiteHeader } from "@/components/layout/site-header";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { PageTransition } from "@/components/layout/page-transition";
-import { Cursor } from "@/components/ui-brand/cursor";
-import { IntroReveal } from "@/components/brand/intro-reveal";
 import "./globals.css";
 
 const inter = Inter({
@@ -169,35 +164,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${interTight.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="grain flex min-h-full flex-col overflow-x-hidden">
-        <a
-          href="#main"
-          className="skip-link cursor-pointer"
-        >
-          Skip to content
-        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={jsonLd(organizationJsonLd)}
         />
-        {/* Drifting colour field behind the whole site. Decorative, fixed,
-            and pointer-transparent; the grain overlay above it hides the
-            banding that large soft gradients cause on 8-bit displays. */}
-        <IntroReveal />
-        <Cursor />
-
-        <div className="aurora" aria-hidden="true">
-          <span className="aurora-blob" />
-          <span className="aurora-blob" />
-          <span className="aurora-blob" />
-        </div>
-
-        <div className="relative z-10 flex min-h-full flex-1 flex-col">
-          <SiteHeader />
-          <main id="main" className="flex-1">
-            <PageTransition>{children}</PageTransition>
-          </main>
-          <SiteFooter />
-        </div>
+        {children}
       </body>
     </html>
   );
