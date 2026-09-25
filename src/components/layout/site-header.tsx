@@ -101,7 +101,7 @@ export function SiteHeader() {
           <div className="glass-pill flex h-14 items-center justify-between gap-3 pr-2 pl-3 sm:h-16 sm:pr-3 sm:pl-4">
             <Link
               href="/"
-              className="cursor-pointer rounded-full px-1 py-1"
+              className="inline-flex min-h-[44px] cursor-pointer items-center rounded-full px-1 py-1"
               aria-label={`${siteConfig.name} — home`}
             >
               <Wordmark />

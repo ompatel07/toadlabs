@@ -105,7 +105,7 @@ export default function MarketingPage() {
               <li key={service.id}>
                 <a
                   href={`#${service.id}`}
-                  className="text-ink-soft hover:border-ink hover:text-ink inline-flex cursor-pointer rounded-full border border-[rgba(255,255,255,0.161)] px-3.5 py-1.5 t-xs font-medium transition-colors duration-200 ease-out"
+                  className="text-ink-soft hover:border-ink hover:text-ink inline-flex min-h-[44px] cursor-pointer items-center rounded-full border border-[rgba(255,255,255,0.161)] px-3.5 py-2 t-xs font-medium transition-colors duration-200 ease-out"
                 >
                   {service.title}
                 </a>

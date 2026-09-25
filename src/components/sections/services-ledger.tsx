@@ -160,7 +160,7 @@ export function ServicesLedger({
                       {detail ? (
                         <Link
                           href={servicePagePath(detail)}
-                          className="text-lime inline-flex w-fit cursor-pointer items-center gap-1.5 py-1.5 t-sm font-medium underline-offset-4 hover:underline"
+                          className="text-lime inline-flex w-fit min-h-[44px] cursor-pointer items-center gap-1.5 py-1.5 t-sm font-medium underline-offset-4 hover:underline"
                         >
                           {detail.name}: full details
                           <ArrowUpRight className="size-4" aria-hidden="true" />
@@ -168,7 +168,7 @@ export function ServicesLedger({
                       ) : null}
                       <Link
                         href="/contact"
-                        className="text-ink inline-flex w-fit cursor-pointer items-center gap-1.5 py-1.5 t-sm font-medium underline-offset-4 transition-colors duration-200 ease-out hover:text-[color:var(--lime)] hover:underline"
+                        className="text-ink inline-flex w-fit min-h-[44px] cursor-pointer items-center gap-1.5 py-1.5 t-sm font-medium underline-offset-4 transition-colors duration-200 ease-out hover:text-[color:var(--lime)] hover:underline"
                       >
                         Talk to us about this
                         <ArrowUpRight className="size-4" aria-hidden="true" />
