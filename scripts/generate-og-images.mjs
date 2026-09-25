@@ -10,8 +10,9 @@
  *   src/app/icon.png        512x512   (Next.js icon file convention)
  *   src/app/apple-icon.png  180x180
  *   src/app/favicon.ico     16, 32 and 48px (browser tabs, Google results)
- * Icons are the OFFSCRIPT mark (assets/brand/offscript-mark.svg); the preview
- * cards use the 3D object from public/hero/.
+ * Icons and the header lockup come from the 3D logo
+ * (assets/brand/offscript-logo.png); the preview cards use the 3D object from
+ * public/hero/.
  *
  * Run: node scripts/generate-og-images.mjs
  */
@@ -73,7 +74,7 @@ function cardSvg({ eyebrow, lines, detail }) {
   <rect width="1200" height="630" fill="${CANVAS}"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
   <rect x="0" y="0" width="1200" height="6" fill="${LIME}"/>
-  <text x="72" y="118" font-family="${SANS}" font-size="40" font-weight="800" fill="${INK}" letter-spacing="-0.5">OFFSCRIPT</text>
+  <text x="72" y="118" font-family="${SANS}" font-size="40" font-weight="800" fill="${INK}" letter-spacing="-0.5">OFFSCRIPT<tspan fill="${LIME}">.</tspan></text>
   <text x="72" y="176" font-family="${MONO}" font-size="22" fill="${LIME}" letter-spacing="3">${escape(eyebrow)}</text>
   ${headline}
   <text x="72" y="470" font-family="${SANS}" font-size="26" fill="${SOFT}">${escape(detail)}</text>
@@ -98,26 +99,35 @@ for (const [name, card] of Object.entries(CARDS)) {
   console.log("wrote", out);
 }
 
-// App icons are the OFFSCRIPT mark, rasterised from its SVG at each size so
-// the glyph stays crisp at 16px instead of being resampled from one bitmap.
-const MARK_SVG = join(root, "assets", "brand", "offscript-mark.svg");
-const TILE = "#d3ff38"; // the mark's own lime, not the site accent
-
-async function mark(size) {
-  return sharp(MARK_SVG, { density: 384 }).resize(size, size).png().toBuffer();
-}
+// Icons and the header lockup are the 3D logo. Its transparent margin is
+// trimmed first so the tile fills the icon rather than floating in padding.
+const LOGO = await sharp(join(root, "assets", "brand", "offscript-logo.png"))
+  .trim({ threshold: 1 })
+  .toBuffer();
 
 async function icon(size, file, { opaque = false } = {}) {
-  let image = sharp(await mark(size));
+  let image = sharp(LOGO).resize(size, size, {
+    fit: "contain",
+    background: { r: 0, g: 0, b: 0, alpha: 0 },
+  });
   // iOS applies its own rounded mask and turns transparency black, so the
-  // Apple icon is flattened onto the tile's own lime: the corners then match
-  // the tile instead of framing it in black.
-  if (opaque) image = image.flatten({ background: TILE });
+  // Apple icon is flattened onto the brand ground rather than left to pick up
+  // whatever the OS fills with.
+  if (opaque) image = image.flatten({ background: CANVAS }); // CANVAS = the page ground
   await image.png({ compressionLevel: 9, palette: true, quality: 95 }).toFile(file);
   console.log("wrote", file);
 }
 await icon(512, join(root, "src", "app", "icon.png"));
 await icon(180, join(root, "src", "app", "apple-icon.png"), { opaque: true });
+
+// The header and footer lockup, at 1x/2x/3x of its ~24px box.
+mkdirSync(join(root, "public", "brand"), { recursive: true });
+for (const size of [48, 96, 144]) {
+  const base = sharp(LOGO).resize(size, size, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } });
+  await base.clone().webp({ quality: 92, alphaQuality: 100, effort: 6 }).toFile(join(root, "public", "brand", `offscript-logo-${size}.webp`));
+  await base.clone().png({ compressionLevel: 9 }).toFile(join(root, "public", "brand", `offscript-logo-${size}.png`));
+  console.log("wrote lockup", size);
+}
 
 /**
  * favicon.ico — browser tabs, bookmarks, and the icon Google shows next to a
@@ -128,7 +138,14 @@ await icon(180, join(root, "src", "app", "apple-icon.png"), { opaque: true });
  */
 async function favicon(file) {
   const sizes = [16, 32, 48];
-  const images = await Promise.all(sizes.map((size) => mark(size)));
+  const images = await Promise.all(
+    sizes.map((size) =>
+      sharp(LOGO)
+        .resize(size, size, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+        .png({ compressionLevel: 9 })
+        .toBuffer(),
+    ),
+  );
 
   const header = Buffer.alloc(6);
   header.writeUInt16LE(0, 0); // reserved

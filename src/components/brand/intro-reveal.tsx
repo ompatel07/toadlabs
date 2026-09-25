@@ -68,13 +68,17 @@ export function IntroReveal() {
     >
       <div className="intro-panel intro-panel-top">
         <div className="intro-inner">
-          <span className="intro-word">OFFSCRIPT.</span>
+          <span className="intro-word">
+            OFFSCRIPT<span className="text-lime">.</span>
+          </span>
           <span className="intro-rule" />
         </div>
       </div>
       <div className="intro-panel intro-panel-bottom">
         <div className="intro-inner">
-          <span className="intro-word">OFFSCRIPT.</span>
+          <span className="intro-word">
+            OFFSCRIPT<span className="text-lime">.</span>
+          </span>
           <span className="intro-rule" />
         </div>
       </div>

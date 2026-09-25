@@ -89,7 +89,7 @@ export function SiteFooter() {
           className="mt-16 -mb-4 overflow-hidden md:mt-20 md:-mb-8"
         >
           <p className="numeral text-ink/8 text-center text-[clamp(3.5rem,15vw,13rem)] leading-[0.8] whitespace-nowrap select-none">
-            OFFSCRIPT.
+            OFFSCRIPT<span className="text-lime/25">.</span>
           </p>
         </div>
 
