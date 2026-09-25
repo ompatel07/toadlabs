@@ -112,14 +112,16 @@ component.
 
 ## Brand
 
-The site was renamed from Toad Labs to **OFFSCRIPT**. The mark lives at
-`assets/brand/offscript-mark.svg` and is inlined by
-`src/components/brand/wordmark.tsx`; `node scripts/generate-og-images.mjs`
-rebuilds the favicon, app icons and link-preview cards from it.
+The site was renamed from Toad Labs to **OFFSCRIPT**. The logo master is
+`assets/brand/offscript-logo.png`; `node scripts/generate-og-images.mjs`
+rebuilds the favicon, app icons, the header lockup rasters in `public/brand/`
+and the link-preview cards from it.
 
-The mark keeps its own colours (lime `#d3ff38`, ink `#111426`, coral
-`#fa5b3d`) — a logo is fixed, not themed. The site itself keeps the
-"Instrument Dark" system, so the accent in the UI is still the site green.
+The logo keeps its own colours — a logo is fixed, not themed — while the site
+keeps the "Instrument Dark" system, so the accent in the UI is still the site
+green. The wordmark's full stop is lime and appears everywhere the name is set
+as a lockup: header, footer sign-off, intro curtain, hero wordmark and the
+link-preview cards.
 
 The 3D object is `assets/offscript-hero.png`; `node scripts/generate-hero-assets.mjs`
 rebuilds the served AVIF/WebP/PNG sizes. Its interactions live in
