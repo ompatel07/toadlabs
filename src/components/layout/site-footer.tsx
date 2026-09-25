@@ -25,7 +25,7 @@ export function SiteFooter() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
+                  className="text-ink hover:text-ink-soft inline-flex min-h-[40px] cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
                 >
                   <Mail className="size-4" aria-hidden="true" />
                   {siteConfig.email}
@@ -34,7 +34,7 @@ export function SiteFooter() {
               <li>
                 <a
                   href={`tel:${siteConfig.phone}`}
-                  className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
+                  className="text-ink hover:text-ink-soft inline-flex min-h-[40px] cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
                 >
                   <Phone className="size-4" aria-hidden="true" />
                   {siteConfig.phoneDisplay}
@@ -45,7 +45,7 @@ export function SiteFooter() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-ink hover:text-ink-soft inline-flex cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
+                  className="text-ink hover:text-ink-soft inline-flex min-h-[40px] cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
                 >
                   <MessageCircle className="size-4" aria-hidden="true" />
                   WhatsApp
@@ -70,7 +70,7 @@ export function SiteFooter() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-ink hover:text-ink-soft inline-block cursor-pointer py-1.5 t-base transition-colors duration-200 ease-out"
+                        className="text-ink hover:text-ink-soft inline-flex min-h-[40px] cursor-pointer items-center py-1.5 t-base transition-colors duration-200 ease-out"
                       >
                         {item.label}
                       </Link>

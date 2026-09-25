@@ -155,6 +155,17 @@ const TOPIC_LABEL: Record<ContactTopic, string> = {
 };
 
 /**
+ * Renders free text as a quoted block: every line prefixed, and the bold
+ * markers WhatsApp would act on neutralised at the start of a line, so nothing
+ * typed into the message can pass itself off as one of the labelled fields
+ * above it.
+ */
+function quoteBlock(text: string): string[] {
+  const lines = text.split(/\r?\n/);
+  return lines.map((line) => `> ${line.replace(/^\s*\*+/, "")}`);
+}
+
+/**
  * Builds the wa.me link for an enquiry. Everything is normalised and
  * allowlisted first, then URL-encoded, so nothing a visitor types can change
  * the destination number or break out of the text parameter.
@@ -177,7 +188,11 @@ export function contactWhatsappUrl(payload: ContactPayload, phone: string): stri
       : null,
     "",
     "*Message:*",
-    clean.message,
+    // Quoted, one prefix per line. Without this a visitor could type their own
+    // "*Name:* someone else" inside the message and the result would read as
+    // another labelled field — the message is the only free-text part, so it
+    // is the only part that can imitate the header.
+    ...quoteBlock(clean.message),
   ].filter((line): line is string => line !== null);
 
   const digits = phone.replace(/[^0-9]/g, "");

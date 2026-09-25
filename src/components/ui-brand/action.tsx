@@ -33,7 +33,7 @@ const actionVariants = cva(
         /** 44px — minimum comfortable tap target. */
         default: "h-11 px-5 t-base",
         lg: "h-13 px-7 text-base",
-        sm: "h-9 px-4 text-sm",
+        sm: "h-10 px-4 text-sm",
         inline: "h-auto p-0",
       },
     },

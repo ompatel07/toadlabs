@@ -458,9 +458,21 @@
   /* Small uppercase technical label. */
   .label-mono {
     @apply font-mono uppercase;
-    font-size: 0.6875rem;
+    /* 12px on phones, 11px from 640px up: uppercase mono at 11px is hard work
+       on a 320px screen, and these labels carry section names. */
+    font-size: 0.75rem;
     letter-spacing: 0.09em;
     line-height: 1.4;
+  }
+
+  /* 11px only from 1280px up. Phones, tablets and small laptop windows keep
+     12px: uppercase mono is the smallest type here and it carries section
+     names, and a width rule holds where pointer detection does not (a
+     landscape phone reports a fine pointer under emulation). */
+  @media (min-width: 1280px) {
+    .label-mono {
+      font-size: 0.6875rem;
+    }
   }
 
   /* --- Surfaces ---------------------------------------------------------- */

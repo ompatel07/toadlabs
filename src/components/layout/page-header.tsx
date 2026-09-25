@@ -97,7 +97,7 @@ export function PageHeader({
                           <>
                             <Link
                               href={crumb.href}
-                              className="hover:text-ink cursor-pointer py-1 underline-offset-4 transition-colors duration-200 ease-out hover:underline"
+                              className="hover:text-ink inline-flex min-h-[44px] cursor-pointer items-center py-1 underline-offset-4 transition-colors duration-200 ease-out hover:underline"
                             >
                               {crumb.name}
                             </Link>
