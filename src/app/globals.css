@@ -1592,7 +1592,7 @@
      component. */
   .obj-look {
     position: absolute;
-    width: 2.1%;
+    width: var(--glint, 2.1%);
     aspect-ratio: 1;
     border-radius: 50%;
     pointer-events: none;
@@ -1619,10 +1619,10 @@
      should look "on" when the character is working. */
   .obj-screen {
     position: absolute;
-    width: 20%;
-    height: 14%;
+    width: var(--screen-w, 20%);
+    height: var(--screen-h, 14%);
     translate: -50% -50%;
-    rotate: -9deg;
+    rotate: var(--screen-rot, -9deg);
     border-radius: 6% / 9%;
     pointer-events: none;
     background: radial-gradient(
@@ -1661,10 +1661,10 @@
   /* One-shot flare over the screen when the object is poked or ships. */
   .obj-flare {
     position: absolute;
-    width: 30%;
-    height: 22%;
+    width: calc(var(--screen-w, 20%) * 1.5);
+    height: calc(var(--screen-h, 14%) * 1.55);
     translate: -50% -50%;
-    rotate: -9deg;
+    rotate: var(--screen-rot, -9deg);
     border-radius: 8% / 11%;
     pointer-events: none;
     background: radial-gradient(
@@ -1756,7 +1756,7 @@
      --charge (0..1), written every frame while the pointer is held. */
   .obj-power {
     position: absolute;
-    width: 7%;
+    width: var(--power, 7%);
     aspect-ratio: 1;
     border-radius: 50%;
     pointer-events: none;
@@ -1774,10 +1774,10 @@
 
   .obj-charge-ring {
     position: absolute;
-    left: 55%;
-    bottom: 6%;
-    width: 46%;
-    aspect-ratio: 3.2;
+    left: var(--ring-left, 55%);
+    bottom: var(--ring-bottom, 6%);
+    width: var(--ring-w, 46%);
+    aspect-ratio: var(--ring-aspect, 3.2);
     border-radius: 50%;
     pointer-events: none;
     translate: -50% 0;

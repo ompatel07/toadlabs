@@ -134,7 +134,16 @@ type Anchor = { left: string; top: string };
 
 const ARTWORK: Record<
   "hero" | "figure",
-  { lenses: Anchor[]; screen: Anchor; cards: Anchor[] }
+  {
+    lenses: Anchor[];
+    screen: Anchor;
+    cards: Anchor[];
+    zzz: Anchor;
+    /** Sizes and offsets the stylesheet reads, so each pose can scale its own
+        overlays: the figure renders larger relative to its box than the wide
+        seated composition, so identical percentages look wrong on it. */
+    vars: React.CSSProperties;
+  }
 > = {
   hero: {
     lenses: [
@@ -150,14 +159,41 @@ const ARTWORK: Record<
       { left: "13%", top: "57%" },
       { left: "17%", top: "38%" },
     ],
+    zzz: { left: "62%", top: "6%" },
+    vars: {
+      "--glint": "2.1%",
+      "--power": "7%",
+      "--screen-w": "20%",
+      "--screen-h": "14%",
+      "--screen-rot": "-9deg",
+      "--ring-left": "55%",
+      "--ring-bottom": "6%",
+      "--ring-w": "46%",
+      "--ring-aspect": "3.2",
+    } as React.CSSProperties,
   },
   figure: {
     lenses: [
       { left: "37.4%", top: "25.9%" },
       { left: "52%", top: "28%" },
     ],
-    screen: { left: "68.5%", top: "37.2%" },
+    // Measured against the tilted laptop, not the hand: the screen quad runs
+    // roughly 63-89% across and 31-48% down.
+    screen: { left: "77%", top: "40%" },
     cards: [],
+    zzz: { left: "58%", top: "0%" },
+    vars: {
+      "--glint": "3%",
+      "--power": "10%",
+      "--screen-w": "24%",
+      "--screen-h": "16%",
+      "--screen-rot": "-4deg",
+      // Under both feet, which sit low and centre-left in this pose.
+      "--ring-left": "45%",
+      "--ring-bottom": "2%",
+      "--ring-w": "52%",
+      "--ring-aspect": "4.2",
+    } as React.CSSProperties,
   },
 };
 
@@ -184,7 +220,7 @@ export function InteractiveObject({
   hint?: boolean;
   label?: string;
 }) {
-  const { lenses: LENSES, screen: SCREEN, cards: CARDS } = ARTWORK[artwork];
+  const { lenses: LENSES, screen: SCREEN, cards: CARDS, zzz: ZZZ, vars: VARS } = ARTWORK[artwork];
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -631,6 +667,7 @@ export function InteractiveObject({
         <div ref={bodyRef} className="relative h-full w-full [transform-origin:50%_92%]">
           <div
             data-sleeping={sleeping ? "true" : "false"}
+            style={VARS}
             className={cn(
               "relative h-full w-full",
               motionClassName,
@@ -654,7 +691,7 @@ export function InteractiveObject({
               <span className="obj-charge-ring" />
 
               {sleeping ? (
-                <span className="obj-zzz" style={{ left: "62%", top: "6%" }}>
+                <span className="obj-zzz" style={ZZZ}>
                   <i>z</i>
                   <i>z</i>
                   <i>z</i>

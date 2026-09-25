@@ -149,8 +149,8 @@ export function PageHeader({
                 // portrait (647x1126), so the same width is far taller.
                 "relative",
                 aside
-                  ? "-mr-8 -mb-20 w-[160px] xl:-mr-2 xl:w-[190px]"
-                  : "-mr-4 -mb-24 w-[220px] xl:-mr-0 xl:w-[250px]",
+                  ? "-mr-8 -mb-10 w-[160px] xl:-mr-2 xl:w-[190px]"
+                  : "-mr-4 -mb-12 w-[220px] xl:-mr-0 xl:w-[250px]",
               )}
             >
               <div aria-hidden="true" className="scene-bloom pointer-events-none absolute inset-[-22%] -z-10" />

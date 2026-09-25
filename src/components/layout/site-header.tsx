@@ -109,7 +109,7 @@ export function SiteHeader() {
 
             <nav
               aria-label="Main"
-              className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 md:flex"
+              className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex"
             >
               {mainNav.map((item) => (
                 <Link
@@ -143,7 +143,7 @@ export function SiteHeader() {
                 onClick={() => setOpen(true)}
                 aria-expanded={open}
                 aria-controls="mobile-nav"
-                className="text-ink inline-flex size-10 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-out hover:bg-[rgba(255,255,255,0.07)] md:hidden"
+                className="text-ink inline-flex size-10 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-out hover:bg-[rgba(255,255,255,0.07)] lg:hidden"
               >
                 <Menu className="size-5" aria-hidden="true" />
                 <span className="sr-only">Open menu</span>
@@ -160,7 +160,7 @@ export function SiteHeader() {
           role="dialog"
           aria-modal="true"
           aria-label="Site menu"
-          className="nav-sheet bg-canvas/98 fixed inset-0 z-[70] flex flex-col backdrop-blur-xl md:hidden"
+          className="nav-sheet bg-canvas/98 fixed inset-0 z-[70] flex flex-col backdrop-blur-xl lg:hidden"
         >
           <div className="container-tl flex h-14 shrink-0 items-center justify-between pt-3 sm:h-16 sm:pt-5">
             <Wordmark />
