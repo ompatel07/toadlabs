@@ -2,28 +2,28 @@
  * /playbook — every word of the sales page, typed.
  *
  * RULES THIS FILE FOLLOWS
- *  - No income claims, no guarantees, no "earn X in Y days". Not because it is
- *    cautious: it is untrue, it gets ads rejected, and it invites chargebacks.
+ *  - No income claims, no guarantees, no "earn X in Y days". Not caution:
+ *    it is untrue, it gets ads rejected, and it invites chargebacks.
  *  - No countdowns, no fake scarcity, no struck-through prices.
- *  - Every number here describes the product itself (pages, scripts, prompts,
- *    niches, sites). Nothing is a claim about results, and no outside statistic
- *    appears without its source in the copy.
- *  - The reply screenshots are evidence that the outreach gets answered. They
- *    are labelled as exactly that, never as earnings.
+ *  - Every number describes the product itself (modules, scripts, prompts,
+ *    niches, sites). Nothing is a claim about results.
+ *  - The price appears ONCE, at the end. The page has to earn it first.
+ *  - The reply screenshots prove the outreach gets answered. Nothing more.
  *
- * Hinglish belongs in the headlines, where the buyer's own voice is; the body
- * stays plain English so nothing is ambiguous before a payment.
+ * Hinglish in the headlines, where the buyer's own voice is. Plain English in
+ * the body, because nothing should be ambiguous before a payment.
  */
 
 export const product = {
   name: "The Client Playbook",
-  /** One line, used in metadata and the checkout recap. */
+  // Also the meta description and the Product JSON-LD description, so it is
+  // kept under 160 characters.
   summary:
-    "A 10-module playbook, a lead tracker, 75 outreach scripts, 37 AI prompts and 5 ready-made websites, for freelance web developers in India who can build but cannot find clients.",
+    "A 10-module playbook, lead tracker, 75 outreach scripts, 37 AI prompts, a 30-day plan and 5 ready-made sites — for freelance web devs in India.",
   price: 1299,
   currency: "INR",
   priceLabel: "₹1,299",
-  priceNote: "One-time. No subscription.",
+  priceNote: "One-time. No subscription, no upsell, no renewal.",
   terms: ["Instant access", "Lifetime access", "Free updates"],
 } as const;
 
@@ -31,40 +31,94 @@ export const hero = {
   eyebrow: "For freelance web developers in India",
   headline: "Coding seekh li. Client nahi mila?",
   sub: "The problem isn't your skill. It's your first message.",
-  body: "You can build the site. You just have nobody to build it for. This bundle is the outreach system — who to contact, where to find them, what to send, and what to send when they reply.",
-  cta: "Get the bundle — ₹1,299",
-  ctaNote: "Instant access · Lifetime access",
-  /** Three facts, not promises. */
-  marks: ["10 modules", "75 scripts", "5 ready-made sites"],
+  body: "You can build the thing. You just have nobody to build it for. This is the outreach system that sits between those two facts — who to contact, how to find them, what to send, and what to say when they finally reply.",
+  primaryCta: "Show me what's inside",
+  secondaryCta: "What it costs",
+  marks: ["10 modules", "75 scripts", "5 ready-made sites", "No paid tools needed"],
 } as const;
 
-export const problem = {
-  eyebrow: "Why nobody replies",
-  headline: "This message has never worked. Not once.",
-  /** The DM every developer sends, shown as the buyer will recognise it. */
-  message: "Hi sir, we provide web development services. Interested?",
-  lead: "It gets ignored for four reasons, and all four are fixable in an afternoon.",
-  reasons: [
+/**
+ * The before/after that carries the whole argument. Both messages are ours,
+ * written for this page — the "after" is an illustration of the method, not a
+ * line lifted from the swipe file.
+ */
+export const rewrite = {
+  eyebrow: "The whole problem, in two messages",
+  headline: "Same developer. Same skill. Different first line.",
+  before: {
+    label: "What everyone sends",
+    message: "Hi sir, we provide web development services. Interested?",
+    verdict: "Ignored",
+    outcome: "No reply. No follow-up worth sending either — there is nothing to follow up on.",
+    notes: [
+      "Could be addressed to anyone",
+      "Asks them to imagine the project, the price and the process",
+      "Arrives for no reason, on no occasion",
+      "Sells what you do, not what they get",
+    ],
+  },
+  after: {
+    label: "What the playbook teaches",
+    message:
+      "Hi Rajesh — saw Sharma Dental is running Google ads, but the link goes to a Facebook page. You're paying for clicks that can't book. I recorded a 90-second video showing the three places people drop off. Want me to send it?",
+    verdict: "Gets a reply",
+    outcome: "Hey, yes sure. Send it.",
+    notes: [
+      "Names the business and one specific thing you actually looked at",
+      "Points at money they are already spending",
+      "Asks for a yes to a video, not to a project",
+      "Costs them nothing to say yes to",
+    ],
+  },
+  close:
+    "Everything in this bundle exists to make the second message easy to send, forty times a week, without writing it from scratch each time.",
+} as const;
+
+/** How the system runs, and which file powers each step. */
+export const system = {
+  eyebrow: "How it actually works",
+  headline: "Four steps. Every file in the bundle serves one of them.",
+  steps: [
     {
-      title: "It could be for anyone",
-      copy: "No name, no business, nothing that proves you looked. A message that fits every business fits none of them.",
+      step: "Pick",
+      title: "Choose who you are for",
+      copy: "A niche narrows what you say, what you charge and where you look. Generalists write generic messages, and generic messages get ignored.",
+      powered: "Niche research pack · Modules 1–2",
     },
     {
-      title: "It asks them to do the work",
-      copy: "\"Interested?\" makes the reader imagine the project, the price and the process. Most will not bother.",
+      step: "Find",
+      title: "Build a list of real businesses",
+      copy: "Publicly listed businesses with a website problem you can name. The scraping method builds the list without a paid lead tool.",
+      powered: "Scraper quick-start · Modules 3–4",
     },
     {
-      title: "It arrives with no reason to exist",
-      copy: "Nothing happened to prompt it. No new opening, no broken page, no ad they are already running.",
+      step: "Send",
+      title: "Reach out with a reason",
+      copy: "Cold email, video audits, Instagram, WhatsApp, LinkedIn partnerships — each with its own script, cadence and follow-up.",
+      powered: "Swipe file · Modules 5–9",
     },
     {
-      title: "It sells a service, not a result",
-      copy: "\"Web development\" is what you do. What they buy is bookings, enquiries, or an end to answering the same question on WhatsApp.",
+      step: "Close",
+      title: "Handle the reply without fumbling",
+      copy: "Price questions, 'send portfolio', silence, 'we'll think about it'. Then a proposal, an agreement and an invoice that look like a business.",
+      powered: "Reply scripts · Paperwork · Module 10",
     },
   ],
-  close:
-    "Everything in this bundle replaces that one message — with a list of who to write to, a reason to write, and the exact words to use.",
 } as const;
+
+/** The 10 modules, titled exactly as the PDF's contents page lists them. */
+export const modules = [
+  { n: "01", title: "Niche & offer selection", copy: "Pick a niche you can defend, and an offer priced in outcomes rather than hours." },
+  { n: "02", title: "Productizing your service", copy: "Turn what you do into a fixed package with a scope, a price and a delivery time." },
+  { n: "03", title: "Lead sourcing & qualification", copy: "Where the businesses actually are, and how to tell a live lead from a dead listing." },
+  { n: "04", title: "Free lead scraping methods", copy: "Build your own list from public listings — no paid lead tool, no monthly fee." },
+  { n: "05", title: "Cold email systems", copy: "Subject lines, first lines, the ask, the follow-up sequence, and what to do with no reply." },
+  { n: "06", title: "Video audit outreach", copy: "The 90-second screen recording that turns a cold message into a conversation." },
+  { n: "07", title: "LinkedIn: profile, partnerships & outreach", copy: "Agencies and designers who already have clients and need someone who can build." },
+  { n: "08", title: "Instagram: the demo-first method", copy: "Find local businesses by their own posts, then lead with a demo instead of a pitch." },
+  { n: "09", title: "WhatsApp & local outreach", copy: "The channel Indian businesses actually answer — used without getting your number reported." },
+  { n: "10", title: "Inbound: portfolio, referrals & marketplaces", copy: "The things that make work come to you, so outreach is not forever." },
+] as const;
 
 export interface Asset {
   id: string;
@@ -79,103 +133,216 @@ export const assets: Asset[] = [
     id: "playbook",
     name: "The playbook",
     format: "PDF · 87 pages · 10 modules",
-    what: "Niche and offer, lead sourcing, a free lead-scraping method, cold email, video audits, LinkedIn partnerships, Instagram, WhatsApp, inbound and referrals.",
-    saves: "You stop guessing which channel to try this week. Each module is one channel, start to finish.",
+    what: "The whole method, one channel per module, from picking a niche to asking for the referral.",
+    saves: "You stop guessing what to try this week.",
   },
   {
     id: "tracker",
     name: "Lead tracker",
     format: "Excel + Google Sheets",
-    what: "Scores and grades every lead, then suggests the channel and the package to pitch. Pipeline dashboard and a weekly log built in.",
-    saves: "No more leads living in your head and a notes app. You can see who is worth a follow-up today.",
+    what: "Scores and grades every lead, then tells you which channel and which package fits it.",
+    saves: "Leads stop living in your head and a notes app.",
   },
   {
     id: "swipe",
     name: "Swipe file",
     format: "75 scripts",
-    what: "Copy-ready outreach for every channel, including Hinglish versions, plus replies for the awkward parts: price, delay, \"send portfolio\", silence.",
-    saves: "The blank-message problem disappears. Change the name and the specific detail, and send.",
+    what: "Every message for every channel, Hinglish included, plus the replies for price, delay and silence.",
+    saves: "The blank message box stops being a reason not to send.",
   },
   {
     id: "prompts",
     name: "AI prompt pack",
     format: "37 prompts",
-    what: "A reusable master context so the model knows your niche, offer and tone, then prompts for research, audits, proposals and follow-ups.",
-    saves: "Prompts that produce something you can send, instead of paragraphs you have to rewrite.",
+    what: "A master context that teaches the model your niche and offer, then prompts for research, audits and proposals.",
+    saves: "Output you can send, not paragraphs you have to rewrite.",
   },
   {
     id: "launch",
     name: "30-day launch plan",
-    format: "Day-by-day",
-    what: "What to do each day for a month: set up, build the list, send, follow up, review.",
-    saves: "Removes the daily \"what should I do now\" decision, which is where most people stop.",
+    format: "Day by day",
+    what: "What to do each day for a month: set up, list, send, follow up, review.",
+    saves: "Removes the daily 'what now', which is where most people stop.",
   },
   {
     id: "niches",
     name: "Niche research pack",
     format: "12 niches",
-    what: "Twelve niches researched for you: what they care about, what they already spend on, what to offer, and where to find them.",
-    saves: "A week of research you do not have to do before you can start.",
+    what: "Twelve niches already researched: what they spend on, what to offer, where to find them.",
+    saves: "A week of research you do not have to do first.",
   },
   {
     id: "scraper",
     name: "Scraper quick-start",
     format: "One card",
-    what: "The free lead-scraping method on a single page, so you can build a list without paying for a lead tool.",
-    saves: "A list of real businesses to contact, at no monthly cost.",
+    what: "The free list-building method on a single page you can keep open while you work.",
+    saves: "A real list of businesses at no monthly cost.",
   },
   {
     id: "paperwork",
     name: "Paperwork",
     format: "4 documents",
     what: "Proposal, service agreement, white-label NDA and a GST invoice template.",
-    saves: "You look like a business on the day someone says yes, instead of writing a contract that night.",
+    saves: "You look like a business on the day someone says yes.",
   },
   {
     id: "websites",
     name: "5 ready-made websites",
-    format: "Single HTML file each",
-    what: "Salon, dental, gym, café and interiors. No build step, no dependencies, edit markers throughout.",
-    saves: "You have something to show in the first message, and a starting point you can hand over in a day.",
+    format: "5 sectors",
+    what: "Salon & spa, dental, gym, café & restaurant and physiotherapy. No build step, no dependencies, edit markers throughout.",
+    saves: "Something to show in the first message, and a head start on delivery.",
   },
 ];
 
-/**
- * Product screenshots. Sizes are the real dimensions the images will be
- * generated at, so the boxes are reserved before the files exist.
- */
+/** The tracker, shown as the thing it is rather than described. */
+export const tracker = {
+  eyebrow: "The file you will open every day",
+  headline: "A pipeline that tells you who to chase",
+  copy: "Paste a lead in and the sheet does the thinking: it scores the business on the signals that matter, grades it A to D, and suggests the channel and the package that fit. The dashboard shows the pipeline; the weekly log shows whether you actually sent anything.",
+  columns: ["Business", "Signal", "Score", "Grade", "Channel", "Package", "Next action"],
+  rows: [
+    ["Dental clinic", "Ads → dead link", "88", "A", "Video audit", "Landing + booking", "Send audit"],
+    ["Salon", "No website", "74", "B", "WhatsApp", "Starter site", "First message"],
+    ["Café", "Site, no menu", "61", "C", "Instagram", "Menu + gallery", "Follow up Tue"],
+  ],
+  features: [
+    "Scoring built from the signals that predict a reply",
+    "A–D grading so you work the top of the list first",
+    "Channel and package suggested per lead",
+    "Pipeline dashboard: sent, replied, called, closed",
+    "Weekly log that makes a slow week obvious",
+    "Works in Excel or Google Sheets, no add-ons",
+  ],
+} as const;
+
+/** Scripts and prompts, by category. */
+export const library = {
+  eyebrow: "Words, ready to send",
+  headline: "75 scripts and 37 prompts, sorted by the moment you need them",
+  scripts: {
+    title: "Swipe file",
+    groups: [
+      { title: "First contact", copy: "Cold email, Instagram DM, WhatsApp, LinkedIn — English and Hinglish." },
+      { title: "Video audit", copy: "The message that carries the recording, and the script for the recording itself." },
+      { title: "Follow-up", copy: "Second, third and final touches that are not 'just checking in'." },
+      { title: "Reply handling", copy: "Price, 'send portfolio', 'we already have someone', 'after Diwali', silence." },
+      { title: "Closing", copy: "Moving from chat to call, confirming scope, and asking for the advance." },
+      { title: "After delivery", copy: "Handover, the review ask, and the referral ask that does not feel like begging." },
+    ],
+  },
+  prompts: {
+    title: "AI prompt pack",
+    groups: [
+      { title: "Master context", copy: "One block that teaches the model your niche, offer, tone and constraints. Paste first, every time." },
+      { title: "Research", copy: "Turn a business name into a usable angle: what they sell, what is broken, what to say." },
+      { title: "Audit", copy: "Turn a page into a specific list of problems worth recording." },
+      { title: "Writing", copy: "Proposals, follow-ups and replies drafted in your voice, not a chatbot's." },
+    ],
+  },
+} as const;
+
+/** The 30-day plan, as four weeks. */
+export const plan = {
+  eyebrow: "The first month, decided for you",
+  headline: "30 days, already planned",
+  copy: "Open the plan, do the day. No motivation required, and nothing to decide before you start.",
+  weeks: [
+    { label: "Week 1", title: "Set up", copy: "Niche, offer, pricing, the tracker, and the accounts you will send from." },
+    { label: "Week 2", title: "Build the list", copy: "Scrape, qualify and score your first 100 leads. Record your first audits." },
+    { label: "Week 3", title: "Send", copy: "Daily sends across two channels, with follow-ups landing on schedule." },
+    { label: "Week 4", title: "Review", copy: "Read the log, cut what is silent, double what replies, and book the calls." },
+  ],
+} as const;
+
+/** Research pack and scraper, paired. */
+export const research = {
+  eyebrow: "Before you send anything",
+  headline: "Know who you are writing to",
+  niches: {
+    title: "12 niches, already researched",
+    copy: "Each one covers what the business cares about, what it already spends money on, the offer that fits, where to find them, and the angle that opens a conversation.",
+    fields: ["What they care about", "What they already spend on", "The offer that fits", "Where to find them", "The opening angle"],
+  },
+  scraper: {
+    title: "The free scraping method",
+    copy: "One card, one page: how to build your own list from public business listings using free tools. It is manual and rate-limited on purpose — it collects nothing that is not already public, and it costs nothing per month.",
+    points: ["Public listings only", "No paid lead tool", "No monthly cost", "Fits on one page"],
+  },
+} as const;
+
+/** Paperwork. */
+export const paperwork = {
+  eyebrow: "The day someone says yes",
+  headline: "Paperwork that already exists",
+  copy: "The four documents you otherwise write at 11pm, badly, on the night a client finally agrees.",
+  docs: [
+    { title: "Proposal", copy: "Scope, deliverables, timeline and price, in a shape a business owner will actually read." },
+    { title: "Service agreement", copy: "What you will do, what they owe, what happens if either side stops." },
+    { title: "White-label NDA", copy: "For the agency work you deliver under someone else's name." },
+    { title: "GST invoice", copy: "A template that looks like a company sent it, because one did." },
+  ],
+  note: "Starting points written for the common case, not legal advice. Have a professional review anything you rely on.",
+} as const;
+
 export interface Shot {
   id: string;
   alt: string;
   caption: string;
 }
 
-export const snapshots: Shot[] = [
-  { id: "playbook-contents", alt: "Contents page of the playbook PDF listing its ten modules", caption: "The 10 modules" },
-  { id: "playbook-module", alt: "A page from the cold email module showing a worked example", caption: "Inside a module" },
-  { id: "tracker-dashboard", alt: "Lead tracker dashboard showing pipeline stages and lead grades", caption: "Tracker dashboard" },
-  { id: "tracker-scoring", alt: "Lead tracker scoring sheet with grades and suggested packages", caption: "Lead scoring" },
-  { id: "swipe-file", alt: "Swipe file page showing outreach scripts in English and Hinglish", caption: "Swipe file" },
-  { id: "prompt-pack", alt: "AI prompt pack showing the master context and a research prompt", caption: "Prompt pack" },
-  { id: "launch-plan", alt: "30-day launch plan laid out day by day", caption: "30-day plan" },
-  { id: "paperwork", alt: "Proposal and service agreement templates", caption: "Paperwork" },
+/** The gallery at the end of the page: a spread of what is actually inside. */
+export const gallery: Shot[] = [
+  { id: "contents", alt: "Contents page of the playbook listing all ten modules with page numbers", caption: "All 10 modules, with page numbers" },
+  { id: "module-page", alt: "A playbook page explaining which lead types suit which outreach channel", caption: "Inside a module" },
+  { id: "never-say", alt: "A playbook table of things never to say, what to say instead, and why", caption: "What never to say" },
+  { id: "scorecard", alt: "The lead scorecard: criteria, points and how to score each one", caption: "The lead scorecard" },
+  { id: "pipeline", alt: "The tracker pipeline dashboard with counts by stage and conversion rates", caption: "Pipeline dashboard" },
+  { id: "tracker-excel", alt: "The lead tracker open in Excel", caption: "The tracker in Excel" },
+  { id: "swipe-file", alt: "The swipe file explaining placeholders and the six rules every script follows", caption: "How the swipe file works" },
+  { id: "prompt-pack", alt: "The AI prompt pack explaining the master context and how to use it", caption: "The prompt pack" },
+  { id: "plan", alt: "The 30-day launch plan, with tracks to choose from before day one", caption: "The 30-day plan" },
+  { id: "plan-week", alt: "Week one of the launch plan, broken into timed daily tasks", caption: "Week one, hour by hour" },
+  { id: "regulated", alt: "A table of regulated professions and what their advertising rules allow", caption: "Regulated niches, handled" },
+  { id: "invoice", alt: "The GST tax invoice template", caption: "GST invoice template" },
+  { id: "bundle-files", alt: "The bundle folder showing every included file", caption: "Everything in one folder" },
+  { id: "module-files", alt: "The ten module files listed in a folder", caption: "Ten modules, ten files" },
 ];
 
+/**
+ * Reply screenshots. Every identifying mark — name, business name, number,
+ * avatar, demo link — is blacked out in the master before it is generated.
+ * See scripts/redact-proofs.mjs.
+ */
 export const replies: Shot[] = [
-  { id: "reply-1", alt: "WhatsApp reply from a business owner asking for more detail", caption: "WhatsApp · asked for details" },
-  { id: "reply-2", alt: "Instagram reply from a business owner asking about price", caption: "Instagram · asked the price" },
-  { id: "reply-3", alt: "WhatsApp reply from a business owner agreeing to a call", caption: "WhatsApp · agreed to a call" },
-  { id: "reply-4", alt: "Instagram reply from a business owner asking to see examples", caption: "Instagram · asked for examples" },
+  {
+    id: "reply-1",
+    alt: "A WhatsApp thread: an opening message about a business with no website on its Google listing, answered with yes, send it",
+    caption: "“Hey, yes sure. Send it.”",
+  },
+  {
+    id: "reply-2",
+    alt: "A WhatsApp thread: a salon owner replying that they did not know their website was broken, then asking whether their own photos can be used",
+    caption: "“Can you use our Instagram photos?”",
+  },
+  {
+    id: "reply-3",
+    alt: "A WhatsApp thread: a gym owner asking for the demo, saying it looks good, then asking about pricing",
+    caption: "“What about pricing?”",
+  },
+  {
+    id: "reply-4",
+    alt: "A WhatsApp thread: a clinic asking whether the demo was made specifically for them, then agreeing to a call",
+    caption: "“Sure” — to a call",
+  },
 ];
 
 export const repliesSection = {
   eyebrow: "Replies, not results",
-  headline: "Log mail ka reply dete hain. Bas message sahi hona chahiye.",
-  /** The honest framing. This copy is not optional. */
+  headline: "Log reply dete hain. Bas message sahi hona chahiye.",
   disclaimer:
-    "These are replies to the outreach in this bundle — nothing more. They are not earnings, and no income is claimed anywhere on this page. What happens after a reply depends on your work, your pricing and your follow-up.",
+    "These are replies to the outreach in this bundle — nothing else. They are not earnings, and no income is claimed anywhere on this page. What happens after a reply depends on your work, your pricing and your follow-up.",
   privacyNote:
-    "Names, photos and business details have been removed. The screenshots are published with the senders' permission.",
+    "Names, business names, phone numbers, avatars and demo links are blacked out. Nothing either side said has been edited.",
 } as const;
 
 export interface DemoSite {
@@ -183,23 +350,53 @@ export interface DemoSite {
   name: string;
   sector: string;
   blurb: string;
-  /** Filled in when a live demo is deployed; the card links only if set. */
+  includes: string[];
   demoUrl?: string;
 }
 
 export const websites: DemoSite[] = [
-  { id: "salon", name: "Salon", sector: "Beauty", blurb: "Services, price list, timings and a WhatsApp booking button." },
-  { id: "dental", name: "Dental clinic", sector: "Healthcare", blurb: "Treatments, doctor profile, appointment enquiry and directions." },
-  { id: "gym", name: "Gym", sector: "Fitness", blurb: "Membership plans, trainers, class timings and a trial enquiry." },
-  { id: "cafe", name: "Café", sector: "Food", blurb: "Menu, gallery, timings and a table enquiry." },
-  { id: "interiors", name: "Interiors", sector: "Home services", blurb: "Project gallery, services, process and a quote enquiry." },
+  {
+    id: "salon",
+    name: "Salon & spa",
+    sector: "Beauty",
+    blurb: "Services, price list, timings, and a WhatsApp booking button that opens a pre-filled message.",
+    includes: ["Service menu", "Price list", "WhatsApp booking", "Gallery"],
+  },
+  {
+    id: "dental",
+    name: "Dental clinic",
+    sector: "Healthcare",
+    blurb: "Treatments, doctor profile, appointment enquiry and directions — the four things patients look for.",
+    includes: ["Treatments", "Doctor profile", "Appointment form", "Map"],
+  },
+  {
+    id: "gym",
+    name: "Gym & fitness",
+    sector: "Fitness",
+    blurb: "Membership plans, trainers, class timetable and a free-trial enquiry.",
+    includes: ["Plans", "Trainers", "Timetable", "Trial enquiry"],
+  },
+  {
+    id: "cafe",
+    name: "Café & restaurant",
+    sector: "Food",
+    blurb: "Story, menu, gallery and a table reservation — the one shown above, built to load fast on a phone.",
+    includes: ["Menu", "Gallery", "Reservation", "Reviews"],
+  },
+  {
+    id: "physio",
+    name: "Physiotherapy",
+    sector: "Clinics",
+    blurb: "Conditions treated, therapist profile, session packages and an appointment enquiry.",
+    includes: ["Conditions", "Therapist", "Packages", "Enquiry"],
+  },
 ];
 
 export const websitesSection = {
   eyebrow: "Five sites, ready to send",
   headline: "Something to show in the first message",
-  copy: "Each one is a single HTML file. No build step, no npm install, no framework to learn. Open it, change the marked lines, and it is a different business.",
-  note: "Screenshots below. Demo links will be added here when they are live.",
+  copy: "One self-contained file each. No build step, no npm install, no framework to learn. Open it, change the marked lines, and it belongs to a different business. Use them as demos to open conversations, or as the starting point you deliver.",
+  note: "The café and restaurant template is shown above. Live demo links will be added here once they are deployed.",
 } as const;
 
 export const fit = {
@@ -222,7 +419,7 @@ export const fit = {
       "You want clients without contacting anyone",
       "You are looking for a guaranteed income or a job",
       "You expect results without sending messages daily for a month",
-      "You want an agency to do the outreach for you",
+      "You want someone else to do the outreach for you",
     ],
   },
 } as const;
@@ -231,22 +428,27 @@ export const faqs = [
   {
     question: "What exactly do I get?",
     answer:
-      "Nine files: the 87-page playbook (PDF), the lead tracker (Excel and Google Sheets), 75 outreach scripts, 37 AI prompts with a master context, a 30-day launch plan, a 12-niche research pack, the scraper quick-start card, four paperwork templates, and 5 ready-made websites as single HTML files. Everything downloads straight after payment.",
+      "Nine files: the 87-page playbook (PDF), the lead tracker (Excel and Google Sheets), 75 outreach scripts, 37 AI prompts with a master context, a 30-day launch plan, a 12-niche research pack, the scraper quick-start card, four paperwork templates, and 5 ready-made websites — salon & spa, dental, gym, café & restaurant and physiotherapy. Everything downloads the moment the payment is confirmed.",
   },
   {
     question: "Is this India-specific?",
     answer:
-      "Yes. The niches, the pricing conversations, the scripts (including Hinglish versions), the WhatsApp-first approach and the GST invoice template are all written for the Indian market. The method works elsewhere, but the examples are Indian.",
+      "Yes. The niches, the pricing conversations, the Hinglish scripts, the WhatsApp-first approach and the GST invoice template are written for the Indian market. The method travels; the examples are Indian.",
   },
   {
     question: "Do I need paid tools?",
     answer:
-      "No. The lead sourcing method is free, the tracker runs in Excel or Google Sheets, and the websites need nothing but a text editor. Paid tools can speed parts of it up; nothing here depends on them.",
+      "No. The list-building method is free, the tracker runs in Excel or Google Sheets, and the websites need nothing but a text editor. Paid tools can speed parts up; nothing here depends on them.",
   },
   {
     question: "Is the scraping method really free?",
     answer:
-      "Yes — it uses publicly listed business information and free tools, and the quick-start card shows the whole process on one page. It is a manual, rate-limited method for building your own small list, not a bulk scraper, and it collects nothing that is not already public.",
+      "Yes. It uses publicly listed business information and free tools, and the quick-start card fits the whole process on one page. It is a manual, rate-limited way to build your own small list — not a bulk scraper — and it collects nothing that is not already public.",
+  },
+  {
+    question: "How is this different from a YouTube video?",
+    answer:
+      "A video tells you what to do. This gives you the files that do it: the list of niches, the scripts for every reply, the tracker that scores leads, the plan for each of the next 30 days, and five sites you can show tomorrow. The method is not secret — assembling it is the work you are paying to skip.",
   },
   {
     question: "How soon do I get it?",
@@ -256,24 +458,37 @@ export const faqs = [
   {
     question: "Can I get a refund?",
     answer:
-      "This is a digital download that is delivered in full the moment you pay, so it is sold as final. If the files do not download, or you were charged twice, message us and we will fix it or refund it. The refund policy page sets this out in plain terms.",
+      "This is a digital download delivered in full the moment you pay, so it is sold as final. If the files do not download, or you were charged twice, message us and we will fix it or refund it. The refund policy page says this plainly.",
   },
   {
     question: "Is there any support?",
     answer:
-      "Yes, over WhatsApp, for anything to do with the files themselves: downloads, opening the tracker, editing the websites. It is not a coaching programme — there is no call, no community and no ongoing mentoring included at this price.",
+      "Yes, over WhatsApp, for anything to do with the files: downloads, opening the tracker, editing the websites. It is not a coaching programme — no calls, no community, no mentoring at this price.",
   },
 ];
 
+/** The price, revealed once, at the end. */
+export const priceReveal = {
+  eyebrow: "What it costs",
+  headline: "One payment. Everything above.",
+  lead: "Not a subscription, not a course with a locked second half, and not a call you have to book to hear the price.",
+  recapTitle: "Unlocks the moment payment is confirmed",
+  compare: {
+    title: "For context, not as a claim",
+    points: [
+      "A single lead-gen tool subscription usually costs more per month than this does once.",
+      "One delivered project at freelance rates is a multiple of it.",
+      "The files are yours to keep, including updates, with nothing to renew.",
+    ],
+  },
+} as const;
+
 export const checkout = {
-  eyebrow: "One payment, everything included",
-  headline: "Get the bundle",
-  recapTitle: "What unlocks straight away",
   button: "Pay ₹1,299 securely",
   processing: "Opening secure checkout…",
   secure: "Payment handled by Razorpay. Card details never touch this site.",
   afterNote:
-    "You will be taken to a confirmation page with your download as soon as the payment is confirmed.",
+    "You will land on a confirmation page with your download as soon as the payment is confirmed.",
   trust: [
     { title: "Instant access", copy: "The download unlocks the moment payment is confirmed." },
     { title: "Lifetime access", copy: "Yours to keep, including future updates to these files." },
@@ -294,7 +509,7 @@ export const thankYou = {
     "This takes a few seconds. Keep this page open — it updates on its own once the bank confirms.",
   failed: "We could not confirm this payment yet",
   failedNote:
-    "If money has left your account, it will either complete or be returned by your bank. Message us on WhatsApp with your order id and we will sort it out.",
+    "If money has left your account it will either complete or be returned by your bank. Message us on WhatsApp with your order id and we will sort it out.",
   downloadCta: "Download the bundle",
   linkNote: "This link is tied to your order. Keep it private.",
 } as const;

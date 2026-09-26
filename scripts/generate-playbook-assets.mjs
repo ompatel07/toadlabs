@@ -1,59 +1,47 @@
 /**
- * Generates every image the /playbook page uses.
+ * Generates every image the /playbook page uses, and the manifest of their
+ * dimensions.
  *
  * Sources (masters, kept out of public/ so full-size originals are not
  * deployed):
- *   assets/playbook/snapshots/<id>.(png|jpg|webp)   product screenshots
- *   assets/playbook/proofs/<id>.(png|jpg|webp)      reply screenshots
- *   assets/playbook/websites/<id>.(png|jpg|webp)    website template shots
+ *   assets/playbook/snapshots/<id>.png   product screenshots
+ *   assets/playbook/proofs/<id>.png      reply screenshots
  *
- * Output: public/playbook/<kind>/<id>-<width>.{avif,webp,png}
+ * Output:
+ *   public/playbook/<kind>/<id>-<width>.{avif,webp,png}
+ *   src/config/playbook-images.generated.ts   id → intrinsic width/height
  *
- * WHEN A MASTER IS MISSING it writes a labelled placeholder at exactly the
- * same dimensions instead of failing. That is deliberate: the page can be
- * built, reviewed and measured before the screenshots exist, and dropping the
- * real files in later changes nothing about the layout — same boxes, same
- * aspect ratios, no shift.
+ * ASPECT RATIOS ARE NEVER FORCED. These are screenshots of documents and
+ * spreadsheets: cropping one to a common shape cuts the text that makes it
+ * worth showing. Each keeps its own ratio, and the generated manifest gives
+ * the component exact width/height so nothing shifts while it loads.
+ *
+ * A missing master produces a labelled placeholder at a sensible ratio rather
+ * than failing, so the page can be built before every asset exists.
  *
  * Run: node scripts/generate-playbook-assets.mjs
- * Uses sharp, which ships with Next — no extra dependency.
  */
 import sharp from "sharp";
-import { existsSync, mkdirSync, readdirSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, extname, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-/**
- * Ids must match src/config/playbook.ts. A master whose name is not in this
- * list is reported rather than silently ignored.
- */
+/** Widths per kind, and the ratio a placeholder falls back to. */
 const KINDS = {
-  snapshots: {
-    size: { width: 1400, height: 875 },
-    widths: [480, 900, 1400],
-    ids: [
-      "playbook-contents",
-      "playbook-module",
-      "tracker-dashboard",
-      "tracker-scoring",
-      "swipe-file",
-      "prompt-pack",
-      "launch-plan",
-      "paperwork",
-    ],
-  },
-  proofs: {
-    size: { width: 840, height: 1494 },
-    widths: [360, 600, 840],
-    ids: ["reply-1", "reply-2", "reply-3", "reply-4"],
-  },
-  websites: {
-    size: { width: 1400, height: 875 },
-    widths: [480, 900, 1400],
-    ids: ["salon", "dental", "gym", "cafe", "interiors"],
-  },
+  snapshots: { widths: [480, 900, 1400], placeholder: { width: 1400, height: 900 } },
+  proofs: { widths: [360, 600, 840], placeholder: { width: 840, height: 1400 } },
+};
+
+/** Ids the page expects. A master outside this list is reported, not ignored. */
+const EXPECTED = {
+  snapshots: [
+    "contents", "module-page", "scorecard", "tracker-excel", "pipeline",
+    "swipe-file", "never-say", "prompt-pack", "regulated", "plan", "plan-week",
+    "invoice", "site-cafe", "bundle-files", "module-files",
+  ],
+  proofs: ["reply-1", "reply-2", "reply-3", "reply-4"],
 };
 
 const CANVAS = "#12151d";
@@ -61,73 +49,85 @@ const ACCENT = "#3fd9e8";
 const INK = "#949fb3";
 const MONO = "Consolas, 'DejaVu Sans Mono', monospace";
 
-const escape = (text) =>
-  text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const escape = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 function placeholder({ width, height }, kind, id) {
-  const label = id.replace(/-/g, " ").toUpperCase();
   const unit = Math.min(width, height);
   return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
   <rect width="${width}" height="${height}" fill="${CANVAS}"/>
   <rect x="1" y="1" width="${width - 2}" height="${height - 2}" fill="none" stroke="${ACCENT}" stroke-opacity="0.35" stroke-dasharray="10 8"/>
-  <text x="50%" y="46%" text-anchor="middle" font-family="${MONO}" font-size="${Math.round(unit * 0.045)}" fill="${ACCENT}" letter-spacing="2">${escape(label)}</text>
-  <text x="50%" y="54%" text-anchor="middle" font-family="${MONO}" font-size="${Math.round(unit * 0.03)}" fill="${INK}">${kind} · ${width}x${height} · awaiting artwork</text>
+  <text x="50%" y="46%" text-anchor="middle" font-family="${MONO}" font-size="${Math.round(unit * 0.05)}" fill="${ACCENT}" letter-spacing="2">${escape(id.replace(/-/g, " ").toUpperCase())}</text>
+  <text x="50%" y="55%" text-anchor="middle" font-family="${MONO}" font-size="${Math.round(unit * 0.032)}" fill="${INK}">${kind} · awaiting artwork</text>
 </svg>`);
 }
 
-let generated = 0;
-let placeholders = 0;
+const manifest = {};
+let files = 0;
 let bytes = 0;
+let missing = 0;
 
 for (const [kind, spec] of Object.entries(KINDS)) {
   const sourceDir = join(root, "assets", "playbook", kind);
   const outDir = join(root, "public", "playbook", kind);
   mkdirSync(outDir, { recursive: true });
+  manifest[kind] = {};
 
   const masters = new Map();
   if (existsSync(sourceDir)) {
     for (const file of readdirSync(sourceDir)) {
+      if (!/\.(png|jpe?g|webp)$/i.test(file)) continue;
       const id = basename(file, extname(file));
-      if (!spec.ids.includes(id)) {
-        console.warn(`  ! ${kind}/${file} does not match any id in the config — skipped`);
+      if (!EXPECTED[kind].includes(id)) {
+        console.warn(`  ! ${kind}/${file} is not an id the page uses — skipped`);
         continue;
       }
       masters.set(id, join(sourceDir, file));
     }
   }
 
-  for (const id of spec.ids) {
+  for (const id of EXPECTED[kind]) {
     const master = masters.get(id);
-    if (!master) placeholders += 1;
+    if (!master) missing += 1;
 
-    // Masters are covered into the target box so every card in a row matches;
-    // placeholders are already the exact size.
-    const base = master
-      ? sharp(master).resize(spec.size.width, spec.size.height, { fit: "cover", position: "top" })
-      : sharp(placeholder(spec.size, kind, id));
-    const source = await base.png().toBuffer();
+    const input = master ?? placeholder(spec.placeholder, kind, id);
+    const meta = await sharp(input).metadata();
+    const intrinsic = { width: meta.width, height: meta.height };
+    manifest[kind][id] = intrinsic;
 
     for (const width of spec.widths) {
-      const resized = sharp(source).resize({ width });
-      const targets = [
-        [`${id}-${width}.avif`, resized.clone().avif({ quality: 55, effort: 6 })],
-        [`${id}-${width}.webp`, resized.clone().webp({ quality: 80, effort: 6 })],
+      // Never upscale: a 900px-wide screenshot gains nothing from a 1400 file.
+      const target = Math.min(width, intrinsic.width);
+      const resized = sharp(input).resize({ width: target });
+      for (const [name, pipeline] of [
+        [`${id}-${width}.avif`, resized.clone().avif({ quality: 58, effort: 6 })],
+        [`${id}-${width}.webp`, resized.clone().webp({ quality: 82, effort: 6 })],
         [`${id}-${width}.png`, resized.clone().png({ compressionLevel: 9, palette: true, quality: 90 })],
-      ];
-      for (const [name, pipeline] of targets) {
+      ]) {
         const info = await pipeline.toFile(join(outDir, name));
         bytes += info.size;
-        generated += 1;
+        files += 1;
       }
     }
-    console.log(`  ${master ? "art" : "placeholder"}  ${kind}/${id}`);
+    console.log(`  ${master ? "art        " : "placeholder"} ${kind}/${id} ${intrinsic.width}x${intrinsic.height}`);
   }
 }
 
-console.log(
-  `\n${generated} files, ${(bytes / 1024 / 1024).toFixed(2)} MB total` +
-    (placeholders ? `, ${placeholders} still placeholders` : ", all from artwork"),
+writeFileSync(
+  join(root, "src", "config", "playbook-images.generated.ts"),
+  `/**
+ * GENERATED by scripts/generate-playbook-assets.mjs — do not edit.
+ *
+ * Intrinsic dimensions of every playbook image, so each one can reserve its
+ * own box. Regenerate after adding or replacing a master.
+ */
+export const playbookImages = ${JSON.stringify(manifest, null, 2)} as const;
+
+export type PlaybookImageKind = keyof typeof playbookImages;
+`,
+  "utf8",
 );
-if (placeholders) {
-  console.log("Drop masters in assets/playbook/<kind>/<id>.png and run this again.");
-}
+
+console.log(
+  `\n${files} files, ${(bytes / 1024 / 1024).toFixed(2)} MB` +
+    (missing ? `, ${missing} still placeholders` : ", all from artwork"),
+);

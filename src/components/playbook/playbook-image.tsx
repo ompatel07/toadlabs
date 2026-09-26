@@ -1,32 +1,22 @@
+import { playbookImages, type PlaybookImageKind } from "@/config/playbook-images.generated";
 import { cn } from "@/lib/utils";
 
 /**
  * A generated playbook image: AVIF, WebP and a PNG fallback.
  *
- * Written as <picture> rather than next/image because the site is a static
- * export with the optimiser disabled — next/image would emit a plain <img>
- * and never negotiate the modern formats. Width and height are always
- * explicit so the box is reserved before the file arrives and nothing on the
- * page shifts while it loads.
+ * <picture> rather than next/image because the site is a static export with
+ * the optimiser disabled — next/image would emit a plain <img> and never
+ * negotiate the modern formats.
  *
- * Files come from scripts/generate-playbook-assets.mjs, which writes a
- * labelled placeholder at the same dimensions when the source is missing — so
- * the layout is final even before the real screenshots exist.
+ * Width and height come from the generated manifest, so each screenshot
+ * reserves its own true box. These are documents and spreadsheets: forcing
+ * them into one shared aspect ratio would crop away the text that makes them
+ * worth showing.
  */
-
-export type PlaybookImageKind = "snapshots" | "proofs" | "websites";
 
 const WIDTHS: Record<PlaybookImageKind, number[]> = {
   snapshots: [480, 900, 1400],
   proofs: [360, 600, 840],
-  websites: [480, 900, 1400],
-};
-
-/** Intrinsic size of each kind, so the aspect ratio is reserved up front. */
-export const SIZE: Record<PlaybookImageKind, { width: number; height: number }> = {
-  snapshots: { width: 1400, height: 875 },
-  proofs: { width: 840, height: 1494 },
-  websites: { width: 1400, height: 875 },
 };
 
 function srcSet(kind: PlaybookImageKind, id: string, extension: string) {
@@ -48,10 +38,11 @@ export function PlaybookImage({
   alt: string;
   sizes: string;
   className?: string;
-  /** Only the first image above the fold should set this. */
   priority?: boolean;
 }) {
-  const { width, height } = SIZE[kind];
+  const size = (playbookImages[kind] as Record<string, { width: number; height: number }>)[id];
+  if (!size) return null;
+
   const largest = WIDTHS[kind][WIDTHS[kind].length - 1];
 
   return (
@@ -62,8 +53,8 @@ export function PlaybookImage({
         src={`/playbook/${kind}/${id}-${largest}.png`}
         srcSet={srcSet(kind, id, "png")}
         sizes={sizes}
-        width={width}
-        height={height}
+        width={size.width}
+        height={size.height}
         alt={alt}
         loading={priority ? "eager" : "lazy"}
         decoding="async"
@@ -72,5 +63,43 @@ export function PlaybookImage({
         draggable={false}
       />
     </picture>
+  );
+}
+
+/** Screenshot in a frame, with its caption, linking to the full-size file. */
+export function Shot({
+  kind = "snapshots",
+  id,
+  alt,
+  caption,
+  sizes = "(max-width: 639px) 92vw, (max-width: 1279px) 46vw, 32vw",
+  className,
+}: {
+  kind?: PlaybookImageKind;
+  id: string;
+  alt: string;
+  caption: string;
+  sizes?: string;
+  className?: string;
+}) {
+  return (
+    <figure className={cn("pb-panel group flex flex-col overflow-hidden", className)}>
+      {/* A plain link to the full-size file: opening larger works without any
+          JavaScript, which a lightbox would not. */}
+      <a
+        href={`/playbook/${kind}/${id}-${WIDTHS[kind][WIDTHS[kind].length - 1]}.png`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block cursor-pointer"
+      >
+        <PlaybookImage kind={kind} id={id} alt={alt} sizes={sizes} />
+      </a>
+      <figcaption className="text-ink-soft mt-auto flex items-center justify-between gap-3 px-4 py-3 t-xs">
+        {caption}
+        <span className="pb-accent opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+          open
+        </span>
+      </figcaption>
+    </figure>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ArrowUp } from "lucide-react";
-import { product } from "@/config/playbook";
 
 /**
  * Slim purchase bar for phones, shown once the hero has scrolled past.
@@ -10,7 +9,7 @@ import { product } from "@/config/playbook";
  * It is progressive enhancement, not structure: the page has a working CTA in
  * the hero and a full checkout section, so if this never renders nothing is
  * lost. It watches a sentinel with IntersectionObserver rather than listening
- * to scroll, and it hides itself again once the checkout section is on screen,
+ * to scroll, and it hides itself again once the price section is on screen,
  * so it never covers the button it points at.
  */
 export function PlaybookStickyBar() {
@@ -19,7 +18,7 @@ export function PlaybookStickyBar() {
 
   useEffect(() => {
     const hero = document.querySelector("header");
-    const target = document.getElementById("checkout");
+    const target = document.getElementById("price");
     if (!hero || !target) return;
 
     const state = { pastHero: false, atCheckout: false };
@@ -63,14 +62,10 @@ export function PlaybookStickyBar() {
       }}
     >
       <div className="mx-auto flex max-w-[34rem] items-center gap-3">
-        <div className="flex flex-col leading-tight">
-          <span className="numeral text-ink text-lg font-bold">{product.priceLabel}</span>
-          <span className="label-mono text-ink-soft">one-time</span>
-        </div>
         <a
-          href="#checkout"
-          aria-label={`Get the bundle for ${product.priceLabel}`}
-          className="pb-fill ml-auto inline-flex h-12 flex-1 cursor-pointer items-center justify-center gap-2 rounded-full px-5 text-sm font-bold"
+          href="#price"
+          aria-label="See what the bundle costs"
+          className="pb-fill inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full px-5 text-sm font-bold"
         >
           Get the bundle
           <ArrowUp className="size-4 rotate-180" aria-hidden="true" />

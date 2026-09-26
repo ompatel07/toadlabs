@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Lock, ShieldCheck } from "lucide-react";
-import { assets, checkout, product } from "@/config/playbook";
+import { assets, checkout, priceReveal, product } from "@/config/playbook";
 
 /**
  * Razorpay checkout.
@@ -32,6 +32,7 @@ interface RazorpayOptions {
   currency: string;
   name: string;
   description: string;
+  image?: string;
   theme?: { color?: string };
   prefill?: { email?: string; contact?: string };
   notes?: Record<string, string>;
@@ -126,6 +127,9 @@ export function PlaybookCheckout() {
         currency: order.currency,
         name: "OFFSCRIPT",
         description: product.name,
+        // Built from the live origin rather than a configured domain, so it
+        // resolves on a Netlify preview as well as on the real site.
+        image: `${window.location.origin}/icon.png`,
         theme: { color: "#3fd9e8" },
         notes: { product: "playbook" },
         handler: (result) => {
@@ -207,44 +211,70 @@ export function PlaybookCheckout() {
   );
 }
 
-/** The checkout band: recap on the left, payment panel on the right. */
+/**
+ * The price reveal.
+ *
+ * This is the first and only place on the page where the number appears. The
+ * page above it has to do the selling; this section just recaps what is in the
+ * box, gives the number some context, and takes the payment.
+ */
 export function PlaybookCheckoutSection() {
   return (
     <section
-      id="checkout"
-      aria-label="Buy the bundle"
+      id="price"
+      aria-label="What it costs"
       className="pb-glow scroll-mt-16 border-t border-[rgba(255,255,255,0.08)] py-16 md:py-24"
     >
       <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">
         <p className="label-mono pb-accent flex items-center gap-2.5">
           <span aria-hidden="true" className="inline-block h-px w-6 bg-[color:var(--accent)]" />
-          {checkout.eyebrow}
+          {priceReveal.eyebrow}
         </p>
-        <h2 className="font-display text-ink mt-5 type-h2 font-bold text-balance">
-          {checkout.headline}
+        <h2 className="font-display text-ink mt-5 text-[clamp(2rem,7vw,3.5rem)] leading-[1.02] font-extrabold tracking-[-0.03em] text-balance">
+          {priceReveal.headline}
         </h2>
+        <p className="text-ink-soft measure mt-5 t-lead leading-relaxed">{priceReveal.lead}</p>
 
-        <div className="mt-10 grid gap-3 lg:grid-cols-[1.1fr_1fr] lg:gap-8">
-          <div className="pb-panel p-6 md:p-8">
-            <h3 className="font-display text-ink t-lead font-bold">{checkout.recapTitle}</h3>
-            <ul className="mt-5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
-              {assets.map((asset) => (
-                <li key={asset.id} className="text-ink-soft flex items-baseline gap-3 t-sm">
-                  <span aria-hidden="true" className="pb-accent">
-                    —
-                  </span>
-                  <span>
-                    <span className="text-ink font-medium">{asset.name}</span> · {asset.format}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <p className="text-ink-soft mt-6 border-t border-[rgba(255,255,255,0.08)] pt-5 t-xs">
-              {checkout.afterNote}
-            </p>
+        <div className="mt-10 grid gap-3 lg:grid-cols-[1.1fr_1fr] lg:gap-8 lg:items-start">
+          <div className="flex flex-col gap-3">
+            <div className="pb-panel p-6 md:p-8">
+              <h3 className="font-display text-ink t-lead font-bold">{priceReveal.recapTitle}</h3>
+              <ul className="mt-5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
+                {assets.map((asset) => (
+                  <li key={asset.id} className="text-ink-soft flex items-baseline gap-3 t-sm">
+                    <span aria-hidden="true" className="pb-accent">
+                      —
+                    </span>
+                    <span>
+                      <span className="text-ink font-medium">{asset.name}</span> · {asset.format}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-ink-soft mt-6 border-t border-[rgba(255,255,255,0.08)] pt-5 t-xs">
+                {checkout.afterNote}
+              </p>
+            </div>
+
+            <div className="pb-panel p-6 md:p-8">
+              <h3 className="label-mono text-ink-soft">{priceReveal.compare.title}</h3>
+              <ul className="mt-4 flex flex-col gap-3">
+                {priceReveal.compare.points.map((point) => (
+                  <li key={point} className="text-ink-soft flex items-start gap-3 t-sm leading-relaxed">
+                    <span
+                      aria-hidden="true"
+                      className="mt-[0.55em] inline-block size-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
+                    />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <PlaybookCheckout />
+          <div className="lg:sticky lg:top-12">
+            <PlaybookCheckout />
+          </div>
         </div>
       </div>
     </section>

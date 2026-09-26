@@ -756,6 +756,18 @@
       animation-timeline: view();
       animation-range: entry 0% cover 16%;
     }
+
+    /* Browsers do not switch scroll-driven animations off for reduced motion,
+       so `both` would keep everything below the fold at opacity 0 — a reader
+       who asked for less movement would get less content. Drop the animation
+       entirely and show it all. */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
   }
 
   /* Hero wordmark warp.

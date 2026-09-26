@@ -5,11 +5,18 @@ import { absoluteUrl, pageMetadata } from "@/lib/seo";
 import { jsonLd } from "@/lib/json-ld";
 import {
   PlaybookFit,
+  PlaybookGallery,
   PlaybookHero,
   PlaybookInside,
-  PlaybookProblem,
+  PlaybookLibrary,
+  PlaybookModules,
+  PlaybookPaperwork,
+  PlaybookPlan,
   PlaybookReplies,
-  PlaybookSnapshots,
+  PlaybookResearch,
+  PlaybookRewrite,
+  PlaybookSystem,
+  PlaybookTracker,
   PlaybookWebsites,
 } from "@/components/playbook/sections";
 import { PlaybookFaq } from "@/components/playbook/faq";
@@ -17,7 +24,7 @@ import { PlaybookCheckoutSection } from "@/components/playbook/checkout";
 import { PlaybookStickyBar } from "@/components/playbook/sticky-bar";
 
 export const metadata: Metadata = pageMetadata({
-  title: `${product.name} — ${product.priceLabel}`,
+  title: `${product.name} — outreach system for freelance devs`,
   description: product.summary,
   path: "/playbook",
   absoluteTitle: true,
@@ -67,11 +74,18 @@ export default function PlaybookPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(structuredData)} />
 
       <PlaybookHero />
-      <PlaybookProblem />
+      <PlaybookRewrite />
+      <PlaybookSystem />
       <PlaybookInside />
-      <PlaybookSnapshots />
-      <PlaybookReplies />
+      <PlaybookModules />
+      <PlaybookTracker />
+      <PlaybookLibrary />
+      <PlaybookPlan />
+      <PlaybookResearch />
+      <PlaybookPaperwork />
       <PlaybookWebsites />
+      <PlaybookGallery />
+      <PlaybookReplies />
       <PlaybookFit />
       <PlaybookFaq />
       <PlaybookCheckoutSection />
