@@ -143,27 +143,32 @@ function HeroDeck() {
 
 export function PlaybookHero() {
   return (
-    <header className="pb-grain relative pt-10 pb-12 md:pt-14 md:pb-16">
+    <header className="pb-grain relative pt-10 pb-12 md:pt-12 md:pb-14">
       <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">
         <Eyebrow>{hero.eyebrow}</Eyebrow>
 
+        {/* The accusation before the promise: it earns the headline. */}
+        <p className="text-ink mt-6 text-[clamp(1.15rem,3.6vw,1.6rem)] leading-[1.2] font-extrabold">
+          {hero.kicker} <span className="pb-mark">{hero.kickerMark}</span>
+        </p>
+
         {/* Full width, not trapped in a column: the type is the hero image. */}
-        <h1 className="pb-display text-ink mt-6 text-[clamp(2.7rem,10vw,7rem)]">
+        <h1 className="pb-display text-ink mt-5 text-[clamp(2.5rem,8.6vw,6rem)]">
           <span className="block">{hero.headline[0]}</span>
-          <span className="pb-outline pb-outline-accent block">{hero.headline[1]}</span>
+          {/* Solid, not outlined. Chrome draws a stray rule through stroked
+              text of this length at display size on this face - it scales with
+              stroke-width and survives paint-order changes - and a 24-character
+              outline is the wrong place to spend legibility anyway. This is the
+              hook; it has to be the loudest, clearest thing on the page. */}
+          <span className="block text-[color:var(--accent)]">{hero.headline[1]}</span>
         </h1>
 
         <div className="mt-9 grid gap-10 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-14">
           <div>
-            <p className="text-ink max-w-[22ch] text-[clamp(1.35rem,5.5vw,2rem)] leading-[1.15] font-extrabold">
-              {hero.sub}{" "}
-              <span className="pb-mark">{hero.subMark}</span>
-            </p>
-
-            <p className="text-ink-soft measure mt-5 t-lead leading-relaxed">{hero.body}</p>
+            <p className="text-ink-soft measure t-lead leading-relaxed">{hero.body}</p>
 
             <p className="pb-sticker text-ink mt-7 px-4 py-2.5 t-sm font-bold">
-              <ShieldCheck className="pb-accent size-4 shrink-0" strokeWidth={2.4} aria-hidden="true" />
+              <ShieldCheck className="size-4 shrink-0" strokeWidth={2.6} aria-hidden="true" />
               {guarantee.short}
             </p>
 
@@ -186,7 +191,7 @@ export function PlaybookHero() {
               </a>
               <a
                 href="#price"
-                className="text-ink inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full border border-[color:var(--ink)] px-7 t-base font-medium transition-colors duration-200 ease-out hover:border-[color:var(--accent-line)]"
+                className="text-ink inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-[color:var(--ink)] px-7 t-base font-bold transition-colors duration-200 ease-out hover:bg-[color:var(--ink)] hover:text-[color:var(--canvas)]"
               >
                 {hero.secondaryCta}
               </a>
@@ -229,7 +234,7 @@ export function PlaybookTicker() {
 
 export function PlaybookProblem() {
   return (
-    <Band className="pb-block" label="The problem" chapter="01">
+    <Band className="pb-block" label="The problem" chapter="02">
       <Eyebrow>{problem.eyebrow}</Eyebrow>
       <Heading>{problem.headline}</Heading>
       <p className="text-ink-soft mt-5 t-lead">{problem.lead}</p>
@@ -339,7 +344,7 @@ function MessageCard({
 
 export function PlaybookRewrite() {
   return (
-    <Band label="The message, rewritten" chapter="02">
+    <Band label="The message, rewritten" chapter="03">
       <Eyebrow>{rewrite.eyebrow}</Eyebrow>
       <Heading>{rewrite.headline}</Heading>
 
@@ -357,7 +362,7 @@ export function PlaybookRewrite() {
 
 export function PlaybookSystem() {
   return (
-    <Band className="border-t-2 border-[color:var(--ink)]" label="How the system works" chapter="03">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="How the system works" chapter="04">
       <Eyebrow>{system.eyebrow}</Eyebrow>
       <Heading>{system.headline}</Heading>
 
@@ -388,9 +393,9 @@ export function PlaybookSystem() {
 
 export function PlaybookInside() {
   return (
-    <Band id="inside" className="border-t-2 border-[color:var(--ink)]" label="What is inside" chapter="04">
-      <Eyebrow>Nine files</Eyebrow>
-      <Heading>Everything you need to start sending on Monday</Heading>
+    <Band id="inside" className="border-t-2 border-[color:var(--ink)]" label="What is inside" chapter="05">
+      <Eyebrow>Nine files, zero fluff</Eyebrow>
+      <Heading>Open it tonight. Send by Monday morning.</Heading>
 
       <ul className="mt-8 grid gap-0 md:grid-cols-2 md:gap-3 xl:grid-cols-3">
         {assets.map((asset, index) => (
@@ -456,7 +461,7 @@ export function PlaybookInside() {
 
 export function PlaybookDeliverables() {
   return (
-    <Band className="pb-block" label="Everything you get" chapter="05">
+    <Band className="pb-block" label="Everything you get" chapter="06">
       <Eyebrow>{deliverables.eyebrow}</Eyebrow>
       <Heading>{deliverables.headline}</Heading>
       <p className="text-ink-soft mt-5 t-lead">{deliverables.lead}</p>
@@ -510,7 +515,7 @@ export function PlaybookDeliverables() {
 
 export function PlaybookTracker() {
   return (
-    <Band className="border-t-2 border-[color:var(--ink)]" label="The lead tracker" chapter="06">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="The lead tracker" chapter="07">
       <Eyebrow>{tracker.eyebrow}</Eyebrow>
       <Heading>{tracker.headline}</Heading>
       <p className="text-ink-soft measure mt-4 t-lead leading-relaxed">{tracker.copy}</p>
@@ -615,7 +620,7 @@ function GroupChips({
 
 export function PlaybookLibrary() {
   return (
-    <Band className="border-t-2 border-[color:var(--ink)]" label="Scripts and prompts" chapter="07">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="Scripts and prompts" chapter="08">
       <Eyebrow>{library.eyebrow}</Eyebrow>
       <Heading>{library.headline}</Heading>
 
@@ -639,7 +644,7 @@ export function PlaybookLibrary() {
 
 export function PlaybookPlan() {
   return (
-    <Band className="pb-block" label="The 30-day plan" chapter="08">
+    <Band className="pb-block" label="The 30-day plan" chapter="09">
       <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
         <div>
           <Eyebrow>{plan.eyebrow}</Eyebrow>
@@ -681,9 +686,9 @@ export function PlaybookPlan() {
 
 export function PlaybookResearch() {
   return (
-    <Band className="border-t-2 border-[color:var(--ink)]" label="Research and paperwork" chapter="09">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="Research and paperwork" chapter="10">
       <Eyebrow>{research.eyebrow}</Eyebrow>
-      <Heading>Know who you are writing to, and what to send when they say yes</Heading>
+      <Heading>Walk in knowing more than they expect. Leave with paperwork signed.</Heading>
 
       <div className="mt-8 grid gap-3 lg:grid-cols-2">
         <div className="pb-panel-lit reveal flex flex-col gap-4 p-6 md:p-8">
@@ -762,7 +767,7 @@ export function PlaybookResearch() {
 
 export function PlaybookWebsites() {
   return (
-    <Band className="border-t-2 border-[color:var(--ink)]" label="The ready-made websites" chapter="10">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="The ready-made websites" chapter="11">
       <Eyebrow>{websitesSection.eyebrow}</Eyebrow>
       <Heading>{websitesSection.headline}</Heading>
       <p className="text-ink-soft measure mt-4 t-lead leading-relaxed">{websitesSection.copy}</p>
@@ -811,10 +816,10 @@ export function PlaybookWebsites() {
 
 export function PlaybookReplies() {
   return (
-    <Band className="pb-grain" label="Replies to the outreach" chapter="11">
+    <Band className="pb-grain" label="Replies to the outreach" chapter="01">
       <Eyebrow>{repliesSection.eyebrow}</Eyebrow>
       <Heading>{repliesSection.headline}</Heading>
-      <p className="text-ink-soft measure mt-4 t-lead">{repliesSection.disclaimer}</p>
+      <p className="text-ink measure mt-4 t-lead font-semibold">{repliesSection.lead}</p>
 
       <ul className="mt-8 grid grid-cols-2 gap-3 xl:grid-cols-4">
         {replies.map((shot, index) => (
@@ -839,7 +844,8 @@ export function PlaybookReplies() {
         ))}
       </ul>
 
-      <p className="text-ink-soft mt-5 t-xs">{repliesSection.privacyNote}</p>
+      <p className="text-ink-soft measure mt-6 t-xs leading-relaxed">{repliesSection.disclaimer}</p>
+      <p className="text-ink-soft mt-2 t-xs">{repliesSection.privacyNote}</p>
     </Band>
   );
 }

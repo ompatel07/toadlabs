@@ -29,10 +29,10 @@ export const product = {
 
 export const hero = {
   eyebrow: "Freelance web developers · India",
-  headline: ["You can build.", "Nobody's buying."],
-  sub: "It isn't your skill.",
-  subMark: "It's your first message.",
-  body: "You can ship a website in a weekend. You just have nobody to ship it for. This is the system that sits between those two facts — who to contact, where to find them, what to send, and exactly what to say when they finally reply.",
+  kicker: "The market isn't dead.",
+  kickerMark: "Your outreach is.",
+  headline: ["Get unlimited", "web development clients."],
+  body: "Not a course. A system. Twelve researched niches, a free way to build a list nobody else has, 75 scripts that get opened, and a 30-day plan that tells you what to send every single morning. Follow it and the pipeline does not run out.",
   primaryCta: "Show me what's inside",
   secondaryCta: "See the price",
   marks: ["10 modules", "75 scripts", "5 ready-made sites", "No paid tools"],
@@ -287,8 +287,8 @@ export const deliverables = {
 
 /** The tracker, shown as the thing it is rather than described. */
 export const tracker = {
-  eyebrow: "The file you will open every day",
-  headline: "A sheet that tells you who to chase",
+  eyebrow: "The file you open every morning",
+  headline: "It scores every lead so you never chase the wrong one",
   copy: "Paste a lead in and the sheet does the thinking: it scores the business on the signals that matter, grades it A to D, and suggests the channel and the package that fit. The dashboard shows the pipeline; the weekly log shows whether you actually sent anything.",
   columns: ["Business", "Signal", "Score", "Grade", "Channel", "Package", "Next action"],
   rows: [
@@ -308,8 +308,8 @@ export const tracker = {
 
 /** Scripts and prompts, by category. */
 export const library = {
-  eyebrow: "Words, ready to send",
-  headline: "75 scripts and 37 prompts, sorted by the moment you need them",
+  eyebrow: "Copy, paste, send",
+  headline: "Never stare at an empty message box again",
   scripts: {
     title: "Swipe file",
     groups: [
@@ -334,9 +334,9 @@ export const library = {
 
 /** The 30-day plan, as four weeks. */
 export const plan = {
-  eyebrow: "The first month, decided for you",
-  headline: "Thirty days, already planned",
-  copy: "Open the plan, do the day. No motivation required, and nothing to decide before you start.",
+  eyebrow: "No more wondering what to do today",
+  headline: "Thirty days. Already decided for you.",
+  copy: "Open the plan. Do the day. Close it. No motivation required, no decisions to make at 9am, and no week where you wonder whether you did enough.",
   weeks: [
     { label: "Week 1", title: "Set up", copy: "Niche, offer, pricing, the tracker, and the accounts you will send from." },
     { label: "Week 2", title: "Build the list", copy: "Scrape, qualify and score your first 100 leads. Record your first audits." },
@@ -347,7 +347,7 @@ export const plan = {
 
 /** Research pack and scraper, paired. */
 export const research = {
-  eyebrow: "Before you send anything",
+  eyebrow: "Research done. Paperwork done.",
   headline: "Know who you are writing to",
   niches: {
     title: "12 niches, already researched",
@@ -410,8 +410,9 @@ export const replies: Shot[] = [
 ];
 
 export const repliesSection = {
-  eyebrow: "Replies, not results",
-  headline: "People do reply. The message just has to be worth replying to.",
+  eyebrow: "Proof first",
+  headline: "Before you read anything else, read these.",
+  lead: "Four cold conversations, opened with the scripts in this bundle. Nobody knew who we were. Every one of them replied — and three asked what it costs.",
   disclaimer:
     "These are replies to the outreach in this bundle — nothing else. They are not earnings, and no income is claimed anywhere on this page. What happens after a reply depends on your work, your pricing and your follow-up.",
   privacyNote:
@@ -466,14 +467,14 @@ export const websites: DemoSite[] = [
 ];
 
 export const websitesSection = {
-  eyebrow: "Five sites, ready to send",
-  headline: "Something to show in the first message",
+  eyebrow: "Five sites. Already built.",
+  headline: "Turn up with the site already built",
   copy: "One self-contained file each. No build step, no npm install, no framework to learn. Open it, change the marked lines, and it belongs to a different business. Use them as demos to open conversations, or as the starting point you deliver.",
   note: "The café and restaurant template is shown above. Live demo links will be added here once they are deployed.",
 } as const;
 
 export const fit = {
-  eyebrow: "Be honest with yourself",
+  eyebrow: "Read this before you buy",
   headline: "Who this is for, and who it is not",
   forYou: {
     title: "This is for you if",
@@ -549,7 +550,7 @@ export const faqs = [
 export const priceReveal = {
   eyebrow: "What it costs",
   headline: "One payment. Everything above.",
-  lead: "Not a subscription, not a course with a locked second half, and not a call you have to book to hear the price.",
+  lead: "No subscription. No locked second half. No call you have to book just to hear a number. One payment, everything on this page, and a guarantee that puts the risk on us.",
   recapTitle: "Unlocks the moment payment is confirmed",
   compare: {
     title: "For context, not as a claim",

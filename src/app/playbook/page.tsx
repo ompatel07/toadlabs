@@ -75,6 +75,7 @@ export default function PlaybookPage() {
 
       <PlaybookHero />
       <PlaybookTicker />
+      <PlaybookReplies />
       <PlaybookProblem />
       <PlaybookRewrite />
       <PlaybookSystem />
@@ -85,7 +86,6 @@ export default function PlaybookPage() {
       <PlaybookPlan />
       <PlaybookResearch />
       <PlaybookWebsites />
-      <PlaybookReplies />
       <PlaybookFit />
       <PlaybookFaq />
       <PlaybookCheckoutSection />
