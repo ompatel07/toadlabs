@@ -70,10 +70,10 @@ export function Band({
 
 export function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
-    <p className="label-mono pb-accent flex items-center gap-2.5">
-      <span aria-hidden="true" className="inline-block h-px w-6 bg-[color:var(--accent)]" />
-      {children}
-    </p>
+    <>
+      <div aria-hidden="true" className="pb-rule mb-5 w-full max-w-[9rem]" />
+      <p className="label-mono pb-accent">{children}</p>
+    </>
   );
 }
 
@@ -148,12 +148,12 @@ export function PlaybookHero() {
         <Eyebrow>{hero.eyebrow}</Eyebrow>
 
         {/* Full width, not trapped in a column: the type is the hero image. */}
-        <h1 className="pb-display text-ink mt-6 text-[clamp(3rem,12.5vw,9rem)]">
+        <h1 className="pb-display text-ink mt-6 text-[clamp(2.7rem,10vw,7rem)]">
           <span className="block">{hero.headline[0]}</span>
           <span className="pb-outline pb-outline-accent block">{hero.headline[1]}</span>
         </h1>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-14">
+        <div className="mt-9 grid gap-10 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-14">
           <div>
             <p className="text-ink max-w-[22ch] text-[clamp(1.35rem,5.5vw,2rem)] leading-[1.15] font-extrabold">
               {hero.sub}{" "}
@@ -298,17 +298,17 @@ function MessageCard({
       <div className="flex flex-col gap-4 px-5 py-6">
         <p
           className={cn(
-            "ml-auto max-w-[92%] rounded-2xl rounded-br-md px-4 py-3 t-base leading-relaxed",
+            "ml-auto max-w-[92%] px-4 py-3 t-base leading-relaxed",
             good
-              ? "bg-[color:var(--accent-wash)] text-ink border border-[color:var(--accent-line)]"
-              : "bg-[var(--surface-2)] text-ink-soft",
+              ? "bg-[color:var(--accent-wash)] text-ink border-2 border-[color:var(--ink)]"
+              : "pb-strike bg-[var(--surface-2)] text-ink-soft border-2 border-[color:var(--ink)]/25",
           )}
         >
           {message}
         </p>
 
         {good ? (
-          <p className="text-ink mr-auto max-w-[92%] rounded-2xl rounded-bl-md border border-[color:var(--ink)]/40 bg-[var(--surface-2)] px-4 py-3 t-base leading-relaxed">
+          <p className="text-ink mr-auto max-w-[92%] border-2 border-[color:var(--ink)] bg-[var(--surface-2)] px-4 py-3 t-base leading-relaxed font-semibold">
             {outcome}
           </p>
         ) : (
@@ -343,7 +343,7 @@ export function PlaybookRewrite() {
       <Eyebrow>{rewrite.eyebrow}</Eyebrow>
       <Heading>{rewrite.headline}</Heading>
 
-      <div className="mt-8 grid gap-3 lg:grid-cols-2">
+      <div className="mt-8 grid items-start gap-3 lg:grid-cols-2">
         <MessageCard {...rewrite.before} tone="bad" />
         <MessageCard {...rewrite.after} tone="good" />
       </div>
@@ -399,7 +399,12 @@ export function PlaybookInside() {
             className="pb-file reveal flex flex-col gap-1.5 py-4 md:gap-3 md:p-6"
             style={{ animationDelay: `${Math.min(index, 5) * 50}ms` }}
           >
-            <p className="label-mono pb-accent">{asset.format}</p>
+            <p className="label-mono text-ink-soft flex items-center justify-between gap-3">
+              <span className="pb-accent">{asset.format}</span>
+              <span className="numeral text-ink/25" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+            </p>
             <h3 className="font-display text-ink t-lead font-bold">{asset.name}</h3>
             <p className="text-ink-soft t-sm leading-relaxed">{asset.what}</p>
           </li>
@@ -814,14 +819,22 @@ export function PlaybookReplies() {
       <ul className="mt-8 grid grid-cols-2 gap-3 xl:grid-cols-4">
         {replies.map((shot, index) => (
           <li key={shot.id} className="reveal h-full" style={{ animationDelay: `${Math.min(index, 4) * 50}ms` }}>
-            <Shot
-              className="h-full"
-              kind="proofs"
-              id={shot.id}
-              alt={shot.alt}
-              caption={shot.caption}
-              sizes="(max-width: 1279px) 46vw, 23vw"
-            />
+            {/* The rotation lives on an inner element: .reveal animates
+                transform, so an inline rotate on the same node is thrown away
+                on the animation's first frame. */}
+            <div
+              className="pb-taped h-full"
+              style={{ transform: `rotate(${[-1.6, 1.2, -0.9, 1.7][index % 4]}deg)` }}
+            >
+              <Shot
+                className="h-full"
+                kind="proofs"
+                id={shot.id}
+                alt={shot.alt}
+                caption={shot.caption}
+                sizes="(max-width: 1279px) 46vw, 23vw"
+              />
+            </div>
           </li>
         ))}
       </ul>
