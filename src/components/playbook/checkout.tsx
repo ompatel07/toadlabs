@@ -159,7 +159,7 @@ export function PlaybookCheckout() {
   return (
     <div className="pb-panel-lit flex flex-col gap-5 p-6 md:p-8">
       <div className="flex items-baseline gap-3">
-        <span className="numeral text-ink text-[clamp(2.2rem,8vw,3rem)] leading-none font-bold tracking-tight">
+        <span className="numeral text-ink text-[clamp(2.2rem,8vw,3rem)] leading-none font-bold [font-variant-numeric:proportional-nums]">
           {product.priceLabel}
         </span>
         <span className="text-ink-soft t-sm">{product.priceNote}</span>
@@ -242,22 +242,37 @@ export function PlaybookCheckoutSection() {
                 <ShieldCheck className="size-4" strokeWidth={2.4} aria-hidden="true" />
                 {guarantee.badge}
               </p>
-              <h3 className="font-display text-ink mt-4 type-h3 font-bold text-balance">
+              <h3 className="font-display text-ink mt-4 text-[clamp(1.6rem,4.5vw,2.25rem)] leading-[1.05] font-extrabold tracking-[-0.02em] text-balance">
                 {guarantee.headline}
               </h3>
               <p className="text-ink-soft mt-4 t-base leading-relaxed">{guarantee.copy}</p>
 
-              <ul className="mt-5 flex flex-col gap-2.5 border-t border-[rgba(255,255,255,0.1)] pt-5">
+              {/* The condition sits with the claim, not below a fold. It is what
+                  makes the guarantee a guarantee rather than a slogan. */}
+              <div className="mt-6 rounded-xl border border-[rgba(255,255,255,0.12)] bg-[var(--surface-2)] p-5">
+                <p className="label-mono text-ink-soft">{guarantee.proofTitle}</p>
+                <ul className="mt-3 flex flex-col gap-2.5">
+                  {guarantee.proof.map((item) => (
+                    <li key={item} className="text-ink flex items-start gap-3 t-sm">
+                      <Check className="pb-accent mt-0.5 size-4 shrink-0" strokeWidth={3} aria-hidden="true" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <ul className="mt-5 flex flex-col gap-2 border-t border-[rgba(255,255,255,0.1)] pt-5">
                 {guarantee.conditions.map((condition) => (
-                  <li key={condition} className="text-ink flex items-start gap-3 t-sm">
-                    <Check className="pb-accent mt-0.5 size-4 shrink-0" strokeWidth={3} aria-hidden="true" />
+                  <li key={condition} className="text-ink-soft flex items-start gap-3 t-sm">
+                    <span
+                      aria-hidden="true"
+                      className="mt-[0.55em] inline-block size-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
+                    />
                     {condition}
                   </li>
                 ))}
               </ul>
 
-              {/* Said plainly, because a guarantee that overreaches is worth
-                  less than one the reader believes. */}
               <p className="text-ink-soft mt-5 border-t border-[rgba(255,255,255,0.1)] pt-5 t-xs leading-relaxed">
                 {guarantee.honest}
               </p>

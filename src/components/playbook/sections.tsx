@@ -151,7 +151,7 @@ export function PlaybookHero() {
           {/* The guarantee, stated before the ask rather than after it. */}
           <p className="text-ink mt-7 inline-flex items-center gap-2.5 rounded-full border border-[color:var(--accent-line)] bg-[color:var(--accent-wash)] px-4 py-2 t-sm font-semibold">
             <ShieldCheck className="pb-accent size-4 shrink-0" strokeWidth={2.4} aria-hidden="true" />
-            {guarantee.headline}
+            {guarantee.short}
           </p>
 
           <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2">

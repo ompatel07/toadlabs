@@ -54,29 +54,37 @@ export const hero = {
 } as const;
 
 /**
- * The guarantee.
+ * The client guarantee.
  *
- * DELIBERATELY A PROMISE ABOUT US, NOT ABOUT THE MARKET. "Guaranteed clients"
- * would be a claim about the buyer's niche, skill, pricing and follow-through,
- * none of which we control — and an unqualified outcome guarantee on a paid
- * digital product is the exact shape the CCPA's misleading-advertising rules
- * target, as well as the fastest route to a frozen payment account.
+ * A CONDITIONAL GUARANTEE, and the condition is what makes it one. The promise
+ * is not "you will get clients" on its own — that would be a claim about the
+ * buyer's market, skill and follow-through, none of which we control. It is
+ * "get a client or get your money back, provided you did the work and can show
+ * it". The qualifier travels with the claim everywhere it appears, on the same
+ * line, never as fine print.
  *
- * What is here instead is a refund term: conditional, verifiable, and entirely
- * within our power to honour. /playbook/refund states the same thing, and the
- * two must never drift apart.
+ * /playbook/refund and /playbook/terms carry the same terms. All three must
+ * move together or the guarantee is unenforceable.
  */
 export const guarantee = {
-  badge: "30-day money-back guarantee",
-  headline: "Do the 30 days. No client? Full refund.",
-  copy: "Work the launch plan for a month — build the list, send the messages, run the follow-ups — and log it in the tracker that comes with the bundle. If you finish that month without a single client conversation worth having, send the tracker and we refund you in full.",
+  badge: "The client guarantee",
+  headline: "Get a client, or get your money back.",
+  short: "Client guaranteed in 30 days — or full refund.",
+  copy: "Follow the playbook for 30 days — build the list, send the messages, run the follow-ups — and log every one in the tracker that comes with the bundle. If you finish that month without landing a single client, send us the tracker and we refund you in full.",
+  proofTitle: "What counts as proof of effort",
+  proof: [
+    "30 days worked, starting within 14 days of buying",
+    "At least 100 businesses contacted, logged in the tracker with dates",
+    "Follow-ups sent on the schedule the plan sets out",
+    "The filled tracker sent to us on WhatsApp",
+  ],
   conditions: [
-    "Ask within 45 days of buying",
-    "Show the tracker: leads contacted and follow-ups sent across the 30 days",
+    "Claim within 45 days of your payment date",
+    "One claim per buyer",
     "Full refund to the original payment method, inside 7 working days",
   ],
   honest:
-    "We are not promising clients. Nobody honestly can — it depends on your niche, your work and your follow-through. We are promising that if you do the work and it does not open a single door, you do not pay for it.",
+    "We are checking that the month happened, not marking your work. We will not argue over individual rows — send a tracker that shows you did the 30 days and the refund is yours.",
 } as const;
 
 /**
@@ -485,9 +493,9 @@ export const faqs = [
       "Yes, on the guarantee. Work the 30-day launch plan, log it in the tracker, and if you finish the month without a single client conversation worth having, send us the tracker within 45 days of buying and we refund you in full. Separately, if the files do not download or you were charged twice, message us and we will fix it or refund it either way.",
   },
   {
-    question: "So you guarantee I will get clients?",
+    question: "So you guarantee I will get a client?",
     answer:
-      "No, and be careful with anyone who does. Whether you get clients depends on your niche, the quality of your work, your pricing and whether you actually send the messages every day. What we guarantee is the refund: do the 30 days, log it, and if nothing opens up you do not pay for it.",
+      "Yes, on stated terms. Follow the playbook for 30 days, contact at least 100 businesses, run the follow-ups, and log all of it in the tracker. If you finish that month without landing a client, send us the tracker within 45 days of buying and we refund you in full. The condition is not a loophole — it is the whole basis of the guarantee. We cannot control your market or whether you send the messages, so what we stand behind is that you do not pay for a month of work that produced nothing. The refund policy and the terms of use say exactly this.",
   },
   {
     question: "Is there any support?",

@@ -67,10 +67,24 @@ export const terms: Policy = {
       ],
     },
     {
+      heading: "The client guarantee",
+      paragraphs: [
+        "We guarantee that if you follow the playbook for 30 days and do not land a client, we refund you in full. The guarantee is conditional on documented effort, and the conditions below form part of these terms.",
+        `The full terms, including how to claim, are on the refund policy page. Where this section and that page differ, the refund policy governs. The refund is limited to the amount you paid, ${PRICE}.`,
+      ],
+      list: [
+        "Start within 14 days of purchase and work the method for 30 days",
+        "Contact at least 100 businesses, each logged in the supplied tracker with the date",
+        "Send the follow-ups on the schedule the 30-day launch plan sets out",
+        "Send us the filled tracker within 45 days of your payment date",
+        "One claim per buyer",
+      ],
+    },
+    {
       heading: "What is not promised",
       paragraphs: [
-        "This bundle teaches an outreach method and gives you the materials to run it. It does not promise clients, income or any particular result. What you get out of it depends on your work, your market and how consistently you use it.",
-        "No income figure is claimed anywhere on this page or inside the files.",
+        "Outside the guarantee above, this bundle promises no income, no particular number of clients, and no specific result. It teaches an outreach method and gives you the materials to run it; what you get out of it depends on your work, your market and how consistently you use it.",
+        "No income figure is claimed anywhere on this site or inside the files. Nothing here is an offer of employment, a business opportunity scheme, or an investment.",
       ],
     },
     {
@@ -98,25 +112,27 @@ export const refund: Policy = {
   slug: "refund",
   title: "Refund policy",
   metaTitle: "Refund Policy — The Client Playbook",
-  metaDescription: `Refund policy for The Client Playbook (${PRICE}) from ${SELLER}: the 30-day money-back guarantee, and the delivery faults we refund outright.`,
+  metaDescription: `Refund policy for The Client Playbook (${PRICE}) from ${SELLER}: the client guarantee, what counts as proof of effort, and the delivery faults we refund outright.`,
   intro: `This is the refund policy for The Client Playbook, a ${PRICE} digital download sold by ${SELLER} (${CITY}). It is written plainly so there is nothing to discover after you pay. The guarantee on the sales page and this page say the same thing; if they ever differ, this page governs.`,
   sections: [
     {
       heading: "The short version",
       paragraphs: [
-        "There are two ways to get your money back. The first is the 30-day guarantee: do the work, show us, and if it opened no doors you do not pay for it. The second is any failure on our side to deliver what you bought.",
+        "There are two ways to get your money back. The first is the client guarantee: follow the playbook for 30 days, show us the tracker, and if you did not land a client you do not pay for it. The second is any failure on our side to deliver what you bought.",
         "Outside those, the purchase is final — the whole bundle downloads the moment payment is confirmed.",
       ],
     },
     {
-      heading: "The 30-day money-back guarantee",
+      heading: "The client guarantee",
       paragraphs: [
-        "Work the 30-day launch plan that comes with the bundle — build the list, send the messages, run the follow-ups — and log what you did in the included lead tracker. If you finish that month without a single client conversation worth having, we refund you in full.",
-        "We ask for the tracker because the guarantee is about doing the work, not about downloading the files. We are not judging the quality of your outreach and we will not argue about individual rows: we are checking that the month actually happened.",
+        "If you follow the playbook for 30 days and do not land a client, we refund you in full. This is the operative statement of the guarantee advertised on the sales page and in the terms of use; where any of them differ, this page governs.",
+        "The guarantee is conditional on documented effort. We ask for the tracker because the guarantee is about doing the work, not about downloading the files. We are checking that the month happened — we are not marking the quality of your outreach and we will not argue over individual rows.",
       ],
       list: [
-        "Ask within 45 days of the payment date",
-        "Send the tracker showing leads contacted and follow-ups sent across the 30 days",
+        "Start within 14 days of purchase, and work the method for 30 days",
+        "Contact at least 100 businesses, each logged in the supplied tracker with the date",
+        "Send the follow-ups on the schedule the 30-day launch plan sets out",
+        `Send the filled tracker to ${siteConfig.phoneDisplay} within 45 days of your payment date`,
         "One claim per buyer",
       ],
     },
@@ -133,17 +149,18 @@ export const refund: Policy = {
       heading: "We will not refund",
       paragraphs: [],
       list: [
-        "Change of mind, where the 30 days were not worked and logged",
+        "A guarantee claim with no tracker, or a tracker showing the 30 days were not worked",
+        "Change of mind",
         "Buying by mistake after the files have been downloaded",
         "Not having had the time to use it",
         "A claim made more than 45 days after payment",
       ],
     },
     {
-      heading: "What we do not promise",
+      heading: "What the guarantee is not",
       paragraphs: [
-        "We do not guarantee that you will get clients, and you should be wary of anyone selling you something who does. Whether outreach works depends on your niche, the quality of your work, your pricing and whether you actually send the messages every day — none of which is within our control.",
-        "What we guarantee is this refund. The bundle is a set of files and a method, not an income promise, and nothing on this site should be read as one.",
+        "The guarantee is a refund term, not an income promise. It says that a month of documented work which produces no client costs you nothing — it does not promise any amount of money, any number of clients, or any result beyond the first one.",
+        "Whether outreach works for you depends on your niche, the quality of your work, your pricing and whether you actually send the messages. Those are yours. The refund is ours, and we honour it.",
       ],
     },
     {
