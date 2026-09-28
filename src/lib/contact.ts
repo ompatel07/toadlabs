@@ -166,37 +166,38 @@ function quoteBlock(text: string): string[] {
 }
 
 /**
- * Builds the wa.me link for an enquiry. Everything is normalised and
- * allowlisted first, then URL-encoded, so nothing a visitor types can change
- * the destination number or break out of the text parameter.
+ * Builds the mailto: link for an enquiry.
+ *
+ * Delivery moved off WhatsApp because that put a personal mobile number in the
+ * markup of every page, where it is trivially harvested. An address can be
+ * rotated; a number that has been scraped cannot.
+ *
+ * Everything is normalised and allowlisted first, then URL-encoded, so nothing
+ * a visitor types can change the destination or break out of the body.
  */
-export function contactWhatsappUrl(payload: ContactPayload, phone: string): string {
+export function contactMailtoUrl(payload: ContactPayload, inbox: string): string {
   const clean = normaliseContact(payload);
   const NL = String.fromCharCode(10);
   const lines = [
-    "Hi OFFSCRIPT, I'd like to talk about a project.",
+    `Name: ${clean.name}`,
+    `Email: ${clean.email}`,
+    clean.company ? `Company: ${clean.company}` : null,
+    `Looking for: ${TOPIC_LABEL[clean.topic]}`,
+    clean.topic !== "other" && clean.topic !== "unspecified" ? `Service: ${clean.service}` : null,
+    clean.topic !== "other" && clean.topic !== "unspecified" ? `Budget: ${clean.budget}` : null,
     "",
-    `*Name:* ${clean.name}`,
-    `*Email:* ${clean.email}`,
-    clean.company ? `*Company:* ${clean.company}` : null,
-    `*Looking for:* ${TOPIC_LABEL[clean.topic]}`,
-    clean.topic !== "other" && clean.topic !== "unspecified"
-      ? `*Service:* ${clean.service}`
-      : null,
-    clean.topic !== "other" && clean.topic !== "unspecified"
-      ? `*Budget:* ${clean.budget}`
-      : null,
-    "",
-    "*Message:*",
+    "Message:",
     // Quoted, one prefix per line. Without this a visitor could type their own
-    // "*Name:* someone else" inside the message and the result would read as
+    // "Name: someone else" inside the message and the result would read as
     // another labelled field — the message is the only free-text part, so it
     // is the only part that can imitate the header.
     ...quoteBlock(clean.message),
   ].filter((line): line is string => line !== null);
 
-  const digits = phone.replace(/[^0-9]/g, "");
-  return `https://wa.me/${digits}?text=${encodeURIComponent(lines.join(NL))}`;
+  const subject = `Enquiry from ${clean.name} — ${TOPIC_LABEL[clean.topic]}`;
+  // The address is ours, not the visitor's, and is encoded rather than
+  // interpolated raw so a malformed value cannot append headers.
+  return `mailto:${encodeURIComponent(inbox)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join(NL))}`;
 }
 
 /** Server-side-style check, repeated here so a tampered form cannot skip it. */

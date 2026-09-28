@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckCircle2, Download, Loader2, MessageCircle } from "lucide-react";
+import { CheckCircle2, Download, Loader2, Mail } from "lucide-react";
 import { thankYou } from "@/config/playbook";
-import { siteConfig, whatsappUrl } from "@/config/site";
+import { mailtoUrl, siteConfig } from "@/config/site";
 
 /**
  * Order confirmation.
@@ -106,13 +106,13 @@ export function OrderStatus() {
       <h1 className="font-display text-ink type-h2 font-bold">{thankYou.failed}</h1>
       <p className="text-ink-soft measure t-base">{thankYou.failedNote}</p>
       <a
-        href={whatsappUrl}
+        href={mailtoUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="text-ink inline-flex h-12 cursor-pointer items-center gap-2 rounded-full border-2 border-[color:var(--ink)] px-6 t-base font-medium transition-colors duration-200 ease-out hover:border-[color:var(--accent)]"
       >
-        <MessageCircle className="size-4" aria-hidden="true" />
-        WhatsApp {siteConfig.phoneDisplay}
+        <Mail className="size-4" aria-hidden="true" />
+        Email {siteConfig.email}
         <span className="sr-only">(opens in a new tab)</span>
       </a>
     </div>

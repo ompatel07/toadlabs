@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { AlertCircle, Boxes, CheckCircle2, MessageCircle, Phone, ShieldCheck, TrendingUp } from "lucide-react";
+import { AlertCircle, Boxes, CheckCircle2, Mail, MessageCircle, ShieldCheck, TrendingUp } from "lucide-react";
 import {
   BUDGET_OPTIONS,
   BUILD_SERVICES,
@@ -10,7 +10,7 @@ import {
   EMAIL_PATTERN,
   MESSAGE_MIN,
   SECURE_SERVICES,
-  contactWhatsappUrl,
+  contactMailtoUrl,
   isDeliverable,
   type ContactPayload,
 } from "@/lib/contact";
@@ -128,10 +128,10 @@ export function ContactForm() {
     };
     if (!isDeliverable(payload)) return;
 
-    const url = contactWhatsappUrl(payload, siteConfig.whatsappNumber);
+    const url = contactMailtoUrl(payload, siteConfig.email);
     // Opened synchronously inside the submit handler, while the browser still
     // counts it as a user action. Any await before this line and popup
-    // blockers would stop it. On phones wa.me hands over to the WhatsApp app.
+    // blockers would stop it. A mailto: hands over to the visitor's mail app.
     window.open(url, "_blank", "noopener,noreferrer");
     setSentUrl(url);
   }
@@ -168,16 +168,9 @@ export function ContactForm() {
             rel="noopener noreferrer"
             className="bg-lime text-canvas inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-6 t-base font-semibold transition-colors duration-200 ease-out hover:bg-[color:var(--lime-ink)]"
           >
-            <MessageCircle className="size-4" aria-hidden="true" />
-            Open WhatsApp
+            <Mail className="size-4" aria-hidden="true" />
+            Open your email app
             <span className="sr-only">(opens in a new tab)</span>
-          </a>
-          <a
-            href={`tel:${siteConfig.phone}`}
-            className="text-ink inline-flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-[rgba(255,255,255,0.2)] px-6 t-base font-medium transition-colors duration-200 ease-out hover:border-[rgba(255,255,255,0.4)]"
-          >
-            <Phone className="size-4" aria-hidden="true" />
-            Call {siteConfig.phoneDisplay}
           </a>
         </div>
 
@@ -207,20 +200,18 @@ export function ContactForm() {
   }
 
   return (
-    // action/method/target only matter if Send is pressed before the page's
+    // action/method only matter if Send is pressed before the page's
     // JavaScript has loaded (a slow phone connection). Without them the
     // browser would submit to this page and put the visitor's name and email
-    // in our URL. With them it opens a WhatsApp chat to us instead, with the
-    // message pre-filled, because wa.me reads the `text` parameter — which is
-    // why the message field is submitted under that name. Once hydrated,
-    // onSubmit prevents the native submit and builds the full message.
+    // in our URL. With them it opens the visitor's mail client addressed to
+    // us, with the message pre-filled, because a mailto: action reads `body` —
+    // which is why the message field is submitted under that name. Once
+    // hydrated, onSubmit prevents the native submit and builds the full mail.
     <form
       ref={formRef}
       onSubmit={onSubmit}
-      action={`https://wa.me/${siteConfig.whatsappNumber}`}
+      action={`mailto:${siteConfig.email}`}
       method="get"
-      target="_blank"
-      rel="noopener noreferrer"
       noValidate
       className="panel-feature panel-edge flex flex-col gap-8 rounded-xl p-6 md:p-9"
     >

@@ -1,5 +1,5 @@
 import { ArrowRight, MessageCircle } from "lucide-react";
-import { siteConfig, whatsappUrl } from "@/config/site";
+import { siteConfig, mailtoUrl } from "@/config/site";
 import { ActionLink } from "@/components/ui-brand/action";
 import { Reveal } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/ui-brand/magnetic";
@@ -63,13 +63,13 @@ export function FinalCta({
                 </Magnetic>
 
                 <a
-                  href={whatsappUrl}
+                  href={mailtoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex h-13 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/30 px-7 text-base font-medium text-ink transition-colors duration-250 ease-out hover:border-white/60 hover:bg-white/10"
                 >
                   <MessageCircle className="size-4" aria-hidden="true" />
-                  WhatsApp us
+                  Email us
                   <span className="sr-only">(opens in a new tab)</span>
                 </a>
               </div>

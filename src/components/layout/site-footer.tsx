@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import { footerNav, siteConfig, whatsappUrl } from "@/config/site";
+import { Mail, MapPin } from "lucide-react";
+import { footerNav, siteConfig } from "@/config/site";
 import { Wordmark } from "@/components/brand/wordmark";
 
 export function SiteFooter() {
@@ -31,28 +31,7 @@ export function SiteFooter() {
                   {siteConfig.email}
                 </a>
               </li>
-              <li>
-                <a
-                  href={`tel:${siteConfig.phone}`}
-                  className="text-ink hover:text-ink-soft inline-flex min-h-[40px] cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
-                >
-                  <Phone className="size-4" aria-hidden="true" />
-                  {siteConfig.phoneDisplay}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-ink hover:text-ink-soft inline-flex min-h-[40px] cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
-                >
-                  <MessageCircle className="size-4" aria-hidden="true" />
-                  WhatsApp
-                  <span className="sr-only">(opens in a new tab)</span>
-                </a>
-              </li>
-              <li className="text-ink-soft inline-flex items-center gap-2.5">
+              <li className="text-ink-soft flex items-center gap-2.5 py-1.5">
                 <MapPin className="size-4" aria-hidden="true" />
                 {siteConfig.location.full}
               </li>

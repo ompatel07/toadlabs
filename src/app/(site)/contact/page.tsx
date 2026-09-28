@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
-import { ArrowUpRight, Bug, Clock, Mail, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
-import { siteConfig, whatsappUrl } from "@/config/site";
+import { ArrowUpRight, Bug, Clock, Mail, MapPin, ShieldCheck } from "lucide-react";
+import { siteConfig } from "@/config/site";
 import { Asterisk, TickerStrip } from "@/components/brand/decor";
 import { PageHeader } from "@/components/layout/page-header";
 import { Section } from "@/components/layout/section";
@@ -84,36 +84,16 @@ export default function ContactPage() {
                     {siteConfig.email}
                   </a>
                 </li>
-                <li>
-                  <a
-                    href={`tel:${siteConfig.phone}`}
-                    className="text-ink hover:text-ink-soft inline-flex min-h-[44px] cursor-pointer items-center gap-2.5 t-base transition-colors duration-200 ease-out"
-                  >
-                    <Phone className="size-4 shrink-0" aria-hidden="true" />
-                    {siteConfig.phoneDisplay}
-                  </a>
-                </li>
-                <li>
-                  {/* Deliberately not WhatsApp brand green — it collides with
-                      the lime and fails contrast as a text colour. */}
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="border-ink text-ink hover:bg-ink inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border-2 px-5 t-base font-medium transition-colors duration-250 ease-out hover:text-canvas"
-                  >
-                    <MessageCircle className="size-4" aria-hidden="true" />
-                    Message on WhatsApp
-                    <span className="sr-only">(opens in a new tab)</span>
-                  </a>
-                </li>
-                <li className="text-ink-soft inline-flex items-center gap-2.5 t-base">
+                {/* Not links: a business address and its hours are what a buyer
+                    and a payment provider need to see, and neither is a thing
+                    a harvester can dial. */}
+                <li className="text-ink-soft flex items-center gap-2.5 t-base">
                   <MapPin className="size-4 shrink-0" aria-hidden="true" />
                   {siteConfig.location.full}
                 </li>
-                <li className="text-ink-soft inline-flex items-start gap-2.5 t-base">
-                  <Clock className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-                  IST business hours, with overlap arranged for other timezones
+                <li className="text-ink-soft flex items-center gap-2.5 t-base">
+                  <Clock className="size-4 shrink-0" aria-hidden="true" />
+                  Monday to Friday, 10am to 7pm IST
                 </li>
               </ul>
             </div>

@@ -83,10 +83,11 @@ const organizationJsonLd = {
       logo: `${siteConfig.siteUrl}/icon.png`,
       image: `${siteConfig.siteUrl}/og/default.png`,
       email: siteConfig.email,
-      telephone: siteConfig.phone,
+      // No `telephone`. It was a personal mobile, and structured data is the
+      // first thing a harvester reads. Email is the published channel.
       contactPoint: {
         "@type": "ContactPoint",
-        telephone: siteConfig.phone,
+        email: siteConfig.email,
         contactType: "sales",
         areaServed: "IN",
         availableLanguage: "English",

@@ -27,8 +27,8 @@ export function PlaybookProofSlider() {
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
-  /* Which slide is centred, and whether either end has been reached. Read from
-     scroll position rather than tracked in state, so a swipe, a keyboard
+  /* Which slide leads the view, and whether either end has been reached. Read
+     from scroll position rather than tracked in state, so a swipe, a keyboard
      scroll and a button press all report the same thing. */
   const sync = useCallback(() => {
     const track = trackRef.current;
@@ -36,24 +36,22 @@ export function PlaybookProofSlider() {
     const slides = Array.from(track.children) as HTMLElement[];
     if (slides.length === 0) return;
 
-    const centre = track.scrollLeft + track.clientWidth / 2;
-    let nearest = 0;
-    let best = Infinity;
-    slides.forEach((slide, index) => {
-      const distance = Math.abs(slide.offsetLeft + slide.offsetWidth / 2 - centre);
-      if (distance < best) {
-        best = distance;
-        nearest = index;
-      }
-    });
-
     const start = track.scrollLeft <= 4;
     const end = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
 
-    // At the ends, report the end. With several slides in view the nearest to
-    // the centre is not the first one, so an untouched slider would open
-    // reading "02 / 09".
-    setActive(start ? 0 : end ? slides.length - 1 : nearest);
+    // The FIRST slide in view, not the one nearest the centre. At widths that
+    // show several at once, "nearest the centre" is a slide the reader has
+    // already passed, and it made the counter open on 02.
+    const origin = slides[0].offsetLeft;
+    let first = 0;
+    for (let i = slides.length - 1; i >= 0; i -= 1) {
+      if (slides[i].offsetLeft - origin <= track.scrollLeft + 4) {
+        first = i;
+        break;
+      }
+    }
+
+    setActive(start ? 0 : end ? slides.length - 1 : first);
     setAtStart(start);
     setAtEnd(end);
   }, []);
@@ -73,19 +71,32 @@ export function PlaybookProofSlider() {
   const go = useCallback((index: number) => {
     const track = trackRef.current;
     if (!track) return;
-    const slide = track.children[index] as HTMLElement | undefined;
+    const slides = Array.from(track.children) as HTMLElement[];
+    const slide = slides[index];
     if (!slide) return;
-    // Centre the slide rather than align it left: at widths showing three at a
-    // time, aligning left walks the last group off the end.
-    track.scrollTo({
-      left: slide.offsetLeft - (track.clientWidth - slide.offsetWidth) / 2,
-      behavior: "smooth",
-    });
+    // Align the slide to the start of the track rather than centring it.
+    // Centring looks right with one slide in view and does nothing with four:
+    // slides 0-2 all resolve to a negative offset, which clamps to 0, so the
+    // button appeared dead on desktop.
+    track.scrollTo({ left: slide.offsetLeft - slides[0].offsetLeft, behavior: "smooth" });
+  }, []);
+
+  /** How many slides are fully in view, so a press advances by a screenful. */
+  const perView = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return 1;
+    const slides = Array.from(track.children) as HTMLElement[];
+    if (slides.length < 2) return 1;
+    const stride = slides[1].offsetLeft - slides[0].offsetLeft;
+    return stride > 0 ? Math.max(1, Math.floor((track.clientWidth + 4) / stride)) : 1;
   }, []);
 
   const step = useCallback(
-    (direction: -1 | 1) => go(Math.min(replies.length - 1, Math.max(0, active + direction))),
-    [active, go],
+    (direction: -1 | 1) => {
+      const span = perView();
+      go(Math.min(replies.length - 1, Math.max(0, active + direction * span)));
+    },
+    [active, go, perView],
   );
 
   return (
@@ -94,13 +105,13 @@ export function PlaybookProofSlider() {
         ref={trackRef}
         tabIndex={0}
         role="region"
-        aria-label="Replies to the outreach"
-        className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-3 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        aria-label="Reply screenshots"
+        className="-mx-5 flex snap-x snap-mandatory scroll-pl-5 gap-4 overflow-x-auto px-5 pb-3 md:mx-0 md:scroll-pl-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {replies.map((shot, index) => (
           <li
             key={shot.id}
-            className="w-[78vw] shrink-0 snap-center sm:w-[46vw] lg:w-[30%] xl:w-[23%]"
+            className="w-[78vw] shrink-0 snap-start sm:w-[46vw] lg:w-[30%] xl:w-[23%]"
             aria-label={`${index + 1} of ${replies.length}`}
           >
             <Shot

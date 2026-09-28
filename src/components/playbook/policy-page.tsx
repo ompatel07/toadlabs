@@ -60,7 +60,7 @@ export function PolicyPage({ policy }: { policy: Policy }) {
       ))}
 
       <p className="text-ink-soft mt-12 border-t border-[color:var(--ink)]/20 pt-6 t-sm">
-        Questions about an order? Message us on WhatsApp at {siteConfig.phoneDisplay}.
+        Questions about an order? Email us at {siteConfig.email}.
       </p>
     </article>
   );

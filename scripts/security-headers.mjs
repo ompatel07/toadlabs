@@ -108,9 +108,10 @@ function csp(hashes, route) {
     pay ? `frame-src ${RAZORPAY.frame.join(" ")}` : "frame-src 'none'",
     "object-src 'none'",
     "base-uri 'none'",
-    // The contact form's no-JavaScript fallback submits to wa.me, which
-    // redirects to api.whatsapp.com — form-action is enforced on redirects too.
-    list("form-action 'self' https://wa.me https://api.whatsapp.com", RAZORPAY.form),
+    // The contact form's no-JavaScript fallback submits to a mailto:, which
+    // form-action does not govern; nothing posts cross-origin any more, so the
+    // WhatsApp hosts are gone from here.
+    list("form-action 'self'", RAZORPAY.form),
     "frame-ancestors 'none'",
     "upgrade-insecure-requests",
   ].join("; ");

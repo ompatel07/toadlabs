@@ -81,13 +81,30 @@ export function safeEqual(a, b) {
 }
 
 /**
- * Download tokens: an HMAC over the order id and an expiry, signed with the
- * Razorpay key secret. Nothing is stored for the token itself — it verifies
- * on its own, and it stops working when it expires.
+ * Download tokens: an HMAC over the order id and an expiry. Nothing is stored
+ * for the token itself — it verifies on its own, and it stops working when it
+ * expires.
+ *
+ * KEY SEPARATION. These were signed with RAZORPAY_KEY_SECRET directly, which
+ * is the credential that authorises live API calls against the merchant
+ * account. One key, two jobs, is how a weakness in the lesser job becomes a
+ * problem for the greater one. The signing key is now derived from it with a
+ * fixed label, so the value that signs links is not the value that talks to
+ * Razorpay, and no new environment variable is required for that to be true.
+ *
+ * Set DOWNLOAD_TOKEN_SECRET to use an independent key instead; the derivation
+ * is the fallback, not the preference.
  */
+const DERIVATION_LABEL = "offscript/playbook/download-token/v1";
+
+function downloadKey(secret) {
+  if (process.env.DOWNLOAD_TOKEN_SECRET) return process.env.DOWNLOAD_TOKEN_SECRET;
+  return crypto.createHmac("sha256", secret).update(DERIVATION_LABEL).digest();
+}
+
 export function signDownloadToken(orderId, expiresAt, secret) {
   const payload = `${orderId}.${expiresAt}`;
-  const mac = crypto.createHmac("sha256", secret).update(payload).digest("base64url");
+  const mac = crypto.createHmac("sha256", downloadKey(secret)).update(payload).digest("base64url");
   return `${expiresAt}.${mac}`;
 }
 
@@ -97,7 +114,7 @@ export function verifyDownloadToken(orderId, token, secret) {
   if (!expiresAt || !mac) return false;
   if (Date.now() > expiresAt) return false;
   const expected = crypto
-    .createHmac("sha256", secret)
+    .createHmac("sha256", downloadKey(secret))
     .update(`${orderId}.${expiresAt}`)
     .digest("base64url");
   return safeEqual(mac, expected);

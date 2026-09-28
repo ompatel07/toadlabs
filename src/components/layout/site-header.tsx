@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, MessageCircle, X } from "lucide-react";
-import { mainNav, siteConfig, whatsappUrl } from "@/config/site";
+import { mainNav, siteConfig, mailtoUrl } from "@/config/site";
 import { Wordmark } from "@/components/brand/wordmark";
 import { ActionLink } from "@/components/ui-brand/action";
 import { cn } from "@/lib/utils";
@@ -213,13 +213,13 @@ export function SiteHeader() {
                 Book a call
               </ActionLink>
               <a
-                href={whatsappUrl}
+                href={mailtoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-ink inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full border border-[rgba(255,255,255,0.2)] t-base font-medium transition-colors duration-200 ease-out hover:border-[rgba(255,255,255,0.4)]"
               >
                 <MessageCircle className="size-4" aria-hidden="true" />
-                WhatsApp us
+                Email us
                 <span className="sr-only">(opens in a new tab)</span>
               </a>
               <p className="label-mono text-ink-soft mt-2 text-center">

@@ -4,7 +4,13 @@
  * Contact details live only here, so changing a value updates the whole site.
  *
  * ⚠️ STILL PLACEHOLDER: `siteUrl` and `email` (the domain is not set up yet).
- * The phone / WhatsApp number is real.
+ * `email` has to be real before launch: it is now the ONLY way anyone can
+ * reach the business, including for a refund.
+ *
+ * NO PHONE NUMBER LIVES HERE ANY MORE. It was a personal mobile, and it
+ * appeared in the footer of every page, in tel: links, in the contact form's
+ * delivery URL and in the organisation JSON-LD — five separate places for a
+ * scraper to find it. An address can be rotated; a harvested number cannot.
  */
 
 export interface NavItem {
@@ -24,15 +30,8 @@ export const siteConfig = {
   description:
     "OFFSCRIPT is a digital marketing, software and cybersecurity company in Ahmedabad: SEO and paid ads, websites, apps, SaaS, AI automation, VAPT and pentesting.",
 
-  /** TODO: replace with the real inbox. */
+  /** TODO: replace with the real inbox before launch. */
   email: "hello@toadlabs.in",
-  /** International format, digits only — used to build wa.me links, and the
-   *  number the contact form delivers enquiries to on WhatsApp. */
-  whatsappNumber: "91REDACTED",
-  /** Same number for calls, in E.164 and in the display format used in India. */
-  phone: "+91REDACTED",
-  phoneDisplay: "+91 REDACTED",
-  whatsappMessage: "Hi OFFSCRIPT — I'd like to talk about a project.",
 
   location: {
     city: "Ahmedabad",
@@ -42,8 +41,9 @@ export const siteConfig = {
   },
 } as const;
 
-export const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-  siteConfig.whatsappMessage,
+/** The one way to reach the business, used everywhere a contact link appears. */
+export const mailtoUrl = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
+  "Enquiry for OFFSCRIPT",
 )}`;
 
 export const mainNav: NavItem[] = [

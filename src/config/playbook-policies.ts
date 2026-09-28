@@ -132,7 +132,7 @@ export const refund: Policy = {
         "Start within 14 days of purchase, and work the method for 30 days",
         "Contact at least 100 businesses, each logged in the supplied tracker with the date",
         "Send the follow-ups on the schedule the 30-day launch plan sets out",
-        `Send the filled tracker to ${siteConfig.phoneDisplay} within 45 days of your payment date`,
+        `Email the filled tracker to ${siteConfig.email} within 45 days of your payment date`,
         "One claim per buyer",
       ],
     },
@@ -166,7 +166,7 @@ export const refund: Policy = {
     {
       heading: "How to ask",
       paragraphs: [
-        `Message us on WhatsApp at ${siteConfig.phoneDisplay} with your order id, and the tracker if you are claiming on the guarantee. We reply to every message about a payment.`,
+        `Email us at ${siteConfig.email} with your order id, and the tracker if you are claiming on the guarantee. We reply to every message about a payment.`,
         "Approved refunds go back to the original payment method through Razorpay, usually within 5 to 7 working days, depending on your bank.",
       ],
     },
@@ -224,7 +224,7 @@ export const privacy: Policy = {
     {
       heading: "Your choices",
       paragraphs: [
-        `Message us on WhatsApp at ${siteConfig.phoneDisplay} to see what is held about your order, correct it, or ask for deletion.`,
+        `Email us at ${siteConfig.email} to see what is held about your order, correct it, or ask for deletion.`,
       ],
     },
     {
