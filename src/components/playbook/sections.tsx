@@ -457,7 +457,7 @@ export function PlaybookInside() {
   );
 }
 
-/* ── 5b. Everything you get, as a table ─────────────────────────────────── */
+/* ── 5b. Everything you get ─────────────────────────────────────────────── */
 
 export function PlaybookDeliverables() {
   return (
@@ -466,13 +466,32 @@ export function PlaybookDeliverables() {
       <Heading>{deliverables.headline}</Heading>
       <p className="text-ink-soft mt-5 t-lead">{deliverables.lead}</p>
 
-      <div
-        className="pb-panel reveal mt-8 overflow-x-auto"
-        tabIndex={0}
-        role="region"
-        aria-label="Everything included in the bundle"
-      >
-        <table className="w-full min-w-[34rem] border-collapse text-left">
+      {/* On a phone a three-column table pushes its most valuable column - the
+          counts - off screen behind a horizontal scroll nobody discovers. The
+          same rows stack instead, and become a table as soon as they fit. */}
+      <ul className="pb-panel reveal mt-8 md:hidden">
+        {deliverables.rows.map((row) => (
+          <li
+            key={row[0]}
+            className="flex flex-col gap-1 border-b border-[color:var(--ink)]/20 px-4 py-3.5 last:border-0"
+          >
+            <span className="text-ink flex items-baseline gap-2.5 t-base font-bold">
+              <Check
+                className="size-4 shrink-0 translate-y-0.5 text-[color:var(--accent)]"
+                strokeWidth={3.5}
+                aria-hidden="true"
+              />
+              {row[0]}
+            </span>
+            <span className="label-mono text-ink-soft pl-[1.625rem]">
+              {row[1]} <span className="text-ink">· {row[2]}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="pb-panel reveal mt-8 hidden md:block">
+        <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b-2 border-[color:var(--ink)]">
               {deliverables.columns.map((column) => (
@@ -484,10 +503,7 @@ export function PlaybookDeliverables() {
           </thead>
           <tbody>
             {deliverables.rows.map((row) => (
-              <tr
-                key={row[0]}
-                className="border-b border-[color:var(--ink)]/20 last:border-0"
-              >
+              <tr key={row[0]} className="border-b border-[color:var(--ink)]/20 last:border-0">
                 <td className="text-ink px-5 py-3.5 t-base font-bold">
                   <span className="flex items-baseline gap-2.5">
                     <Check
@@ -821,9 +837,27 @@ export function PlaybookReplies() {
       <Heading>{repliesSection.headline}</Heading>
       <p className="text-ink measure mt-4 t-lead font-semibold">{repliesSection.lead}</p>
 
-      <ul className="mt-8 grid grid-cols-2 gap-3 xl:grid-cols-4">
+      {/* On a phone these are the first thing anyone sees, so they have to be
+          readable rather than decorative: one at a time, swiped, at a width
+          where the conversation can actually be followed. A grid takes over as
+          soon as there is room for one. */}
+      <p className="label-mono text-ink-soft mt-7 flex items-center gap-2 md:hidden">
+        Swipe through all nine
+        <ArrowRight className="size-3.5" aria-hidden="true" />
+      </p>
+
+      <ul
+        className="-mx-5 mt-3 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 md:mx-0 md:mt-8 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0"
+        tabIndex={0}
+        role="region"
+        aria-label="Replies to the outreach"
+      >
         {replies.map((shot, index) => (
-          <li key={shot.id} className="reveal h-full" style={{ animationDelay: `${Math.min(index, 4) * 50}ms` }}>
+          <li
+            key={shot.id}
+            className="reveal w-[78vw] shrink-0 snap-center sm:w-[58vw] md:w-auto md:shrink"
+            style={{ animationDelay: `${Math.min(index, 4) * 50}ms` }}
+          >
             {/* The rotation lives on an inner element: .reveal animates
                 transform, so an inline rotate on the same node is thrown away
                 on the animation's first frame. */}
@@ -837,7 +871,7 @@ export function PlaybookReplies() {
                 id={shot.id}
                 alt={shot.alt}
                 caption={shot.caption}
-                sizes="(max-width: 1279px) 46vw, 23vw"
+                sizes="(max-width: 639px) 78vw, (max-width: 767px) 58vw, 31vw"
               />
             </div>
           </li>

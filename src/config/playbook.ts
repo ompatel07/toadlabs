@@ -32,10 +32,15 @@ export const hero = {
   kicker: "The market isn't dead.",
   kickerMark: "Your outreach is.",
   headline: ["Get unlimited", "web development clients."],
-  body: "Not a course. A system. Twelve researched niches, a free way to build a list nobody else has, 75 scripts that get opened, and a 30-day plan that tells you what to send every single morning. Follow it and the pipeline does not run out.",
+  body: "Not a course. A system. A free Google Maps scraping method that builds you a list nobody else has, twelve researched niches, 75 scripts that get opened, and a 30-day plan that tells you what to send every morning. Follow it and the pipeline does not run out.",
   primaryCta: "Show me what's inside",
   secondaryCta: "See the price",
-  marks: ["10 modules", "75 scripts", "5 ready-made sites", "No paid tools"],
+  marks: [
+    "Free Google Maps lead scraping",
+    "10 modules",
+    "75 scripts",
+    "5 ready-made sites",
+  ],
   /** Runs as a marquee under the hero: the bundle, at a glance. */
   ticker: [
     "87-page playbook",
@@ -389,30 +394,55 @@ export interface Shot {
 export const replies: Shot[] = [
   {
     id: "reply-1",
-    alt: "A WhatsApp thread: an opening message about a business with no website on its Google listing, answered with yes, send it",
+    alt: "WhatsApp: an opening message about a business with no website on its Google listing, answered with yes, send it",
     caption: "“Hey, yes sure. Send it.”",
   },
   {
     id: "reply-2",
-    alt: "A WhatsApp thread: a salon owner replying that they did not know their website was broken, then asking whether their own photos can be used",
+    alt: "WhatsApp: a salon owner who did not know their website was broken, asking whether their own photos can be used",
     caption: "“Can you use our Instagram photos?”",
   },
   {
     id: "reply-3",
-    alt: "A WhatsApp thread: a gym owner asking for the demo, saying it looks good, then asking about pricing",
+    alt: "WhatsApp: a gym owner asking for the demo, saying it looks good, then asking about pricing",
     caption: "“What about pricing?”",
   },
   {
     id: "reply-4",
-    alt: "A WhatsApp thread: a clinic asking whether the demo was made specifically for them, then agreeing to a call",
-    caption: "“Sure” — to a call",
+    alt: "WhatsApp: a clinic asking whether the demo was made specifically for them, then agreeing to a call",
+    caption: "“What would you charge?” → call",
+  },
+  {
+    id: "reply-5",
+    alt: "WhatsApp: a physiotherapy clinic asking for a booking form to be added, then agreeing to a call",
+    caption: "“Sure lets do it”",
+  },
+  {
+    id: "reply-6",
+    alt: "Instagram: a wedding photographer calling the demo clean, asking about galleries, then asking the price",
+    caption: "“Bro this is clean.”",
+  },
+  {
+    id: "reply-7",
+    alt: "Instagram: a restaurant asking for their real menu on the demo, then asking how much it costs",
+    caption: "“How much for this?”",
+  },
+  {
+    id: "reply-8",
+    alt: "Instagram: a property business asking for an admin dashboard, then asking the charges and agreeing to a call",
+    caption: "“What are charges for this website”",
+  },
+  {
+    id: "reply-9",
+    alt: "Instagram: a fitness coach asking the price of the demo site, then agreeing to a meeting",
+    caption: "“okay yeah lets do it bro”",
   },
 ];
 
 export const repliesSection = {
   eyebrow: "Proof first",
   headline: "Before you read anything else, read these.",
-  lead: "Four cold conversations, opened with the scripts in this bundle. Nobody knew who we were. Every one of them replied — and three asked what it costs.",
+  lead: "Nine cold conversations, opened with the scripts in this bundle. Nobody knew who we were. Every one of them replied, and six asked what it costs.",
   disclaimer:
     "These are replies to the outreach in this bundle — nothing else. They are not earnings, and no income is claimed anywhere on this page. What happens after a reply depends on your work, your pricing and your follow-up.",
   privacyNote:

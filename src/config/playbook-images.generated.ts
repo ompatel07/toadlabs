@@ -83,6 +83,26 @@ export const playbookImages = {
     "reply-4": {
       "width": 381,
       "height": 607
+    },
+    "reply-5": {
+      "width": 377,
+      "height": 595
+    },
+    "reply-6": {
+      "width": 370,
+      "height": 607
+    },
+    "reply-7": {
+      "width": 367,
+      "height": 617
+    },
+    "reply-8": {
+      "width": 376,
+      "height": 612
+    },
+    "reply-9": {
+      "width": 370,
+      "height": 612
     }
   }
 } as const;

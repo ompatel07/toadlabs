@@ -41,7 +41,10 @@ const EXPECTED = {
     "swipe-file", "never-say", "prompt-pack", "regulated", "plan", "plan-week",
     "invoice", "site-cafe", "bundle-files", "module-files",
   ],
-  proofs: ["reply-1", "reply-2", "reply-3", "reply-4"],
+  proofs: [
+    "reply-1", "reply-2", "reply-3", "reply-4", "reply-5",
+    "reply-6", "reply-7", "reply-8", "reply-9",
+  ],
 };
 
 const CANVAS = "#12151d";
