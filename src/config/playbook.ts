@@ -29,12 +29,54 @@ export const product = {
 
 export const hero = {
   eyebrow: "For freelance web developers in India",
-  headline: "Coding seekh li. Client nahi mila?",
+  /** Two deliberate lines: left to itself the break lands mid-phrase. */
+  headline: ["Coding seekh li.", "Client nahi mila?"],
   sub: "The problem isn't your skill. It's your first message.",
-  body: "You can build the thing. You just have nobody to build it for. This is the outreach system that sits between those two facts — who to contact, how to find them, what to send, and what to say when they finally reply.",
+  body: "You can build the thing. You just have nobody to build it for. This is the system in between: who to contact, what to send, and what to say when they finally reply.",
   primaryCta: "Show me what's inside",
   secondaryCta: "What it costs",
   marks: ["10 modules", "75 scripts", "5 ready-made sites", "No paid tools needed"],
+  /** Runs as a marquee under the hero: the bundle, at a glance. */
+  ticker: [
+    "87-page playbook",
+    "10 modules",
+    "75 outreach scripts",
+    "37 AI prompts",
+    "Lead tracker",
+    "30-day plan",
+    "12 researched niches",
+    "Free scraping method",
+    "4 legal templates",
+    "5 ready-made websites",
+    "Hinglish included",
+    "Lifetime access",
+  ],
+} as const;
+
+/**
+ * The guarantee.
+ *
+ * DELIBERATELY A PROMISE ABOUT US, NOT ABOUT THE MARKET. "Guaranteed clients"
+ * would be a claim about the buyer's niche, skill, pricing and follow-through,
+ * none of which we control — and an unqualified outcome guarantee on a paid
+ * digital product is the exact shape the CCPA's misleading-advertising rules
+ * target, as well as the fastest route to a frozen payment account.
+ *
+ * What is here instead is a refund term: conditional, verifiable, and entirely
+ * within our power to honour. /playbook/refund states the same thing, and the
+ * two must never drift apart.
+ */
+export const guarantee = {
+  badge: "30-day money-back guarantee",
+  headline: "Do the 30 days. No client? Full refund.",
+  copy: "Work the launch plan for a month — build the list, send the messages, run the follow-ups — and log it in the tracker that comes with the bundle. If you finish that month without a single client conversation worth having, send the tracker and we refund you in full.",
+  conditions: [
+    "Ask within 45 days of buying",
+    "Show the tracker: leads contacted and follow-ups sent across the 30 days",
+    "Full refund to the original payment method, inside 7 working days",
+  ],
+  honest:
+    "We are not promising clients. Nobody honestly can — it depends on your niche, your work and your follow-through. We are promising that if you do the work and it does not open a single door, you do not pay for it.",
 } as const;
 
 /**
@@ -290,24 +332,6 @@ export interface Shot {
   caption: string;
 }
 
-/** The gallery at the end of the page: a spread of what is actually inside. */
-export const gallery: Shot[] = [
-  { id: "contents", alt: "Contents page of the playbook listing all ten modules with page numbers", caption: "All 10 modules, with page numbers" },
-  { id: "module-page", alt: "A playbook page explaining which lead types suit which outreach channel", caption: "Inside a module" },
-  { id: "never-say", alt: "A playbook table of things never to say, what to say instead, and why", caption: "What never to say" },
-  { id: "scorecard", alt: "The lead scorecard: criteria, points and how to score each one", caption: "The lead scorecard" },
-  { id: "pipeline", alt: "The tracker pipeline dashboard with counts by stage and conversion rates", caption: "Pipeline dashboard" },
-  { id: "tracker-excel", alt: "The lead tracker open in Excel", caption: "The tracker in Excel" },
-  { id: "swipe-file", alt: "The swipe file explaining placeholders and the six rules every script follows", caption: "How the swipe file works" },
-  { id: "prompt-pack", alt: "The AI prompt pack explaining the master context and how to use it", caption: "The prompt pack" },
-  { id: "plan", alt: "The 30-day launch plan, with tracks to choose from before day one", caption: "The 30-day plan" },
-  { id: "plan-week", alt: "Week one of the launch plan, broken into timed daily tasks", caption: "Week one, hour by hour" },
-  { id: "regulated", alt: "A table of regulated professions and what their advertising rules allow", caption: "Regulated niches, handled" },
-  { id: "invoice", alt: "The GST tax invoice template", caption: "GST invoice template" },
-  { id: "bundle-files", alt: "The bundle folder showing every included file", caption: "Everything in one folder" },
-  { id: "module-files", alt: "The ten module files listed in a folder", caption: "Ten modules, ten files" },
-];
-
 /**
  * Reply screenshots. Every identifying mark — name, business name, number,
  * avatar, demo link — is blacked out in the master before it is generated.
@@ -458,7 +482,12 @@ export const faqs = [
   {
     question: "Can I get a refund?",
     answer:
-      "This is a digital download delivered in full the moment you pay, so it is sold as final. If the files do not download, or you were charged twice, message us and we will fix it or refund it. The refund policy page says this plainly.",
+      "Yes, on the guarantee. Work the 30-day launch plan, log it in the tracker, and if you finish the month without a single client conversation worth having, send us the tracker within 45 days of buying and we refund you in full. Separately, if the files do not download or you were charged twice, message us and we will fix it or refund it either way.",
+  },
+  {
+    question: "So you guarantee I will get clients?",
+    answer:
+      "No, and be careful with anyone who does. Whether you get clients depends on your niche, the quality of your work, your pricing and whether you actually send the messages every day. What we guarantee is the refund: do the 30 days, log it, and if nothing opens up you do not pay for it.",
   },
   {
     question: "Is there any support?",

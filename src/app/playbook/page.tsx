@@ -5,17 +5,15 @@ import { absoluteUrl, pageMetadata } from "@/lib/seo";
 import { jsonLd } from "@/lib/json-ld";
 import {
   PlaybookFit,
-  PlaybookGallery,
   PlaybookHero,
   PlaybookInside,
   PlaybookLibrary,
-  PlaybookModules,
-  PlaybookPaperwork,
   PlaybookPlan,
   PlaybookReplies,
   PlaybookResearch,
   PlaybookRewrite,
   PlaybookSystem,
+  PlaybookTicker,
   PlaybookTracker,
   PlaybookWebsites,
 } from "@/components/playbook/sections";
@@ -74,17 +72,15 @@ export default function PlaybookPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(structuredData)} />
 
       <PlaybookHero />
+      <PlaybookTicker />
       <PlaybookRewrite />
       <PlaybookSystem />
       <PlaybookInside />
-      <PlaybookModules />
       <PlaybookTracker />
       <PlaybookLibrary />
       <PlaybookPlan />
       <PlaybookResearch />
-      <PlaybookPaperwork />
       <PlaybookWebsites />
-      <PlaybookGallery />
       <PlaybookReplies />
       <PlaybookFit />
       <PlaybookFaq />

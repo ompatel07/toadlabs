@@ -543,6 +543,142 @@
     background: var(--surface);
   }
 
+  /* Animated field behind the hero and the price reveal.
+     ---------------------------------------------------------------------
+     A drifting grid plus two slow cyan lights. Both are ambient by the
+     measure this file already sets out further down: low amplitude, long
+     duration, no hard edge to track — so neither is gated on reduced motion.
+     Everything is on pseudo-elements at negative z-index, so nothing here can
+     intercept a click. */
+  .pb-field {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+  }
+
+  .pb-field::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    z-index: -2;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(85% 70% at 50% 0%, #000 0%, transparent 78%);
+    mask-image: radial-gradient(85% 70% at 50% 0%, #000 0%, transparent 78%);
+    animation: pb-grid 30s linear infinite;
+  }
+
+  .pb-field::after {
+    content: "";
+    position: absolute;
+    inset: -35% -25% auto;
+    height: 95%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(45% 52% at 18% 8%, rgba(63, 217, 232, 0.2) 0%, rgba(63, 217, 232, 0) 70%),
+      radial-gradient(42% 46% at 86% 0%, rgba(127, 233, 244, 0.13) 0%, rgba(127, 233, 244, 0) 70%);
+    animation: pb-drift 21s ease-in-out infinite alternate;
+  }
+
+  @keyframes pb-grid {
+    to {
+      background-position: 64px 64px, 64px 64px;
+    }
+  }
+
+  @keyframes pb-drift {
+    from {
+      transform: translate3d(-2%, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(3%, 2%, 0) scale(1.09);
+    }
+  }
+
+  /* Hero deck. The tilt is a variable so the float can compose with it — a
+     plain transform animation would throw the rotation away on the first
+     frame. */
+  .pb-float {
+    transform: rotate(var(--tilt, 0deg));
+    animation: pb-float 7s ease-in-out infinite alternate;
+  }
+
+  @keyframes pb-float {
+    from {
+      transform: rotate(var(--tilt, 0deg)) translateY(0);
+    }
+    to {
+      transform: rotate(var(--tilt, 0deg)) translateY(-14px);
+    }
+  }
+
+  /* Cards answer the pointer. Hover only, so a phone tap never leaves a card
+     stuck in a lifted state. */
+  @media (hover: hover) {
+    .pb-lift {
+      transition:
+        transform 250ms var(--ease-out, ease-out),
+        border-color 250ms var(--ease-out, ease-out);
+    }
+
+    .pb-lift:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-line);
+    }
+  }
+
+  /* One of the nine files. A plain row on a phone, where nine stacked cards is
+     just nine boxes to scroll past, and a card once there is a grid to put it
+     in. Written here rather than as `md:pb-panel` because a custom class takes
+     no Tailwind variant — that silently produces nothing. */
+  .pb-file {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .pb-file:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  @media (min-width: 48rem) {
+    .pb-file {
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+    }
+
+    .pb-file:first-child {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  @media (min-width: 48rem) and (hover: hover) {
+    .pb-file {
+      transition:
+        transform 250ms var(--ease-out, ease-out),
+        border-color 250ms var(--ease-out, ease-out);
+    }
+
+    .pb-file:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-line);
+    }
+  }
+
+  /* The guarantee. A hairline ring rather than a badge: it has to read as a
+     term of sale, not a sticker. */
+  .pb-seal {
+    background:
+      radial-gradient(130% 150% at 0% 0%, var(--accent-wash) 0%, rgba(0, 0, 0, 0) 62%),
+      var(--surface);
+    border: 1px solid var(--accent-line);
+    border-radius: 16px;
+    box-shadow: 0 0 0 1px rgba(63, 217, 232, 0.06) inset;
+  }
+
   /* Sticky mobile purchase bar. Sits above the home indicator on phones. */
   .pb-bar {
     padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 0px));

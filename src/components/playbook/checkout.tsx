@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Lock, ShieldCheck } from "lucide-react";
-import { assets, checkout, priceReveal, product } from "@/config/playbook";
+import { Check, Loader2, Lock, ShieldCheck } from "lucide-react";
+import { assets, checkout, guarantee, priceReveal, product } from "@/config/playbook";
 
 /**
  * Razorpay checkout.
@@ -159,7 +159,7 @@ export function PlaybookCheckout() {
   return (
     <div className="pb-panel-lit flex flex-col gap-5 p-6 md:p-8">
       <div className="flex items-baseline gap-3">
-        <span className="numeral text-ink text-[clamp(2.2rem,8vw,3rem)] leading-none font-bold">
+        <span className="numeral text-ink text-[clamp(2.2rem,8vw,3rem)] leading-none font-bold tracking-tight">
           {product.priceLabel}
         </span>
         <span className="text-ink-soft t-sm">{product.priceNote}</span>
@@ -223,7 +223,7 @@ export function PlaybookCheckoutSection() {
     <section
       id="price"
       aria-label="What it costs"
-      className="pb-glow scroll-mt-16 border-t border-[rgba(255,255,255,0.08)] py-16 md:py-24"
+      className="pb-field scroll-mt-16 border-t border-[rgba(255,255,255,0.08)] py-14 md:py-20"
     >
       <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">
         <p className="label-mono pb-accent flex items-center gap-2.5">
@@ -237,6 +237,32 @@ export function PlaybookCheckoutSection() {
 
         <div className="mt-10 grid gap-3 lg:grid-cols-[1.1fr_1fr] lg:gap-8 lg:items-start">
           <div className="flex flex-col gap-3">
+            <div className="pb-seal p-6 md:p-8">
+              <p className="label-mono pb-accent flex items-center gap-2.5">
+                <ShieldCheck className="size-4" strokeWidth={2.4} aria-hidden="true" />
+                {guarantee.badge}
+              </p>
+              <h3 className="font-display text-ink mt-4 type-h3 font-bold text-balance">
+                {guarantee.headline}
+              </h3>
+              <p className="text-ink-soft mt-4 t-base leading-relaxed">{guarantee.copy}</p>
+
+              <ul className="mt-5 flex flex-col gap-2.5 border-t border-[rgba(255,255,255,0.1)] pt-5">
+                {guarantee.conditions.map((condition) => (
+                  <li key={condition} className="text-ink flex items-start gap-3 t-sm">
+                    <Check className="pb-accent mt-0.5 size-4 shrink-0" strokeWidth={3} aria-hidden="true" />
+                    {condition}
+                  </li>
+                ))}
+              </ul>
+
+              {/* Said plainly, because a guarantee that overreaches is worth
+                  less than one the reader believes. */}
+              <p className="text-ink-soft mt-5 border-t border-[rgba(255,255,255,0.1)] pt-5 t-xs leading-relaxed">
+                {guarantee.honest}
+              </p>
+            </div>
+
             <div className="pb-panel p-6 md:p-8">
               <h3 className="font-display text-ink t-lead font-bold">{priceReveal.recapTitle}</h3>
               <ul className="mt-5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1">
@@ -256,20 +282,6 @@ export function PlaybookCheckoutSection() {
               </p>
             </div>
 
-            <div className="pb-panel p-6 md:p-8">
-              <h3 className="label-mono text-ink-soft">{priceReveal.compare.title}</h3>
-              <ul className="mt-4 flex flex-col gap-3">
-                {priceReveal.compare.points.map((point) => (
-                  <li key={point} className="text-ink-soft flex items-start gap-3 t-sm leading-relaxed">
-                    <span
-                      aria-hidden="true"
-                      className="mt-[0.55em] inline-block size-1.5 shrink-0 rounded-full bg-[color:var(--accent)]"
-                    />
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
 
           <div className="lg:sticky lg:top-12">

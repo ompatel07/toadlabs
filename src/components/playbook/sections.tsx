@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, Minus, X } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, Minus, ShieldCheck, X } from "lucide-react";
 import {
   assets,
   fit,
-  gallery,
+  guarantee,
   hero,
   library,
   modules,
@@ -25,10 +25,14 @@ import { cn } from "@/lib/utils";
  * The sales page, section by section. Everything here is presentational — all
  * words live in src/config/playbook.ts.
  *
- * TWO RULES THE LAYOUT FOLLOWS
+ * THREE RULES THE LAYOUT FOLLOWS
  *  1. The price appears once, at the very end. Every section before it has to
  *     earn the next scroll instead of leaning on a number.
- *  2. Reveals are the site's CSS-only `.reveal` (animation-timeline: view()),
+ *  2. Nothing is shown twice. An earlier draft ran a fourteen-image gallery of
+ *     screenshots the page had already used in context, which is what made it
+ *     long without making it convincing. Each screenshot now appears exactly
+ *     once, beside the thing it proves.
+ *  3. Reveals are the site's CSS-only `.reveal` (animation-timeline: view()),
  *     so every section ships visible and stays visible without JavaScript.
  */
 
@@ -44,7 +48,7 @@ export function Band({
   label?: string;
 }) {
   return (
-    <section id={id} aria-label={label} className={cn("scroll-mt-16 py-16 md:py-24", className)}>
+    <section id={id} aria-label={label} className={cn("scroll-mt-16 py-14 md:py-20", className)}>
       <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">{children}</div>
     </section>
   );
@@ -61,42 +65,62 @@ export function Eyebrow({ children }: { children: React.ReactNode }) {
 
 function Heading({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <h2 className={cn("font-display text-ink mt-5 type-h2 font-bold text-balance", className)}>
+    <h2 className={cn("font-display text-ink mt-4 type-h2 font-bold text-balance", className)}>
       {children}
     </h2>
   );
 }
 
-/* ── 1. Hero — no price anywhere near it ─────────────────────────────────── */
+/* ── 1. Hero ─────────────────────────────────────────────────────────────── */
 
 /**
  * A deck of real screenshots for the hero's second column. Decorative: every
- * one of these appears again further down with a proper caption and alt text,
- * so it is hidden from assistive tech rather than read out twice.
+ * one appears again further down with a proper caption and alt text, so it is
+ * hidden from assistive tech rather than read out twice.
+ *
+ * The tilt is a custom property because the float animation composes with it —
+ * a Tailwind `rotate-*` class would be overwritten on the animation's first
+ * frame.
  */
 function HeroDeck() {
   const cards = [
-    { id: "contents", className: "left-0 top-0 w-[76%] -rotate-[4deg]" },
-    { id: "pipeline", className: "right-0 top-[22%] w-[58%] rotate-[5deg]" },
-    { id: "never-say", className: "left-[8%] bottom-0 w-[66%] rotate-[2deg]" },
+    { id: "contents", tilt: "-4deg", className: "left-0 top-0 w-[76%]" },
+    { id: "pipeline", tilt: "5deg", className: "right-0 top-[22%] w-[58%]" },
+    { id: "never-say", tilt: "2deg", className: "left-[8%] bottom-0 w-[66%]" },
   ];
 
   return (
     <div aria-hidden="true" className="relative -mt-2 aspect-[4/3.4] lg:mt-0 lg:aspect-[4/3.6]">
-      {cards.map((card) => (
+      {cards.map((card, index) => (
         <div
           key={card.id}
           className={cn(
-            "pb-panel absolute overflow-hidden shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)]",
+            "pb-panel pb-float absolute overflow-hidden shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)]",
             card.className,
           )}
+          style={
+            {
+              "--tilt": card.tilt,
+              animationDuration: `${7 + index * 1.4}s`,
+              animationDelay: `${index * -2.2}s`,
+            } as React.CSSProperties
+          }
         >
-          <PlaybookImage kind="snapshots" id={card.id} alt="" sizes="(max-width: 1023px) 70vw, 30vw" priority />
+          <PlaybookImage
+            kind="snapshots"
+            id={card.id}
+            alt=""
+            sizes="(max-width: 1023px) 70vw, 30vw"
+            priority
+          />
         </div>
       ))}
 
       {/* The reply, tucked in front — the page's whole promise in one corner. */}
-      <div className="pb-panel-lit absolute right-[6%] bottom-[4%] w-[34%] overflow-hidden shadow-[0_24px_60px_-20px_rgba(0,0,0,0.85)]">
+      <div
+        className="pb-panel-lit pb-float absolute right-[6%] bottom-[4%] w-[34%] overflow-hidden shadow-[0_24px_60px_-20px_rgba(0,0,0,0.85)]"
+        style={{ "--tilt": "-3deg", animationDuration: "9.5s", animationDelay: "-5s" } as React.CSSProperties}
+      >
         <PlaybookImage kind="proofs" id="reply-3" alt="" sizes="(max-width: 1023px) 34vw, 16vw" priority />
       </div>
     </div>
@@ -105,22 +129,32 @@ function HeroDeck() {
 
 export function PlaybookHero() {
   return (
-    <header className="pb-glow relative pt-12 pb-16 md:pt-20 md:pb-24">
-      <div className="mx-auto grid w-full max-w-[72rem] gap-14 px-5 md:px-8 lg:grid-cols-[1.05fr_1fr] lg:items-center">
+    <header className="pb-field relative pt-10 pb-12 md:pt-16 md:pb-16">
+      <div className="mx-auto grid w-full max-w-[72rem] gap-12 px-5 md:px-8 lg:grid-cols-[1.05fr_1fr] lg:items-center">
         <div>
           <Eyebrow>{hero.eyebrow}</Eyebrow>
 
-          <h1 className="font-display text-ink mt-6 text-[clamp(2.5rem,9.5vw,4.5rem)] leading-[0.98] font-extrabold tracking-[-0.035em] text-balance">
-            {hero.headline}
+          <h1 className="font-display text-ink mt-5 text-[clamp(2.4rem,8.5vw,4.25rem)] leading-[0.96] font-extrabold tracking-[-0.038em]">
+            {hero.headline.map((line, index) => (
+              <span key={line} className={cn("block", index > 0 && "pb-accent")}>
+                {line}
+              </span>
+            ))}
           </h1>
 
-          <p className="text-ink mt-6 max-w-[30ch] text-[clamp(1.2rem,5vw,1.75rem)] leading-[1.15] font-semibold">
+          <p className="text-ink mt-5 max-w-[30ch] text-[clamp(1.2rem,5vw,1.75rem)] leading-[1.15] font-semibold">
             {hero.sub}
           </p>
 
-          <p className="text-ink-soft measure mt-6 t-lead leading-relaxed">{hero.body}</p>
+          <p className="text-ink-soft measure mt-5 t-lead leading-relaxed">{hero.body}</p>
 
-          <ul className="mt-8 flex flex-wrap gap-x-5 gap-y-2">
+          {/* The guarantee, stated before the ask rather than after it. */}
+          <p className="text-ink mt-7 inline-flex items-center gap-2.5 rounded-full border border-[color:var(--accent-line)] bg-[color:var(--accent-wash)] px-4 py-2 t-sm font-semibold">
+            <ShieldCheck className="pb-accent size-4 shrink-0" strokeWidth={2.4} aria-hidden="true" />
+            {guarantee.headline}
+          </p>
+
+          <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2">
             {hero.marks.map((mark) => (
               <li key={mark} className="label-mono text-ink-soft flex items-center gap-2">
                 <Check className="pb-accent size-3.5" strokeWidth={3} aria-hidden="true" />
@@ -129,7 +163,7 @@ export function PlaybookHero() {
             ))}
           </ul>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
               href="#inside"
               className="pb-fill inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full px-8 text-base font-bold transition-transform duration-200 ease-out hover:-translate-y-0.5"
@@ -152,7 +186,32 @@ export function PlaybookHero() {
   );
 }
 
-/* ── 2. The rewrite — the argument, in two messages ──────────────────────── */
+/* ── 2. Ticker ───────────────────────────────────────────────────────────── */
+
+/** The bundle at a glance, on a loop. Pauses on hover via .marquee-viewport. */
+export function PlaybookTicker() {
+  const lane = [...hero.ticker, ...hero.ticker];
+
+  return (
+    <div
+      aria-hidden="true"
+      className="marquee-viewport marquee-edge overflow-hidden border-y border-[rgba(255,255,255,0.08)] py-4"
+    >
+      <div className="animate-marquee flex w-max items-center gap-8">
+        {lane.map((item, index) => (
+          <span key={`${item}-${index}`} className="label-mono text-ink-soft flex items-center gap-8">
+            {item}
+            <span aria-hidden="true" className="pb-accent">
+              ●
+            </span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── 3. The rewrite — the argument, in two messages ──────────────────────── */
 
 function MessageCard({
   label,
@@ -235,33 +294,33 @@ function MessageCard({
 
 export function PlaybookRewrite() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The message, rewritten">
+    <Band label="The message, rewritten">
       <Eyebrow>{rewrite.eyebrow}</Eyebrow>
       <Heading>{rewrite.headline}</Heading>
 
-      <div className="mt-10 grid gap-3 lg:grid-cols-2">
+      <div className="mt-8 grid gap-3 lg:grid-cols-2">
         <MessageCard {...rewrite.before} tone="bad" />
         <MessageCard {...rewrite.after} tone="good" />
       </div>
 
-      <p className="text-ink measure mt-8 t-lead font-medium">{rewrite.close}</p>
+      <p className="text-ink measure mt-7 t-lead font-medium">{rewrite.close}</p>
     </Band>
   );
 }
 
-/* ── 3. The system ───────────────────────────────────────────────────────── */
+/* ── 4. The system ───────────────────────────────────────────────────────── */
 
 export function PlaybookSystem() {
   return (
-    <Band label="How the system works">
+    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="How the system works">
       <Eyebrow>{system.eyebrow}</Eyebrow>
       <Heading>{system.headline}</Heading>
 
-      <ol className="mt-10 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <ol className="mt-8 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         {system.steps.map((step, index) => (
           <li
             key={step.step}
-            className="pb-panel reveal flex flex-col gap-3 p-6"
+            className="pb-panel pb-lift reveal flex flex-col gap-3 p-6"
             style={{ animationDelay: `${index * 60}ms` }}
           >
             <span className="numeral pb-accent numeral-md leading-none" aria-hidden="true">
@@ -280,7 +339,7 @@ export function PlaybookSystem() {
   );
 }
 
-/* ── 4. What's inside ────────────────────────────────────────────────────── */
+/* ── 5. What's inside, and the ten modules ───────────────────────────────── */
 
 export function PlaybookInside() {
   return (
@@ -288,51 +347,27 @@ export function PlaybookInside() {
       <Eyebrow>Nine files</Eyebrow>
       <Heading>Everything you need to start sending on Monday</Heading>
 
-      <ul className="mt-10 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+      <ul className="mt-8 grid gap-0 md:grid-cols-2 md:gap-3 xl:grid-cols-3">
         {assets.map((asset, index) => (
           <li
             key={asset.id}
-            className="pb-panel reveal flex flex-col gap-3 p-6"
+            className="pb-file reveal flex flex-col gap-1.5 py-4 md:gap-3 md:p-6"
             style={{ animationDelay: `${Math.min(index, 5) * 50}ms` }}
           >
             <p className="label-mono pb-accent">{asset.format}</p>
             <h3 className="font-display text-ink t-lead font-bold">{asset.name}</h3>
             <p className="text-ink-soft t-sm leading-relaxed">{asset.what}</p>
-            <p className="text-ink mt-auto border-t border-[rgba(255,255,255,0.08)] pt-3 t-sm">
-              {asset.saves}
-            </p>
           </li>
         ))}
       </ul>
 
-      <div className="mt-3 grid gap-3 md:grid-cols-2">
-        <Shot
-          id="bundle-files"
-          alt="The bundle folder showing every included file"
-          caption="Everything arrives in one folder"
-          sizes="(max-width: 767px) 92vw, 46vw"
-        />
-        <Shot
-          id="module-files"
-          alt="The ten module files listed in a folder"
-          caption="Ten modules, ten files"
-          sizes="(max-width: 767px) 92vw, 46vw"
-        />
-      </div>
-    </Band>
-  );
-}
-
-/* ── 5. The ten modules ──────────────────────────────────────────────────── */
-
-export function PlaybookModules() {
-  return (
-    <Band label="The ten modules">
-      <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-14">
+      {/* The modules run on from here rather than opening a band of their own:
+          they are the contents of the first file in the grid above. */}
+      <div className="mt-14 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start lg:gap-14">
         <div className="lg:sticky lg:top-12">
           <Eyebrow>87 pages, ten modules</Eyebrow>
-          <Heading>Ten modules, in the order you will use them</Heading>
-          <p className="text-ink-soft mt-5 t-lead leading-relaxed">
+          <Heading className="type-h3">Ten modules, in the order you will use them</Heading>
+          <p className="text-ink-soft mt-4 t-base leading-relaxed">
             The first two decide what you sell. The rest are channels: read one, run it for a
             week, then decide whether to keep it. Start with the one you are least afraid of.
           </p>
@@ -341,7 +376,7 @@ export function PlaybookModules() {
             alt="Contents page of the playbook listing all ten modules with page numbers"
             caption="The contents page"
             sizes="(max-width: 1023px) 92vw, 40vw"
-            className="mt-8"
+            className="mt-6"
           />
         </div>
 
@@ -349,14 +384,14 @@ export function PlaybookModules() {
           {modules.map((module, index) => (
             <li
               key={module.n}
-              className="reveal flex gap-5 border-b border-[rgba(255,255,255,0.08)] py-5 first:border-t"
+              className="reveal flex gap-4 border-b border-[rgba(255,255,255,0.08)] py-3 first:border-t"
               style={{ animationDelay: `${Math.min(index, 6) * 40}ms` }}
             >
               <span className="numeral pb-accent shrink-0 t-lead leading-tight" aria-hidden="true">
                 {module.n}
               </span>
               <div className="flex flex-col gap-1">
-                <h3 className="font-display text-ink t-lead font-semibold">{module.title}</h3>
+                <h3 className="font-display text-ink t-base font-semibold">{module.title}</h3>
                 <p className="text-ink-soft t-sm leading-relaxed">{module.copy}</p>
               </div>
             </li>
@@ -374,9 +409,9 @@ export function PlaybookTracker() {
     <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The lead tracker">
       <Eyebrow>{tracker.eyebrow}</Eyebrow>
       <Heading>{tracker.headline}</Heading>
-      <p className="text-ink-soft measure mt-5 t-lead leading-relaxed">{tracker.copy}</p>
+      <p className="text-ink-soft measure mt-4 t-lead leading-relaxed">{tracker.copy}</p>
 
-      <p className="label-mono text-ink-soft mt-8 flex items-center gap-2 md:hidden">
+      <p className="label-mono text-ink-soft mt-7 flex items-center gap-2 md:hidden">
         Swipe the table
         <ArrowRight className="size-3.5" aria-hidden="true" />
       </p>
@@ -386,7 +421,7 @@ export function PlaybookTracker() {
           makes that scroll reachable from a keyboard, which overflow alone is
           not. */}
       <div
-        className="pb-panel reveal mt-3 overflow-x-auto md:mt-10"
+        className="pb-panel reveal mt-3 overflow-x-auto md:mt-8"
         tabIndex={0}
         role="region"
         aria-label="Lead tracker, example rows"
@@ -425,7 +460,7 @@ export function PlaybookTracker() {
         </table>
       </div>
 
-      <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_1fr]">
+      <div className="mt-3 grid gap-3 lg:grid-cols-2">
         <ul className="pb-panel flex flex-col gap-3 p-6">
           {tracker.features.map((feature) => (
             <li key={feature} className="text-ink flex items-start gap-3 t-sm">
@@ -447,54 +482,50 @@ export function PlaybookTracker() {
 
 /* ── 7. Scripts and prompts ──────────────────────────────────────────────── */
 
+function GroupChips({
+  title,
+  groups,
+  lit,
+}: {
+  title: string;
+  groups: readonly { title: string; copy: string }[];
+  lit?: boolean;
+}) {
+  return (
+    <div className={cn("reveal flex flex-col gap-4 p-6 md:p-8", lit ? "pb-panel-lit" : "pb-panel")}>
+      <h3 className="font-display text-ink type-h3 font-bold">{title}</h3>
+      <ul className="flex flex-col">
+        {groups.map((group) => (
+          <li
+            key={group.title}
+            className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5 border-b border-[rgba(255,255,255,0.08)] py-2.5 last:border-0"
+          >
+            <span className="text-ink t-base font-semibold">{group.title}</span>
+            <span className="text-ink-soft t-sm">{group.copy}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function PlaybookLibrary() {
   return (
-    <Band label="Scripts and prompts">
+    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Scripts and prompts">
       <Eyebrow>{library.eyebrow}</Eyebrow>
       <Heading>{library.headline}</Heading>
 
-      <div className="mt-10 grid items-start gap-3 lg:grid-cols-2">
-        <div className="pb-panel reveal flex flex-col gap-5 p-6 md:p-8">
-          <h3 className="font-display text-ink type-h3 font-bold">{library.scripts.title}</h3>
-          <ul className="flex flex-col gap-4">
-            {library.scripts.groups.map((group) => (
-              <li key={group.title} className="border-l-2 border-[color:var(--accent-line)] pl-4">
-                <p className="text-ink t-base font-semibold">{group.title}</p>
-                <p className="text-ink-soft t-sm leading-relaxed">{group.copy}</p>
-              </li>
-            ))}
-          </ul>
+      <div className="mt-8 grid items-start gap-3 lg:grid-cols-[1.15fr_1fr]">
+        <GroupChips title={library.scripts.title} groups={library.scripts.groups} lit />
+        <div className="flex flex-col gap-3">
+          <GroupChips title={library.prompts.title} groups={library.prompts.groups} />
+          <Shot
+            id="swipe-file"
+            alt="The swipe file explaining placeholders and the rules every script follows"
+            caption="How the swipe file works"
+            sizes="(max-width: 1023px) 92vw, 42vw"
+          />
         </div>
-
-        <div className="pb-panel reveal flex flex-col gap-5 p-6 md:p-8">
-          <h3 className="font-display text-ink type-h3 font-bold">{library.prompts.title}</h3>
-          <ul className="flex flex-col gap-4">
-            {library.prompts.groups.map((group) => (
-              <li key={group.title} className="border-l-2 border-[color:var(--accent-line)] pl-4">
-                <p className="text-ink t-base font-semibold">{group.title}</p>
-                <p className="text-ink-soft t-sm leading-relaxed">{group.copy}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div className="mt-3 grid gap-3 md:grid-cols-3">
-        <Shot
-          id="swipe-file"
-          alt="The swipe file explaining placeholders and the rules every script follows"
-          caption="How the swipe file works"
-        />
-        <Shot
-          id="never-say"
-          alt="A table of things never to say, what to say instead, and why"
-          caption="What never to say"
-        />
-        <Shot
-          id="prompt-pack"
-          alt="The AI prompt pack explaining the master context"
-          caption="The prompt pack"
-        />
       </div>
     </Band>
   );
@@ -505,56 +536,56 @@ export function PlaybookLibrary() {
 export function PlaybookPlan() {
   return (
     <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The 30-day plan">
-      <Eyebrow>{plan.eyebrow}</Eyebrow>
-      <Heading>{plan.headline}</Heading>
-      <p className="text-ink-soft measure mt-5 t-lead">{plan.copy}</p>
+      <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
+        <div>
+          <Eyebrow>{plan.eyebrow}</Eyebrow>
+          <Heading>{plan.headline}</Heading>
+          <p className="text-ink-soft mt-4 t-lead">{plan.copy}</p>
 
-      <ol className="mt-10 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-        {plan.weeks.map((week, index) => (
-          <li
-            key={week.label}
-            className="pb-panel reveal relative flex flex-col gap-2 p-6"
-            style={{ animationDelay: `${index * 60}ms` }}
-          >
-            <span aria-hidden="true" className="absolute inset-x-6 top-0 h-px bg-[color:var(--accent)]" style={{ opacity: 1 - index * 0.22 }} />
-            <p className="label-mono pb-accent">{week.label}</p>
-            <h3 className="font-display text-ink t-lead font-bold">{week.title}</h3>
-            <p className="text-ink-soft t-sm leading-relaxed">{week.copy}</p>
-          </li>
-        ))}
-      </ol>
+          <ol className="mt-8 grid gap-3 sm:grid-cols-2">
+            {plan.weeks.map((week, index) => (
+              <li
+                key={week.label}
+                className="pb-panel pb-lift reveal relative flex flex-col gap-2 p-5"
+                style={{ animationDelay: `${index * 60}ms` }}
+              >
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-5 top-0 h-px bg-[color:var(--accent)]"
+                  style={{ opacity: 1 - index * 0.22 }}
+                />
+                <p className="label-mono pb-accent">{week.label}</p>
+                <h3 className="font-display text-ink t-base font-bold">{week.title}</h3>
+                <p className="text-ink-soft t-sm leading-relaxed">{week.copy}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
 
-      <div className="mt-3 grid gap-3 md:grid-cols-2">
-        <Shot
-          id="plan"
-          alt="The 30-day launch plan, with tracks to choose from before day one"
-          caption="Pick a track, then start"
-          sizes="(max-width: 767px) 92vw, 46vw"
-        />
         <Shot
           id="plan-week"
           alt="Week one of the launch plan, broken into timed daily tasks"
-          caption="Week one, with the hours it takes"
-          sizes="(max-width: 767px) 92vw, 46vw"
+          caption="Week one, with the hours each day takes"
+          sizes="(max-width: 1023px) 92vw, 44vw"
         />
       </div>
     </Band>
   );
 }
 
-/* ── 9. Research pack and scraper ────────────────────────────────────────── */
+/* ── 9. Research and paperwork — the two ends of the job ─────────────────── */
 
 export function PlaybookResearch() {
   return (
-    <Band label="Niche research and lead sourcing">
+    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Research and paperwork">
       <Eyebrow>{research.eyebrow}</Eyebrow>
-      <Heading>{research.headline}</Heading>
+      <Heading>Know who you are writing to, and what to send when they say yes</Heading>
 
-      <div className="mt-10 grid gap-3 lg:grid-cols-2">
+      <div className="mt-8 grid gap-3 lg:grid-cols-2">
         <div className="pb-panel-lit reveal flex flex-col gap-4 p-6 md:p-8">
           <h3 className="font-display text-ink type-h3 font-bold">{research.niches.title}</h3>
           <p className="text-ink-soft t-base leading-relaxed">{research.niches.copy}</p>
-          <ul className="mt-2 flex flex-wrap gap-2">
+          <ul className="mt-1 flex flex-wrap gap-2">
             {research.niches.fields.map((field) => (
               <li
                 key={field}
@@ -569,7 +600,7 @@ export function PlaybookResearch() {
         <div className="pb-panel reveal flex flex-col gap-4 p-6 md:p-8">
           <h3 className="font-display text-ink type-h3 font-bold">{research.scraper.title}</h3>
           <p className="text-ink-soft t-base leading-relaxed">{research.scraper.copy}</p>
-          <ul className="mt-2 flex flex-wrap gap-2">
+          <ul className="mt-1 flex flex-wrap gap-2">
             {research.scraper.points.map((point) => (
               <li
                 key={point}
@@ -582,38 +613,24 @@ export function PlaybookResearch() {
         </div>
       </div>
 
-      <div className="mt-3 grid gap-3 md:grid-cols-2">
-        <Shot
-          id="regulated"
-          alt="A table of regulated professions and what their advertising rules allow"
-          caption="Regulated niches, and what you may say"
-          sizes="(max-width: 767px) 92vw, 46vw"
-        />
-        <Shot
-          id="scorecard"
-          alt="The lead scorecard: criteria, points and how to score each one"
-          caption="How a lead is scored"
-          sizes="(max-width: 767px) 92vw, 46vw"
-        />
-      </div>
-    </Band>
-  );
-}
+      <Shot
+        id="regulated"
+        alt="A table of regulated professions and what their advertising rules allow"
+        caption="Regulated niches, and exactly what you may say to them"
+        sizes="(max-width: 1279px) 92vw, 68rem"
+        className="mt-3"
+      />
 
-/* ── 10. Paperwork ───────────────────────────────────────────────────────── */
-
-export function PlaybookPaperwork() {
-  return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Paperwork">
-      <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
+      {/* Paperwork rides along here rather than taking a band of its own. */}
+      <div className="mt-14 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
         <div>
           <Eyebrow>{paperwork.eyebrow}</Eyebrow>
-          <Heading>{paperwork.headline}</Heading>
-          <p className="text-ink-soft mt-5 t-lead leading-relaxed">{paperwork.copy}</p>
+          <Heading className="type-h3">{paperwork.headline}</Heading>
+          <p className="text-ink-soft mt-4 t-base leading-relaxed">{paperwork.copy}</p>
 
-          <ul className="mt-8 flex flex-col gap-4">
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {paperwork.docs.map((doc) => (
-              <li key={doc.title} className="reveal flex gap-4 border-t border-[rgba(255,255,255,0.08)] pt-4">
+              <li key={doc.title} className="reveal flex gap-3 border-t border-[rgba(255,255,255,0.08)] pt-3">
                 <Check className="pb-accent mt-1 size-4 shrink-0" strokeWidth={3} aria-hidden="true" />
                 <div>
                   <p className="text-ink t-base font-semibold">{doc.title}</p>
@@ -623,7 +640,7 @@ export function PlaybookPaperwork() {
             ))}
           </ul>
 
-          <p className="text-ink-soft mt-6 t-xs">{paperwork.note}</p>
+          <p className="text-ink-soft mt-5 t-xs">{paperwork.note}</p>
         </div>
 
         <Shot
@@ -637,20 +654,20 @@ export function PlaybookPaperwork() {
   );
 }
 
-/* ── 11. The five websites ───────────────────────────────────────────────── */
+/* ── 10. The five websites ───────────────────────────────────────────────── */
 
 export function PlaybookWebsites() {
   return (
-    <Band label="The ready-made websites">
+    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The ready-made websites">
       <Eyebrow>{websitesSection.eyebrow}</Eyebrow>
       <Heading>{websitesSection.headline}</Heading>
-      <p className="text-ink-soft measure mt-5 t-lead leading-relaxed">{websitesSection.copy}</p>
+      <p className="text-ink-soft measure mt-4 t-lead leading-relaxed">{websitesSection.copy}</p>
 
-      <div className="reveal mt-10 overflow-hidden rounded-2xl border border-[color:var(--accent-line)]">
+      <div className="reveal mt-8 overflow-hidden rounded-2xl border border-[color:var(--accent-line)]">
         <PlaybookImage
           kind="snapshots"
           id="site-cafe"
-          alt="One of the included café website templates, shown in a browser"
+          alt="One of the included café and restaurant website templates"
           sizes="(max-width: 1279px) 92vw, 68rem"
         />
       </div>
@@ -659,22 +676,12 @@ export function PlaybookWebsites() {
         {websites.map((site, index) => (
           <li
             key={site.id}
-            className="pb-panel reveal flex flex-col gap-3 p-6"
+            className="pb-panel pb-lift reveal flex flex-col gap-3 p-6"
             style={{ animationDelay: `${Math.min(index, 5) * 50}ms` }}
           >
             <p className="label-mono pb-accent">{site.sector}</p>
             <h3 className="font-display text-ink t-lead font-bold">{site.name}</h3>
             <p className="text-ink-soft t-sm leading-relaxed">{site.blurb}</p>
-            <ul className="mt-1 flex flex-wrap gap-1.5">
-              {site.includes.map((item) => (
-                <li
-                  key={item}
-                  className="label-mono text-ink-soft rounded-full border border-[rgba(255,255,255,0.14)] px-2.5 py-1"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
             {site.demoUrl ? (
               <a
                 href={site.demoUrl}
@@ -691,41 +698,21 @@ export function PlaybookWebsites() {
         ))}
       </ul>
 
-      <p className="text-ink-soft mt-6 t-xs">{websitesSection.note}</p>
+      <p className="text-ink-soft mt-5 t-xs">{websitesSection.note}</p>
     </Band>
   );
 }
 
-/* ── 12. Gallery ─────────────────────────────────────────────────────────── */
-
-export function PlaybookGallery() {
-  return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Screenshots from inside the bundle">
-      <Eyebrow>Look inside</Eyebrow>
-      <Heading>Real pages, not a promise of pages</Heading>
-      <p className="text-ink-soft measure mt-4 t-lead">Tap any screenshot to open it full size.</p>
-
-      <ul className="mt-10 grid items-start gap-3 sm:grid-cols-2 xl:grid-cols-3">
-        {gallery.map((shot, index) => (
-          <li key={shot.id} className="reveal" style={{ animationDelay: `${Math.min(index, 5) * 40}ms` }}>
-            <Shot id={shot.id} alt={shot.alt} caption={shot.caption} />
-          </li>
-        ))}
-      </ul>
-    </Band>
-  );
-}
-
-/* ── 13. Replies ─────────────────────────────────────────────────────────── */
+/* ── 11. Replies ─────────────────────────────────────────────────────────── */
 
 export function PlaybookReplies() {
   return (
-    <Band label="Replies to the outreach">
+    <Band className="pb-field border-t border-[rgba(255,255,255,0.08)]" label="Replies to the outreach">
       <Eyebrow>{repliesSection.eyebrow}</Eyebrow>
       <Heading>{repliesSection.headline}</Heading>
-      <p className="text-ink-soft measure mt-5 t-lead">{repliesSection.disclaimer}</p>
+      <p className="text-ink-soft measure mt-4 t-lead">{repliesSection.disclaimer}</p>
 
-      <ul className="mt-10 grid grid-cols-2 gap-3 xl:grid-cols-4">
+      <ul className="mt-8 grid grid-cols-2 gap-3 xl:grid-cols-4">
         {replies.map((shot, index) => (
           <li key={shot.id} className="reveal h-full" style={{ animationDelay: `${Math.min(index, 4) * 50}ms` }}>
             <Shot
@@ -740,12 +727,12 @@ export function PlaybookReplies() {
         ))}
       </ul>
 
-      <p className="text-ink-soft mt-6 t-xs">{repliesSection.privacyNote}</p>
+      <p className="text-ink-soft mt-5 t-xs">{repliesSection.privacyNote}</p>
     </Band>
   );
 }
 
-/* ── 14. Fit ─────────────────────────────────────────────────────────────── */
+/* ── 12. Fit ─────────────────────────────────────────────────────────────── */
 
 export function PlaybookFit() {
   return (
@@ -753,7 +740,7 @@ export function PlaybookFit() {
       <Eyebrow>{fit.eyebrow}</Eyebrow>
       <Heading>{fit.headline}</Heading>
 
-      <div className="mt-10 grid gap-3 md:grid-cols-2">
+      <div className="mt-8 grid gap-3 md:grid-cols-2">
         <div className="pb-panel-lit reveal flex flex-col gap-4 p-6 md:p-8">
           <h3 className="font-display text-ink type-h3 font-bold">{fit.forYou.title}</h3>
           <ul className="flex flex-col gap-3">

@@ -98,18 +98,30 @@ export const refund: Policy = {
   slug: "refund",
   title: "Refund policy",
   metaTitle: "Refund Policy — The Client Playbook",
-  metaDescription: `Refund policy for The Client Playbook (${PRICE}) from ${SELLER}: a digital download delivered in full at payment, and the cases where a refund is given.`,
-  intro: `This is the refund policy for The Client Playbook, a ${PRICE} digital download sold by ${SELLER} (${CITY}). It is written plainly so there is nothing to discover after you pay.`,
+  metaDescription: `Refund policy for The Client Playbook (${PRICE}) from ${SELLER}: the 30-day money-back guarantee, and the delivery faults we refund outright.`,
+  intro: `This is the refund policy for The Client Playbook, a ${PRICE} digital download sold by ${SELLER} (${CITY}). It is written plainly so there is nothing to discover after you pay. The guarantee on the sales page and this page say the same thing; if they ever differ, this page governs.`,
   sections: [
     {
       heading: "The short version",
       paragraphs: [
-        "The entire bundle downloads the moment your payment is confirmed. Because you receive all of it immediately, the purchase is final and we do not offer refunds for change of mind, or because the method was not used.",
-        "We do refund the cases below, where the fault is ours.",
+        "There are two ways to get your money back. The first is the 30-day guarantee: do the work, show us, and if it opened no doors you do not pay for it. The second is any failure on our side to deliver what you bought.",
+        "Outside those, the purchase is final — the whole bundle downloads the moment payment is confirmed.",
       ],
     },
     {
-      heading: "We will refund you if",
+      heading: "The 30-day money-back guarantee",
+      paragraphs: [
+        "Work the 30-day launch plan that comes with the bundle — build the list, send the messages, run the follow-ups — and log what you did in the included lead tracker. If you finish that month without a single client conversation worth having, we refund you in full.",
+        "We ask for the tracker because the guarantee is about doing the work, not about downloading the files. We are not judging the quality of your outreach and we will not argue about individual rows: we are checking that the month actually happened.",
+      ],
+      list: [
+        "Ask within 45 days of the payment date",
+        "Send the tracker showing leads contacted and follow-ups sent across the 30 days",
+        "One claim per buyer",
+      ],
+    },
+    {
+      heading: "We will also refund you if",
       paragraphs: [],
       list: [
         "You were charged more than once for the same order",
@@ -121,16 +133,23 @@ export const refund: Policy = {
       heading: "We will not refund",
       paragraphs: [],
       list: [
-        "Change of mind after downloading",
-        "Not getting clients, replies or any particular result",
+        "Change of mind, where the 30 days were not worked and logged",
         "Buying by mistake after the files have been downloaded",
-        "Not having the time to use it",
+        "Not having had the time to use it",
+        "A claim made more than 45 days after payment",
+      ],
+    },
+    {
+      heading: "What we do not promise",
+      paragraphs: [
+        "We do not guarantee that you will get clients, and you should be wary of anyone selling you something who does. Whether outreach works depends on your niche, the quality of your work, your pricing and whether you actually send the messages every day — none of which is within our control.",
+        "What we guarantee is this refund. The bundle is a set of files and a method, not an income promise, and nothing on this site should be read as one.",
       ],
     },
     {
       heading: "How to ask",
       paragraphs: [
-        `Message us on WhatsApp at ${siteConfig.phoneDisplay} within 7 days of the payment, with your order id and what went wrong. We reply to every message about a payment.`,
+        `Message us on WhatsApp at ${siteConfig.phoneDisplay} with your order id, and the tracker if you are claiming on the guarantee. We reply to every message about a payment.`,
         "Approved refunds go back to the original payment method through Razorpay, usually within 5 to 7 working days, depending on your bank.",
       ],
     },
