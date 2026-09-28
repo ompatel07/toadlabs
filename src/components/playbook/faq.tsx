@@ -18,7 +18,7 @@ export function PlaybookFaq() {
     <section
       id="faq"
       aria-label="Frequently asked questions"
-      className="scroll-mt-16 border-t border-[rgba(255,255,255,0.08)] py-16 md:py-24"
+      className="scroll-mt-16 border-t-2 border-[color:var(--ink)] py-16 md:py-24"
     >
       <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">
         <p className="label-mono pb-accent flex items-center gap-2.5">
@@ -29,12 +29,12 @@ export function PlaybookFaq() {
           Questions people ask first
         </h2>
 
-        <Accordion multiple={false} className="mt-10 border-t border-[rgba(255,255,255,0.12)]">
+        <Accordion multiple={false} className="mt-10 border-t border-[color:var(--ink)]">
           {faqs.map((item) => (
             <AccordionItem
               key={item.question}
               value={item.question}
-              className="border-b border-[rgba(255,255,255,0.12)]"
+              className="border-b border-[color:var(--ink)]"
             >
               <AccordionTrigger className="font-display text-ink cursor-pointer py-5 t-lead font-semibold hover:no-underline">
                 {item.question}

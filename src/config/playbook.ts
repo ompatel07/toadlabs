@@ -28,14 +28,14 @@ export const product = {
 } as const;
 
 export const hero = {
-  eyebrow: "For freelance web developers in India",
-  /** Two deliberate lines: left to itself the break lands mid-phrase. */
-  headline: ["Coding seekh li.", "Client nahi mila?"],
-  sub: "The problem isn't your skill. It's your first message.",
-  body: "You can build the thing. You just have nobody to build it for. This is the system in between: who to contact, what to send, and what to say when they finally reply.",
-  primaryCta: "Show me what's inside",
-  secondaryCta: "What it costs",
-  marks: ["10 modules", "75 scripts", "5 ready-made sites", "No paid tools needed"],
+  eyebrow: "Freelance web developers · India",
+  headline: ["Coding aa gayi.", "Client nahi aaya?"],
+  sub: "Skill ka problem nahi hai.",
+  subMark: "Pehle message ka hai.",
+  body: "Aap site bana sakte ho. Bas banane ke liye koi mila nahi. Yeh woh system hai jo in dono ke beech aata hai — kisko message karna hai, kahan dhoondhna hai, kya bhejna hai, aur reply aane par kya bolna hai.",
+  primaryCta: "Andar kya hai, dikhao",
+  secondaryCta: "Price batao",
+  marks: ["10 modules", "75 scripts", "5 ready sites", "Koi paid tool nahi"],
   /** Runs as a marquee under the hero: the bundle, at a glance. */
   ticker: [
     "87-page playbook",
@@ -48,9 +48,27 @@ export const hero = {
     "Free scraping method",
     "4 legal templates",
     "5 ready-made websites",
-    "Hinglish included",
+    "Hinglish scripts",
     "Lifetime access",
   ],
+} as const;
+
+/**
+ * Problem → agitate → solve, which is the spine of every direct-response
+ * page that works. Stated as the reader would state it, not as we would.
+ */
+export const problem = {
+  eyebrow: "Pehle yeh maan lo",
+  headline: "Aapka portfolio problem nahi hai.",
+  lead: "Agar aap yeh padh rahe ho, toh in mein se koi ek sach hai:",
+  pains: [
+    "Course khatam, projects ban gaye, client ek bhi nahi.",
+    "Roz 20 DM bhejte ho. Seen. Reply zero.",
+    "Fiverr aur Upwork pe 400 proposals — sab $5 waalon se haar gaye.",
+    "Ek client mila tha. Kitna charge karun, yeh soch ke hi deal chali gayi.",
+    "Instagram pe ‘DM for price’ likha hai. DM koi karta nahi.",
+  ],
+  turn: "Yeh skill ka problem nahi hai. Yeh distribution ka problem hai — aur distribution ek system hai, talent nahi.",
 } as const;
 
 /**
@@ -93,8 +111,8 @@ export const guarantee = {
  * line lifted from the swipe file.
  */
 export const rewrite = {
-  eyebrow: "The whole problem, in two messages",
-  headline: "Same developer. Same skill. Different first line.",
+  eyebrow: "Do message. Poora farak.",
+  headline: "Same banda. Same skill. Sirf pehli line alag.",
   before: {
     label: "What everyone sends",
     message: "Hi sir, we provide web development services. Interested?",
@@ -127,7 +145,7 @@ export const rewrite = {
 /** How the system runs, and which file powers each step. */
 export const system = {
   eyebrow: "How it actually works",
-  headline: "Four steps. Every file in the bundle serves one of them.",
+  headline: "Chaar steps. Har file inhi mein se ek ke liye hai.",
   steps: [
     {
       step: "Pick",
@@ -244,10 +262,33 @@ export const assets: Asset[] = [
   },
 ];
 
+/**
+ * The deliverables table: every file, what is in it, and the number that makes
+ * it countable. This is what a buyer scans before they read a word of prose.
+ */
+export const deliverables = {
+  eyebrow: "Poora saamaan",
+  headline: "Aapko exactly kya milta hai",
+  lead: "Nau files. Sab abhi download hoti hain. Kuch bhi ‘coming soon’ nahi hai.",
+  columns: ["File", "Format", "Kitna"],
+  rows: [
+    ["The Client Playbook", "PDF", "87 pages · 10 modules"],
+    ["Lead tracker", "Excel + Google Sheets", "Auto-scoring · 4 sheets"],
+    ["Outreach swipe file", "PDF", "75 scripts"],
+    ["AI prompt pack", "PDF", "37 prompts"],
+    ["30-day launch plan", "PDF", "30 days, day by day"],
+    ["Niche research pack", "PDF", "12 niches"],
+    ["Scraper quick-start", "PDF", "1 card"],
+    ["Paperwork templates", "DOCX + XLSX", "4 documents"],
+    ["Ready-made websites", "HTML", "5 sectors"],
+  ],
+  footnote: "Sab kuch ek ZIP mein. Lifetime access, future updates included.",
+} as const;
+
 /** The tracker, shown as the thing it is rather than described. */
 export const tracker = {
   eyebrow: "The file you will open every day",
-  headline: "A pipeline that tells you who to chase",
+  headline: "Sheet khud batati hai kisko chase karna hai",
   copy: "Paste a lead in and the sheet does the thinking: it scores the business on the signals that matter, grades it A to D, and suggests the channel and the package that fit. The dashboard shows the pipeline; the weekly log shows whether you actually sent anything.",
   columns: ["Business", "Signal", "Score", "Grade", "Channel", "Package", "Next action"],
   rows: [
@@ -294,7 +335,7 @@ export const library = {
 /** The 30-day plan, as four weeks. */
 export const plan = {
   eyebrow: "The first month, decided for you",
-  headline: "30 days, already planned",
+  headline: "30 din. Pehle se plan kiye hue.",
   copy: "Open the plan, do the day. No motivation required, and nothing to decide before you start.",
   weeks: [
     { label: "Week 1", title: "Set up", copy: "Niche, offer, pricing, the tracker, and the accounts you will send from." },
@@ -426,14 +467,14 @@ export const websites: DemoSite[] = [
 
 export const websitesSection = {
   eyebrow: "Five sites, ready to send",
-  headline: "Something to show in the first message",
+  headline: "Pehle message mein dikhane ke liye kuch",
   copy: "One self-contained file each. No build step, no npm install, no framework to learn. Open it, change the marked lines, and it belongs to a different business. Use them as demos to open conversations, or as the starting point you deliver.",
   note: "The café and restaurant template is shown above. Live demo links will be added here once they are deployed.",
 } as const;
 
 export const fit = {
   eyebrow: "Be honest with yourself",
-  headline: "Who this is for, and who it isn't",
+  headline: "Yeh kiske liye hai, aur kiske liye nahi",
   forYou: {
     title: "This is for you if",
     points: [
@@ -507,7 +548,7 @@ export const faqs = [
 /** The price, revealed once, at the end. */
 export const priceReveal = {
   eyebrow: "What it costs",
-  headline: "One payment. Everything above.",
+  headline: "Ek baar. Sab kuch.",
   lead: "Not a subscription, not a course with a locked second half, and not a call you have to book to hear the price.",
   recapTitle: "Unlocks the moment payment is confirmed",
   compare: {

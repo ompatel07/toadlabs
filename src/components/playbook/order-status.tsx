@@ -109,7 +109,7 @@ export function OrderStatus() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-ink inline-flex h-12 cursor-pointer items-center gap-2 rounded-full border border-[rgba(255,255,255,0.2)] px-6 t-base font-medium transition-colors duration-200 ease-out hover:border-[rgba(255,255,255,0.4)]"
+        className="text-ink inline-flex h-12 cursor-pointer items-center gap-2 rounded-full border-2 border-[color:var(--ink)] px-6 t-base font-medium transition-colors duration-200 ease-out hover:border-[color:var(--accent)]"
       >
         <MessageCircle className="size-4" aria-hidden="true" />
         WhatsApp {siteConfig.phoneDisplay}

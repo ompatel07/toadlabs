@@ -6,9 +6,11 @@ import { jsonLd } from "@/lib/json-ld";
 import {
   PlaybookFit,
   PlaybookHero,
+  PlaybookDeliverables,
   PlaybookInside,
   PlaybookLibrary,
   PlaybookPlan,
+  PlaybookProblem,
   PlaybookReplies,
   PlaybookResearch,
   PlaybookRewrite,
@@ -73,9 +75,11 @@ export default function PlaybookPage() {
 
       <PlaybookHero />
       <PlaybookTicker />
+      <PlaybookProblem />
       <PlaybookRewrite />
       <PlaybookSystem />
       <PlaybookInside />
+      <PlaybookDeliverables />
       <PlaybookTracker />
       <PlaybookLibrary />
       <PlaybookPlan />

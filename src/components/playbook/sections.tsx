@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, Minus, ShieldCheck, X } from "lucide-react";
 import {
   assets,
+  deliverables,
   fit,
   guarantee,
   hero,
@@ -9,6 +10,7 @@ import {
   modules,
   paperwork,
   plan,
+  problem,
   replies,
   repliesSection,
   research,
@@ -107,7 +109,7 @@ function HeroDeck() {
         <div
           key={card.id}
           className={cn(
-            "pb-panel pb-float absolute overflow-hidden shadow-[0_24px_60px_-20px_rgba(0,0,0,0.8)]",
+            "pb-panel pb-float absolute overflow-hidden shadow-[6px_6px_0_0_var(--ink)]",
             card.className,
           )}
           style={
@@ -130,7 +132,7 @@ function HeroDeck() {
 
       {/* The reply, tucked in front — the page's whole promise in one corner. */}
       <div
-        className="pb-panel-lit pb-float absolute right-[6%] bottom-[4%] w-[34%] overflow-hidden shadow-[0_24px_60px_-20px_rgba(0,0,0,0.85)]"
+        className="pb-panel-lit pb-float absolute right-[6%] bottom-[4%] w-[34%] overflow-hidden shadow-[6px_6px_0_0_var(--accent-hot)]"
         style={{ "--tilt": "-3deg", animationDuration: "9.5s", animationDelay: "-5s" } as React.CSSProperties}
       >
         <PlaybookImage kind="proofs" id="reply-3" alt="" sizes="(max-width: 1023px) 34vw, 16vw" priority />
@@ -141,7 +143,7 @@ function HeroDeck() {
 
 export function PlaybookHero() {
   return (
-    <header className="pb-field relative pt-10 pb-12 md:pt-14 md:pb-16">
+    <header className="pb-grain relative pt-10 pb-12 md:pt-14 md:pb-16">
       <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">
         <Eyebrow>{hero.eyebrow}</Eyebrow>
 
@@ -153,9 +155,9 @@ export function PlaybookHero() {
 
         <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-14">
           <div>
-            <p className="text-ink max-w-[26ch] text-[clamp(1.25rem,5vw,1.75rem)] leading-[1.2] font-semibold">
-              The problem isn&apos;t your skill.{" "}
-              <span className="pb-mark">It&apos;s your first message.</span>
+            <p className="text-ink max-w-[22ch] text-[clamp(1.35rem,5.5vw,2rem)] leading-[1.15] font-extrabold">
+              {hero.sub}{" "}
+              <span className="pb-mark">{hero.subMark}</span>
             </p>
 
             <p className="text-ink-soft measure mt-5 t-lead leading-relaxed">{hero.body}</p>
@@ -184,7 +186,7 @@ export function PlaybookHero() {
               </a>
               <a
                 href="#price"
-                className="text-ink inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full border border-[rgba(255,255,255,0.18)] px-7 t-base font-medium transition-colors duration-200 ease-out hover:border-[color:var(--accent-line)]"
+                className="text-ink inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full border border-[color:var(--ink)] px-7 t-base font-medium transition-colors duration-200 ease-out hover:border-[color:var(--accent-line)]"
               >
                 {hero.secondaryCta}
               </a>
@@ -207,7 +209,7 @@ export function PlaybookTicker() {
   return (
     <div
       aria-hidden="true"
-      className="marquee-viewport marquee-edge overflow-hidden border-y border-[rgba(255,255,255,0.08)] py-4"
+      className="marquee-viewport marquee-edge overflow-hidden border-y border-[color:var(--ink)]/15 py-4"
     >
       <div className="animate-marquee flex w-max items-center gap-8">
         {lane.map((item, index) => (
@@ -220,6 +222,37 @@ export function PlaybookTicker() {
         ))}
       </div>
     </div>
+  );
+}
+
+/* ── 2b. The problem ────────────────────────────────────────────────────── */
+
+export function PlaybookProblem() {
+  return (
+    <Band className="pb-block" label="The problem" chapter="01">
+      <Eyebrow>{problem.eyebrow}</Eyebrow>
+      <Heading>{problem.headline}</Heading>
+      <p className="text-ink-soft mt-5 t-lead">{problem.lead}</p>
+
+      <ul className="mt-8 flex flex-col">
+        {problem.pains.map((pain, index) => (
+          <li
+            key={pain}
+            className="reveal flex items-baseline gap-4 border-b-2 border-[color:var(--ink)] py-4 first:border-t-2"
+            style={{ animationDelay: `${Math.min(index, 5) * 50}ms` }}
+          >
+            <span className="numeral text-[color:var(--accent)] shrink-0 t-lead" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="text-ink t-lead font-semibold">{pain}</span>
+          </li>
+        ))}
+      </ul>
+
+      <p className="text-ink mt-8 max-w-[44ch] text-[clamp(1.2rem,4vw,1.75rem)] leading-[1.25] font-extrabold">
+        {problem.turn}
+      </p>
+    </Band>
   );
 }
 
@@ -243,7 +276,7 @@ function MessageCard({
   const good = tone === "good";
   return (
     <div className={cn("reveal flex flex-col", good ? "pb-panel-lit" : "pb-panel")}>
-      <div className="flex items-center justify-between gap-3 border-b border-[rgba(255,255,255,0.08)] px-5 py-3">
+      <div className="flex items-center justify-between gap-3 border-b-2 border-[color:var(--ink)] px-5 py-3">
         <span className="label-mono text-ink-soft">{label}</span>
         <span
           className={cn(
@@ -275,25 +308,25 @@ function MessageCard({
         </p>
 
         {good ? (
-          <p className="text-ink mr-auto max-w-[92%] rounded-2xl rounded-bl-md border border-[rgba(255,255,255,0.14)] bg-[var(--surface-2)] px-4 py-3 t-base leading-relaxed">
+          <p className="text-ink mr-auto max-w-[92%] rounded-2xl rounded-bl-md border border-[color:var(--ink)]/40 bg-[var(--surface-2)] px-4 py-3 t-base leading-relaxed">
             {outcome}
           </p>
         ) : (
           <p className="text-ink-soft mr-auto flex max-w-[92%] items-center gap-3 t-sm leading-relaxed italic">
-            <span aria-hidden="true" className="inline-block h-px w-8 bg-[rgba(255,255,255,0.2)]" />
+            <span aria-hidden="true" className="inline-block h-px w-8 bg-[color:var(--ink)]/30" />
             {outcome}
           </p>
         )}
       </div>
 
-      <ul className="mt-auto flex flex-col gap-2.5 border-t border-[rgba(255,255,255,0.08)] px-5 py-5">
+      <ul className="mt-auto flex flex-col gap-2.5 border-t-2 border-[color:var(--ink)] px-5 py-5">
         {notes.map((note) => (
           <li key={note} className="text-ink-soft flex items-start gap-2.5 t-sm">
             <span
               aria-hidden="true"
               className={cn(
                 "mt-[0.5em] inline-block size-1.5 shrink-0 rounded-full",
-                good ? "bg-[color:var(--accent)]" : "bg-[rgba(255,255,255,0.25)]",
+                good ? "bg-[color:var(--accent)]" : "bg-[color:var(--ink)]/35",
               )}
             />
             {note}
@@ -306,7 +339,7 @@ function MessageCard({
 
 export function PlaybookRewrite() {
   return (
-    <Band label="The message, rewritten" chapter="01">
+    <Band label="The message, rewritten" chapter="02">
       <Eyebrow>{rewrite.eyebrow}</Eyebrow>
       <Heading>{rewrite.headline}</Heading>
 
@@ -324,7 +357,7 @@ export function PlaybookRewrite() {
 
 export function PlaybookSystem() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="How the system works" chapter="02">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="How the system works" chapter="03">
       <Eyebrow>{system.eyebrow}</Eyebrow>
       <Heading>{system.headline}</Heading>
 
@@ -341,7 +374,7 @@ export function PlaybookSystem() {
             <p className="label-mono text-ink-soft">{step.step}</p>
             <h3 className="font-display text-ink t-lead font-bold">{step.title}</h3>
             <p className="text-ink-soft t-sm leading-relaxed">{step.copy}</p>
-            <p className="pb-accent mt-auto border-t border-[rgba(255,255,255,0.08)] pt-3 t-xs">
+            <p className="pb-accent mt-auto border-t-2 border-[color:var(--ink)] pt-3 t-xs">
               {step.powered}
             </p>
           </li>
@@ -355,7 +388,7 @@ export function PlaybookSystem() {
 
 export function PlaybookInside() {
   return (
-    <Band id="inside" className="border-t border-[rgba(255,255,255,0.08)]" label="What is inside" chapter="03">
+    <Band id="inside" className="border-t-2 border-[color:var(--ink)]" label="What is inside" chapter="04">
       <Eyebrow>Nine files</Eyebrow>
       <Heading>Everything you need to start sending on Monday</Heading>
 
@@ -396,7 +429,7 @@ export function PlaybookInside() {
           {modules.map((module, index) => (
             <li
               key={module.n}
-              className="reveal flex gap-4 border-b border-[rgba(255,255,255,0.08)] py-3 first:border-t"
+              className="reveal flex gap-4 border-b-2 border-[color:var(--ink)] py-3 first:border-t"
               style={{ animationDelay: `${Math.min(index, 6) * 40}ms` }}
             >
               <span className="numeral pb-accent shrink-0 t-lead leading-tight" aria-hidden="true">
@@ -414,11 +447,65 @@ export function PlaybookInside() {
   );
 }
 
+/* ── 5b. Everything you get, as a table ─────────────────────────────────── */
+
+export function PlaybookDeliverables() {
+  return (
+    <Band className="pb-block" label="Everything you get" chapter="05">
+      <Eyebrow>{deliverables.eyebrow}</Eyebrow>
+      <Heading>{deliverables.headline}</Heading>
+      <p className="text-ink-soft mt-5 t-lead">{deliverables.lead}</p>
+
+      <div
+        className="pb-panel reveal mt-8 overflow-x-auto"
+        tabIndex={0}
+        role="region"
+        aria-label="Everything included in the bundle"
+      >
+        <table className="w-full min-w-[34rem] border-collapse text-left">
+          <thead>
+            <tr className="border-b-2 border-[color:var(--ink)]">
+              {deliverables.columns.map((column) => (
+                <th key={column} className="label-mono text-ink-soft px-5 py-3 font-normal">
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {deliverables.rows.map((row) => (
+              <tr
+                key={row[0]}
+                className="border-b border-[color:var(--ink)]/20 last:border-0"
+              >
+                <td className="text-ink px-5 py-3.5 t-base font-bold">
+                  <span className="flex items-baseline gap-2.5">
+                    <Check
+                      className="size-4 shrink-0 translate-y-0.5 text-[color:var(--accent)]"
+                      strokeWidth={3.5}
+                      aria-hidden="true"
+                    />
+                    {row[0]}
+                  </span>
+                </td>
+                <td className="text-ink-soft px-5 py-3.5 t-sm">{row[1]}</td>
+                <td className="text-ink px-5 py-3.5 t-sm font-semibold">{row[2]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p className="label-mono text-ink mt-5">{deliverables.footnote}</p>
+    </Band>
+  );
+}
+
 /* ── 6. The tracker ──────────────────────────────────────────────────────── */
 
 export function PlaybookTracker() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The lead tracker" chapter="04">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="The lead tracker" chapter="06">
       <Eyebrow>{tracker.eyebrow}</Eyebrow>
       <Heading>{tracker.headline}</Heading>
       <p className="text-ink-soft measure mt-4 t-lead leading-relaxed">{tracker.copy}</p>
@@ -440,7 +527,7 @@ export function PlaybookTracker() {
       >
         <table className="w-full min-w-[46rem] border-collapse text-left">
           <thead>
-            <tr className="border-b border-[rgba(255,255,255,0.12)]">
+            <tr className="border-b border-[color:var(--ink)]">
               {tracker.columns.map((column) => (
                 <th key={column} className="label-mono text-ink-soft px-4 py-3 font-normal">
                   {column}
@@ -450,7 +537,7 @@ export function PlaybookTracker() {
           </thead>
           <tbody>
             {tracker.rows.map((row) => (
-              <tr key={row[0]} className="border-b border-[rgba(255,255,255,0.06)] last:border-0">
+              <tr key={row[0]} className="border-b border-[color:var(--ink)]/10 last:border-0">
                 {row.map((cell, index) => (
                   <td
                     key={`${row[0]}-${index}`}
@@ -510,7 +597,7 @@ function GroupChips({
         {groups.map((group) => (
           <li
             key={group.title}
-            className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5 border-b border-[rgba(255,255,255,0.08)] py-2.5 last:border-0"
+            className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5 border-b-2 border-[color:var(--ink)] py-2.5 last:border-0"
           >
             <span className="text-ink t-base font-semibold">{group.title}</span>
             <span className="text-ink-soft t-sm">{group.copy}</span>
@@ -523,7 +610,7 @@ function GroupChips({
 
 export function PlaybookLibrary() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Scripts and prompts" chapter="05">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="Scripts and prompts" chapter="07">
       <Eyebrow>{library.eyebrow}</Eyebrow>
       <Heading>{library.headline}</Heading>
 
@@ -547,7 +634,7 @@ export function PlaybookLibrary() {
 
 export function PlaybookPlan() {
   return (
-    <Band className="pb-paper" label="The 30-day plan" chapter="06">
+    <Band className="pb-block" label="The 30-day plan" chapter="08">
       <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
         <div>
           <Eyebrow>{plan.eyebrow}</Eyebrow>
@@ -589,7 +676,7 @@ export function PlaybookPlan() {
 
 export function PlaybookResearch() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Research and paperwork" chapter="07">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="Research and paperwork" chapter="09">
       <Eyebrow>{research.eyebrow}</Eyebrow>
       <Heading>Know who you are writing to, and what to send when they say yes</Heading>
 
@@ -616,7 +703,7 @@ export function PlaybookResearch() {
             {research.scraper.points.map((point) => (
               <li
                 key={point}
-                className="label-mono text-ink-soft rounded-full border border-[rgba(255,255,255,0.16)] px-3 py-1.5"
+                className="label-mono text-ink-soft rounded-full border border-[color:var(--ink)]/40 px-3 py-1.5"
               >
                 {point}
               </li>
@@ -642,7 +729,7 @@ export function PlaybookResearch() {
 
           <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {paperwork.docs.map((doc) => (
-              <li key={doc.title} className="reveal flex gap-3 border-t border-[rgba(255,255,255,0.08)] pt-3">
+              <li key={doc.title} className="reveal flex gap-3 border-t-2 border-[color:var(--ink)] pt-3">
                 <Check className="pb-accent mt-1 size-4 shrink-0" strokeWidth={3} aria-hidden="true" />
                 <div>
                   <p className="text-ink t-base font-semibold">{doc.title}</p>
@@ -670,7 +757,7 @@ export function PlaybookResearch() {
 
 export function PlaybookWebsites() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The ready-made websites" chapter="08">
+    <Band className="border-t-2 border-[color:var(--ink)]" label="The ready-made websites" chapter="10">
       <Eyebrow>{websitesSection.eyebrow}</Eyebrow>
       <Heading>{websitesSection.headline}</Heading>
       <p className="text-ink-soft measure mt-4 t-lead leading-relaxed">{websitesSection.copy}</p>
@@ -719,7 +806,7 @@ export function PlaybookWebsites() {
 
 export function PlaybookReplies() {
   return (
-    <Band className="pb-field border-t border-[rgba(255,255,255,0.08)]" label="Replies to the outreach" chapter="09">
+    <Band className="pb-grain" label="Replies to the outreach" chapter="11">
       <Eyebrow>{repliesSection.eyebrow}</Eyebrow>
       <Heading>{repliesSection.headline}</Heading>
       <p className="text-ink-soft measure mt-4 t-lead">{repliesSection.disclaimer}</p>
@@ -748,7 +835,7 @@ export function PlaybookReplies() {
 
 export function PlaybookFit() {
   return (
-    <Band className="pb-paper" label="Who this is for" chapter="10">
+    <Band className="pb-grain" label="Who this is for" chapter="12">
       <Eyebrow>{fit.eyebrow}</Eyebrow>
       <Heading>{fit.headline}</Heading>
 
@@ -785,7 +872,7 @@ export function PlaybookFit() {
 
 export function PlaybookFooter() {
   return (
-    <footer className="border-t border-[rgba(255,255,255,0.08)] py-10">
+    <footer className="border-t-2 border-[color:var(--ink)] py-10">
       <div className="mx-auto flex w-full max-w-[72rem] flex-col gap-5 px-5 md:flex-row md:items-center md:justify-between md:px-8">
         <p className="text-ink-soft flex flex-wrap items-center gap-2 t-sm">
           <span>a product by</span>

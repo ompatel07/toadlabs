@@ -29,7 +29,7 @@ export function PolicyPage({ policy }: { policy: Policy }) {
 
       <p className="text-ink-soft mt-4 t-lead leading-relaxed">{policy.intro}</p>
 
-      <dl className="mt-8 grid gap-x-8 gap-y-2 border-y border-[rgba(255,255,255,0.1)] py-5 sm:grid-cols-[auto_1fr]">
+      <dl className="mt-8 grid gap-x-8 gap-y-2 border-y border-[color:var(--ink)]/20 py-5 sm:grid-cols-[auto_1fr]">
         <dt className="label-mono text-ink-soft">Seller</dt>
         <dd className="text-ink t-sm">{siteConfig.name}, {siteConfig.location.full}</dd>
         <dt className="label-mono text-ink-soft">Product</dt>
@@ -59,7 +59,7 @@ export function PolicyPage({ policy }: { policy: Policy }) {
         </section>
       ))}
 
-      <p className="text-ink-soft mt-12 border-t border-[rgba(255,255,255,0.1)] pt-6 t-sm">
+      <p className="text-ink-soft mt-12 border-t border-[color:var(--ink)]/20 pt-6 t-sm">
         Questions about an order? Message us on WhatsApp at {siteConfig.phoneDisplay}.
       </p>
     </article>

@@ -196,7 +196,7 @@ export function PlaybookCheckout() {
         {message ?? checkout.secure}
       </p>
 
-      <ul className="flex flex-col gap-3 border-t border-[rgba(255,255,255,0.1)] pt-5">
+      <ul className="flex flex-col gap-3 border-t border-[color:var(--ink)]/20 pt-5">
         {checkout.trust.map((item) => (
           <li key={item.title} className="flex items-start gap-3">
             <ShieldCheck className="pb-accent mt-0.5 size-4 shrink-0" strokeWidth={2.2} aria-hidden="true" />
@@ -223,7 +223,7 @@ export function PlaybookCheckoutSection() {
     <section
       id="price"
       aria-label="What it costs"
-      className="pb-field scroll-mt-16 border-t border-[rgba(255,255,255,0.08)] py-14 md:py-20"
+      className="pb-grain scroll-mt-16 border-t-2 border-[color:var(--ink)] py-14 md:py-20"
     >
       <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">
         <p className="label-mono pb-accent flex items-center gap-2.5">
@@ -249,7 +249,7 @@ export function PlaybookCheckoutSection() {
 
               {/* The condition sits with the claim, not below a fold. It is what
                   makes the guarantee a guarantee rather than a slogan. */}
-              <div className="mt-6 rounded-xl border border-[rgba(255,255,255,0.12)] bg-[var(--surface-2)] p-5">
+              <div className="mt-6 rounded-xl border border-[color:var(--ink)] bg-[var(--surface-2)] p-5">
                 <p className="label-mono text-ink-soft">{guarantee.proofTitle}</p>
                 <ul className="mt-3 flex flex-col gap-2.5">
                   {guarantee.proof.map((item) => (
@@ -261,7 +261,7 @@ export function PlaybookCheckoutSection() {
                 </ul>
               </div>
 
-              <ul className="mt-5 flex flex-col gap-2 border-t border-[rgba(255,255,255,0.1)] pt-5">
+              <ul className="mt-5 flex flex-col gap-2 border-t border-[color:var(--ink)]/20 pt-5">
                 {guarantee.conditions.map((condition) => (
                   <li key={condition} className="text-ink-soft flex items-start gap-3 t-sm">
                     <span
@@ -273,7 +273,7 @@ export function PlaybookCheckoutSection() {
                 ))}
               </ul>
 
-              <p className="text-ink-soft mt-5 border-t border-[rgba(255,255,255,0.1)] pt-5 t-xs leading-relaxed">
+              <p className="text-ink-soft mt-5 border-t border-[color:var(--ink)]/20 pt-5 t-xs leading-relaxed">
                 {guarantee.honest}
               </p>
             </div>
@@ -292,7 +292,7 @@ export function PlaybookCheckoutSection() {
                   </li>
                 ))}
               </ul>
-              <p className="text-ink-soft mt-6 border-t border-[rgba(255,255,255,0.08)] pt-5 t-xs">
+              <p className="text-ink-soft mt-6 border-t-2 border-[color:var(--ink)] pt-5 t-xs">
                 {checkout.afterNote}
               </p>
             </div>
