@@ -32,15 +32,21 @@ export const hero = {
   kicker: "The market isn't dead.",
   kickerMark: "Your outreach is.",
   headline: ["Get unlimited", "web development clients."],
-  body: "Not a course. A system. A free Google Maps scraping method that builds you a list nobody else has, twelve researched niches, 75 scripts that get opened, and a 30-day plan that tells you what to send every morning. Follow it and the pipeline does not run out.",
+  body: "Not a course. A system. Twelve researched niches, 75 scripts that get opened, and a 30-day plan that tells you what to send every morning. Follow it and the pipeline does not run out.",
   primaryCta: "Show me what's inside",
   secondaryCta: "See the price",
-  marks: [
-    "Free Google Maps lead scraping",
-    "10 modules",
-    "75 scripts",
-    "5 ready-made sites",
-  ],
+  marks: ["10 modules", "75 scripts", "5 ready-made sites", "Lifetime access"],
+  /**
+   * The one inclusion that gets its own box in the hero. It answers the
+   * objection underneath every other objection - "I have nobody to message" -
+   * and it was previously a tick in a row of ticks.
+   */
+  headline_feature: {
+    flag: "Included free",
+    title: "Google Maps lead scraping",
+    copy: "Build your own list of 100+ local businesses that need a website, in an afternoon, using nothing but a browser. No Apollo, no ZoomInfo, no monthly fee.",
+    points: ["No paid lead tool", "Public listings only", "Fits on one card"],
+  },
   /** Runs as a marquee under the hero: the bundle, at a glance. */
   ticker: [
     "87-page playbook",

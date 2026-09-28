@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, Minus, ShieldCheck, X } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, MapPin, Minus, ShieldCheck, X } from "lucide-react";
 import {
   assets,
   deliverables,
@@ -11,7 +11,6 @@ import {
   paperwork,
   plan,
   problem,
-  replies,
   repliesSection,
   research,
   rewrite,
@@ -21,6 +20,7 @@ import {
   websitesSection,
 } from "@/config/playbook";
 import { PlaybookImage, Shot } from "@/components/playbook/playbook-image";
+import { PlaybookProofSlider } from "@/components/playbook/proof-slider";
 import { cn } from "@/lib/utils";
 
 /**
@@ -167,7 +167,29 @@ export function PlaybookHero() {
           <div>
             <p className="text-ink-soft measure t-lead leading-relaxed">{hero.body}</p>
 
-            <p className="pb-sticker text-ink mt-7 px-4 py-2.5 t-sm font-bold">
+            {/* The headline inclusion gets a box of its own: it answers the
+                objection under every other objection - "I have nobody to
+                message" - and it was a tick in a row of ticks. */}
+            <div className="pb-panel-lit mt-7 p-5">
+              <p className="label-mono text-ink inline-flex items-center gap-2 bg-[color:var(--accent-hot)] px-2.5 py-1">
+                <MapPin className="size-3.5" strokeWidth={2.6} aria-hidden="true" />
+                {hero.headline_feature.flag}
+              </p>
+              <h2 className="font-display text-ink mt-3 text-[clamp(1.15rem,3.6vw,1.5rem)] font-extrabold">
+                {hero.headline_feature.title}
+              </h2>
+              <p className="text-ink-soft mt-2 t-sm leading-relaxed">{hero.headline_feature.copy}</p>
+              <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+                {hero.headline_feature.points.map((point) => (
+                  <li key={point} className="label-mono text-ink flex items-center gap-1.5">
+                    <Check className="pb-accent size-3" strokeWidth={3.5} aria-hidden="true" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <p className="pb-sticker text-ink mt-6 px-4 py-2.5 t-sm font-bold">
               <ShieldCheck className="size-4 shrink-0" strokeWidth={2.6} aria-hidden="true" />
               {guarantee.short}
             </p>
@@ -837,46 +859,7 @@ export function PlaybookReplies() {
       <Heading>{repliesSection.headline}</Heading>
       <p className="text-ink measure mt-4 t-lead font-semibold">{repliesSection.lead}</p>
 
-      {/* On a phone these are the first thing anyone sees, so they have to be
-          readable rather than decorative: one at a time, swiped, at a width
-          where the conversation can actually be followed. A grid takes over as
-          soon as there is room for one. */}
-      <p className="label-mono text-ink-soft mt-7 flex items-center gap-2 md:hidden">
-        Swipe through all nine
-        <ArrowRight className="size-3.5" aria-hidden="true" />
-      </p>
-
-      <ul
-        className="-mx-5 mt-3 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 md:mx-0 md:mt-8 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0"
-        tabIndex={0}
-        role="region"
-        aria-label="Replies to the outreach"
-      >
-        {replies.map((shot, index) => (
-          <li
-            key={shot.id}
-            className="reveal w-[78vw] shrink-0 snap-center sm:w-[58vw] md:w-auto md:shrink"
-            style={{ animationDelay: `${Math.min(index, 4) * 50}ms` }}
-          >
-            {/* The rotation lives on an inner element: .reveal animates
-                transform, so an inline rotate on the same node is thrown away
-                on the animation's first frame. */}
-            <div
-              className="pb-taped h-full"
-              style={{ transform: `rotate(${[-1.6, 1.2, -0.9, 1.7][index % 4]}deg)` }}
-            >
-              <Shot
-                className="h-full"
-                kind="proofs"
-                id={shot.id}
-                alt={shot.alt}
-                caption={shot.caption}
-                sizes="(max-width: 639px) 78vw, (max-width: 767px) 58vw, 31vw"
-              />
-            </div>
-          </li>
-        ))}
-      </ul>
+      <PlaybookProofSlider />
 
       <p className="text-ink-soft measure mt-6 t-xs leading-relaxed">{repliesSection.disclaimer}</p>
       <p className="text-ink-soft mt-2 t-xs">{repliesSection.privacyNote}</p>
