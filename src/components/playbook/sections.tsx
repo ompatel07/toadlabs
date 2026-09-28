@@ -41,15 +41,27 @@ export function Band({
   className,
   id,
   label,
+  chapter,
 }: {
   children: React.ReactNode;
   className?: string;
   id?: string;
   label?: string;
+  /** Sets the ghost numeral behind the band, so sections read as chapters. */
+  chapter?: string;
 }) {
   return (
-    <section id={id} aria-label={label} className={cn("scroll-mt-16 py-14 md:py-20", className)}>
-      <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">{children}</div>
+    <section
+      id={id}
+      aria-label={label}
+      className={cn("relative scroll-mt-16 py-14 md:py-20", className)}
+    >
+      <div
+        className={cn("mx-auto w-full max-w-[72rem] px-5 md:px-8", chapter && "pb-chapter")}
+        data-chapter={chapter}
+      >
+        {children}
+      </div>
     </section>
   );
 }
@@ -65,7 +77,7 @@ export function Eyebrow({ children }: { children: React.ReactNode }) {
 
 function Heading({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <h2 className={cn("font-display text-ink mt-4 type-h2 font-bold text-balance", className)}>
+    <h2 className={cn("pb-display text-ink mt-4 text-[clamp(1.9rem,5.2vw,3.25rem)]", className)}>
       {children}
     </h2>
   );
@@ -129,58 +141,58 @@ function HeroDeck() {
 
 export function PlaybookHero() {
   return (
-    <header className="pb-field relative pt-10 pb-12 md:pt-16 md:pb-16">
-      <div className="mx-auto grid w-full max-w-[72rem] gap-12 px-5 md:px-8 lg:grid-cols-[1.05fr_1fr] lg:items-center">
-        <div>
-          <Eyebrow>{hero.eyebrow}</Eyebrow>
+    <header className="pb-field relative pt-10 pb-12 md:pt-14 md:pb-16">
+      <div className="mx-auto w-full max-w-[72rem] px-5 md:px-8">
+        <Eyebrow>{hero.eyebrow}</Eyebrow>
 
-          <h1 className="font-display text-ink mt-5 text-[clamp(2.4rem,8.5vw,4.25rem)] leading-[0.96] font-extrabold tracking-[-0.038em]">
-            {hero.headline.map((line, index) => (
-              <span key={line} className={cn("block", index > 0 && "pb-accent")}>
-                {line}
-              </span>
-            ))}
-          </h1>
+        {/* Full width, not trapped in a column: the type is the hero image. */}
+        <h1 className="pb-display text-ink mt-6 text-[clamp(3rem,12.5vw,9rem)]">
+          <span className="block">{hero.headline[0]}</span>
+          <span className="pb-outline pb-outline-accent block">{hero.headline[1]}</span>
+        </h1>
 
-          <p className="text-ink mt-5 max-w-[30ch] text-[clamp(1.2rem,5vw,1.75rem)] leading-[1.15] font-semibold">
-            {hero.sub}
-          </p>
+        <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-14">
+          <div>
+            <p className="text-ink max-w-[26ch] text-[clamp(1.25rem,5vw,1.75rem)] leading-[1.2] font-semibold">
+              The problem isn&apos;t your skill.{" "}
+              <span className="pb-mark">It&apos;s your first message.</span>
+            </p>
 
-          <p className="text-ink-soft measure mt-5 t-lead leading-relaxed">{hero.body}</p>
+            <p className="text-ink-soft measure mt-5 t-lead leading-relaxed">{hero.body}</p>
 
-          {/* The guarantee, stated before the ask rather than after it. */}
-          <p className="text-ink mt-7 inline-flex items-center gap-2.5 rounded-full border border-[color:var(--accent-line)] bg-[color:var(--accent-wash)] px-4 py-2 t-sm font-semibold">
-            <ShieldCheck className="pb-accent size-4 shrink-0" strokeWidth={2.4} aria-hidden="true" />
-            {guarantee.short}
-          </p>
+            <p className="pb-sticker text-ink mt-7 px-4 py-2.5 t-sm font-bold">
+              <ShieldCheck className="pb-accent size-4 shrink-0" strokeWidth={2.4} aria-hidden="true" />
+              {guarantee.short}
+            </p>
 
-          <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2">
-            {hero.marks.map((mark) => (
-              <li key={mark} className="label-mono text-ink-soft flex items-center gap-2">
-                <Check className="pb-accent size-3.5" strokeWidth={3} aria-hidden="true" />
-                {mark}
-              </li>
-            ))}
-          </ul>
+            <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2">
+              {hero.marks.map((mark) => (
+                <li key={mark} className="label-mono text-ink-soft flex items-center gap-2">
+                  <Check className="pb-accent size-3.5" strokeWidth={3} aria-hidden="true" />
+                  {mark}
+                </li>
+              ))}
+            </ul>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
-              href="#inside"
-              className="pb-fill inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full px-8 text-base font-bold transition-transform duration-200 ease-out hover:-translate-y-0.5"
-            >
-              {hero.primaryCta}
-              <ArrowDown className="size-4" aria-hidden="true" />
-            </a>
-            <a
-              href="#price"
-              className="text-ink inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full border border-[rgba(255,255,255,0.18)] px-7 t-base font-medium transition-colors duration-200 ease-out hover:border-[color:var(--accent-line)]"
-            >
-              {hero.secondaryCta}
-            </a>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a
+                href="#inside"
+                className="pb-fill inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full px-8 text-base font-bold transition-transform duration-200 ease-out hover:-translate-y-0.5"
+              >
+                {hero.primaryCta}
+                <ArrowDown className="size-4" aria-hidden="true" />
+              </a>
+              <a
+                href="#price"
+                className="text-ink inline-flex h-14 cursor-pointer items-center justify-center gap-2 rounded-full border border-[rgba(255,255,255,0.18)] px-7 t-base font-medium transition-colors duration-200 ease-out hover:border-[color:var(--accent-line)]"
+              >
+                {hero.secondaryCta}
+              </a>
+            </div>
           </div>
-        </div>
 
-        <HeroDeck />
+          <HeroDeck />
+        </div>
       </div>
     </header>
   );
@@ -294,7 +306,7 @@ function MessageCard({
 
 export function PlaybookRewrite() {
   return (
-    <Band label="The message, rewritten">
+    <Band label="The message, rewritten" chapter="01">
       <Eyebrow>{rewrite.eyebrow}</Eyebrow>
       <Heading>{rewrite.headline}</Heading>
 
@@ -312,7 +324,7 @@ export function PlaybookRewrite() {
 
 export function PlaybookSystem() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="How the system works">
+    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="How the system works" chapter="02">
       <Eyebrow>{system.eyebrow}</Eyebrow>
       <Heading>{system.headline}</Heading>
 
@@ -343,7 +355,7 @@ export function PlaybookSystem() {
 
 export function PlaybookInside() {
   return (
-    <Band id="inside" className="border-t border-[rgba(255,255,255,0.08)]" label="What is inside">
+    <Band id="inside" className="border-t border-[rgba(255,255,255,0.08)]" label="What is inside" chapter="03">
       <Eyebrow>Nine files</Eyebrow>
       <Heading>Everything you need to start sending on Monday</Heading>
 
@@ -406,7 +418,7 @@ export function PlaybookInside() {
 
 export function PlaybookTracker() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The lead tracker">
+    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The lead tracker" chapter="04">
       <Eyebrow>{tracker.eyebrow}</Eyebrow>
       <Heading>{tracker.headline}</Heading>
       <p className="text-ink-soft measure mt-4 t-lead leading-relaxed">{tracker.copy}</p>
@@ -511,7 +523,7 @@ function GroupChips({
 
 export function PlaybookLibrary() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Scripts and prompts">
+    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Scripts and prompts" chapter="05">
       <Eyebrow>{library.eyebrow}</Eyebrow>
       <Heading>{library.headline}</Heading>
 
@@ -535,7 +547,7 @@ export function PlaybookLibrary() {
 
 export function PlaybookPlan() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The 30-day plan">
+    <Band className="pb-paper" label="The 30-day plan" chapter="06">
       <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14">
         <div>
           <Eyebrow>{plan.eyebrow}</Eyebrow>
@@ -577,7 +589,7 @@ export function PlaybookPlan() {
 
 export function PlaybookResearch() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Research and paperwork">
+    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Research and paperwork" chapter="07">
       <Eyebrow>{research.eyebrow}</Eyebrow>
       <Heading>Know who you are writing to, and what to send when they say yes</Heading>
 
@@ -658,7 +670,7 @@ export function PlaybookResearch() {
 
 export function PlaybookWebsites() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The ready-made websites">
+    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="The ready-made websites" chapter="08">
       <Eyebrow>{websitesSection.eyebrow}</Eyebrow>
       <Heading>{websitesSection.headline}</Heading>
       <p className="text-ink-soft measure mt-4 t-lead leading-relaxed">{websitesSection.copy}</p>
@@ -707,7 +719,7 @@ export function PlaybookWebsites() {
 
 export function PlaybookReplies() {
   return (
-    <Band className="pb-field border-t border-[rgba(255,255,255,0.08)]" label="Replies to the outreach">
+    <Band className="pb-field border-t border-[rgba(255,255,255,0.08)]" label="Replies to the outreach" chapter="09">
       <Eyebrow>{repliesSection.eyebrow}</Eyebrow>
       <Heading>{repliesSection.headline}</Heading>
       <p className="text-ink-soft measure mt-4 t-lead">{repliesSection.disclaimer}</p>
@@ -736,7 +748,7 @@ export function PlaybookReplies() {
 
 export function PlaybookFit() {
   return (
-    <Band className="border-t border-[rgba(255,255,255,0.08)]" label="Who this is for">
+    <Band className="pb-paper" label="Who this is for" chapter="10">
       <Eyebrow>{fit.eyebrow}</Eyebrow>
       <Heading>{fit.headline}</Heading>
 

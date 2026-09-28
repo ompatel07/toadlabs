@@ -496,6 +496,151 @@
     color: var(--accent);
   }
 
+  /* ── Typographic devices ────────────────────────────────────────────────
+     The page was thirteen repetitions of eyebrow, heading, grid of bordered
+     cards. Competent and completely flat. These are the tools that give it
+     range: display type that behaves like a magazine cover, marks that behave
+     like a pen, and one inverted surface so the scroll is not a single dark
+     tunnel. */
+
+  /* Cover-scale display type. Tighter tracking and a shorter line than the
+     site's h1, because it is set to be looked at before it is read. */
+  .pb-display {
+    font-family: var(--font-display, inherit);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 0.88;
+    text-wrap: balance;
+  }
+
+  /* Outlined display type. Paired with a solid line it gives a headline two
+     voices without a second typeface. Falls back to a dimmed fill where
+     text-stroke is unsupported, so it never disappears. */
+  .pb-outline {
+    color: color-mix(in oklab, var(--ink) 22%, transparent);
+  }
+
+  @supports (-webkit-text-stroke: 1px black) {
+    .pb-outline {
+      color: transparent;
+      -webkit-text-stroke: clamp(1px, 0.22vw, 2.5px) var(--ink);
+      paint-order: stroke fill;
+    }
+
+    .pb-outline-accent {
+      -webkit-text-stroke-color: var(--accent);
+    }
+  }
+
+  /* Marker highlight. A skewed, slightly rough block behind a phrase, drawn
+     with two stops so the ends are not perfectly square. */
+  .pb-mark {
+    position: relative;
+    isolation: isolate;
+    white-space: nowrap;
+  }
+
+  .pb-mark::before {
+    content: "";
+    position: absolute;
+    inset: 0.08em -0.28em 0.04em;
+    z-index: -1;
+    background: var(--accent);
+    opacity: 0.22;
+    border-radius: 0.18em 0.6em 0.22em 0.5em;
+    transform: rotate(-0.8deg);
+  }
+
+  .pb-mark-lime::before {
+    background: var(--lime);
+  }
+
+  .pb-mark-amber::before {
+    background: var(--amber);
+  }
+
+  /* Struck through by hand rather than by the browser: a line that sits at a
+     slight angle and overshoots at both ends. */
+  .pb-strike {
+    position: relative;
+  }
+
+  .pb-strike::after {
+    content: "";
+    position: absolute;
+    inset-inline: -0.2em;
+    top: 52%;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.85;
+    transform: rotate(-1.4deg);
+    transform-origin: left center;
+  }
+
+  /* A rotated stamp. Used sparingly - it is loud by design. */
+  .pb-sticker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transform: rotate(-2.5deg);
+    border: 1.5px solid var(--accent);
+    border-radius: 999px;
+    background: var(--canvas);
+    box-shadow: 3px 3px 0 0 color-mix(in oklab, var(--accent) 40%, transparent);
+  }
+
+  /* A giant ghost numeral behind a band, so sections read as chapters. */
+  .pb-chapter {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .pb-chapter::before {
+    content: attr(data-chapter);
+    position: absolute;
+    top: -0.28em;
+    /* Flush, never past: a negative inset here overflows the page at tablet
+       widths, and the band cannot be clipped without breaking the sticky
+       column inside it. */
+    right: 0;
+    z-index: -1;
+    font-family: var(--font-mono, monospace);
+    font-size: clamp(9rem, 26vw, 22rem);
+    font-weight: 500;
+    line-height: 0.7;
+    letter-spacing: -0.06em;
+    color: color-mix(in oklab, var(--ink) 4%, transparent);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* An editorial rule: thick, accent-tipped, the width of a column. */
+  .pb-rule {
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent) 0 18%, rgba(255, 255, 255, 0.1) 18% 100%);
+    border-radius: 2px;
+  }
+
+  /* Tape, for the screenshots that want to look pinned up rather than placed. */
+  .pb-taped {
+    position: relative;
+  }
+
+  .pb-taped::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 84px;
+    height: 22px;
+    transform: translateX(-50%) rotate(-2deg);
+    background: color-mix(in oklab, var(--accent) 26%, transparent);
+    border: 1px solid color-mix(in oklab, var(--accent) 34%, transparent);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+
   .pb-fill {
     background: var(--accent-fill);
     color: var(--canvas);
@@ -677,6 +822,54 @@
     border: 1px solid var(--accent-line);
     border-radius: 16px;
     box-shadow: 0 0 0 1px rgba(63, 217, 232, 0.06) inset;
+  }
+
+  /* ── Inverted surface ───────────────────────────────────────────────────
+     One warm paper band partway down the page. This is the single largest
+     thing separating a page that reads as a document from a page that reads
+     as one long dark tunnel, and no amount of accent colour substitutes for
+     it. Tokens are redefined rather than overridden per element, so every
+     child inside picks up the right ink without knowing where it sits. */
+  .pb-paper {
+    --canvas: #f2efe7;
+    --surface: #ffffff;
+    --surface-2: #e9e5da;
+    --ink: #14161c;
+    --ink-soft: #5d6370;
+    /* Darker than the dark-mode cyan: on cream, the lighter teal measured
+       4.13:1 on the 11px eyebrows, just under AA. */
+    --accent: #05646e;
+    --accent-fill: #05646e;
+    --accent-line: rgba(5, 100, 110, 0.32);
+    --accent-wash: rgba(5, 100, 110, 0.08);
+    background: var(--canvas);
+    color: var(--ink);
+  }
+
+  .pb-paper .pb-fill {
+    background: var(--ink);
+    color: #f2efe7;
+  }
+
+  /* The paper is stock, not a flat fill: a faint fibre and a warm vignette. */
+  .pb-paper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0) 60%),
+      repeating-linear-gradient(
+        92deg,
+        rgba(0, 0, 0, 0.018) 0 2px,
+        rgba(0, 0, 0, 0) 2px 5px
+      );
+  }
+
+  .pb-paper > * {
+    position: relative;
+    z-index: 1;
   }
 
   /* Sticky mobile purchase bar. Sits above the home indicator on phones. */
