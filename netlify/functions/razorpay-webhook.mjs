@@ -1,5 +1,7 @@
 import crypto from "node:crypto";
 import { AMOUNT_PAISE, CURRENCY, env, fail, json, orders, safeEqual } from "./_shared.mjs";
+import { recordOrder } from "./_orders-db.mjs";
+import { deliverDownload } from "./_deliver.mjs";
 
 /**
  * Razorpay webhook — the only thing on this site allowed to mark an order paid.
@@ -63,6 +65,11 @@ export const handler = async (event) => {
   // second delivery must not overwrite the first paid record.
   if (existing.status === "paid") return json(200, { received: true, duplicate: true });
 
+  const paidAt = new Date().toISOString();
+  const email = payment.email || existing.email || null;
+
+  // Blobs first. It is same-platform, it is what the download gate reads, and
+  // it is the record that decides whether a buyer can have the files.
   await store.setJSON(orderId, {
     ...existing,
     orderId,
@@ -70,10 +77,35 @@ export const handler = async (event) => {
     paymentId: payment.id,
     amount: payment.amount,
     currency: payment.currency,
-    email: payment.email || existing.email || null,
+    email,
     contact: payment.contact || existing.contact || null,
-    paidAt: new Date().toISOString(),
+    paidAt,
   });
+
+  // Then the queryable copy. Best-effort by design: a reporting outage must
+  // not fail a payment that has already happened.
+  await recordOrder({
+    order_id: orderId,
+    payment_id: payment.id,
+    status: "paid",
+    amount_paise: payment.amount,
+    currency: payment.currency,
+    email,
+    contact: payment.contact || null,
+    paid_at: paidAt,
+  });
+
+  // Then the thing the buyer is actually waiting for. deliverDownload records
+  // its own outcome and never throws: a send failure must not become a non-2xx
+  // that makes Razorpay redeliver the whole event and double-send on success.
+  const delivery = await deliverDownload({
+    orderId,
+    email,
+    secret: env("RAZORPAY_KEY_SECRET"),
+  });
+  if (delivery.status !== "sent") {
+    console.warn(`webhook: ${orderId} paid but delivery ${delivery.status}: ${delivery.error || ""}`);
+  }
 
   console.log(`webhook: order ${orderId} marked paid (payment ${payment.id})`);
   return json(200, { received: true });

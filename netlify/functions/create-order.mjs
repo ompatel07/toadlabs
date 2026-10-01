@@ -9,6 +9,7 @@ import {
   orders,
   rateLimited,
 } from "./_shared.mjs";
+import { recordOrder } from "./_orders-db.mjs";
 
 /**
  * Creates a Razorpay order and hands the browser only what the checkout
@@ -69,13 +70,24 @@ export const handler = async (event) => {
 
     // Record the order before the buyer sees the checkout, so the webhook has
     // something to attach the payment to even if it arrives first.
+    const createdAt = new Date().toISOString();
     await orders().setJSON(order.id, {
       orderId: order.id,
       amount: AMOUNT_PAISE,
       currency: CURRENCY,
       product: PRODUCT_ID,
       status: "created",
-      createdAt: new Date().toISOString(),
+      createdAt,
+    });
+
+    // Recorded as "created" as well, so the dashboard can show how many people
+    // opened the checkout against how many finished.
+    await recordOrder({
+      order_id: order.id,
+      status: "created",
+      amount_paise: AMOUNT_PAISE,
+      currency: CURRENCY,
+      created_at: createdAt,
     });
 
     return json(200, {

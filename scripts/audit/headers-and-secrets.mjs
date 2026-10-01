@@ -33,6 +33,7 @@ const blocks = raw.split(/\n(?=\/)/).filter((b) => b.includes("Content-Security-
 console.log("routes with a CSP:", blocks.length);
 
 let payRoutes = 0;
+let adminRoutes = 0;
 for (const b of blocks) {
   const route = b.split("\n")[0].trim();
   const csp = (b.match(/Content-Security-Policy: (.*)/) || [])[1] || "";
@@ -47,12 +48,18 @@ for (const b of blocks) {
   if (/wa\.me|whatsapp/.test(csp)) problems.push(route + " still allows WhatsApp in form-action");
 
   // Razorpay is allowed on the payment routes and must not leak past them.
-  const isPay = /^\/playbook/.test(route);
+  // The dashboard is under /playbook but takes no payment, so it is neither.
+  const isAdmin = /^\/playbook\/admin(\/|$)/.test(route);
+  const isPay = route.startsWith("/playbook") && !isAdmin;
   if (isPay) payRoutes++;
+  if (isAdmin) adminRoutes++;
   if (!isPay && /razorpay/.test(csp)) problems.push(route + " allows Razorpay outside the payment pages");
   if (isPay && !/razorpay/.test(csp)) problems.push(route + " is a payment route with no Razorpay allowance");
+  // Supabase is the dashboard's alone — a sales page has no business reaching
+  // a database.
+  if (!isAdmin && /supabase/.test(csp)) problems.push(route + " allows Supabase outside the dashboard");
 }
-console.log("payment routes:", payRoutes);
+console.log("payment routes:", payRoutes, "| dashboard routes:", adminRoutes);
 
 /* ── Nothing sensitive in the deployed output ───────────────────────────── */
 
@@ -66,7 +73,9 @@ console.log("payment routes:", payRoutes);
  */
 const SHAPES = [
   { label: "a Razorpay key id", re: /rzp_(test|live)_[A-Za-z0-9]{8,}/ },
-  { label: "the name of a secret variable", re: /RAZORPAY_KEY_SECRET|DOWNLOAD_TOKEN_SECRET/ },
+  { label: "the name of a secret variable", re: /RAZORPAY_KEY_SECRET|DOWNLOAD_TOKEN_SECRET|SERVICE_ROLE|RESEND_API_KEY/ },
+  { label: "a Supabase service-role key", re: /sb_secret_|service_role/ },
+  { label: "a Resend key", re: /re_[A-Za-z0-9]{16,}/ },
   // Phone shapes, not bare digit runs. A loose ten-digit pattern matched an
   // opacity of 0.33999999999999997 and an SVG dash array — a check that cries
   // wolf on a float gets ignored, which is worse than not having it.

@@ -183,7 +183,7 @@ export const privacy: Policy = {
   slug: "privacy",
   title: "Privacy policy",
   metaTitle: "Privacy Policy — The Client Playbook",
-  metaDescription: `What ${SELLER} collects when you buy The Client Playbook (${PRICE}): your email for delivery, and the payment details handled entirely by Razorpay.`,
+  metaDescription: `What ${SELLER} collects when you buy The Client Playbook (${PRICE}): your email for delivery, where the order record is stored, and the payment details handled entirely by Razorpay.`,
   intro: `This covers the information ${SELLER} (${CITY}) handles when you buy The Client Playbook for ${PRICE}.`,
   sections: [
     {
@@ -206,19 +206,27 @@ export const privacy: Policy = {
     {
       heading: "How it is used",
       paragraphs: [
-        "To confirm your payment, give you the download, answer you if you message us about the order, and keep the records a business is required to keep. We do not sell your data, we do not share it for advertising, and we do not add you to a marketing list you did not ask for.",
+        "To confirm your payment, email you the download link, re-send it if it does not arrive, answer you if you write about the order, and keep the records a business is required to keep.",
+        "Your address is used for your order and nothing else. We do not sell your data, we do not share it for advertising, and buying does not put you on a mailing list — if we ever want to send you anything beyond your order, we will ask first.",
       ],
     },
     {
       heading: "Who else processes it",
       paragraphs: [
-        "Razorpay Software Private Limited processes the payment and holds the payment record under its own privacy policy. This site is hosted on Netlify, which logs requests as any web host does. Nobody else receives your information.",
+        "Four companies, each for one job, each under its own privacy policy:",
+      ],
+      list: [
+        "Razorpay Software Private Limited — takes the payment and holds the payment record",
+        "Netlify — hosts this site and runs the order functions, logging requests as any host does",
+        "Supabase — stores the order record (order id, amount, status, your email) so your purchase can be found and your download re-sent",
+        "Resend — sends the one email that carries your download link",
       ],
     },
     {
       heading: "How long it is kept",
       paragraphs: [
-        "Order records are kept as long as tax and accounting rules require. You can ask us to delete anything held beyond that.",
+        "Order records are kept for eight years, which is what Indian tax and accounting rules require of them. Your email sits in that record so a lost download can be re-sent.",
+        "You can ask us to delete anything held beyond what those rules require, and we will.",
       ],
     },
     {

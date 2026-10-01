@@ -54,12 +54,38 @@ const CONNECT_SRC = [];
  *                                            widget uses for saved cards
  */
 const RAZORPAY = {
-  routes: /^\/playbook(\/|$)/,
+  // Every /playbook route EXCEPT the dashboard, which takes no payments and
+  // has no reason to reach a payment host. Written as a predicate: the regex
+  // that tried to express "starts with /playbook but not /playbook/admin" in
+  // one pattern let the admin route through an alternation branch, and a
+  // security rule that is hard to read is a security rule that is hard to
+  // check.
+  matches: (route) => route.startsWith("/playbook") && !/^\/playbook\/admin(\/|$)/.test(route),
   script: ["https://checkout.razorpay.com", "https://cdn.razorpay.com"],
   frame: ["https://api.razorpay.com", "https://checkout.razorpay.com"],
   connect: ["https://api.razorpay.com", "https://lumberjack.razorpay.com", "https://lumberjack-cx.razorpay.com"],
   img: ["https://cdn.razorpay.com", "https://badges.razorpay.com"],
   form: ["https://api.razorpay.com"],
+};
+
+/**
+ * The dashboard, and only the dashboard, talks to Supabase.
+ *
+ * Scoped the same way Razorpay is: the sales page has no business connecting
+ * to a database, and a policy that lets it is a policy that would not notice
+ * if it started. SUPABASE_URL is read at build time so the host is pinned
+ * exactly rather than allowed by wildcard.
+ */
+const SUPABASE = {
+  routes: /^\/playbook\/admin(\/|$)/,
+  connect: (() => {
+    const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+    try {
+      return url ? [new URL(url).origin] : [];
+    } catch {
+      return [];
+    }
+  })(),
 };
 
 function htmlFiles(dir) {
@@ -92,7 +118,8 @@ function scriptHashes(file) {
 }
 
 function csp(hashes, route) {
-  const pay = RAZORPAY.routes.test(route);
+  const pay = RAZORPAY.matches(route);
+  const admin = SUPABASE.routes.test(route);
   const list = (base, extra) => [base, ...(pay ? extra : [])].join(" ");
 
   return [
@@ -117,7 +144,12 @@ function csp(hashes, route) {
     `style-src-elem 'self'${pay ? " 'unsafe-inline'" : ""}`,
     list("img-src 'self' data:", RAZORPAY.img),
     "font-src 'self'",
-    `connect-src ${["'self'", ...CONNECT_SRC, ...(pay ? RAZORPAY.connect : [])].join(" ")}`,
+    `connect-src ${[
+      "'self'",
+      ...CONNECT_SRC,
+      ...(pay ? RAZORPAY.connect : []),
+      ...(admin ? SUPABASE.connect : []),
+    ].join(" ")}`,
     "media-src 'self'",
     "manifest-src 'self'",
     "worker-src 'none'",
@@ -165,7 +197,7 @@ const pageRules = pages
         `  Content-Security-Policy: ${csp(hashes, route)}`,
         // The site-wide Permissions-Policy denies payment; the checkout needs
         // it. A per-route header overrides the wildcard one for these paths.
-        ...(RAZORPAY.routes.test(route)
+        ...(RAZORPAY.matches(route)
           ? [
               `  Permissions-Policy: accelerometer=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(self "https://api.razorpay.com" "https://checkout.razorpay.com"), usb=()`,
               // Some bank and UPI flows hand off through a popup and then talk

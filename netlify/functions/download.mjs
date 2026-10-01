@@ -1,4 +1,5 @@
 import { clientIp, env, fail, orders, rateLimited, verifyDownloadToken } from "./_shared.mjs";
+import { noteDownload } from "./_orders-db.mjs";
 
 /**
  * Hands over the paid files.
@@ -46,6 +47,7 @@ export const handler = async (event) => {
   }
 
   console.log(`download: served ${orderId}`);
+  await noteDownload(orderId);
 
   return {
     statusCode: 302,
