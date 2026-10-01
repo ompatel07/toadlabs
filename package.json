@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "node scripts/security-headers.mjs",
+    "postbuild": "node scripts/flatten-prefetch.mjs && node scripts/security-headers.mjs",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"

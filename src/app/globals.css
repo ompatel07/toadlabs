@@ -214,8 +214,19 @@
     /* The aurora sits at z-index 0 behind everything; page content is lifted
        above it in the layout. */
     scroll-behavior: smooth;
+    /* Clears the marketing site's sticky header when an anchor is followed. */
     scroll-padding-top: 7rem;
     -webkit-text-size-adjust: 100%;
+  }
+
+  /* /playbook has no sticky header, so 7rem of clearance is 112px of nothing:
+     every in-page link landed that far below its target, which on a phone is
+     an eighth of the screen spent on empty space the reader has to scroll back
+     up past. Scoped with :has() because scroll-padding only takes effect on
+     the scrolling element, which the page's own layout cannot reach.
+     Browsers without :has() keep the old value — the behaviour that shipped. */
+  html:has(.playbook) {
+    scroll-padding-top: 1.5rem;
   }
 
   body {
