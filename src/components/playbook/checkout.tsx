@@ -36,7 +36,11 @@ interface RazorpayOptions {
   theme?: { color?: string };
   prefill?: { email?: string; contact?: string };
   notes?: Record<string, string>;
-  handler: (response: { razorpay_order_id: string; razorpay_payment_id: string }) => void;
+  handler: (response: {
+    razorpay_order_id: string;
+    razorpay_payment_id: string;
+    razorpay_signature: string;
+  }) => void;
   modal?: { ondismiss?: () => void };
 }
 
@@ -133,10 +137,16 @@ export function PlaybookCheckout() {
         theme: { color: "#3fd9e8" },
         notes: { product: "playbook" },
         handler: (result) => {
-          // Convenience only. The thank-you page confirms with the server.
-          router.push(
-            `/playbook/thank-you/?order_id=${encodeURIComponent(result.razorpay_order_id)}`,
-          );
+          // Still not proof of payment — the server decides that. But carrying
+          // Razorpay's signature means the thank-you page can prove it is the
+          // buyer rather than merely someone holding an order id, which is what
+          // the server now requires before it will hand over a download link.
+          const query = new URLSearchParams({
+            order_id: result.razorpay_order_id,
+            payment_id: result.razorpay_payment_id,
+            signature: result.razorpay_signature,
+          });
+          router.push(`/playbook/thank-you/?${query.toString()}`);
         },
         modal: {
           ondismiss: () => {

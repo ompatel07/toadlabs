@@ -48,11 +48,39 @@ export function clientIp(event) {
 }
 
 /**
+ * Per-instance fallback counter. A function instance is reused for a short
+ * while, so this catches a burst from one caller even when shared storage is
+ * unreachable. It is not a substitute for the blob-backed limit — it forgets
+ * everything when the instance recycles — but it is strictly better than
+ * waving every request through.
+ */
+const localHits = new Map();
+
+function localRateLimited(key, { limit, windowMs }) {
+  const now = Date.now();
+  const record = localHits.get(key);
+  if (!record || now - record.start > windowMs) {
+    localHits.set(key, { start: now, count: 1 });
+    // The map only ever holds callers seen by this instance, but an instance
+    // that lives a long time should not grow one entry per IP forever.
+    if (localHits.size > 5000) localHits.clear();
+    return false;
+  }
+  if (record.count >= limit) return true;
+  record.count += 1;
+  return false;
+}
+
+/**
  * Fixed-window rate limit, backed by the same blob store.
  *
  * Crude on purpose: it exists to stop a script hammering order creation, not
- * to police a distributed attack, and it fails OPEN — a storage blip must
- * never stop a real buyer from paying.
+ * to police a distributed attack.
+ *
+ * It still fails OPEN in the sense that matters — a storage outage must never
+ * stop a real buyer from paying — but it no longer fails *wide*. When the blob
+ * store is unreachable it falls back to the per-instance counter above, so a
+ * burst from one caller is still slowed instead of being let through entirely.
  */
 export async function rateLimited(key, { limit, windowMs }) {
   try {
@@ -67,8 +95,8 @@ export async function rateLimited(key, { limit, windowMs }) {
     await store.setJSON(key, { start: record.start, count: record.count + 1 });
     return false;
   } catch (error) {
-    console.error("rate-limit unavailable, allowing request", error);
-    return false;
+    console.error("rate-limit storage unavailable, falling back to per-instance counter", error);
+    return localRateLimited(key, { limit, windowMs });
   }
 }
 
@@ -78,6 +106,24 @@ export function safeEqual(a, b) {
   const right = Buffer.from(String(b));
   if (left.length !== right.length) return false;
   return crypto.timingSafeEqual(left, right);
+}
+
+/**
+ * Verifies the signature Razorpay hands the browser when a payment succeeds.
+ *
+ * It is HMAC-SHA256 of "<order_id>|<payment_id>" under the key secret, so only
+ * Razorpay and this server can produce it. Checking it is what stops an order
+ * id on its own from being worth anything: order ids travel in a redirect and
+ * end up in history, and without this a leaked one would mint a download link.
+ * With it, a caller has to present proof that THIS payment actually happened.
+ */
+export function verifyPaymentSignature(orderId, paymentId, signature, secret) {
+  if (!orderId || !paymentId || !signature) return false;
+  const expected = crypto
+    .createHmac("sha256", secret)
+    .update(`${orderId}|${paymentId}`)
+    .digest("hex");
+  return safeEqual(signature, expected);
 }
 
 /**

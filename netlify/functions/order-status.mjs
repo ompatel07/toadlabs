@@ -9,6 +9,7 @@ import {
   orders,
   rateLimited,
   signDownloadToken,
+  verifyPaymentSignature,
 } from "./_shared.mjs";
 
 /**
@@ -28,6 +29,11 @@ export const handler = async (event) => {
   const orderId = event.queryStringParameters?.order_id;
   if (!orderId || !/^order_[A-Za-z0-9]{6,32}$/.test(orderId)) {
     return fail(400, "order-status: bad order id", "Unknown order.");
+  }
+  const paymentId = event.queryStringParameters?.payment_id || "";
+  const signature = event.queryStringParameters?.signature || "";
+  if (paymentId && !/^pay_[A-Za-z0-9]{6,32}$/.test(paymentId)) {
+    return fail(400, "order-status: bad payment id", "Unknown order.");
   }
 
   const ip = clientIp(event);
@@ -81,11 +87,22 @@ export const handler = async (event) => {
     return json(200, { paid: false });
   }
 
+  // Paid is one thing; being the person who paid is another. The download link
+  // is only minted for a caller who can present Razorpay's signature over this
+  // exact order and payment. An order id alone — guessed, shoulder-read, or
+  // recovered from someone's history — now confirms the payment and nothing
+  // more.
+  if (!verifyPaymentSignature(orderId, paymentId, signature, secret)) {
+    console.warn(`order-status: ${orderId} is paid but presented no valid signature`);
+    return json(200, { paid: true, verified: false });
+  }
+
   const expiresAt = Date.now() + DOWNLOAD_TTL_MS;
   const token = signDownloadToken(orderId, expiresAt, secret);
 
   return json(200, {
     paid: true,
+    verified: true,
     downloadUrl: `/.netlify/functions/download?order_id=${encodeURIComponent(orderId)}&t=${token}`,
   });
 };

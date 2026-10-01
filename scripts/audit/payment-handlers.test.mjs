@@ -28,6 +28,10 @@ for (const bad of ["", "x", "order_", "order_<script>", "order_" + "A".repeat(64
   ok(r.statusCode === 400, `order-status rejects ${JSON.stringify(bad).slice(0, 26)}`);
 }
 
+// A malformed payment id is refused outright.
+ok((await status(ev({ queryStringParameters: { order_id: "order_ABCDEF123456", payment_id: "pay_<script>" } }))).statusCode === 400,
+   "order-status rejects a malformed payment id");
+
 // Webhook must refuse anything unsigned or wrongly signed.
 ok((await webhook(ev({ httpMethod: "POST", body: "{}" }))).statusCode === 400, "webhook rejects a body with no signature");
 ok((await webhook(ev({ httpMethod: "POST", body: "{}", headers: { "x-razorpay-signature": "deadbeef" } }))).statusCode === 401,

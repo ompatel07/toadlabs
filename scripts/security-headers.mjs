@@ -98,7 +98,23 @@ function csp(hashes, route) {
   return [
     "default-src 'self'",
     `script-src 'self' ${hashes.join(" ")}${pay ? " " + RAZORPAY.script.join(" ") : ""}`,
+    // 'unsafe-inline' here covers the `style` ATTRIBUTES React writes for
+    // animation delays, tilts and positions.
+    //
+    // style-src-elem is tightened to 'self' so an injected <style> BLOCK is
+    // refused while those attributes keep working — our own build contains no
+    // inline <style> element at all. Browsers without style-src-elem (Safari)
+    // ignore it and fall back to style-src, which is today's behaviour, so
+    // nothing breaks there either.
+    //
+    // The payment routes are the exception. Razorpay's widget injects a
+    // <style> element at runtime, which 'self' refuses — caught by driving the
+    // real checkout, not by scanning the build, because nothing in the build
+    // shows it. A blocked stylesheet there means a broken checkout, so those
+    // ten routes keep the looser value and every other route gets the tighter
+    // one.
     "style-src 'self' 'unsafe-inline'",
+    `style-src-elem 'self'${pay ? " 'unsafe-inline'" : ""}`,
     list("img-src 'self' data:", RAZORPAY.img),
     "font-src 'self'",
     `connect-src ${["'self'", ...CONNECT_SRC, ...(pay ? RAZORPAY.connect : [])].join(" ")}`,
@@ -150,7 +166,16 @@ const pageRules = pages
         // The site-wide Permissions-Policy denies payment; the checkout needs
         // it. A per-route header overrides the wildcard one for these paths.
         ...(RAZORPAY.routes.test(route)
-          ? [`  Permissions-Policy: accelerometer=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(self "https://api.razorpay.com" "https://checkout.razorpay.com"), usb=()`]
+          ? [
+              `  Permissions-Policy: accelerometer=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(self "https://api.razorpay.com" "https://checkout.razorpay.com"), usb=()`,
+              // Some bank and UPI flows hand off through a popup and then talk
+              // back to the opener. Site-wide COOP is same-origin, which severs
+              // that and can strand a buyer on a blank window mid-payment.
+              // Relaxed to allow-popups on the payment routes ONLY: this page
+              // still cannot be reached by a cross-origin opener, and every
+              // other route keeps the stricter value.
+              `  Cross-Origin-Opener-Policy: same-origin-allow-popups`,
+            ]
           : []),
       ].join(NL),
     );

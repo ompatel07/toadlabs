@@ -29,7 +29,12 @@ export function OrderStatus() {
   const [state, setState] = useState<State>({ phase: "checking" });
 
   useEffect(() => {
-    const orderId = new URLSearchParams(window.location.search).get("order_id");
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get("order_id");
+    // Razorpay's signature over this order and payment. The server will not
+    // mint a download link without it, so it is forwarded as-is.
+    const paymentId = params.get("payment_id") ?? "";
+    const signature = params.get("signature") ?? "";
     let stop = false;
     let timer = 0;
 
@@ -41,10 +46,12 @@ export function OrderStatus() {
         return;
       }
       try {
-        const response = await fetch(
-          `/.netlify/functions/order-status?order_id=${encodeURIComponent(orderId)}`,
-          { headers: { Accept: "application/json" } },
-        );
+        const query = new URLSearchParams({ order_id: orderId });
+        if (paymentId) query.set("payment_id", paymentId);
+        if (signature) query.set("signature", signature);
+        const response = await fetch(`/.netlify/functions/order-status?${query.toString()}`, {
+          headers: { Accept: "application/json" },
+        });
         if (response.ok) {
           const data = (await response.json()) as { paid?: boolean; downloadUrl?: string };
           if (data.paid && data.downloadUrl) {

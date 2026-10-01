@@ -27,6 +27,19 @@ ok(!m.verifyDownloadToken(order, "0.x", SECRET), "a zero expiry is rejected");
 const naive = crypto.createHmac("sha256", SECRET).update(`${order}.${exp}`).digest("base64url");
 ok(token.split(".")[1] !== naive, "download tokens are not signed with the Razorpay secret directly");
 
+// Razorpay's payment signature: the gate that stops a bare order id being
+// worth anything.
+const pay = "pay_XyZ987654321";
+const goodSig = crypto.createHmac("sha256", SECRET).update(`${order}|${pay}`).digest("hex");
+ok(m.verifyPaymentSignature(order, pay, goodSig, SECRET), "a genuine payment signature verifies");
+ok(!m.verifyPaymentSignature(order, pay, goodSig, "other_secret"), "it does not verify under another secret");
+ok(!m.verifyPaymentSignature("order_OTHER0000001", pay, goodSig, SECRET), "a signature does not transfer to another order");
+ok(!m.verifyPaymentSignature(order, "pay_OTHER00000001", goodSig, SECRET), "a signature does not transfer to another payment");
+ok(!m.verifyPaymentSignature(order, pay, goodSig.replace(/.$/, "0"), SECRET), "a tampered signature is rejected");
+ok(!m.verifyPaymentSignature(order, pay, "", SECRET), "an empty signature is rejected");
+ok(!m.verifyPaymentSignature(order, "", goodSig, SECRET), "a missing payment id is rejected");
+ok(!m.verifyPaymentSignature("", pay, goodSig, SECRET), "a missing order id is rejected");
+
 // Constant-time compare must not throw on mismatched lengths.
 ok(m.safeEqual("abc", "abc") === true, "safeEqual matches equal strings");
 ok(m.safeEqual("abc", "abcd") === false, "safeEqual handles different lengths without throwing");
