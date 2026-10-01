@@ -1,4 +1,5 @@
 import { PlaybookFooter } from "@/components/playbook/sections";
+import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 
 /**
  * Chrome for /playbook and its policy pages.
@@ -18,6 +19,7 @@ export default function PlaybookLayout({ children }: { children: React.ReactNode
         {children}
       </main>
       <PlaybookFooter />
+      <WhatsAppButton topic="playbook" />
     </div>
   );
 }

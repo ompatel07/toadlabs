@@ -3,6 +3,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { PageTransition } from "@/components/layout/page-transition";
 import { Cursor } from "@/components/ui-brand/cursor";
 import { IntroReveal } from "@/components/brand/intro-reveal";
+import { WhatsAppButton } from "@/components/layout/whatsapp-button";
 
 /**
  * Chrome for the marketing site: header, footer, intro curtain, cursor and the
@@ -36,6 +37,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         </main>
         <SiteFooter />
       </div>
+
+      <WhatsAppButton />
     </>
   );
 }
