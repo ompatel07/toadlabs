@@ -16,12 +16,15 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function PlaybookAdminPage() {
-  // Read at build time from the Netlify environment. Both values are safe in a
-  // bundle: the project URL is public, and the anon key can read nothing while
-  // row-level security is on with no public policy. It exists here only to
-  // exchange an emailed link for a session.
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "";
+  // Read at build time. This is a Server Component, so it can read any
+  // variable and hand the value down as a prop — no NEXT_PUBLIC_ copy needed,
+  // which is two fewer things to set and two fewer to keep in step.
+  //
+  // Both values are safe in the bundle that results: the project URL is
+  // public, and the anon key can read nothing while row-level security is on
+  // with no policy. It is here only to exchange a magic link for a session.
+  const url = process.env.SUPABASE_URL ?? "";
+  const anonKey = process.env.SUPABASE_ANON_KEY ?? "";
 
   return (
     <section className="py-14 md:py-20">
