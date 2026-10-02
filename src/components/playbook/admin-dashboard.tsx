@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AlertCircle, CheckCircle2, Loader2, LogOut, RefreshCw, Send } from "lucide-react";
+import { AlertCircle, CheckCircle2, Link2, Loader2, LogOut, Minus, RefreshCw, Send } from "lucide-react";
 
 /**
  * Buyer dashboard.
@@ -166,22 +166,34 @@ export function AdminDashboard({ url, anonKey }: { url: string; anonKey: string 
     setMessage(error ? error.message : "Check your inbox for the sign-in link.");
   }
 
-  async function resend(orderId: string) {
+  async function post(orderId: string, action?: "link") {
     if (!token) return;
-    setBusy(orderId);
+    setBusy(orderId + (action ?? ""));
     try {
       const response = await fetch(ENDPOINT, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId }),
+        body: JSON.stringify(action ? { orderId, action } : { orderId }),
       });
       const data = await response.json().catch(() => ({}));
-      setMessage(
-        response.ok
-          ? `${orderId}: ${data.status}${data.error ? ` — ${data.error}` : ""}`
-          : data.error || "Resend failed.",
-      );
-      if (response.ok) await load();
+      if (!response.ok) {
+        setMessage(data.error || "Request failed.");
+        return;
+      }
+      if (action === "link") {
+        // Copied rather than shown, so it can go straight into a chat. The
+        // clipboard is refused in some browsers without a gesture it trusts,
+        // so the link is also put in the message as a fallback.
+        try {
+          await navigator.clipboard.writeText(data.url);
+          setMessage(`Link copied — valid ${data.hours}h. Paste it to the buyer.`);
+        } catch {
+          setMessage(data.url);
+        }
+        return;
+      }
+      setMessage(`${orderId}: ${data.status}${data.error ? ` — ${data.error}` : ""}`);
+      await load();
     } finally {
       setBusy(null);
     }
@@ -331,18 +343,20 @@ export function AdminDashboard({ url, anonKey }: { url: string; anonKey: string 
                   <td className="px-4 py-3 t-sm">
                     <span
                       className={
-                        row.email_status === "sent"
-                          ? "text-ink inline-flex items-center gap-1.5"
+                        row.email_status === "failed"
+                          ? "text-ink inline-flex items-center gap-1.5 font-semibold"
                           : "text-ink-soft inline-flex items-center gap-1.5"
                       }
                       title={row.email_error || undefined}
                     >
                       {row.email_status === "sent" ? (
                         <CheckCircle2 className="pb-accent size-3.5" aria-hidden="true" />
+                      ) : row.email_status === "skipped" ? (
+                        <Minus className="size-3.5" aria-hidden="true" />
                       ) : (
                         <AlertCircle className="size-3.5" aria-hidden="true" />
                       )}
-                      {row.email_status}
+                      {row.email_status === "skipped" ? "no email" : row.email_status}
                     </span>
                   </td>
                   <td className="text-ink px-4 py-3 t-sm">
@@ -351,19 +365,36 @@ export function AdminDashboard({ url, anonKey }: { url: string; anonKey: string 
                   <td className="text-ink-soft px-4 py-3 t-xs">{when(row.paid_at)}</td>
                   <td className="px-4 py-3">
                     {row.status === "paid" ? (
-                      <button
-                        type="button"
-                        onClick={() => void resend(row.order_id)}
-                        disabled={busy === row.order_id}
-                        className="text-ink inline-flex h-10 cursor-pointer items-center gap-1.5 border-2 border-[color:var(--ink)] px-3 t-xs font-bold disabled:opacity-50"
-                      >
-                        {busy === row.order_id ? (
-                          <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
-                        ) : (
-                          <Send className="size-3.5" aria-hidden="true" />
-                        )}
-                        Resend
-                      </button>
+                      <span className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => void post(row.order_id, "link")}
+                          disabled={busy === row.order_id + "link"}
+                          title="Copy a download link to send over WhatsApp"
+                          className="text-ink inline-flex h-10 cursor-pointer items-center gap-1.5 border-2 border-[color:var(--ink)] px-3 t-xs font-bold disabled:opacity-50"
+                        >
+                          {busy === row.order_id + "link" ? (
+                            <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
+                          ) : (
+                            <Link2 className="size-3.5" aria-hidden="true" />
+                          )}
+                          Copy link
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => void post(row.order_id)}
+                          disabled={busy === row.order_id}
+                          title="Email the download link again"
+                          className="text-ink-soft hover:text-ink inline-flex h-10 cursor-pointer items-center gap-1.5 px-2 t-xs font-bold disabled:opacity-50"
+                        >
+                          {busy === row.order_id ? (
+                            <Loader2 className="size-3.5 animate-spin" aria-hidden="true" />
+                          ) : (
+                            <Send className="size-3.5" aria-hidden="true" />
+                          )}
+                          Email
+                        </button>
+                      </span>
                     ) : null}
                   </td>
                 </tr>

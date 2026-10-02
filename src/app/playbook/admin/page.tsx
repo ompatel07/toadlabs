@@ -30,8 +30,7 @@ export default function PlaybookAdminPage() {
         <p className="label-mono pb-accent">Internal</p>
         <h1 className="pb-display text-ink mt-4 text-[clamp(1.9rem,5.2vw,3.25rem)]">Orders</h1>
         <p className="text-ink-soft measure mt-4 t-base">
-          Every order, whether the download email reached the buyer, and a resend when it did
-          not.
+          Every order, and a download link you can copy and send if a buyer loses theirs.
         </p>
 
         <div className="mt-10">

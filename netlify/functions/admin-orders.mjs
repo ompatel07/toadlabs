@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { clientIp, fail, json, rateLimited } from "./_shared.mjs";
+import { DOWNLOAD_TTL_MS, clientIp, fail, json, rateLimited, signDownloadToken } from "./_shared.mjs";
 import { db } from "./_orders-db.mjs";
 import { deliverDownload } from "./_deliver.mjs";
 
@@ -103,6 +103,22 @@ export const handler = async (event) => {
 
     const secret = process.env.RAZORPAY_KEY_SECRET;
     if (!secret) return fail(500, "admin-orders: missing key secret", "Not configured.");
+
+    /* A link to hand over by whatever channel you like.
+       Email is optional in this setup — the buyer normally downloads straight
+       from the thank-you page. What they cannot do is get back in after
+       closing that tab, so this mints the same signed, expiring link for the
+       owner to send over WhatsApp. It is the recovery path that email would
+       otherwise be, without requiring email. */
+    if (body.action === "link") {
+      const base = (process.env.SITE_URL || "").replace(/\/+$/, "");
+      if (!base) return fail(500, "admin-orders: SITE_URL not set", "SITE_URL is not configured.");
+      const expiresAt = Date.now() + DOWNLOAD_TTL_MS;
+      const token = signDownloadToken(orderId, expiresAt, secret);
+      const url = `${base}/.netlify/functions/download?order_id=${encodeURIComponent(orderId)}&t=${token}`;
+      console.log(`admin-orders: ${email} minted a link for ${orderId}`);
+      return json(200, { orderId, url, expiresAt, hours: Math.round(DOWNLOAD_TTL_MS / 3600000) });
+    }
 
     const result = await deliverDownload({ orderId, email: row.email, secret });
     await supabase
