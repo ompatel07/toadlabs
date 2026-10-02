@@ -10,7 +10,7 @@ import { getStore } from "@netlify/blobs";
  */
 
 /** Price in paise. Razorpay works in the smallest currency unit. */
-export const AMOUNT_PAISE = 129900;
+export const AMOUNT_PAISE = 149900;
 export const CURRENCY = "INR";
 export const PRODUCT_ID = "playbook";
 

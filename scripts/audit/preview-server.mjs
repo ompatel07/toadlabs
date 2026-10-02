@@ -91,7 +91,7 @@ function functions(name, res) {
     const secret = vars.RAZORPAY_KEY_SECRET;
     if (!id || !secret) {
       res.writeHead(200);
-      res.end(JSON.stringify({ orderId: "order_PREVIEWSTUB01", amount: 129900, currency: "INR", keyId: "rzp_test_preview" }));
+      res.end(JSON.stringify({ orderId: "order_PREVIEWSTUB01", amount: 149900, currency: "INR", keyId: "rzp_test_preview" }));
       return;
     }
     // A real test-mode order, so the checkout the browser opens is the one
@@ -102,7 +102,7 @@ function functions(name, res) {
         "Content-Type": "application/json",
         Authorization: "Basic " + Buffer.from(`${id}:${secret}`).toString("base64"),
       },
-      body: JSON.stringify({ amount: 129900, currency: "INR", receipt: "preview-" + Date.now() }),
+      body: JSON.stringify({ amount: 149900, currency: "INR", receipt: "preview-" + Date.now() }),
     })
       .then((r) => r.json())
       .then((order) => {
@@ -152,7 +152,7 @@ function functions(name, res) {
       order_id,
       payment_id,
       status,
-      amount_paise: 129900,
+      amount_paise: 149900,
       currency: "INR",
       email,
       contact: null,
@@ -173,8 +173,8 @@ function functions(name, res) {
         summary: {
           paid_count: paid.length,
           refunded_count: 0,
-          gross_paise: paid.length * 129900,
-          net_paise: paid.length * 129900,
+          gross_paise: paid.length * 149900,
+          net_paise: paid.length * 149900,
           undelivered_count: paid.filter((r) => r.email_status !== "sent").length,
           last_paid_at: paid[0].paid_at,
         },

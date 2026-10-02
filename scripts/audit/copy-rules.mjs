@@ -32,7 +32,7 @@ for (const [re, label] of BANNED) {
 }
 
 // 2. The price must appear only in the final section.
-const priceIdx = page.indexOf("1,299");
+const priceIdx = page.indexOf("1,499");
 const revealIdx = page.indexOf("What it costs");
 if (priceIdx !== -1 && revealIdx !== -1 && priceIdx < revealIdx) problems.push("price appears before the reveal");
 

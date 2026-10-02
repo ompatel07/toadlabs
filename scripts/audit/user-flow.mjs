@@ -29,7 +29,7 @@ for (const [w, h, mob, label] of [[390, 844, true, "phone"], [1440, 950, false, 
   ok(await evaluate(c, `(() => {
     const p = document.getElementById('price');
     const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-    let n; while ((n = w.nextNode())) if (/1,299/.test(n.nodeValue) && (p.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_PRECEDING)) return false;
+    let n; while ((n = w.nextNode())) if (/1,499/.test(n.nodeValue) && (p.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_PRECEDING)) return false;
     return true;
   })()`), `${label}: no price before the reveal`);
 

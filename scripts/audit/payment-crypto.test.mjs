@@ -46,7 +46,7 @@ ok(m.safeEqual("abc", "abcd") === false, "safeEqual handles different lengths wi
 ok(m.safeEqual("", "x") === false, "safeEqual handles empty input");
 
 // Amount is a server constant, not a parameter.
-ok(m.AMOUNT_PAISE === 129900 && m.CURRENCY === "INR", "price and currency are server-side constants");
+ok(m.AMOUNT_PAISE === 149900 && m.CURRENCY === "INR", "price and currency are server-side constants");
 
 // Webhook signature check, replicated exactly as the function does it.
 const raw = JSON.stringify({ event: "payment.captured" });

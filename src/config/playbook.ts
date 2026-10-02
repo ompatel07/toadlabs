@@ -20,9 +20,9 @@ export const product = {
   // kept under 160 characters.
   summary:
     "A 10-module playbook, lead tracker, 75 outreach scripts, 37 AI prompts, a 30-day plan and 5 ready-made sites — for freelance web devs in India.",
-  price: 1299,
+  price: 1499,
   currency: "INR",
-  priceLabel: "₹1,299",
+  priceLabel: "₹1,499",
   priceNote: "One-time. No subscription, no upsell, no renewal.",
   terms: ["Instant access", "Lifetime access", "Free updates"],
 } as const;
@@ -599,7 +599,7 @@ export const priceReveal = {
 } as const;
 
 export const checkout = {
-  button: "Pay ₹1,299 securely",
+  button: `Pay ${product.priceLabel} securely`,
   processing: "Opening secure checkout…",
   secure: "Payment handled by Razorpay. Card details never touch this site.",
   afterNote:
