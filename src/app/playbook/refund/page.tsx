@@ -8,7 +8,6 @@ export const metadata: Metadata = pageMetadata({
   description: refund.metaDescription,
   path: "/playbook/refund",
   absoluteTitle: true,
-  noindex: true,
 });
 
 export default function RefundPage() {

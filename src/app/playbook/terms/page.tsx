@@ -8,7 +8,6 @@ export const metadata: Metadata = pageMetadata({
   description: terms.metaDescription,
   path: "/playbook/terms",
   absoluteTitle: true,
-  noindex: true,
 });
 
 export default function TermsPage() {

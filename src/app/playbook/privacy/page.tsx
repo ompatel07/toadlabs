@@ -8,7 +8,6 @@ export const metadata: Metadata = pageMetadata({
   description: privacy.metaDescription,
   path: "/playbook/privacy",
   absoluteTitle: true,
-  noindex: true,
 });
 
 export default function PrivacyPage() {

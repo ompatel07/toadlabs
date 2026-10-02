@@ -28,8 +28,6 @@ export const metadata: Metadata = pageMetadata({
   description: product.summary,
   path: "/playbook",
   absoluteTitle: true,
-  // Stays out of search until launch. It is also left out of sitemap.ts.
-  noindex: true,
 });
 
 /**

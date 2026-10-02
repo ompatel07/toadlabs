@@ -28,6 +28,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/contact", priority: 0.7 },
     { path: "/security", priority: 0.4 },
     ...(hasPlaceholders ? [] : [{ path: "/work", priority: 0.6 }]),
+    // The product, and the terms a buyer reads before paying. /playbook/admin
+    // and /playbook/thank-you stay out: one is private, the other means
+    // nothing without an order behind it.
+    { path: "/playbook", priority: 0.9 },
+    { path: "/playbook/terms", priority: 0.3 },
+    { path: "/playbook/refund", priority: 0.3 },
+    { path: "/playbook/privacy", priority: 0.3 },
   ];
 
   return [
