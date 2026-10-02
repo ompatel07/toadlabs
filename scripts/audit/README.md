@@ -14,7 +14,13 @@ for `copy-rules`, a local server on :3211.
 | `user-flow.mjs` | The journey: both CTAs land on their sections, no price before the reveal, the FAQ opens, the slider steps and stops at both ends, policy links resolve, the sticky bar appears only between hero and price, and the thank-you page claims nothing from the URL alone. |
 | `copy-rules.mjs` | No earnings figures, fake scarcity or discount anchors; the price appears only in the reveal; the guarantee's terms match across the sales page, terms and refund policy. |
 
-Both browser-driven scripts expect the preview server on :3211.
+The browser-driven scripts need a headless Chrome (set `CHROME_PATH` if it is
+not in the default place) and the preview server:
+
+```bash
+npm run build
+node scripts/audit/preview-server.mjs   # serves out/ with the real _headers
+```
 
 ```bash
 node scripts/audit/payment-crypto.test.mjs
@@ -44,8 +50,14 @@ npm run build && node scripts/audit/headers-and-secrets.mjs
 
 - **The home page's LCP is its intro curtain**, ~4-5s on a 4x-throttled phone.
   It is the brand animation, it plays once per session, it is dismissed by any
-  key or tap, and `/playbook` does not have it at all — the page that takes
-  money measures ~2.1s. A deliberate trade on the marketing site, not a fault.
+  key or tap, and `/playbook` does not have it at all. A deliberate trade on
+  the marketing site, not a fault.
+- **LCP readings swing with machine load.** Three runs of `/playbook` on one
+  unchanged build measured 3544ms, 2500ms and 564ms. Treat a single LCP
+  failure as noise and re-run; the element there is a text paragraph, so
+  nothing is waiting on an image. The numbers worth trusting from this script
+  are the deterministic ones — bytes, request count, CLS, and whether an image
+  is missing its dimensions.
 
 
 - **`style-src 'unsafe-inline'` (attributes), and `style-src-elem

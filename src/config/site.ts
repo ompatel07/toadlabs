@@ -30,8 +30,17 @@ export const siteConfig = {
   description:
     "OFFSCRIPT is a digital marketing, software and cybersecurity company in Ahmedabad: SEO and paid ads, websites, apps, SaaS, AI automation, VAPT and pentesting.",
 
-  /** TODO: replace with the real inbox before launch. */
-  email: "hello@toadlabs.in",
+  /**
+   * The only way anyone can reach the business, including for a refund the
+   * guarantee promises. It has to be a monitored inbox.
+   *
+   * ⚠️ VERIFY THE DOMAIN. This was given as "@google.com", which is Google's
+   * own corporate domain — nobody outside Google can hold an address there, so
+   * mail to it will not arrive. Almost certainly "@gmail.com" was meant.
+   * Written as given rather than guessed, because a wrong support address is a
+   * buyer who cannot claim a refund.
+   */
+  email: "offscriptlabss@google.com",
 
   location: {
     city: "Ahmedabad",
