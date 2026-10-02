@@ -143,7 +143,7 @@ export function SiteHeader() {
                 onClick={() => setOpen(true)}
                 aria-expanded={open}
                 aria-controls="mobile-nav"
-                className="text-ink inline-flex size-10 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-out hover:bg-[rgba(255,255,255,0.07)] lg:hidden"
+                className="text-ink inline-flex size-11 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-out hover:bg-[rgba(255,255,255,0.07)] lg:hidden"
               >
                 <Menu className="size-5" aria-hidden="true" />
                 <span className="sr-only">Open menu</span>
@@ -170,7 +170,7 @@ export function SiteHeader() {
                 setOpen(false);
                 toggleRef.current?.focus();
               }}
-              className="text-ink inline-flex size-10 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-out hover:bg-[rgba(255,255,255,0.07)]"
+              className="text-ink inline-flex size-11 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 ease-out hover:bg-[rgba(255,255,255,0.07)]"
             >
               <X className="size-5" aria-hidden="true" />
               <span className="sr-only">Close menu</span>

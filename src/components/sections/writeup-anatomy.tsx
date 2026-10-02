@@ -108,7 +108,8 @@ export function WriteupAnatomy() {
               key={part.n}
               className="group/part grid grid-cols-[auto_1fr] items-start gap-5 border-b border-[rgba(255,255,255,0.184)] py-6 md:gap-8"
             >
-              <span className="numeral numeral-md text-ink/15 leading-none transition-colors duration-400 ease-out group-hover/part:text-[color:var(--lime-deep)]">
+              <span aria-hidden="true"
+              className="numeral numeral-md text-ink/15 leading-none transition-colors duration-400 ease-out group-hover/part:text-[color:var(--lime-deep)]">
                 {part.n}
               </span>
               <div className="flex flex-col gap-1.5">

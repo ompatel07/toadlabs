@@ -50,7 +50,7 @@ export default async function CaseStudyPage({
         <div className="container-tl relative">
           <Link
             href="/work"
-            className="text-ink-soft hover:text-ink inline-flex cursor-pointer items-center gap-2 t-sm transition-colors duration-200 ease-out"
+            className="text-ink-soft hover:text-ink inline-flex min-h-[44px] cursor-pointer items-center gap-2 t-sm transition-colors duration-200 ease-out"
           >
             <ArrowLeft className="size-4" aria-hidden="true" />
             All case studies

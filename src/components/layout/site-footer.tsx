@@ -25,7 +25,7 @@ export function SiteFooter() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="text-ink hover:text-ink-soft inline-flex min-h-[40px] cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
+                  className="text-ink hover:text-ink-soft inline-flex min-h-[44px] cursor-pointer items-center gap-2.5 py-1.5 transition-colors duration-200 ease-out"
                 >
                   <Mail className="size-4" aria-hidden="true" />
                   {siteConfig.email}
@@ -49,7 +49,7 @@ export function SiteFooter() {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="text-ink hover:text-ink-soft inline-flex min-h-[40px] cursor-pointer items-center py-1.5 t-base transition-colors duration-200 ease-out"
+                        className="text-ink hover:text-ink-soft inline-flex min-h-[44px] cursor-pointer items-center py-1.5 t-base transition-colors duration-200 ease-out"
                       >
                         {item.label}
                       </Link>

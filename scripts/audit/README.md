@@ -12,6 +12,8 @@ for `copy-rules`, a local server on :3211.
 | `headers-and-secrets.mjs` | Every route carries the required headers; no `unsafe-inline`/`unsafe-eval`/wildcard in `script-src`; Razorpay is allowed on payment routes **and nowhere else**; no key, secret or phone number anywhere in `out/`. |
 | `performance.mjs` | Over-the-wire weight, requests and Core Web Vitals on a throttled phone. Text assets are brotli-compressed locally first, because the preview server sends none and raw bytes fail a wire budget that production meets comfortably. |
 | `user-flow.mjs` | The journey: both CTAs land on their sections, no price before the reveal, the FAQ opens, the slider steps and stops at both ends, policy links resolve, the sticky bar appears only between hero and price, and the thank-you page claims nothing from the URL alone. |
+| `responsive.mjs` | 10 screen sizes x every page: horizontal scroll, tap targets, unreadable text, and contrast against the painted background. |
+| `page-security.mjs` | Every page for CSP violations and inline handlers, plus seven reflected payloads through the thank-you page's `order_id`. |
 | `copy-rules.mjs` | No earnings figures, fake scarcity or discount anchors; the price appears only in the reveal; the guarantee's terms match across the sales page, terms and refund policy. |
 
 The browser-driven scripts need a headless Chrome (set `CHROME_PATH` if it is
@@ -23,11 +25,41 @@ node scripts/audit/preview-server.mjs   # serves out/ with the real _headers
 ```
 
 ```bash
+# offline
 node scripts/audit/payment-crypto.test.mjs
 node scripts/audit/payment-handlers.test.mjs
 node scripts/audit/jsonld-escaper.test.mjs
 npm run build && node scripts/audit/headers-and-secrets.mjs
+
+# browser-driven, with the preview server running
+node scripts/audit/responsive.mjs
+node scripts/audit/page-security.mjs
+node scripts/audit/user-flow.mjs
+node scripts/audit/copy-rules.mjs
+node scripts/audit/performance.mjs
 ```
+
+## Thresholds, and why they are where they are
+
+Every one of these was moved at least once, because the first version reported
+things that were not faults — and a check that cries wolf is a check that gets
+ignored:
+
+- **Contrast** is skipped where the painted background cannot be known (an
+  ancestor with a gradient or image), on `aria-hidden` decoration, and on text
+  clipped to a pixel. The first version reported 1.07 for every element on the
+  site, including 80px display type that is plainly legible.
+- **Tap targets** fail under WCAG 2.5.8's 24px in either direction, or when
+  cramped in both. A footer link 34px wide but a full row tall is not a
+  mis-tap risk; padding the word "CRM" out to 44px would be cosmetic. One pixel
+  of tolerance, because `min-h-[44px]` measures 43.98 after line-height
+  rounding.
+- **Text size** fails under 10px. No standard sets a minimum, and the site's
+  11px uppercase eyebrow labels are a deliberate, consistent device.
+- **Secrets** are the values in `.env` whose names are not public by design.
+  The domain, the support address and the Supabase anon key are published on
+  purpose — the anon key sits in the dashboard bundle because row-level
+  security is on with no policy and it can read nothing.
 
 ## Resolved
 

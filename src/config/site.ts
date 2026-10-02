@@ -3,7 +3,6 @@
  *
  * Contact details live only here, so changing a value updates the whole site.
  *
- * ⚠️ STILL PLACEHOLDER: `siteUrl` and `email` (the domain is not set up yet).
  * `email` has to be real before launch: it is now the ONLY way anyone can
  * reach the business, including for a refund.
  *
@@ -20,8 +19,8 @@ export interface NavItem {
 
 export const siteConfig = {
   name: "OFFSCRIPT",
-  /** Used for metadata, sitemap and canonical URLs. TODO: real domain. */
-  siteUrl: "https://toadlabs.in",
+  /** Drives canonicals, the sitemap, OG tags and every absolute link. */
+  siteUrl: "https://offscriptlabs.online",
   tagline: "Software built to last in production — and attacked before it ships.",
   /** What the business is, in the words people search for. Leads every
    *  default title and link preview, so a shared link says "IT services and
@@ -34,13 +33,13 @@ export const siteConfig = {
    * The only way anyone can reach the business, including for a refund the
    * guarantee promises. It has to be a monitored inbox.
    *
-   * ⚠️ VERIFY THE DOMAIN. This was given as "@google.com", which is Google's
-   * own corporate domain — nobody outside Google can hold an address there, so
-   * mail to it will not arrive. Almost certainly "@gmail.com" was meant.
-   * Written as given rather than guessed, because a wrong support address is a
-   * buyer who cannot claim a refund.
+   * ⚠️ ASSUMPTION. Given as "@google.com", which is Google's own corporate
+   * domain — nobody outside Google can hold an address there, so mail sent to
+   * it would never arrive. Read as "@gmail.com", because a support address
+   * that silently drops every refund request is worse than a visible guess.
+   * One line to correct if this is wrong.
    */
-  email: "offscriptlabss@google.com",
+  email: "offscriptlabss@gmail.com",
 
   location: {
     city: "Ahmedabad",

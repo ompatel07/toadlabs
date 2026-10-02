@@ -84,20 +84,44 @@ const SHAPES = [
   { label: "an Indian mobile in +91 form", re: /\+91[-\s]?\d{5}[-\s]?\d{5}/ },
 ];
 
-// Exact values, compared with includes() rather than a RegExp: building a
-// pattern out of an arbitrary secret only invites an escaping bug.
+/**
+ * Exact values from .env, compared with includes() rather than a RegExp:
+ * building a pattern out of an arbitrary secret only invites an escaping bug.
+ *
+ * NOT every variable in .env is a secret. The domain, the support address and
+ * anything NEXT_PUBLIC_ are published on purpose — the anon key in particular
+ * is designed to sit in the dashboard bundle, because row-level security is on
+ * with no policy and it can read nothing. Flagging those produced eight
+ * "findings" per page about values that are supposed to be there, and a check
+ * that cries wolf is a check that gets ignored.
+ */
+const PUBLIC_BY_DESIGN = new Set([
+  "SITE_URL",
+  "SUPPORT_EMAIL",
+  "ADMIN_EMAILS",
+  "MAIL_FROM",
+  "SUPABASE_URL",
+  // Publishable. Row-level security is on with no policy for anon, so it
+  // reads nothing; it exists to exchange a magic link for a session, and
+  // Supabase designs it to sit in a client bundle.
+  "SUPABASE_ANON_KEY",
+]);
+
+const isPublic = (name) => PUBLIC_BY_DESIGN.has(name) || name.startsWith("NEXT_PUBLIC_");
+
 const LITERALS = [];
 try {
   const env = fs.readFileSync(path.join(OUT, "..", ".env"), "utf8");
   for (const line of env.split(String.fromCharCode(10))) {
     const i = line.indexOf("=");
     if (i < 1 || line.trim().startsWith("#")) continue;
+    const name = line.slice(0, i).trim();
     const value = line.slice(i + 1).trim();
-    if (value.length >= 12) {
-      LITERALS.push({ label: "the value of " + line.slice(0, i).trim(), value });
+    if (value.length >= 12 && !isPublic(name)) {
+      LITERALS.push({ label: "the value of " + name, value });
     }
   }
-  console.log("cross-checking", LITERALS.length, "live values from .env");
+  console.log("cross-checking", LITERALS.length, "secret values from .env");
 } catch {
   console.log("note: no .env to cross-check live values against");
 }
