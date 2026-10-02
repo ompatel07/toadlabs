@@ -68,20 +68,27 @@ export const handler = async (event) => {
 
     const order = await response.json();
 
-    // Record the order before the buyer sees the checkout, so the webhook has
-    // something to attach the payment to even if it arrives first.
+    // Both records below are bookkeeping, and neither may stand between a
+    // buyer and a checkout. Razorpay has already created the order by this
+    // point; throwing here would return 502 to someone who could have paid,
+    // and leave that order orphaned. The webhook writes the record itself if
+    // it finds none, so the download gate works either way.
     const createdAt = new Date().toISOString();
-    await orders().setJSON(order.id, {
-      orderId: order.id,
-      amount: AMOUNT_PAISE,
-      currency: CURRENCY,
-      product: PRODUCT_ID,
-      status: "created",
-      createdAt,
-    });
+    try {
+      await orders().setJSON(order.id, {
+        orderId: order.id,
+        amount: AMOUNT_PAISE,
+        currency: CURRENCY,
+        product: PRODUCT_ID,
+        status: "created",
+        createdAt,
+      });
+    } catch (error) {
+      console.error(`create-order: could not pre-record ${order.id} in blobs`, error);
+    }
 
-    // Recorded as "created" as well, so the dashboard can show how many people
-    // opened the checkout against how many finished.
+    // Recorded as "created" here too, so the dashboard can show how many people
+    // opened the checkout against how many finished. Already best-effort.
     await recordOrder({
       order_id: order.id,
       status: "created",
@@ -97,6 +104,9 @@ export const handler = async (event) => {
       keyId, // public by design: it identifies the merchant, it does not authorise anything
     });
   } catch (error) {
-    return fail(502, `create-order: ${error}`, "Could not start the payment.");
+    // Reached only when the Razorpay call itself threw — a network failure
+    // or a malformed response. The log carries the detail; the client gets a
+    // message that tells an attacker nothing.
+    return fail(502, `create-order: razorpay call threw ${error}`, "Could not start the payment.");
   }
 };
