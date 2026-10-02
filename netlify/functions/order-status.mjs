@@ -6,11 +6,11 @@ import {
   env,
   fail,
   json,
-  orders,
   rateLimited,
   signDownloadToken,
   verifyPaymentSignature,
 } from "./_shared.mjs";
+import { getOrder, putOrder } from "./_order-store.mjs";
 
 /**
  * Tells the thank-you page whether an order is actually paid, and only then
@@ -49,7 +49,11 @@ export const handler = async (event) => {
   }
 
   let paid = false;
-  const record = await orders().get(orderId, { type: "json" });
+  // getOrder never throws, whatever the storage layer is doing. It used to,
+  // and an unavailable store turned this endpoint into a raw provider error
+  // in the buyer's face. "Could not read" now reads as "not paid yet", which
+  // is the one safe way to be wrong here.
+  const record = await getOrder(orderId);
   if (record?.status === "paid") {
     paid = true;
   } else {
@@ -66,7 +70,7 @@ export const handler = async (event) => {
         const order = await response.json();
         if (order.status === "paid" && order.amount_paid >= AMOUNT_PAISE && order.currency === CURRENCY) {
           paid = true;
-          await orders().setJSON(orderId, {
+          await putOrder(orderId, {
             ...(record || {}),
             orderId,
             status: "paid",

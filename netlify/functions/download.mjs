@@ -1,5 +1,6 @@
-import { clientIp, env, fail, orders, rateLimited, verifyDownloadToken } from "./_shared.mjs";
+import { clientIp, env, fail, rateLimited, verifyDownloadToken } from "./_shared.mjs";
 import { db, noteDownload } from "./_orders-db.mjs";
+import { getOrder } from "./_order-store.mjs";
 
 /**
  * Hands over the paid files.
@@ -52,7 +53,7 @@ export const handler = async (event) => {
     return fail(403, `download: bad or expired token for ${orderId}`, "This link has expired. Open the confirmation page again.");
   }
 
-  const record = await orders().get(orderId, { type: "json" });
+  const record = await getOrder(orderId);
   if (!record || record.status !== "paid") {
     return fail(403, `download: order ${orderId} is not paid`, "This order is not confirmed.");
   }

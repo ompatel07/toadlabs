@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
-import { AMOUNT_PAISE, CURRENCY, env, fail, json, orders, safeEqual } from "./_shared.mjs";
-import { recordOrder } from "./_orders-db.mjs";
+import { AMOUNT_PAISE, CURRENCY, env, fail, json, safeEqual } from "./_shared.mjs";
+import { getOrder, putOrder } from "./_order-store.mjs";
 import { deliverDownload } from "./_deliver.mjs";
 
 /**
@@ -58,8 +58,7 @@ export const handler = async (event) => {
     return json(200, { received: true });
   }
 
-  const store = orders();
-  const existing = (await store.get(orderId, { type: "json" })) || {};
+  const existing = (await getOrder(orderId)) || {};
 
   // Idempotent: Razorpay may deliver the same event more than once, and a
   // second delivery must not overwrite the first paid record.
@@ -68,9 +67,10 @@ export const handler = async (event) => {
   const paidAt = new Date().toISOString();
   const email = payment.email || existing.email || null;
 
-  // Blobs first. It is same-platform, it is what the download gate reads, and
-  // it is the record that decides whether a buyer can have the files.
-  await store.setJSON(orderId, {
+  // The record that decides whether a buyer can have the files. It goes to
+  // every store that is available: Supabase, which the dashboard and the
+  // download gate read, and Blobs as well where it exists.
+  const stored = await putOrder(orderId, {
     ...existing,
     orderId,
     status: "paid",
@@ -82,18 +82,12 @@ export const handler = async (event) => {
     paidAt,
   });
 
-  // Then the queryable copy. Best-effort by design: a reporting outage must
-  // not fail a payment that has already happened.
-  await recordOrder({
-    order_id: orderId,
-    payment_id: payment.id,
-    status: "paid",
-    amount_paise: payment.amount,
-    currency: payment.currency,
-    email,
-    contact: payment.contact || null,
-    paid_at: paidAt,
-  });
+  // Nothing accepted the write: the buyer has paid and the download gate has
+  // no way to know it. A non-2xx makes Razorpay redeliver, which is far better
+  // than acknowledging the only notice of this sale and losing it.
+  if (!stored) {
+    return fail(503, `webhook: ${orderId} paid but no store accepted the record`, "Try again.");
+  }
 
   // Then the thing the buyer is actually waiting for. deliverDownload records
   // its own outcome and never throws: a send failure must not become a non-2xx

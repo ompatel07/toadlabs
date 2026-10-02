@@ -6,10 +6,9 @@ import {
   env,
   fail,
   json,
-  orders,
   rateLimited,
 } from "./_shared.mjs";
-import { recordOrder } from "./_orders-db.mjs";
+import { putOrder } from "./_order-store.mjs";
 
 /**
  * Creates a Razorpay order and hands the browser only what the checkout
@@ -68,33 +67,21 @@ export const handler = async (event) => {
 
     const order = await response.json();
 
-    // Both records below are bookkeeping, and neither may stand between a
-    // buyer and a checkout. Razorpay has already created the order by this
-    // point; throwing here would return 502 to someone who could have paid,
-    // and leave that order orphaned. The webhook writes the record itself if
-    // it finds none, so the download gate works either way.
-    const createdAt = new Date().toISOString();
-    try {
-      await orders().setJSON(order.id, {
-        orderId: order.id,
-        amount: AMOUNT_PAISE,
-        currency: CURRENCY,
-        product: PRODUCT_ID,
-        status: "created",
-        createdAt,
-      });
-    } catch (error) {
-      console.error(`create-order: could not pre-record ${order.id} in blobs`, error);
-    }
-
-    // Recorded as "created" here too, so the dashboard can show how many people
-    // opened the checkout against how many finished. Already best-effort.
-    await recordOrder({
-      order_id: order.id,
-      status: "created",
-      amount_paise: AMOUNT_PAISE,
+    // Bookkeeping, and it may not stand between a buyer and a checkout.
+    // Razorpay has already created the order by this point; throwing here
+    // would return 502 to someone who could have paid, and leave that order
+    // orphaned. putOrder never throws, and the webhook writes the record
+    // itself if it finds none, so the download gate works either way.
+    //
+    // Recorded as "created" so the dashboard can show how many people opened
+    // the checkout against how many finished.
+    await putOrder(order.id, {
+      orderId: order.id,
+      amount: AMOUNT_PAISE,
       currency: CURRENCY,
-      created_at: createdAt,
+      product: PRODUCT_ID,
+      status: "created",
+      createdAt: new Date().toISOString(),
     });
 
     return json(200, {

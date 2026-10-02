@@ -51,6 +51,22 @@ ok((await create(ev({ httpMethod: "POST", body: "x".repeat(5000) }))).statusCode
 ok((await download(ev({ queryStringParameters: { order_id: "order_ABCDEF123456" } }))).statusCode === 400, "download refuses a missing token");
 ok((await download(ev({ queryStringParameters: { t: "abc" } }))).statusCode === 400, "download refuses a missing order id");
 
+/* A STORE OUTAGE MUST NOT REACH THE BUYER.
+   Neither Blobs nor Supabase is configured in this process, which is exactly
+   the condition that broke the live site: order-status returned a raw
+   MissingBlobsEnvironmentError to the browser. "Cannot read the record" has
+   to look like "not paid yet" — the one safe way to be wrong at this gate. */
+const outage = await status(ev({ queryStringParameters: { order_id: "order_ABCDEF123456" } }));
+ok(outage.statusCode === 200, "order-status survives a total storage outage");
+ok(!/Error|Blobs|siteID|token/i.test(outage.body), "order-status leaks no provider error to the client");
+ok(JSON.parse(outage.body).paid === false, "order-status reports not-paid when it cannot read the record");
+
+// And the download gate fails closed on the same outage: no record, no files.
+const { signDownloadToken } = await import("file:///E:/toadlabs/netlify/functions/_shared.mjs");
+const goodToken = signDownloadToken("order_ABCDEF123456", Date.now() + 60000, "dummy_secret");
+const gated = await download(ev({ queryStringParameters: { order_id: "order_ABCDEF123456", t: goodToken } }));
+ok(gated.statusCode === 403, "download refuses a valid token when no record says paid");
+
 // No response may echo a secret.
 const bodies = [];
 for (const h of [status, create, download]) {

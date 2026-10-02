@@ -5,8 +5,8 @@ import { getStore } from "@netlify/blobs";
  * Shared bits of the payment flow.
  *
  * THE ONE RULE: the browser never decides anything that matters. The price
- * lives here, the order record lives in Netlify Blobs, and a download link is
- * only ever minted from a record the verified webhook wrote.
+ * lives here, the order record lives in _order-store.mjs, and a download link
+ * is only ever minted from a record the verified webhook wrote.
  */
 
 /** Price in paise. Razorpay works in the smallest currency unit. */
@@ -36,7 +36,9 @@ export function env(name) {
   return value;
 }
 
-export const orders = () => getStore({ name: "playbook-orders", consistency: "strong" });
+// The order record itself lives in _order-store.mjs, which can speak to
+// Supabase as well as Blobs. Blobs alone was not enough: it is unavailable on
+// this site, and the whole delivery chain read from it.
 
 /** Caller's IP, as Netlify reports it. */
 export function clientIp(event) {
