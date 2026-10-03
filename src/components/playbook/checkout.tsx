@@ -23,9 +23,6 @@ import { assets, checkout, guarantee, priceReveal, product } from "@/config/play
 
 const SDK = "https://checkout.razorpay.com/v1/checkout.js";
 
-/** The listed price in paise, to compare against what the server quoted. */
-const PRICE_PAISE = product.price * 100;
-
 type Status = "idle" | "loading" | "open" | "error";
 
 interface RazorpayOptions {
@@ -95,23 +92,9 @@ export function PlaybookCheckout() {
   const router = useRouter();
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string | null>(null);
-  const [testAmount, setTestAmount] = useState<number | null>(null);
   const alive = useRef(true);
 
   useEffect(() => () => { alive.current = false; }, []);
-
-  /* THE LIVE TEST KEY.
-     Read from the URL rather than built in, so an ordinary visitor's page has
-     no trace of it: no param, no key sent, full price. It is passed straight
-     to the function and never rendered, logged or stored — the only thing that
-     reaches the screen is the amount the server came back with.
-
-     Read in an effect because this page is statically exported: the markup is
-     identical for everyone, and the URL is only consulted in the browser. */
-  const testKey = useRef("");
-  useEffect(() => {
-    testKey.current = new URLSearchParams(window.location.search).get("t") || "";
-  }, []);
 
   const pay = useCallback(async () => {
     if (status === "loading" || status === "open") return;
@@ -124,12 +107,9 @@ export function PlaybookCheckout() {
       const response = await fetch("/.netlify/functions/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // The amount, currency and product are decided by the function;
-        // anything sent from here would have to be ignored. The one exception
-        // is the test key, which does not set a price — it only proves the
-        // caller holds a secret the server already knows, and the server picks
-        // the amount either way.
-        body: JSON.stringify(testKey.current ? { testKey: testKey.current } : {}),
+        // Deliberately empty: the amount, currency and product are decided by
+        // the function. Anything sent from here would have to be ignored.
+        body: JSON.stringify({}),
       });
       if (!response.ok) throw new Error("order");
       const order = (await response.json()) as {
@@ -140,10 +120,6 @@ export function PlaybookCheckout() {
       };
       if (!order.orderId || !order.keyId) throw new Error("order");
       if (!alive.current) return;
-      // Show what is actually about to be charged whenever it is not the
-      // listed price. A test that silently charges a different number is a
-      // test you cannot trust the result of.
-      setTestAmount(order.amount === PRICE_PAISE ? null : order.amount);
       // Never leave the button mid-spin: if the SDK is somehow not here, that
       // is an error the buyer should see, not a silent no-op.
       if (!window.Razorpay) throw new Error("sdk-absent");
@@ -192,12 +168,6 @@ export function PlaybookCheckout() {
 
   return (
     <div className="pb-panel-lit flex flex-col gap-5 p-6 md:p-8">
-      {testAmount !== null && (
-        <p className="label-mono rounded-lg border-2 border-[color:var(--accent)] px-3 py-2 text-[color:var(--accent)]">
-          Test checkout — you will be charged ₹{(testAmount / 100).toLocaleString("en-IN")}, not {product.priceLabel}
-        </p>
-      )}
-
       <div className="flex items-baseline gap-3">
         <span className="numeral text-ink text-[clamp(2.2rem,8vw,3rem)] leading-none font-bold [font-variant-numeric:proportional-nums]">
           {product.priceLabel}
