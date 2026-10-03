@@ -1,7 +1,8 @@
 import {
-  AMOUNT_PAISE,
   CURRENCY,
   PRODUCT_ID,
+  TEST_AMOUNT_PAISE,
+  amountForRequest,
   clientIp,
   env,
   fail,
@@ -42,6 +43,21 @@ export const handler = async (event) => {
     return fail(500, `create-order: ${error.message}`, "Payments are not configured yet.");
   }
 
+  // The amount. Read from this server's own constants, never from the body —
+  // except for one bit the body may influence, and only by proving it holds a
+  // secret: whether this is the live test order. A wrong key, or no key, is
+  // the full price, so there is nothing here to probe for.
+  let testKey = "";
+  try {
+    testKey = String(JSON.parse(event.body || "{}").testKey || "");
+  } catch {
+    // An unparseable body is simply a body with no test key in it.
+  }
+  const amount = amountForRequest(testKey);
+  if (amount === TEST_AMOUNT_PAISE) {
+    console.warn(`create-order: TEST ORDER at ${amount} paise from ${ip}`);
+  }
+
   // A short, unique receipt so a duplicate click cannot create a duplicate
   // order for the same tab.
   const receipt = `pb_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
@@ -54,7 +70,7 @@ export const handler = async (event) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        amount: AMOUNT_PAISE,
+        amount,
         currency: CURRENCY,
         receipt,
         notes: { product: PRODUCT_ID },
@@ -75,9 +91,13 @@ export const handler = async (event) => {
     //
     // Recorded as "created" so the dashboard can show how many people opened
     // the checkout against how many finished.
+    // The recorded amount is what the webhook will hold the captured payment
+    // to. That makes this record the contract for this one order, which is a
+    // stronger check than a global constant: it cannot be satisfied by a
+    // payment for some other order's price.
     await putOrder(order.id, {
       orderId: order.id,
-      amount: AMOUNT_PAISE,
+      amount,
       currency: CURRENCY,
       product: PRODUCT_ID,
       status: "created",
@@ -86,7 +106,7 @@ export const handler = async (event) => {
 
     return json(200, {
       orderId: order.id,
-      amount: AMOUNT_PAISE,
+      amount,
       currency: CURRENCY,
       keyId, // public by design: it identifies the merchant, it does not authorise anything
     });

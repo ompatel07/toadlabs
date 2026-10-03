@@ -14,6 +14,7 @@ for `copy-rules`, a local server on :3211.
 | `user-flow.mjs` | The journey: both CTAs land on their sections, no price before the reveal, the FAQ opens, the slider steps and stops at both ends, policy links resolve, the sticky bar appears only between hero and price, and the thank-you page claims nothing from the URL alone. |
 | `responsive.mjs` | 10 screen sizes x every page: horizontal scroll, tap targets, unreadable text, and contrast against the painted background. |
 | `page-security.mjs` | Every page for CSP violations and inline handlers, plus seven reflected payloads through the thank-you page's `order_id`. |
+| `test-checkout.mjs` | The `?t=` test key is forwarded to `create-order` and never reaches the DOM: six payloads through the URL, none reflected, none executed, and the listed price still shown. |
 | `copy-rules.mjs` | No earnings figures, fake scarcity or discount anchors; the price appears only in the reveal; the guarantee's terms match across the sales page, terms and refund policy. |
 
 The browser-driven scripts need a headless Chrome (set `CHROME_PATH` if it is
@@ -36,6 +37,7 @@ node scripts/audit/responsive.mjs
 node scripts/audit/page-security.mjs
 node scripts/audit/user-flow.mjs
 node scripts/audit/copy-rules.mjs
+node scripts/audit/test-checkout.mjs
 node scripts/audit/performance.mjs
 ```
 

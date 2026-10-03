@@ -1,6 +1,7 @@
 import {
   AMOUNT_PAISE,
   CURRENCY,
+  isAllowedAmount,
   DOWNLOAD_TTL_MS,
   clientIp,
   env,
@@ -68,7 +69,10 @@ export const handler = async (event) => {
       });
       if (response.ok) {
         const order = await response.json();
-        if (order.status === "paid" && order.amount_paid >= AMOUNT_PAISE && order.currency === CURRENCY) {
+        // Same contract as the webhook: the amount this order was created
+        // for, falling back to the full price when there is no record.
+        const expected = isAllowedAmount(record?.amount) ? record.amount : AMOUNT_PAISE;
+        if (order.status === "paid" && order.amount_paid >= expected && order.currency === CURRENCY) {
           paid = true;
           await putOrder(orderId, {
             ...(record || {}),

@@ -48,6 +48,42 @@ ok(m.safeEqual("", "x") === false, "safeEqual handles empty input");
 // Amount is a server constant, not a parameter.
 ok(m.AMOUNT_PAISE === 149900 && m.CURRENCY === "INR", "price and currency are server-side constants");
 
+/* ── THE TEST-CHECKOUT GATE ──────────────────────────────────────────────────
+   A code path that lowers the price is the one piece of this system that could
+   quietly cost real money, so it is checked harder than anything else here.
+   Every path that is not "the caller presented the exact secret" must come back
+   at the full price. */
+
+// With no secret configured — the state the site sits in normally — the test
+// amount is unreachable, whatever anyone sends.
+delete process.env.TEST_CHECKOUT_SECRET;
+ok(m.amountForRequest("") === m.AMOUNT_PAISE, "unconfigured: empty key is full price");
+ok(m.amountForRequest("anything") === m.AMOUNT_PAISE, "unconfigured: any key is full price");
+ok(m.amountForRequest("1000") === m.AMOUNT_PAISE, "unconfigured: a key naming the amount is full price");
+
+process.env.TEST_CHECKOUT_SECRET = "s3cret_test_key_value";
+ok(m.amountForRequest("s3cret_test_key_value") === m.TEST_AMOUNT_PAISE, "the exact secret gets the test amount");
+ok(m.amountForRequest("") === m.AMOUNT_PAISE, "no key is full price");
+ok(m.amountForRequest("wrong") === m.AMOUNT_PAISE, "a wrong key is full price");
+ok(m.amountForRequest("s3cret_test_key_valu") === m.AMOUNT_PAISE, "a truncated secret is full price");
+ok(m.amountForRequest("s3cret_test_key_value ") === m.AMOUNT_PAISE, "a secret with trailing space is full price");
+ok(m.amountForRequest("S3CRET_TEST_KEY_VALUE") === m.AMOUNT_PAISE, "the secret is case-sensitive");
+ok(m.amountForRequest(null) === m.AMOUNT_PAISE, "a null key is full price");
+ok(m.amountForRequest(undefined) === m.AMOUNT_PAISE, "an absent key is full price");
+ok(m.amountForRequest(1000) === m.AMOUNT_PAISE, "a non-string key is full price");
+ok(m.amountForRequest({}) === m.AMOUNT_PAISE, "an object key is full price");
+ok(m.amountForRequest(["s3cret_test_key_value"]) === m.AMOUNT_PAISE, "an array key is full price");
+delete process.env.TEST_CHECKOUT_SECRET;
+
+// The webhook holds a captured payment to the amount recorded for that order.
+// Only the two amounts this server can itself choose are honoured, so a
+// tampered or corrupt record cannot nominate its own price.
+ok(m.isAllowedAmount(m.AMOUNT_PAISE) === true, "the full price is an allowed amount");
+ok(m.isAllowedAmount(m.TEST_AMOUNT_PAISE) === true, "the test amount is an allowed amount");
+for (const bad of [1, 100, 129900, 149899, 0, -149900, null, undefined, "149900", NaN, Infinity]) {
+  ok(m.isAllowedAmount(bad) === false, "an amount of " + String(bad) + " is not allowed");
+}
+
 // Webhook signature check, replicated exactly as the function does it.
 const raw = JSON.stringify({ event: "payment.captured" });
 const sig = crypto.createHmac("sha256", "whsec").update(raw).digest("hex");

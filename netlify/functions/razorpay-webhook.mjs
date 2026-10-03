@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import { AMOUNT_PAISE, CURRENCY, env, fail, json, safeEqual } from "./_shared.mjs";
+import { AMOUNT_PAISE, CURRENCY, env, fail, isAllowedAmount, json, safeEqual } from "./_shared.mjs";
 import { getOrder, putOrder } from "./_order-store.mjs";
 import { deliverDownload } from "./_deliver.mjs";
 
@@ -51,14 +51,20 @@ export const handler = async (event) => {
     return json(200, { received: true });
   }
 
-  if (payment.amount !== AMOUNT_PAISE || payment.currency !== CURRENCY) {
+  const existing = (await getOrder(orderId)) || {};
+
+  // What this order was created for, not what the product costs today. An
+  // order created at ten rupees settles at ten rupees and nothing else; an
+  // order we have no record of is held to the full price, so a forged event
+  // for an id we never issued cannot buy the bundle cheaply. A recorded amount
+  // that is neither of the two this server can choose is not trusted at all.
+  const expectedAmount = isAllowedAmount(existing.amount) ? existing.amount : AMOUNT_PAISE;
+  if (payment.amount !== expectedAmount || payment.currency !== CURRENCY) {
     console.error(
-      `webhook: amount mismatch for ${orderId} — got ${payment.amount} ${payment.currency}, expected ${AMOUNT_PAISE} ${CURRENCY}`,
+      `webhook: amount mismatch for ${orderId} — got ${payment.amount} ${payment.currency}, expected ${expectedAmount} ${CURRENCY}`,
     );
     return json(200, { received: true });
   }
-
-  const existing = (await getOrder(orderId)) || {};
 
   // Idempotent: Razorpay may deliver the same event more than once, and a
   // second delivery must not overwrite the first paid record.

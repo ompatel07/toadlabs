@@ -14,6 +14,23 @@ const download = (await import("file:///E:/toadlabs/netlify/functions/download.m
 
 const problems = [];
 const ok = (c, l) => { if (!c) problems.push(l); console.log((c ? "PASS " : "FAIL ") + l); };
+
+/* EVERY MODULE MUST ACTUALLY LOAD.
+   A duplicate const once shipped a webhook Node refused to import at all, and
+   lint said nothing — it parses these .mjs files with the TypeScript parser,
+   which tolerates it. The rule is on now, but this is the check that does not
+   depend on a linter being configured correctly: if a payment module cannot be
+   imported, every call to it is a 502 and every sale through it is lost. */
+const fsmod = await import("node:fs");
+const dir = "E:/toadlabs/netlify/functions";
+for (const name of fsmod.readdirSync(dir).filter((n) => n.endsWith(".mjs"))) {
+  let loaded = true;
+  try { await import("file:///" + dir + "/" + name); } catch (error) {
+    loaded = false;
+    console.log("    " + String(error).split(String.fromCharCode(10))[0]);
+  }
+  ok(loaded, "module loads: " + name);
+}
 const ev = (o = {}) => ({ httpMethod: "GET", headers: {}, queryStringParameters: {}, ...o });
 
 // Method enforcement.

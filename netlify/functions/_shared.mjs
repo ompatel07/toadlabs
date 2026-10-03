@@ -14,6 +14,38 @@ export const AMOUNT_PAISE = 149900;
 export const CURRENCY = "INR";
 export const PRODUCT_ID = "playbook";
 
+/**
+ * THE TEST AMOUNT.
+ *
+ * A live end-to-end test needs a real payment, and a real payment at the full
+ * price is an expensive way to find out whether a webhook fires. This is what
+ * is charged instead — but only to a caller who presents TEST_CHECKOUT_SECRET.
+ *
+ * The public price never changes. Nothing on the page reveals the secret, and
+ * with TEST_CHECKOUT_SECRET unset this amount is unreachable by any request,
+ * which is the state the site is meant to sit in once the test is done.
+ *
+ * The protection is not the secret alone. Everything downstream validates a
+ * captured payment against the amount recorded for THAT order rather than
+ * against a global constant, so ten rupees can only ever settle an order that
+ * was created for ten rupees.
+ */
+export const TEST_AMOUNT_PAISE = 1000;
+
+/** A recorded amount this server did not choose is not an amount to trust. */
+export const isAllowedAmount = (paise) => paise === AMOUNT_PAISE || paise === TEST_AMOUNT_PAISE;
+
+/**
+ * The test amount when the caller proved they hold the secret, the real price
+ * otherwise. Compared in constant time, and it fails to the real price on
+ * every path: no secret configured, nothing presented, or a wrong value.
+ */
+export function amountForRequest(providedKey) {
+  const secret = process.env.TEST_CHECKOUT_SECRET;
+  if (!secret || typeof providedKey !== "string" || providedKey.length === 0) return AMOUNT_PAISE;
+  return safeEqual(providedKey, secret) ? TEST_AMOUNT_PAISE : AMOUNT_PAISE;
+}
+
 export const json = (statusCode, body, headers = {}) => ({
   statusCode,
   headers: {
