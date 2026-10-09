@@ -1,33 +1,62 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Inter,
-  Inter_Tight,
-  JetBrains_Mono,
-} from "next/font/google";
+import localFont from "next/font/local";
 import { siteConfig } from "@/config/site";
 import { servicePages, servicePagePath } from "@/config/service-pages";
 import { absoluteUrl, pageMetadata } from "@/lib/seo";
 import { jsonLd } from "@/lib/json-ld";
 import "./globals.css";
 
-const inter = Inter({
+/**
+ * The three families, self-hosted.
+ *
+ * WHY NOT next/font/google
+ * It downloads from Google at BUILD time, and the deploy host could not do it
+ * reliably: the loader took a font URL that did not end in a known extension
+ * and threw on a null regex match, failing the build. It failed the same way
+ * under both bundlers, so it was never a bundler problem — the build simply
+ * depended on a third party answering correctly, and one day it did not.
+ *
+ * These files are committed, so the build makes no network call for fonts. It
+ * is also faster, and one fewer thing that can take the site down.
+ *
+ * Each is the LATIN subset of the family's VARIABLE font: three files instead
+ * of the twenty static ones the old setup emitted, covering every weight
+ * rather than only the four that were listed. Inter, Inter Tight and JetBrains
+ * Mono are all under the SIL Open Font License, which permits this — see
+ * fonts/OFL.txt.
+ *
+ * fallback and adjustFontFallback keep the metric-matched fallback that
+ * next/font/google applied on our behalf, so swapping the font in does not
+ * shift the layout.
+ */
+const inter = localFont({
+  src: "./fonts/Inter-latin-variable.woff2",
   variable: "--font-inter",
-  subsets: ["latin"],
   display: "swap",
+  weight: "100 900",
+  style: "normal",
+  fallback: ["system-ui", "arial"],
+  adjustFontFallback: "Arial",
 });
 
-const interTight = Inter_Tight({
+const interTight = localFont({
+  src: "./fonts/InterTight-latin-variable.woff2",
   variable: "--font-inter-tight",
-  subsets: ["latin"],
   display: "swap",
-  weight: ["500", "600", "700", "800"],
+  weight: "100 900",
+  style: "normal",
+  fallback: ["system-ui", "arial"],
+  adjustFontFallback: "Arial",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const jetbrainsMono = localFont({
+  src: "./fonts/JetBrainsMono-latin-variable.woff2",
   variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500"],
+  weight: "100 800",
+  style: "normal",
+  fallback: ["ui-monospace", "monospace"],
+  adjustFontFallback: false,
 });
 
 const defaults = pageMetadata({

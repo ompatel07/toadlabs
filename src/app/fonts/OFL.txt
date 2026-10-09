@@ -1,0 +1,10 @@
+These font files are redistributed under the SIL Open Font License v1.1, which
+permits bundling and redistribution, with or without modification.
+
+  Inter            (c) The Inter Project Authors   https://github.com/rsms/inter
+  Inter Tight      (c) The Inter Project Authors   https://github.com/rsms/inter
+  JetBrains Mono   (c) The JetBrains Mono Project Authors
+                                        https://github.com/JetBrains/JetBrainsMono
+
+Each file here is the latin subset of that family's variable font, taken from
+Google Fonts. Full licence text: https://openfontlicense.org/
