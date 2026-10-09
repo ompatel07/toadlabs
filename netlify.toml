@@ -8,3 +8,28 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+  # Netlify greps the repo and the build output for the VALUE of every
+  # environment variable and fails the deploy on a hit. For a secret that is
+  # exactly right. For these six it is a false positive, and each one is
+  # public by design:
+  #
+  #   SITE_URL           this site's own domain, in every canonical tag
+  #   ADMIN_EMAILS       the support address, printed in the footer sitewide
+  #   SUPPORT_EMAIL      the same address again, wherever it is set
+  #   PLAYBOOK_BUCKET    the literal word "playbook", which is the product
+  #   PLAYBOOK_OBJECT    the file name inside that bucket
+  #   SUPABASE_URL       the project URL, which Supabase publishes
+  #   SUPABASE_ANON_KEY  publishable by Supabase's own definition, and shipped
+  #                      to the dashboard page on purpose: row-level security
+  #                      is on with NO policy, so it can read nothing. It
+  #                      exists only to trade a magic link for a session.
+  #
+  # Naming them keeps the scan switched ON for the four that would genuinely
+  # matter - RAZORPAY_KEY_SECRET, RAZORPAY_WEBHOOK_SECRET,
+  # SUPABASE_SERVICE_ROLE_KEY and WHATSAPP_NUMBER - all of which appear
+  # nowhere in the repo or the build, and are checked by
+  # scripts/audit/netlify-secret-scan.mjs before a push rather than after a
+  # failed deploy. Disabling the scan wholesale would have been the quick fix
+  # and the wrong one.
+  SECRETS_SCAN_OMIT_KEYS = "SITE_URL,ADMIN_EMAILS,SUPPORT_EMAIL,PLAYBOOK_BUCKET,PLAYBOOK_OBJECT,SUPABASE_URL,SUPABASE_ANON_KEY"
