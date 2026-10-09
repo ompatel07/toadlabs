@@ -1,6 +1,10 @@
 import { launch, goto, evaluate, setViewport } from "./cdp.mjs";
 import { setTimeout as sleep } from "node:timers/promises";
 
+/** Where to test. Defaults to the local preview; set PREVIEW_URL to audit
+ *  a deployed site instead, which is the only way to check what visitors get. */
+const BASE = process.env.PREVIEW_URL || "http://127.0.0.1:3211";
+
 const c = await launch();
 const problems = [];
 const ok = (cond, label) => { if (!cond) problems.push(label); console.log((cond ? "PASS " : "FAIL ") + label); };
@@ -11,7 +15,7 @@ await c.send("Runtime.enable");
 for (const [w, h, mob, label] of [[390, 844, true, "phone"], [1440, 950, false, "desktop"]]) {
   console.log(`\n── ${label} ──`);
   await setViewport(c, w, h, mob);
-  await goto(c, "http://127.0.0.1:3211/playbook/");
+  await goto(c, BASE + "/playbook/");
   await sleep(2500);
 
   // 1. Hero CTA scrolls to the contents.
@@ -79,7 +83,7 @@ for (const [w, h, mob, label] of [[390, 844, true, "phone"], [1440, 950, false, 
 }
 
 // 8. Thank-you refuses to trust the URL.
-await goto(c, "http://127.0.0.1:3211/playbook/thank-you/?order_id=order_FAKE12345678");
+await goto(c, BASE + "/playbook/thank-you/?order_id=order_FAKE12345678");
 await sleep(2000);
 ok(await evaluate(c, `/Confirming|could not confirm/i.test(document.body.innerText)`), "thank-you does not claim paid from the URL alone");
 ok(!(await evaluate(c, `/Download the bundle/i.test(document.body.innerText)`)), "thank-you shows no download for an unverified order");

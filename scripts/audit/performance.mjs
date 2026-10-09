@@ -1,6 +1,10 @@
 import { launch, goto, evaluate, setViewport } from "./cdp.mjs";
 import { setTimeout as sleep } from "node:timers/promises";
 
+/** Where to test. Defaults to the local preview; set PREVIEW_URL to audit
+ *  a deployed site instead, which is the only way to check what visitors get. */
+const BASE = process.env.PREVIEW_URL || "http://127.0.0.1:3211";
+
 const PAGES = ["/", "/playbook/", "/playbook/terms/", "/contact/"];
 const c = await launch();
 const problems = [];
@@ -37,7 +41,7 @@ for (const page of PAGES) {
     `,
   });
   await setViewport(c, 390, 844, true);
-  await goto(c, "http://127.0.0.1:3211" + page);
+  await goto(c, BASE + page);
   await sleep(4500);
 
   const vitals = JSON.parse(await evaluate(c, `(() => {

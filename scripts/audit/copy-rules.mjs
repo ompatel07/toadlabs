@@ -1,3 +1,7 @@
+/** Where to test. Defaults to the local preview; set PREVIEW_URL to audit
+ *  a deployed site instead, which is the only way to check what visitors get. */
+const BASE = process.env.PREVIEW_URL || "http://127.0.0.1:3211";
+
 // Marketing / copywriting audit for the playbook funnel.
 import { launch, goto, evaluate, setViewport } from "./cdp.mjs";
 import { setTimeout as sleep } from "node:timers/promises";
@@ -9,7 +13,7 @@ await setViewport(c, 1440, 900, true);
 
 const text = {};
 for (const p of PAGES) {
-  await goto(c, "http://127.0.0.1:3211" + p);
+  await goto(c, BASE + p);
   await sleep(900);
   text[p] = await evaluate(c, "document.body.innerText");
 }
