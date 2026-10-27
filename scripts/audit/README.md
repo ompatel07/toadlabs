@@ -15,6 +15,7 @@ for `copy-rules`, a local server on :3211.
 | `responsive.mjs` | 10 screen sizes x every page: horizontal scroll, tap targets, unreadable text, and contrast against the painted background. |
 | `page-security.mjs` | Every page for CSP violations and inline handlers, plus seven reflected payloads through the thank-you page's `order_id`. |
 | `netlify-secret-scan.mjs` | Netlify fails a deploy if any environment variable value appears in the repo or build output. This runs that scan locally: keys listed in `SECRETS_SCAN_OMIT_KEYS` are public by design and only reported; every other value must appear nowhere. |
+| `live-site.mjs` | The DEPLOYED site over the wire: every sitemap URL returns 200 with the required headers, noindex is on the two private routes and off everywhere else, robots and the certificate are right, http redirects to https, and Razorpay is permitted on the checkout page only. A build can be perfect and the deploy still wrong. |
 | `copy-rules.mjs` | No earnings figures, fake scarcity or discount anchors; the price appears only in the reveal; the guarantee's terms match across the sales page, terms and refund policy. |
 
 The browser-driven scripts need a headless Chrome (set `CHROME_PATH` if it is
@@ -37,6 +38,7 @@ node scripts/audit/responsive.mjs
 node scripts/audit/page-security.mjs
 node scripts/audit/user-flow.mjs
 node scripts/audit/copy-rules.mjs
+PREVIEW_URL=https://offscriptlabs.online node scripts/audit/live-site.mjs
 node scripts/audit/netlify-secret-scan.mjs
 node scripts/audit/performance.mjs
 ```
