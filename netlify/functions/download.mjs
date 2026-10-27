@@ -1,4 +1,4 @@
-import { clientIp, env, fail, rateLimited, verifyDownloadToken } from "./_shared.mjs";
+import { MAX_DOWNLOADS, clientIp, env, fail, rateLimited, verifyDownloadToken } from "./_shared.mjs";
 import { db, noteDownload } from "./_orders-db.mjs";
 import { getOrder } from "./_order-store.mjs";
 
@@ -58,6 +58,27 @@ export const handler = async (event) => {
     return fail(403, `download: order ${orderId} is not paid`, "This order is not confirmed.");
   }
 
+  /* THE DOWNLOAD CAP.
+     Counted BEFORE the file is handed over, and before the URL is even
+     signed. Counting first is the whole trick: the increment is atomic in
+     Postgres, so two simultaneous requests get two different numbers and only
+     one of them can be the last one allowed. Counting afterwards would let
+     both through, which is exactly the race someone sharing a link would hit.
+
+     null means the count could not be established — a database blip, not an
+     attempt — and that lets the download through. The gate that decides who
+     may have the files is the signed token over a paid order, which has
+     already passed by this point; this only decides how many copies one buyer
+     gets. */
+  const count = await noteDownload(orderId);
+  if (count !== null && count > MAX_DOWNLOADS) {
+    return fail(
+      429,
+      `download: ${orderId} is over the cap (${count} > ${MAX_DOWNLOADS})`,
+      "This download link has already been used the maximum number of times. Message us on WhatsApp and we will sort it out.",
+    );
+  }
+
   // Minted here, after the order has been confirmed paid — never earlier, and
   // never handed to a page that has not proved it.
   let target = staticUrl;
@@ -77,8 +98,7 @@ export const handler = async (event) => {
     }
   }
 
-  console.log(`download: served ${orderId}`);
-  await noteDownload(orderId);
+  console.log(`download: served ${orderId} (${count === null ? "count unknown" : count + " of " + MAX_DOWNLOADS})`);
 
   return {
     statusCode: 302,

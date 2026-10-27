@@ -93,7 +93,7 @@ export const handler = async (event) => {
 
     const { data: row, error } = await supabase
       .from("orders")
-      .select("order_id, status, email, email_attempts")
+      .select("order_id, status, email, email_attempts, download_count")
       .eq("order_id", orderId)
       .maybeSingle();
     if (error || !row) return fail(404, `admin-orders: ${orderId} not found`, "Unknown order.");
@@ -118,6 +118,22 @@ export const handler = async (event) => {
       const url = `${base}/.netlify/functions/download?order_id=${encodeURIComponent(orderId)}&t=${token}`;
       console.log(`admin-orders: ${email} minted a link for ${orderId}`);
       return json(200, { orderId, url, expiresAt, hours: Math.round(DOWNLOAD_TTL_MS / 3600000) });
+    }
+
+    /* Give a buyer their downloads back.
+       The cap exists to stop one link being passed around, not to punish
+       someone whose download died halfway for the fifth time. This is the
+       way out, and it is deliberately a thing only the owner can do. */
+    if (body.action === "reset-downloads") {
+      const { error: resetError } = await supabase
+        .from("orders")
+        .update({ download_count: 0 })
+        .eq("order_id", orderId);
+      if (resetError) {
+        return fail(502, `admin-orders: reset failed ${resetError.message}`, "Could not reset that order.");
+      }
+      console.log(`admin-orders: ${email} reset the download count for ${orderId}`);
+      return json(200, { orderId, downloadCount: 0 });
     }
 
     const result = await deliverDownload({ orderId, email: row.email, secret });

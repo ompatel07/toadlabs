@@ -11,6 +11,21 @@ import { getStore } from "@netlify/blobs";
 
 /** Price in paise. Razorpay works in the smallest currency unit. */
 export const AMOUNT_PAISE = 149900;
+
+/**
+ * How many times one order may download the bundle.
+ *
+ * A signed token proves someone paid; it does not prove they are the only
+ * person holding it. Without a cap, one buyer could post their link and, for
+ * as long as the token lives, anybody could take the product. This is the
+ * limit on that.
+ *
+ * Not one. A download can fail halfway, a buyer can switch devices, a phone
+ * can run out of space — and a paying customer locked out by their own bad
+ * connection is a worse outcome than a handful of extra copies. Five is
+ * generous for one person and useless for distribution.
+ */
+export const MAX_DOWNLOADS = 5;
 export const CURRENCY = "INR";
 export const PRODUCT_ID = "playbook";
 

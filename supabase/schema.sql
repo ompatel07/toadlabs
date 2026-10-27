@@ -114,16 +114,21 @@ revoke all on function public.orders_summary() from public, anon, authenticated;
 
 -- Incremented in the database rather than read-modify-written by the function:
 -- two tabs opening the link at once would otherwise record one download.
+-- Returns the count AFTER incrementing, which is what makes a download cap
+-- hold under concurrency: the update is atomic, so two simultaneous requests
+-- receive two different numbers and only one of them can be the last allowed.
+-- Checking a count and then incrementing it would let both through.
 create or replace function public.increment_download(p_order_id text)
-returns void
+returns integer
 language sql
 security definer
 set search_path = public
-as $$
+as $
   update public.orders
      set download_count = download_count + 1,
          last_download_at = now()
-   where order_id = p_order_id;
-$$;
+   where order_id = p_order_id
+  returning download_count;
+$;
 
 revoke all on function public.increment_download(text) from public, anon, authenticated;

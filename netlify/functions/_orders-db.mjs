@@ -72,14 +72,29 @@ export async function updateOrder(orderId, patch) {
   }
 }
 
-/** Counts a download without a read-modify-write race between two tabs. */
+/**
+ * Counts a download and returns the new total, or null when the count could
+ * not be established.
+ *
+ * It used to swallow everything, because the counter was telemetry. It is now
+ * the download cap, so the caller needs the number — but null still means
+ * "carry on", not "refuse". The gate that decides whether someone may have
+ * the files is the signed token over a paid order; this only decides whether
+ * a buyer has had too many copies, and a database blip is not a reason to
+ * stand between someone and what they paid for.
+ */
 export async function noteDownload(orderId) {
   const supabase = db();
-  if (!supabase) return;
+  if (!supabase) return null;
   try {
-    await supabase.rpc("increment_download", { p_order_id: orderId });
-  } catch {
-    // The counter is telemetry. It must never stand between a buyer and the
-    // files they paid for.
+    const { data, error } = await supabase.rpc("increment_download", { p_order_id: orderId });
+    if (error) {
+      console.error(`orders-db: increment_download failed for ${orderId}`, error.message);
+      return null;
+    }
+    return typeof data === "number" ? data : null;
+  } catch (error) {
+    console.error(`orders-db: increment_download threw for ${orderId}`, error);
+    return null;
   }
 }
