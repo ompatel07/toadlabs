@@ -27,6 +27,16 @@ export function PlaybookProofSlider() {
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
+  /* Where the NEXT press should go from, which is not always where the track
+     currently is. scrollTo is smooth, so scroll events trail the animation by
+     a few hundred milliseconds. Stepping from `active` meant two quick presses
+     both read the same stale index and asked for the same slide, so the second
+     press did nothing and the slider stalled short of the end. This follows
+     the presses instead, and resyncs to the real position once the animation
+     has had time to land — or immediately, when the reader swipes. */
+  const intent = useRef(0);
+  const lastPress = useRef(0);
+
   /* Which slide leads the view, and whether either end has been reached. Read
      from scroll position rather than tracked in state, so a swipe, a keyboard
      scroll and a button press all report the same thing. */
@@ -51,7 +61,12 @@ export function PlaybookProofSlider() {
       }
     }
 
-    setActive(start ? 0 : end ? slides.length - 1 : first);
+    const current = start ? 0 : end ? slides.length - 1 : first;
+    setActive(current);
+    // Only adopt the observed position once a programmatic scroll has had
+    // time to finish; mid-animation it reports where the track was, not where
+    // it is going. A swipe lands here too, and corrects the intent for free.
+    if (Date.now() - lastPress.current > 700) intent.current = current;
     setAtStart(start);
     setAtEnd(end);
   }, []);
@@ -74,6 +89,8 @@ export function PlaybookProofSlider() {
     const slides = Array.from(track.children) as HTMLElement[];
     const slide = slides[index];
     if (!slide) return;
+    intent.current = index;
+    lastPress.current = Date.now();
     // Align the slide to the start of the track rather than centring it.
     // Centring looks right with one slide in view and does nothing with four:
     // slides 0-2 all resolve to a negative offset, which clamps to 0, so the
@@ -94,9 +111,9 @@ export function PlaybookProofSlider() {
   const step = useCallback(
     (direction: -1 | 1) => {
       const span = perView();
-      go(Math.min(replies.length - 1, Math.max(0, active + direction * span)));
+      go(Math.min(replies.length - 1, Math.max(0, intent.current + direction * span)));
     },
-    [active, go, perView],
+    [go, perView],
   );
 
   return (
