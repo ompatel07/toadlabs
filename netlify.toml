@@ -6,6 +6,12 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# Netlify reads a function's schedule from here, not from the function file.
+# Daily, against a pause threshold measured in days, so a missed run or two is
+# still comfortably inside the margin.
+[functions."keep-awake"]
+  schedule = "0 3 * * *"
+
 [build.environment]
   NODE_VERSION = "22"
 

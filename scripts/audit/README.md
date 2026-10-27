@@ -43,6 +43,14 @@ node scripts/audit/netlify-secret-scan.mjs
 node scripts/audit/performance.mjs
 ```
 
+## The scheduled function
+
+`netlify/functions/keep-awake.mjs` runs daily (schedule in `netlify.toml`) and does one
+cheap read against Supabase, because the free tier pauses a project after about a
+week of inactivity and a paused project takes its DNS with it. If delivery ever
+breaks this way again, the function log says `SUPABASE UNREACHABLE` on the day it
+happens rather than the next buyer finding out.
+
 ## Thresholds, and why they are where they are
 
 Every one of these was moved at least once, because the first version reported
