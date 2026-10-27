@@ -131,10 +131,11 @@ export function PlaybookCheckout() {
         currency: order.currency,
         name: "OFFSCRIPT",
         description: product.name,
-        // Built from the live origin rather than a configured domain, so it
-        // resolves on a Netlify preview as well as on the real site.
-        image: `${window.location.origin}/icon.png`,
-        theme: { color: "#3fd9e8" },
+        // No `image` on purpose. Without one Razorpay uses the logo set on
+        // the account, served from their own CDN at the size the widget
+        // wants. Overriding it with /icon.png - 512x512 and 71KB - is why
+        // no logo appeared at checkout.
+        theme: { color: "#bf3200" },
         notes: { product: "playbook" },
         handler: (result) => {
           // Still not proof of payment — the server decides that. But carrying
