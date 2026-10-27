@@ -112,23 +112,31 @@ revoke all on function public.orders_summary() from public, anon, authenticated;
 
 /* ── Download counter ────────────────────────────────────────────────────── */
 
--- Incremented in the database rather than read-modify-written by the function:
--- two tabs opening the link at once would otherwise record one download.
--- Returns the count AFTER incrementing, which is what makes a download cap
--- hold under concurrency: the update is atomic, so two simultaneous requests
--- receive two different numbers and only one of them can be the last allowed.
--- Checking a count and then incrementing it would let both through.
-create or replace function public.increment_download(p_order_id text)
+-- Incremented in the database rather than read-modify-written by the
+-- function: two tabs opening the link at once would otherwise record one
+-- download. It returns the count AFTER incrementing, which is what lets the
+-- download cap hold under concurrency — the update is atomic, so two
+-- simultaneous requests get two different numbers and only one of them can
+-- be the last one allowed. Checking a count and then incrementing it would
+-- let both through.
+--
+-- DROPPED FIRST ON PURPOSE. This function used to return void, and
+-- `create or replace` cannot change a return type — Postgres refuses with
+-- "cannot change return type of existing function". Replacing it in place
+-- therefore fails on any project that ran an earlier version of this file.
+drop function if exists public.increment_download(text);
+
+create function public.increment_download(p_order_id text)
 returns integer
 language sql
 security definer
 set search_path = public
-as $
+as $$
   update public.orders
      set download_count = download_count + 1,
          last_download_at = now()
    where order_id = p_order_id
   returning download_count;
-$;
+$$;
 
 revoke all on function public.increment_download(text) from public, anon, authenticated;
